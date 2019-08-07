@@ -11,7 +11,7 @@ public class TipConst {
     /**
      * 提示信息模板
      */
-    public static final String TIP_TEMPLATE                         = "========================= %s =========================";
+    public static final String TIP                                  = "========================= %s =========================";
 
     /**
      * 应用启动成功
@@ -27,6 +27,11 @@ public class TipConst {
      * 参数配置结束
      */
     public static final String PARAMETER_END                        = "参数配置 结束";
+
+    /**
+     * 数据初始化成功
+     */
+    public static final String INIT_SUCCESS                         = "数据初始化成功";
 
     /**
      * 数据初始化异常

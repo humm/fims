@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.PostConstruct;
 
 import static com.hoomoomoo.fims.app.consts.TipConst.INIT_EXCEPTION;
+import static com.hoomoomoo.fims.app.consts.TipConst.INIT_SUCCESS;
 
 /**
  * @author humm23693
@@ -24,10 +25,14 @@ public class InitConfig {
     @Autowired
     private SystemService systemService;
 
+    /**
+     * 数据初始化
+     */
     @PostConstruct
     public void init(){
         try {
             systemService.outputConfigParameter();
+            logger.error(INIT_SUCCESS);
         }catch (Exception e){
             logger.error(INIT_EXCEPTION, e);
         }

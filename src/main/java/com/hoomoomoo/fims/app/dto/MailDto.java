@@ -22,6 +22,11 @@ public class MailDto {
      */
     private String text;
 
+    /**
+     * 邮件id
+     */
+    private String mailId;
+
 
     public MailDto() {
     }
@@ -33,5 +38,11 @@ public class MailDto {
     public MailDto(String subject, String text) {
         this.subject = subject;
         this.text = text;
+    }
+
+    public MailDto(String subject, String text, String mailId) {
+        this.subject = subject;
+        this.text = text;
+        this.mailId = mailId;
     }
 }

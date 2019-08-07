@@ -4,6 +4,7 @@ import com.hoomoomoo.fims.app.dto.MailDto;
 
 import javax.mail.Message;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author humm23693
@@ -30,11 +31,11 @@ public interface SystemService {
      * @param mailDto
      * @return
      */
-    List<Message> receiveMail(MailDto mailDto);
+    List<Map<String, Message>> receiveMail(MailDto mailDto);
 
     /**
      * 处理邮件内容
      * @param messages
      */
-    List<MailDto> handleMailData(List<Message> messages);
+    List<MailDto> handleMailData(List<Map<String, Message>> messages);
 }

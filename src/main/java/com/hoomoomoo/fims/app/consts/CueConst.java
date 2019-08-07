@@ -8,4 +8,14 @@ package com.hoomoomoo.fims.app.consts;
  */
 
 public class CueConst {
+
+    /**
+     * 提示信息：操作成功
+     */
+    public static final String OPERATE_SUCCESS                      = "操作成功";
+
+    /**
+     * 提示信息：操作是吧
+     */
+    public static final String OPERATE_Fail                         = "操作失败";
 }
