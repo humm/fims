@@ -12,6 +12,7 @@ import java.util.Map;
  * @package com.hoomoomoo.fims.app.service.common
  * @date 2019/08/04
  */
+
 public interface SystemService {
 
     /**
@@ -21,6 +22,7 @@ public interface SystemService {
 
     /**
      * 发送邮件
+     *
      * @param mailDto
      * @return
      */
@@ -28,6 +30,7 @@ public interface SystemService {
 
     /**
      * 接收指定主题邮件
+     *
      * @param mailDto
      * @return
      */
@@ -35,7 +38,23 @@ public interface SystemService {
 
     /**
      * 处理邮件内容
+     *
      * @param messages
      */
     List<MailDto> handleMailData(List<Map<String, Message>> messages);
+
+    /**
+     * 加载业务ID
+     *
+     * @return
+     */
+    void loadBusinessId();
+
+    /**
+     * 根据业务类型获取业务ID
+     *
+     * @param businessType
+     * @return
+     */
+    String getBusinessId(String businessType);
 }

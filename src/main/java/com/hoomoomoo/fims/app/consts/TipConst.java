@@ -6,6 +6,7 @@ package com.hoomoomoo.fims.app.consts;
  * @package com.hoomoomoo.fims.app.consts
  * @date 2019/08/04
  */
+
 public class TipConst {
 
     /**
@@ -97,5 +98,60 @@ public class TipConst {
      * 邮件内容处理异常
      */
     public static final String MAIL_CONTENT_HANDLE_EXCEPTION        = "邮件内容处理异常";
+
+    /**
+     * 业务ID加载成功
+     */
+    public static final String BUSINESS_ID_LOAD_SUCCESS             = "业务ID加载成功";
+
+    /**
+     * 业务ID加载失败
+     */
+    public static final String BUSINESS_ID_LOAD_FAIL                = "业务ID加载失败";
+
+    /**
+     * 业务ID加载异常
+     */
+    public static final String BUSINESS_ID_LOAD_EXCEPTION           = "业务ID加载异常";
+
+    /**
+     * 获取业务ID失败：业务类型不能为空
+     */
+    public static final String BUSINESS_ID_GET_TYPE_NOT_EMPTY       = "获取业务ID失败：业务类型不能为空";
+
+    /**
+     * 获取业务ID成功
+     */
+    public static final String BUSINESS_ID_GET_SUCCESS              = "获取业务ID成功：{}";
+
+    /**
+     * 获取业务ID失败
+     */
+    public static final String BUSINESS_ID_GET_FAIL                 = "获取业务ID失败";
+
+    /**
+     * 获取业务ID异常
+     */
+    public static final String BUSINESS_ID_GET_EXCEPTION            = "获取业务ID异常";
+
+    /**
+     * 登录过滤器初始化成功
+     */
+    public static final String LOGIN_FILTER_INIT_SUCCESS            = "登录过滤器初始化成功";
+
+    /**
+     * Swagger标题
+     */
+    public static final String SWAGGER_TITLE                        = "FIMS测试";
+
+    /**
+     * Swagger描述
+     */
+    public static final String SWAGGER_DESCRIPTION                  = "这里没有bug...";
+
+    /**
+     * Swagger描述
+     */
+    public static final String SWAGGER_VERSION                      = "1.0";
 
 }

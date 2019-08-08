@@ -32,12 +32,17 @@ public class FimsConfigBean {
     private String backupLocation;
 
     /**
-     * 控制台输出配置参数过滤关键词
+     * 应用启动打印配置参数转换为*输出key
      */
-    private String consoleOutputKeyword;
+    private String convertOutputKeyword;
 
     /**
-     * 是否控制台输出配置参数
+     * 应用启动打印配置参数忽略key
+     */
+    private String ignoreOutputKeyword;
+
+    /**
+     * 应用启动是否打印配置参数
      */
     private Boolean consoleOutput;
 
@@ -50,5 +55,17 @@ public class FimsConfigBean {
      * 应用启动是否读取邮件数据
      */
     private Boolean StartMail;
+
+    /**
+     * 是否开启Swagger
+     */
+    private Boolean swagger;
+
+    /**
+     * Swagger配置扫描路径
+     */
+    private String swaggerLocation;
+
+
 
 }

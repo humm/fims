@@ -3,9 +3,12 @@ package com.hoomoomoo.fims.app.service.common.imp;
 import com.hoomoomoo.fims.FimsApplication;
 import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
 import com.hoomoomoo.fims.app.config.bean.MailConfigBean;
+import com.hoomoomoo.fims.app.dao.SystemDao;
 import com.hoomoomoo.fims.app.dto.MailDto;
 import com.hoomoomoo.fims.app.service.common.SystemService;
+import com.hoomoomoo.fims.app.util.DateUtils;
 import com.sun.mail.imap.IMAPFolder;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +25,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
+import static com.hoomoomoo.fims.app.config.RunData.BUSINESS_ID;
 import static com.hoomoomoo.fims.app.consts.SystemConst.APPLICATION_PROPERTIES;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
-import static com.hoomoomoo.fims.app.consts.businessConst.*;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 
 /**
  * @author humm23693
@@ -51,8 +57,12 @@ public class SystemServiceImpl implements SystemService {
     @Autowired
     private JavaMailSender javaMailSender;
 
+    @Autowired
+    private SystemDao systemDao;
+
     /**
      * 控制台输出应用配置参数
+     *
      */
     @Override
     public void outputConfigParameter() {
@@ -74,7 +84,18 @@ public class SystemServiceImpl implements SystemService {
             StringBuffer singleProperty = new StringBuffer();
             String key = String.valueOf(iterator.next());
             singleProperty.append(key).append(EQUAL_SIGN).append(convertValue(key));
-            if (fimsConfigBean.getConsoleOutput()) {
+            boolean isIgnore = false;
+            String ruleConfig = fimsConfigBean.getIgnoreOutputKeyword();
+            if(StringUtils.isNotBlank(ruleConfig)){
+                String[] rules = ruleConfig.split(COMMA);
+                for(String rule : rules){
+                    if(key.startsWith(rule) || key.endsWith(rule)){
+                        isIgnore = true;
+                        break;
+                    }
+                }
+            }
+            if (!isIgnore && fimsConfigBean.getConsoleOutput()) {
                 logger.info(singleProperty.toString());
             }
         }
@@ -194,6 +215,75 @@ public class SystemServiceImpl implements SystemService {
         return mailDtoList;
     }
 
+    /**
+     * 加载业务ID
+     *
+     * @return
+     */
+    @Override
+    public void loadBusinessId() {
+        List<String> businessIdList = systemDao.loadBusinessId();
+        if(CollectionUtils.isNotEmpty(businessIdList)){
+            for(String businessId : businessIdList){
+                String businessKey = businessId.split(STR_MINUS)[0];
+                String businessValue = businessId.split(STR_MINUS)[1];
+                BUSINESS_ID.put(businessKey, businessValue);
+            }
+        }
+        logger.info(BUSINESS_ID_LOAD_SUCCESS);
+    }
+
+    /**
+     * 根据业务类型获取业务ID
+     *
+     * @param businessType
+     * @return
+     */
+    @Override
+    public String getBusinessId(String businessType) {
+        if(StringUtils.isBlank(businessType)){
+            logger.error(BUSINESS_ID_GET_TYPE_NOT_EMPTY);
+            return null;
+        }
+        String businessId = null;
+        Lock lock = new ReentrantLock();
+        lock.lock();
+        try{
+            businessId = BUSINESS_ID.get(businessType);
+            // 业务ID不存在 设置默认值
+            if(StringUtils.isBlank(businessId)){
+                businessId = DateUtils.yyyyMMdd() + BUSINESS_ID_DEFAULT;
+            }else{
+                String businessDate = businessId.substring(0, 8);
+                String businessNo = businessId.substring(8);
+                // 业务ID时间不是当前时间 设置默认值
+                if(!DateUtils.yyyyMMdd().equals(businessDate)){
+                    businessId = DateUtils.yyyyMMdd() + BUSINESS_ID_DEFAULT;
+                }else{
+                    // 去除多去的0 获取序列号
+                    while(businessNo.startsWith(STR_0)){
+                        businessNo = businessNo.substring(1);
+                    }
+                    // 序列号加1
+                    businessNo = String.valueOf(Long.valueOf(businessNo) + 1);
+                    // 序列号补0
+                    while(businessNo.length() < 6){
+                        businessNo = STR_0 + businessNo;
+                    }
+                    businessId = businessDate + businessNo;
+                }
+            }
+            // 更新内存数据序列号值
+            BUSINESS_ID.put(businessType, businessId);
+            logger.info(BUSINESS_ID_GET_SUCCESS, businessId);
+        }catch (Exception e){
+            logger.error(BUSINESS_ID_GET_EXCEPTION, e);
+        }finally {
+            lock.unlock();
+        }
+        return businessId;
+    }
+
 
     /**
      * 自定义排序
@@ -237,8 +327,8 @@ public class SystemServiceImpl implements SystemService {
      * @return
      */
     private String convertValue(String key) {
-        if (StringUtils.isNotBlank(fimsConfigBean.getConsoleOutputKeyword()) && StringUtils.isNotBlank(key)) {
-            String[] keywords = fimsConfigBean.getConsoleOutputKeyword().split(SEMICOLON);
+        if (StringUtils.isNotBlank(fimsConfigBean.getConvertOutputKeyword()) && StringUtils.isNotBlank(key)) {
+            String[] keywords = fimsConfigBean.getConvertOutputKeyword().split(SEMICOLON);
             for (String word : keywords) {
                 if (key.contains(word)) {
                     return ASTERISK_SIX;

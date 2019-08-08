@@ -1,9 +1,9 @@
-package com.hoomoomoo.fims.app.dto.common;
+package com.hoomoomoo.fims.app.dto;
 
 import lombok.Data;
 
 import static com.hoomoomoo.fims.app.consts.CueConst.OPERATE_SUCCESS;
-import static com.hoomoomoo.fims.app.consts.businessConst.STATUS_SUCCESS;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.STATUS_SUCCESS;
 
 /**
  * @author humm23693

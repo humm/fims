@@ -17,6 +17,7 @@ import static com.hoomoomoo.fims.app.consts.TipConst.INIT_SUCCESS;
  * @package com.hoomoomoo.fims.app.config.bean
  * @date 2019/08/04
  */
+
 @Configuration
 public class InitConfig {
 
@@ -31,7 +32,12 @@ public class InitConfig {
     @PostConstruct
     public void init(){
         try {
+            // 输出系统配置参数至控制台
             systemService.outputConfigParameter();
+
+            // 加载业务ID数据
+            systemService.loadBusinessId();
+
             logger.error(INIT_SUCCESS);
         }catch (Exception e){
             logger.error(INIT_EXCEPTION, e);

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoomoomoo.fims.app.dao.SystemDao">
+
+    <select id="loadBusinessId" resultType="java.lang.String">
+        select 'user-' || max(to_number(user_id)) as businessId from sy_user
+        union all
+        select 'salary-' || max(to_number(salary_id)) as businessId from sy_salary
+    </select>
+
+
+</mapper>
