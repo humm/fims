@@ -2,8 +2,8 @@ package com.hoomoomoo.fims.app.config.bean;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
 import static com.hoomoomoo.fims.app.consts.SystemConst.APPLICATION_PROPERTIES;
 import static com.hoomoomoo.fims.app.consts.SystemConst.FIMS_CONFIG;
@@ -15,7 +15,7 @@ import static com.hoomoomoo.fims.app.consts.SystemConst.FIMS_CONFIG;
  * @date 2019/08/03
  */
 
-@Configuration
+@Component
 @PropertySource({APPLICATION_PROPERTIES})
 @ConfigurationProperties(prefix = FIMS_CONFIG)
 @Data

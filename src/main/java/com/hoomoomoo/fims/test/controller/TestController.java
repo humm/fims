@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 
 @Controller
-@ResponseBody
-@RequestMapping("/test")
+@RequestMapping("/test/")
 public class TestController {
 
     @RequestMapping("sessionBean")
+    @ResponseBody
     public SessionBean testSessionBean(){
         return SystemSessionUtils.getSession();
     }

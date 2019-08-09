@@ -3,8 +3,8 @@ package com.hoomoomoo.fims.app.config.bean;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
 import static com.hoomoomoo.fims.app.consts.SystemConst.*;
 
@@ -15,7 +15,7 @@ import static com.hoomoomoo.fims.app.consts.SystemConst.*;
  * @date 2019/08/04
  */
 
-@Configuration
+@Component
 @PropertySource({APPLICATION_PROPERTIES})
 @ConfigurationProperties(prefix = SPRING_MAIL)
 @Data

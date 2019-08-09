@@ -33,11 +33,6 @@ public class SessionBean {
     private String userStatus;
 
     /**
-     * 登录IP
-     */
-    private String loginIP;
-
-    /**
      * 是否管理员
      */
     private Boolean isAdmin;

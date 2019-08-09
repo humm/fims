@@ -3,7 +3,6 @@ package com.hoomoomoo.fims.app.util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 
 /**
  * @author humm23693
@@ -13,6 +12,21 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
  */
 
 public class DateUtils {
+
+    /**
+     * 时间格式化类型
+     */
+    public static final String YYYYMMDD                            = "yyyyMMdd";
+
+    /**
+     * 时间格式化类型
+     */
+    public static final String HHMMSS                              = "HHmmss";
+
+    /**
+     * 时间格式化类型
+     */
+    public static final String YYYYMMDDHHMMSS                      = "yyyyMMddHHmmss";
 
     /**
      * 年月日

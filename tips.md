@@ -6,3 +6,6 @@ SpringBoot
             Servlet Filter Listener 可以直接通过 @WebServlet @WebFilter @WebListener 注解自动注册
     04. Swagger测试地址
             http://ip:端口/应用名称/swagger-ui.html
+    05. @Component  @Configuration
+        @Configuration会生成代理类 可以返回Bean
+        @Component不会生成代理类  webSocket需要用这个 有代理类会导致应用启动失败

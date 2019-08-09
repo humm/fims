@@ -75,21 +75,6 @@ public class BusinessConst {
     public static final String MULTIPART                           = "multipart/*";
 
     /**
-     * 时间格式化类型
-     */
-    public static final String YYYYMMDD                            = "yyyyMMdd";
-
-    /**
-     * 时间格式化类型
-     */
-    public static final String HHMMSS                              = "HHmmss";
-
-    /**
-     * 时间格式化类型
-     */
-    public static final String YYYYMMDDHHMMSS                      = "yyyyMMddHHmmss";
-
-    /**
      * 业务类型 用户
      */
     public static final String BUSINESS_TYPE_USER                  = "user";

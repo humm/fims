@@ -195,3 +195,6 @@ values ('VERSION_ABCDEFGHIJKLMNOPQRS00060', '完成：fims工程初始化', 'fim
 
 insert into sy_version (ID, VERSION_CONTENT, VERSION_NO, VERSION_DATE, VERSION_ORDER)
 values ('VERSION_ABCDEFGHIJKLMNOPQRS00061', '完成：基础配置、集成邮件功能', 'fims-2019.08.03.001-SNAPSHOT', to_date('2019-08-04','yyyy-mm-dd'), 285);
+
+
+-- 脚手架搭建 20190808 swagger id生成策略
