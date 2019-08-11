@@ -1,6 +1,6 @@
 package com.hoomoomoo.fims.test;
 
-import com.hoomoomoo.fims.app.service.common.SystemService;
+import com.hoomoomoo.fims.app.service.SystemService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class FunctionTest {
     private SystemService systemService;
 
     @Test
-    public void testBusinessId(){
-        systemService.getBusinessId("user");
+    public void testGetBusinessSerialNo(){
+        systemService.getBusinessSerialNo("user");
     }
 }

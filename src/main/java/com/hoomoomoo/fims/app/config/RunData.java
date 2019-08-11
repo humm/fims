@@ -11,5 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class RunData {
 
-    public static ConcurrentHashMap<String, String> BUSINESS_ID      = new ConcurrentHashMap<>();
+    /**
+     * 业务序列号
+     */
+    public static ConcurrentHashMap<String, String> BUSINESS_SERIAL_NO      = new ConcurrentHashMap<>();
 }

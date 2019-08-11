@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.test;
 
 import com.hoomoomoo.fims.app.dto.MailDto;
-import com.hoomoomoo.fims.app.service.common.SystemService;
+import com.hoomoomoo.fims.app.service.SystemService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

@@ -1,0 +1,36 @@
+package com.hoomoomoo.fims.app.dto.common;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
+
+/**
+ * @author humm23693
+ * @description 实体dto
+ * @package com.hoomoomoo.fims.app.dto
+ * @date 2019/08/08
+ */
+
+@Data
+public class ModelDto {
+
+    @ApiModelProperty(value="创建人", required = false)
+    private String createUser;
+
+    @ApiModelProperty(value="创建时间", required = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date createDate;
+
+    @ApiModelProperty(value="修改人", required = false)
+    private String modifyUser;
+
+    @ApiModelProperty(value="修改时间", required = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date modifyDate;
+}

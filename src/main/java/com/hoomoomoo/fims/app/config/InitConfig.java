@@ -1,16 +1,14 @@
 package com.hoomoomoo.fims.app.config;
 
-import com.hoomoomoo.fims.app.service.common.SystemService;
+import com.hoomoomoo.fims.app.service.SystemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
-import static com.hoomoomoo.fims.app.consts.TipConst.INIT_EXCEPTION;
-import static com.hoomoomoo.fims.app.consts.TipConst.INIT_SUCCESS;
+import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
  * @author humm23693
@@ -39,9 +37,9 @@ public class InitConfig {
             // 加载业务ID数据
             systemService.loadBusinessId();
 
-            logger.info(INIT_SUCCESS);
+            logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_INIT, LOG_OPERATE_TAG_SUCCESS));
         }catch (Exception e){
-            logger.error(INIT_EXCEPTION, e);
+            logger.error(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_INIT, LOG_OPERATE_TAG_EXCEPTION), e);
         }
     }
 

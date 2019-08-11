@@ -1,7 +1,8 @@
 package com.hoomoomoo.fims.app.util;
 
-import com.hoomoomoo.fims.app.dto.CommonDto;
-import com.hoomoomoo.fims.app.dto.SessionBean;
+import com.hoomoomoo.fims.app.dto.common.ModelDto;
+import com.hoomoomoo.fims.app.dto.common.QueryDto;
+import com.hoomoomoo.fims.app.dto.common.SessionBean;
 
 import java.util.Date;
 
@@ -17,29 +18,40 @@ public class SystemUtils {
     /**
      * 设置创建人修改人信息
      *
-     * @param commonDto
+     * @param modelDto
      */
-    public static void setCreateUserInfo(CommonDto commonDto){
+    public static void setCreateUserInfo(ModelDto modelDto){
         SessionBean sessionBean = SystemSessionUtils.getSession();
         if(sessionBean != null){
-            commonDto.setCreateUser(sessionBean.getUserCode());
-            commonDto.setModifyUser(sessionBean.getUserCode());
+            modelDto.setCreateUser(sessionBean.getUserCode());
+            modelDto.setModifyUser(sessionBean.getUserCode());
         }
         Date date = new Date();
-        commonDto.setCreateDate(date);
-        commonDto.setModifyDate(date);
+        modelDto.setCreateDate(date);
+        modelDto.setModifyDate(date);
     }
 
     /**
      * 设置修改人信息
      *
-     * @param commonDto
+     * @param modelDto
      */
-    public static void setModifyUserInfo(CommonDto commonDto){
+    public static void setModifyUserInfo(ModelDto modelDto){
         SessionBean sessionBean = SystemSessionUtils.getSession();
         if(sessionBean != null){
-            commonDto.setModifyUser(sessionBean.getUserCode());
+            modelDto.setModifyUser(sessionBean.getUserCode());
         }
-        commonDto.setModifyDate(new Date());
+        modelDto.setModifyDate(new Date());
+    }
+
+    /**
+     * 设置查询实体session信息
+     *
+     * @param queryDto
+     */
+    public static void setSessionInfo(QueryDto queryDto){
+        SessionBean sessionBean = SystemSessionUtils.getSession();
+        queryDto.setUserKey(sessionBean.getUserId());
+        queryDto.setIsAdmin(sessionBean.getIsAdmin());
     }
 }

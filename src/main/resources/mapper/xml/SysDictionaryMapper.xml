@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hoomoomoo.fims.app.dao.SysDictionaryDao">
+
+    <sql id="Base_Column_List">
+         dictionary_code dictionaryCode, dictionary_item dictionaryItem,
+         dictionary_caption dictionaryCaption,
+         item_order itemOrder, code_order codeOrder,
+         user_id userId
+    </sql>
+
+    <select id="selectSysSalary" parameterType="com.hoomoomoo.fims.app.dto.SysDictionaryQueryDto"
+            resultType="com.hoomoomoo.fims.app.dto.SysDictionaryDto">
+        select
+            <include refid="Base_Column_List"/>
+        from sys_dictionary
+        <where>
+            <if test="dictionaryCode != null">
+                and dictionary_code = #{dictionaryCode}
+            </if>
+            <if test="dictionaryItem != null">
+                and dictionary_item = #{dictionaryItem}
+            </if>
+            <if test="dictionaryCaption != null">
+                and dictionary_caption = #{dictionaryCaption}
+            </if>
+        </where>
+        order by code_order desc, item_order desc
+    </select>
+
+
+</mapper>

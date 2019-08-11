@@ -28,4 +28,11 @@ public class SystemConst {
      * 邮件配置读取前缀
      */
     public static final String SPRING_MAIL                          = "spring.mail";
+
+    /**
+     * 应用名称
+     */
+    public static final String APP_NAME                             = "appName";
+
+
 }

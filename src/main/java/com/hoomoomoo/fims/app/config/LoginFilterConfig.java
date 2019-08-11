@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.config;
 
 
-import com.hoomoomoo.fims.app.dto.SessionBean;
+import com.hoomoomoo.fims.app.dto.common.SessionBean;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.hoomoomoo.fims.app.consts.TipConst.LOGIN_FILTER_INIT_SUCCESS;
+import static com.hoomoomoo.fims.app.consts.TipConst.*;
+import static com.hoomoomoo.fims.app.consts.TipConst.LOG_OPERATE_TAG_END;
 
 /**
  * @author humm23693
@@ -30,7 +31,7 @@ public class LoginFilterConfig implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        logger.info(LOGIN_FILTER_INIT_SUCCESS);
+        logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_LOGIN_FILTER, LOG_OPERATE_TAG_SUCCESS));
     }
 
     @Override
@@ -43,6 +44,7 @@ public class LoginFilterConfig implements Filter {
         sessionBean.setUserId("20190808000001");
         sessionBean.setUserCode("admin");
         sessionBean.setUserName("系统管理员");
+        sessionBean.setIsAdmin(false);
 
         SystemSessionUtils.setSession(sessionBean);
 

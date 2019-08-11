@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hoomoomoo.fims.app.dao.SysUserDao">
+
+    <sql id="Base_Column_List">
+        user_id userId, user_code userCode,
+        user_name userName, user_password userPassword,
+        user_status userStatus, is_admin isAdmin,
+        user_memo userMemo, create_date createDate, modify_date modifyDate,
+        create_user createUser, modify_user modifyUser
+    </sql>
+
+    <select id="selectSysUser" parameterType="com.hoomoomoo.fims.app.dto.SysUserQueryDto"
+            resultType="com.hoomoomoo.fims.app.dto.SysUserDto">
+        select
+            <include refid="Base_Column_List"/>
+        from sys_user
+        <where>
+            <if test="userId != null" >
+                and user_id = #{userId}
+            </if>
+            <if test="userCode != null" >
+                and user_code = #{userCode}
+            </if>
+            <if test="userName != null" >
+                and user_name = #{userName}
+            </if>
+            <if test="userPassword != null" >
+                and user_password = #{userPassword}
+            </if>
+            <if test="userStatus != null" >
+                and user_status = #{userStatus}
+            </if>
+            <if test="isAdmin != null" >
+                and is_admin = #{isAdmin}
+            </if>
+        </where>
+    </select>
+
+</mapper>

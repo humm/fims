@@ -15,5 +15,10 @@ import java.util.Map;
 @Mapper
 public interface SystemDao {
 
+    /**
+     * 加载业务ID信息
+     *
+     * @return
+     */
     List<String> loadBusinessId();
 }

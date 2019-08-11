@@ -10,148 +10,207 @@ package com.hoomoomoo.fims.app.consts;
 public class TipConst {
 
     /**
-     * 提示信息模板
+     * 日志输出格式
      */
-    public static final String TIP                                  = "========================= %s =========================";
+    public static final String LOG_TIP                                          = "====================== %s %s ======================";
 
     /**
-     * 应用启动成功
+     * 日志输出格式
      */
-    public static final String START_SUCCESS                        = "应用启动成功";
+    public static final String LOG_FORMAT_TIP                                   = "%s %s %s %s";
 
     /**
-     * 参数配置开始
+     * 日志输出格式
      */
-    public static final String PARAMETER_START                      = "参数配置 开始";
+    public static final String LOG_FORMAT_STATUS                                = "%s %s";
 
     /**
-     * 参数配置结束
+     * 日志输出格式
      */
-    public static final String PARAMETER_END                        = "参数配置 结束";
+    public static final String LOG_FORMAT_STATUS_MSG                            = "%s %s：{}";
 
     /**
-     * 数据初始化成功
+     * 日志层级：控制层
      */
-    public static final String INIT_SUCCESS                         = "数据初始化成功";
+    public static final String LOG_TYPE_CONTROLLER                              = "控制层";
 
     /**
-     * 数据初始化异常
+     * 日志层级：服务层
      */
-    public static final String INIT_EXCEPTION                       = "数据初始化异常";
+    public static final String LOG_TYPE_SERVICE                                 = "服务层";
 
     /**
-     * 邮件发送成功
+     * 日志状态：开始
      */
-    public static final String MAIL_SEND_SUCCESS                    = "邮件发送成功";
+    public static final String LOG_OPERATE_TAG_START                            = "开始";
 
     /**
-     * 邮件发送失败
+     * 日志状态：结束
      */
-    public static final String MAIL_SEND_FAIL                       = "邮件发送失败";
+    public static final String LOG_OPERATE_TAG_END                              = "结束";
 
     /**
-     * 邮件发送异常
+     * 日志状态：异常
      */
-    public static final String MAIL_SEND_EXCEPTION                  = "邮件发送异常";
+    public static final String LOG_OPERATE_TAG_EXCEPTION                        = "异常";
 
     /**
-     * 邮件读取成功
+     * 日志状态：成功
      */
-    public static final String MAIL_RECEIVE_SUCCESS                 = "邮件读取成功";
+    public static final String LOG_OPERATE_TAG_SUCCESS                          = "成功";
 
     /**
-     * 邮件读取失败
+     * 日志状态：成功
      */
-    public static final String MAIL_RECEIVE_FAIL                    = "邮件读取失败";
+    public static final String LOG_OPERATE_TAG_FAIL                             = "失败";
 
     /**
-     * 邮件读取异常
+     * 日志操作类型：查询
      */
-    public static final String MAIL_RECEIVE_EXCEPTION               = "邮件读取异常";
+    public static final String LOG_OPERATE_TYPE_SELECT                          = "查询";
+    /**
+     * 日志操作类型：分页查询
+     */
+    public static final String LOG_OPERATE_TYPE_SELECT_PAGE                     = "分页查询";
+
+    /**
+     * 日志操作类型：新增
+     */
+    public static final String LOG_OPERATE_TYPE_ADD                             = "新增";
+
+    /**
+     * 日志操作类型：修改
+     */
+    public static final String LOG_OPERATE_TYPE_UPDATE                          = "修改";
+
+    /**
+     * 日志操作类型：校验
+     */
+    public static final String LOG_OPERATE_TYPE_CHECK                           = "校验";
+
+    /**
+     * 日志操作类型：删除
+     */
+    public static final String LOG_OPERATE_TYPE_DELETE                          = "删除";
+
+    /**
+     * 日志业务类型：应用启动
+     */
+    public static final String LOG_BUSINESS_TYPE_APP_START                     = "应用启动";
+
+    /**
+     * 日志业务类型：参数配置
+     */
+    public static final String LOG_BUSINESS_TYPE_PARAMETER                      = "参数配置";
+
+    /**
+     * 日志业务类型：数据初始化
+     */
+    public static final String LOG_BUSINESS_TYPE_INIT                           = "数据初始化";
+
+    /**
+     * 日志业务类型：登录过滤器
+     */
+    public static final String LOG_BUSINESS_TYPE_LOGIN_FILTER                   = "登录过滤器";
+
+    /**
+     * 日志业务类型：邮件发送
+     */
+    public static final String LOG_BUSINESS_TYPE_MAIL_SEND                      = "邮件发送";
+
+    /**
+     * 日志业务类型：邮件读取
+     */
+    public static final String LOG_BUSINESS_TYPE_MAIL_RECEIVE                   = "邮件读取";
+
+    /**
+     * 日志业务类型：邮件数据处理
+     */
+    public static final String LOG_BUSINESS_TYPE_MAIL_HANDLE                    = "邮件数据处理";
+
+    /**
+     * 日志业务类型：收入
+     */
+    public static final String LOG_BUSINESS_TYPE_SALARY                         = "收入信息";
+
+    /**
+     * 日志业务类型：字典
+     */
+    public static final String LOG_BUSINESS_TYPE_DICTIONARY                     = "字典信息";
+
+    /**
+     * 日志业务类型：用户
+     */
+    public static final String LOG_BUSINESS_TYPE_USER                           = "用户信息";
+
+    /**
+     * 日志业务类型：字典转义
+     */
+    public static final String LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER            = "字典转义";
+
+    /**
+     * 日志业务类型：业务序列号
+     */
+    public static final String LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO             = "业务序列号";
+
+    /**
+     * 日志业务类型：业务序列号
+     */
+    public static final String LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET         = "获取业务序列号";
+
+    /**
+     * 日志业务类型：业务序列号
+     */
+    public static final String LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_LOAD        = "加载业务序列号";
+
+    /**
+     * 日志业务类型：freemarker模板配置
+     */
+    public static final String LOG_BUSINESS_TYPE_FREEMARKER                     = "freemarker模板配置";
+
+
+
+
+
+
+    /**
+     * 请求入参
+     */
+    public static final String LOG_REQUEST_PARAMETER                            = "服务请求入参：{}";
 
     /**
      * 邮件超文本内容暂不读取
      */
-    public static final String MAIL_CONTENT_HTML                    = "邮件超文本内容暂不读取";
+    public static final String MAIL_CONTENT_HTML                                = "邮件超文本数据暂不读取";
 
     /**
      * 邮件超文本内容暂不读取
      */
-    public static final String MAIL_CONTENT_MULTIPART               = "邮件附件暂不处理";
+    public static final String MAIL_CONTENT_MULTIPART                           = "邮件附件数据暂不处理";
 
     /**
-     * 邮件内容读取失败: 不支持的内容格式
+     * 不支持的内容格式
      */
-    public static final String MAIL_CONTENT_NOT_SUPPORT             = "邮件内容读取失败: 不支持的内容格式";
+    public static final String MAIL_CONTENT_NOT_SUPPORT                         = "不支持的内容格式";
 
     /**
-     * 邮件内容处理成功
+     * 业务类型不能为空
      */
-    public static final String MAIL_CONTENT_HANDLE_SUCCESS          = "邮件内容处理成功";
-
-    /**
-     * 邮件内容处理失败
-     */
-    public static final String MAIL_CONTENT_HANDLE_FAIL             = "邮件内容处理失败";
-
-    /**
-     * 邮件内容处理异常
-     */
-    public static final String MAIL_CONTENT_HANDLE_EXCEPTION        = "邮件内容处理异常";
-
-    /**
-     * 业务ID加载成功
-     */
-    public static final String BUSINESS_ID_LOAD_SUCCESS             = "业务ID加载成功";
-
-    /**
-     * 业务ID加载失败
-     */
-    public static final String BUSINESS_ID_LOAD_FAIL                = "业务ID加载失败";
-
-    /**
-     * 业务ID加载异常
-     */
-    public static final String BUSINESS_ID_LOAD_EXCEPTION           = "业务ID加载异常";
-
-    /**
-     * 获取业务ID失败：业务类型不能为空
-     */
-    public static final String BUSINESS_ID_GET_TYPE_NOT_EMPTY       = "获取业务ID失败：业务类型不能为空";
-
-    /**
-     * 获取业务ID成功
-     */
-    public static final String BUSINESS_ID_GET_SUCCESS              = "获取业务ID成功：{}";
-
-    /**
-     * 获取业务ID失败
-     */
-    public static final String BUSINESS_ID_GET_FAIL                 = "获取业务ID失败";
-
-    /**
-     * 获取业务ID异常
-     */
-    public static final String BUSINESS_ID_GET_EXCEPTION            = "获取业务ID异常";
-
-    /**
-     * 登录过滤器初始化成功
-     */
-    public static final String LOGIN_FILTER_INIT_SUCCESS            = "登录过滤器初始化成功";
+    public static final String BUSINESS_TYPE_NOT_EMPTY                          = "业务类型不能为空";
 
     /**
      * Swagger标题
      */
-    public static final String SWAGGER_TITLE                        = "FIMS测试";
+    public static final String SWAGGER_TITLE                                    = "FIMS测试";
 
     /**
      * Swagger描述
      */
-    public static final String SWAGGER_DESCRIPTION                  = "这里没有bug...";
+    public static final String SWAGGER_DESCRIPTION                              = "这里没有bug...";
 
     /**
-     * Swagger描述
+     * Swagger版本
      */
-    public static final String SWAGGER_VERSION                      = "1.0";
+    public static final String SWAGGER_VERSION                                  = "1.0";
 
 }

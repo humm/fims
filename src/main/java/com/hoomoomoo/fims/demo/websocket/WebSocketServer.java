@@ -16,8 +16,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * @package com.hoomoomoo.fims.test.webSocket
  * @date 2019/08/09
  */
-@Component
-@ServerEndpoint("/websocket/{sid}")
+//@Component
+//@ServerEndpoint("/websocket/{sid}")
 public class WebSocketServer {
 
     private static final Logger log = LoggerFactory.getLogger(WebSocketServer.class);

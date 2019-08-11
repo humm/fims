@@ -6,8 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
-import static com.hoomoomoo.fims.app.consts.TipConst.START_SUCCESS;
-import static com.hoomoomoo.fims.app.consts.TipConst.TIP;
+import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 
 /**
@@ -25,6 +24,6 @@ public class FimsApplication {
 
     public static void main(String[] args){
         SpringApplication.run(FimsApplication.class, args);
-        logger.info(String.format(TIP, START_SUCCESS));
+        logger.info(String.format(LOG_TIP, LOG_BUSINESS_TYPE_APP_START, LOG_OPERATE_TAG_SUCCESS));
     }
 }
