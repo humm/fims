@@ -106,6 +106,9 @@
                 <dd data-name="console">
                   <a lay-href="home/homepage2">主页二</a>
                 </dd>
+                <dd data-name="salary">
+                  <a lay-href="salary/list">Demo</a>
+                </dd>
               </dl>
             </li>
             <li data-name="component" class="layui-nav-item">

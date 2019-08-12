@@ -1,11 +1,13 @@
 /** layuiAdmin.std-v1.0.0 LPPL License By http://www.layui.com/admin/ */
 ;layui.define(["table", "form"], function (e) {
-    var t = layui.$, i = layui.table;
+    var i = layui.table, $ = layui.$;
     layui.form;
+
+    var appName = $("#appName").val();
 
     i.render({
         elem: "#LAY-app-salary-list",
-        url: "selectPage",
+        url: appName + "/salary/selectPage",
         cols: [
             [
                 {type: "checkbox", fixed: "left"},
@@ -28,7 +30,7 @@
         if ("del" === e.event) layer.confirm("确定删除此条帖子？", function (t) {
             e.del(), layer.close(t)
         }); else if ("edit" === e.event) {
-            t(e.tr);
+            $(e.tr);
             layer.open({
                 type: 2,
                 title: "编辑帖子",

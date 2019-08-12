@@ -67,4 +67,12 @@ public interface SystemService {
      * @return
      */
     List transferData(List list, Class clazz);
+
+    /**
+     * 字典转义
+     *
+     * @param modelDto
+     * @return
+     */
+    ModelDto transferData(ModelDto modelDto);
 }

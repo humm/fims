@@ -34,5 +34,4 @@ public class SystemConst {
      */
     public static final String APP_NAME                             = "appName";
 
-
 }

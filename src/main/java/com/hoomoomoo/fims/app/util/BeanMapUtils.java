@@ -73,8 +73,8 @@ public class BeanMapUtils {
      * @param <T>
      * @return
      */
-    public static <T> List<T> mapToBean(List<Map<String, Object>> maps, Class<T> clazz) throws Exception{
-        List<T> list = new ArrayList<>();
+    public static <T> List mapToBean(List<Map<String, Object>> maps, Class<T> clazz) throws Exception{
+        List list = new ArrayList<>();
         if (maps != null && maps.size() > 0) {
             Map<String, Object> map = null;
             for (int i = 0, size = maps.size(); i < size; i++) {

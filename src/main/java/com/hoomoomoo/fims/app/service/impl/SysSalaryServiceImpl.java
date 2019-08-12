@@ -11,6 +11,7 @@ import com.hoomoomoo.fims.app.dto.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysSalaryService;
 import com.hoomoomoo.fims.app.service.SystemService;
 import com.hoomoomoo.fims.app.util.BeanMapUtils;
+import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.slf4j.Logger;
@@ -49,15 +50,19 @@ public class SysSalaryServiceImpl implements SysSalaryService {
      */
     @Override
     public Page<SysSalaryQueryDto> selectPage(SysSalaryQueryDto sysSalaryQueryDto) {
-        logger.info(String.format(LOG_FORMAT_TIP, LOG_BUSINESS_TYPE_SALARY, LOG_TYPE_SERVICE, LOG_OPERATE_TYPE_SELECT_PAGE,
-                LOG_OPERATE_TAG_START));
+
+        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_SALARY, LOG_OPERATE_TYPE_SELECT_PAGE);
+
         SystemUtils.setSessionInfo(sysSalaryQueryDto);
-        logger.info(LOG_REQUEST_PARAMETER, BeanMapUtils.beanToMap(sysSalaryQueryDto));
+
+        LogUtils.parameter(logger, sysSalaryQueryDto);
+
         PageHelper.startPage(sysSalaryQueryDto.getPage(), sysSalaryQueryDto.getLimit());
         List<SysSalaryDto> sysSalaryDtoList = sysSalaryDao.selectPage(sysSalaryQueryDto);
         PageInfo<SysSalaryDto> pageInfo = new PageInfo<>(systemService.transferData(sysSalaryDtoList, SysSalaryDto.class));
-        logger.info(String.format(LOG_FORMAT_TIP, LOG_BUSINESS_TYPE_SALARY, LOG_TYPE_SERVICE, LOG_OPERATE_TYPE_SELECT_PAGE,
-                LOG_OPERATE_TAG_END));
+
+        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_SALARY, LOG_OPERATE_TYPE_SELECT_PAGE);
+
         return new Page(pageInfo.getTotal(), pageInfo.getList());
     }
 }

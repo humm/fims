@@ -11,6 +11,7 @@ import com.hoomoomoo.fims.app.dto.common.ModelDto;
 import com.hoomoomoo.fims.app.service.SystemService;
 import com.hoomoomoo.fims.app.util.BeanMapUtils;
 import com.hoomoomoo.fims.app.util.DateUtils;
+import com.hoomoomoo.fims.app.util.LogUtils;
 import com.sun.mail.imap.IMAPFolder;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -75,10 +76,11 @@ public class SystemServiceImpl implements SystemService {
      */
     @Override
     public void outputConfigParameter() {
-        Properties properties = new OrderedProperties();
-        if (fimsConfigBean.getConsoleOutput()) {
-            logger.info(String.format(LOG_TIP, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TAG_START));
+        if (!fimsConfigBean.getConsoleOutput()){
+            return;
         }
+        Properties properties = new OrderedProperties();
+        LogUtils.configStart(logger, LOG_BUSINESS_TYPE_PARAMETER);
         try {
             InputStream inputStream =
                     FimsApplication.class.getClassLoader().getResourceAsStream(APPLICATION_PROPERTIES.split(COLON)[1]);
@@ -105,14 +107,10 @@ public class SystemServiceImpl implements SystemService {
                 }
             }
             if (!isIgnore && fimsConfigBean.getConsoleOutput()) {
-                logger.info(singleProperty.toString());
+                LogUtils.info(logger, singleProperty);
             }
         }
-        if (fimsConfigBean.getConsoleOutput()) {
-            logger.info(String.format(LOG_TIP, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TAG_END));
-        }
-
-
+        LogUtils.configEnd(logger, LOG_BUSINESS_TYPE_PARAMETER);
     }
 
     /**
@@ -123,7 +121,7 @@ public class SystemServiceImpl implements SystemService {
      */
     @Override
     public Boolean sendMail(MailDto mailDto) {
-        logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_MAIL_SEND, LOG_OPERATE_TAG_START));
+        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
         boolean isSend = true;
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
@@ -133,12 +131,12 @@ public class SystemServiceImpl implements SystemService {
             mimeMessage.setSubject(mailDto.getSubject());
             mimeMessageHelper.setText(mailDto.getText(), true);
             javaMailSender.send(mimeMessage);
-            logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_MAIL_SEND, LOG_OPERATE_TAG_SUCCESS));
+            LogUtils.success(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
         } catch (MessagingException e) {
             isSend = false;
-            logger.error(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_MAIL_SEND, LOG_OPERATE_TAG_EXCEPTION), e);
+            LogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL_SEND, e);
         }
-        logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_MAIL_SEND, LOG_OPERATE_TAG_END));
+        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
         return isSend;
     }
 
@@ -150,7 +148,7 @@ public class SystemServiceImpl implements SystemService {
      */
     @Override
     public List<Map<String, Message>> receiveMail(MailDto mailDto) {
-        logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_MAIL_RECEIVE, LOG_OPERATE_TAG_START));
+        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
         Properties properties = new Properties();
         Session session = Session.getDefaultInstance(properties);
         session.setDebug(mailConfigBean.getDebug());
@@ -172,11 +170,11 @@ public class SystemServiceImpl implements SystemService {
                     message.setFlag(Flags.Flag.SEEN, true);
                 }
             }
-            logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_MAIL_RECEIVE, LOG_OPERATE_TAG_SUCCESS));
+            LogUtils.success(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
         } catch (Exception e) {
-            logger.error(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_MAIL_RECEIVE, LOG_OPERATE_TAG_EXCEPTION), e);
+            LogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE, e);
         }
-        logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_MAIL_RECEIVE, LOG_OPERATE_TAG_END));
+        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
         return subjectMessage;
     }
 
@@ -187,7 +185,7 @@ public class SystemServiceImpl implements SystemService {
      */
     @Override
     public List<MailDto> handleMailData(List<Map<String, Message>> messages) {
-        logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_MAIL_HANDLE, LOG_OPERATE_TAG_START));
+        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE);
         List<MailDto> mailDtoList = new ArrayList<>();
         for (Map<String, Message> messageMap : messages) {
             Iterator<String> iterator = messageMap.keySet().iterator();
@@ -220,14 +218,13 @@ public class SystemServiceImpl implements SystemService {
                         }
                     }
                 } else {
-                    logger.error(String.format(LOG_FORMAT_STATUS_MSG, LOG_BUSINESS_TYPE_MAIL_HANDLE,
-                            LOG_OPERATE_TAG_FAIL), MAIL_CONTENT_NOT_SUPPORT);
+                    LogUtils.fail(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE, MAIL_CONTENT_NOT_SUPPORT);
                 }
             } catch (Exception e) {
-                logger.error(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_MAIL_HANDLE, LOG_OPERATE_TAG_EXCEPTION), e);
+                LogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE, e);
             }
         }
-        logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_MAIL_HANDLE, LOG_OPERATE_TAG_END));
+        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE);
         return mailDtoList;
     }
 
@@ -238,7 +235,7 @@ public class SystemServiceImpl implements SystemService {
      */
     @Override
     public void loadBusinessId() {
-        logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_LOAD, LOG_OPERATE_TAG_START));
+        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_LOAD);
         List<String> businessIdList = systemDao.loadBusinessId();
         if (CollectionUtils.isNotEmpty(businessIdList)) {
             for (String businessId : businessIdList) {
@@ -247,7 +244,7 @@ public class SystemServiceImpl implements SystemService {
                 BUSINESS_SERIAL_NO.put(businessKey, businessValue);
             }
         }
-        logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_LOAD, LOG_OPERATE_TAG_END));
+        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_LOAD);
     }
 
     /**
@@ -258,12 +255,10 @@ public class SystemServiceImpl implements SystemService {
      */
     @Override
     public String getBusinessSerialNo(String businessType) {
-        logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET, LOG_OPERATE_TAG_START));
+        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET);
         if (StringUtils.isBlank(businessType)) {
-            logger.error(String.format(LOG_FORMAT_STATUS_MSG, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET,
-                    LOG_OPERATE_TAG_FAIL), BUSINESS_TYPE_NOT_EMPTY);
-            logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET,
-                    LOG_OPERATE_TAG_END));
+            LogUtils.fail(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET, BUSINESS_TYPE_NOT_EMPTY);
+            LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET);
             return null;
         }
         String businessId = null;
@@ -296,16 +291,13 @@ public class SystemServiceImpl implements SystemService {
             }
             // 更新内存数据序列号值
             BUSINESS_SERIAL_NO.put(businessType, businessId);
-            logger.info(String.format(LOG_FORMAT_STATUS_MSG, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET,
-                    LOG_OPERATE_TAG_SUCCESS), businessId);
+            LogUtils.success(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET, businessType + MINUS + businessId);
         } catch (Exception e) {
-            logger.error(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET,
-                    LOG_OPERATE_TAG_EXCEPTION), e);
+            LogUtils.exception(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET, e);
         } finally {
             lock.unlock();
         }
-        logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET,
-                LOG_OPERATE_TAG_END));
+        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET);
         return businessId;
     }
 
@@ -318,70 +310,106 @@ public class SystemServiceImpl implements SystemService {
      */
     @Override
     public List transferData(List list, Class clazz) {
-        logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER, LOG_OPERATE_TAG_START));
+        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
         if (CollectionUtils.isNotEmpty(list)) {
             // 本次查询缓存数据
             Map dictionaryCache = new HashMap(16);
             List<Map<String, Object>> mapList = BeanMapUtils.beanToMap(list);
             for (Map<String, Object> ele : mapList) {
-                Iterator<String> iterator = ele.keySet().iterator();
-                while (iterator.hasNext()) {
-                    String key = iterator.next();
-                    String value = String.valueOf(ele.get(key));
-                    // 字典项转义
-                    if (StringUtils.isNotBlank(value) && value.split(MINUS).length == 2) {
-                        if (dictionaryCache.get(value) != null) {
-                            ele.put(key, dictionaryCache.get(value));
-                        } else {
-                            String dictionaryCode = value.split(MINUS)[0];
-                            String dictionaryItem = value.split(MINUS)[1];
-                            SysDictionaryQueryDto sysDictionaryQueryDto = new SysDictionaryQueryDto();
-                            sysDictionaryQueryDto.setDictionaryCode(dictionaryCode);
-                            sysDictionaryQueryDto.setDictionaryItem(dictionaryItem);
-                            List<SysDictionaryDto> dictionaryDtoList = sysDictionaryDao.selectSysSalary(sysDictionaryQueryDto);
-                            if (CollectionUtils.isNotEmpty(dictionaryDtoList)) {
-                                ele.put(key, dictionaryDtoList.get(0).getDictionaryCaption());
-                                dictionaryCache.put(value, dictionaryDtoList.get(0).getDictionaryCaption());
-                            }
-                        }
-                        continue;
-                    }
-
-                    // 配置key转义
-                    int index = TRANSFER_KEY.indexOf(key);
-                    if (index == -1) {
-                        continue;
-                    }
-                    if (dictionaryCache.get(value) != null) {
-                        ele.put(key, dictionaryCache.get(value));
-                    }else{
-                        switch (index) {
-                            case 0:
-                                // 转义 userId
-                                SysUserQueryDto sysUserQueryDto = new SysUserQueryDto();
-                                sysUserQueryDto.setUserId(value);
-                                List<SysUserDto> sysUserDtoList = sysUserDao.selectSysUser(sysUserQueryDto);
-                                if(CollectionUtils.isNotEmpty(sysUserDtoList)){
-                                    ele.put(key, sysUserDtoList.get(0).getUserName());
-                                    dictionaryCache.put(value, sysUserDtoList.get(0).getUserName());
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
+                transfer(dictionaryCache, ele);
             }
             try {
                 list = BeanMapUtils.mapToBean(mapList, clazz);
             } catch (Exception e) {
-                logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER, LOG_OPERATE_TAG_EXCEPTION));
+                LogUtils.exception(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER, e);
             }
         }
-        logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER, LOG_OPERATE_TAG_END));
+        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
         return list;
     }
 
+    /**
+     * 字典转义
+     *
+     * @param modelDto
+     * @return
+     */
+    @Override
+    public ModelDto transferData(ModelDto modelDto) {
+        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
+        if(modelDto != null){
+            Map dictionaryCache = new HashMap(16);
+            Map ele = BeanMapUtils.beanToMap(modelDto);
+            transfer(dictionaryCache, ele);
+            modelDto = BeanMapUtils.mapToBean(ele, modelDto);
+        }
+        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
+        return modelDto;
+    }
+
+    /**
+     * 转义
+     * @param dictionaryCache
+     * @param ele
+     */
+    private void transfer(Map dictionaryCache, Map ele){
+        Iterator<String> iterator = ele.keySet().iterator();
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            if(ele.get(key) == null){
+                continue;
+            }
+            String value = String.valueOf(ele.get(key));
+            // 字典项转义
+            if (StringUtils.isNotBlank(value) && value.split(MINUS).length == 2) {
+                if (dictionaryCache.get(value) != null) {
+                    ele.put(key, dictionaryCache.get(value));
+                } else {
+                    String dictionaryCode = value.split(MINUS)[0];
+                    String dictionaryItem = value.split(MINUS)[1];
+                    SysDictionaryQueryDto sysDictionaryQueryDto = new SysDictionaryQueryDto();
+                    sysDictionaryQueryDto.setDictionaryCode(dictionaryCode);
+                    sysDictionaryQueryDto.setDictionaryItem(dictionaryItem);
+                    List<SysDictionaryDto> dictionaryDtoList = sysDictionaryDao.selectSysSalary(sysDictionaryQueryDto);
+                    if (CollectionUtils.isNotEmpty(dictionaryDtoList)) {
+                        ele.put(key, dictionaryDtoList.get(0).getDictionaryCaption());
+                        dictionaryCache.put(value, dictionaryDtoList.get(0).getDictionaryCaption());
+                    }
+                }
+                continue;
+            }
+
+            // 配置key转义
+            int index = -1;
+            String[] keys = TRANSFER_KEY.split(COMMA);
+            for(int i=0; i<keys.length; i++){
+                if(keys[i].equals(key)){
+                    index = i;
+                }
+            }
+            if (index == -1) {
+                continue;
+            }
+            if (dictionaryCache.get(value) != null) {
+                ele.put(key, dictionaryCache.get(value));
+            }else{
+                switch (index) {
+                    case 0:
+                        // 转义 userId
+                        SysUserQueryDto sysUserQueryDto = new SysUserQueryDto();
+                        sysUserQueryDto.setUserId(value);
+                        List<SysUserDto> sysUserDtoList = sysUserDao.selectSysUser(sysUserQueryDto);
+                        if(CollectionUtils.isNotEmpty(sysUserDtoList)){
+                            ele.put(key, sysUserDtoList.get(0).getUserName());
+                            dictionaryCache.put(value, sysUserDtoList.get(0).getUserName());
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
 
     /**
      * 自定义排序

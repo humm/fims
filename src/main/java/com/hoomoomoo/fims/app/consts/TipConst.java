@@ -111,7 +111,7 @@ public class TipConst {
     /**
      * 日志业务类型：登录过滤器
      */
-    public static final String LOG_BUSINESS_TYPE_LOGIN_FILTER                   = "登录过滤器";
+    public static final String LOG_BUSINESS_TYPE_LOGIN_FILTER                   = "登录过滤器初始化";
 
     /**
      * 日志业务类型：邮件发送

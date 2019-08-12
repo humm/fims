@@ -4,6 +4,7 @@ import com.hoomoomoo.fims.app.dto.common.Page;
 import com.hoomoomoo.fims.app.dto.common.ResultData;
 import com.hoomoomoo.fims.app.dto.SysSalaryQueryDto;
 import com.hoomoomoo.fims.app.service.SysSalaryService;
+import com.hoomoomoo.fims.app.util.LogUtils;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,11 +53,9 @@ public class SysSalaryController {
     public Page<SysSalaryQueryDto> selectPage(
             @ApiParam(name = "收入信息查询实体类", required = true)
             SysSalaryQueryDto sysSalaryQueryDto) {
-        logger.info(String.format(LOG_FORMAT_TIP, LOG_BUSINESS_TYPE_SALARY, LOG_TYPE_CONTROLLER, LOG_OPERATE_TYPE_SELECT_PAGE,
-                LOG_OPERATE_TAG_START));
+        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_SALARY, LOG_OPERATE_TYPE_SELECT_PAGE);
         Page<SysSalaryQueryDto> page = sysSalaryService.selectPage(sysSalaryQueryDto);
-        logger.info(String.format(LOG_FORMAT_TIP, LOG_BUSINESS_TYPE_SALARY, LOG_TYPE_CONTROLLER, LOG_OPERATE_TYPE_SELECT_PAGE,
-                LOG_OPERATE_TAG_END));
+        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_SALARY, LOG_OPERATE_TYPE_SELECT_PAGE);
         return page;
     }
 }

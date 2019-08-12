@@ -2,6 +2,7 @@ package com.hoomoomoo.fims.app.config;
 
 
 import com.hoomoomoo.fims.app.dto.common.SessionBean;
+import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,7 @@ public class LoginFilterConfig implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        logger.info(String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_LOGIN_FILTER, LOG_OPERATE_TAG_SUCCESS));
+        LogUtils.success(logger, LOG_BUSINESS_TYPE_LOGIN_FILTER);
     }
 
     @Override

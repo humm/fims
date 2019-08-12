@@ -36,7 +36,7 @@ public class SysSalaryDto extends ModelDto {
     private String salaryCompany;
 
     @ApiModelProperty(value="收入金额", required = false)
-    private String salaryAmount;
+    private Double salaryAmount;
 
     @ApiModelProperty(value="收入备注", required = false)
     private String salaryMemo;

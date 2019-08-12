@@ -15,4 +15,9 @@ public class RunData {
      * 业务序列号
      */
     public static ConcurrentHashMap<String, String> BUSINESS_SERIAL_NO      = new ConcurrentHashMap<>();
+
+    /**
+     * 开始结束日志打印
+     */
+    public static Boolean LOG_START_END                                     = true;
 }

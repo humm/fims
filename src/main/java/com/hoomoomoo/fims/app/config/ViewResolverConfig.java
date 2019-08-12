@@ -1,5 +1,6 @@
 package com.hoomoomoo.fims.app.config;
 
+import com.hoomoomoo.fims.app.util.LogUtils;
 import freemarker.template.TemplateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +48,7 @@ public class ViewResolverConfig {
         Map<String, Object> freemarkerVariables = new HashMap<>(1);
         freemarkerVariables.put(APP_NAME, contextPath);
         configurer.setFreemarkerVariables(freemarkerVariables);
-        String.format(LOG_FORMAT_STATUS, LOG_BUSINESS_TYPE_FREEMARKER, LOG_OPERATE_TAG_SUCCESS);
+        LogUtils.success(logger, LOG_BUSINESS_TYPE_FREEMARKER);
         return configurer;
     }
 }
