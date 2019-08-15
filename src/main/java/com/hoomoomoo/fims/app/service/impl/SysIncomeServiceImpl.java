@@ -46,7 +46,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
     @Override
     public Page<SysIncomeModel> selectPage(SysIncomeQueryModel sysIncomeQueryModel) {
 
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_SALARY, LOG_OPERATE_TYPE_SELECT_PAGE);
+        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_PAGE);
 
         SystemUtils.setSessionInfo(sysIncomeQueryModel);
 
@@ -56,7 +56,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         List<SysIncomeModel> sysSalaryList = sysIncomeDao.selectPage(sysIncomeQueryModel);
         PageInfo<SysIncomeModel> pageInfo = new PageInfo<>(systemService.transferData(sysSalaryList, SysIncomeModel.class));
 
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_SALARY, LOG_OPERATE_TYPE_SELECT_PAGE);
+        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_PAGE);
 
         return new Page(pageInfo.getTotal(), pageInfo.getList());
     }

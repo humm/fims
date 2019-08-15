@@ -37,9 +37,9 @@ public class SysIncomeController {
      *
      * @return
      */
-    @RequestMapping(value = "list", method = RequestMethod.GET)
+    @RequestMapping(value = "view/list", method = RequestMethod.GET)
     public String viewList() {
-        return "salary/list";
+        return "income/list";
     }
 
     /**
@@ -52,9 +52,9 @@ public class SysIncomeController {
     @ResponseBody
     public Page<SysIncomeModel> selectPage(
             @ApiParam(name = "收入信息查询实体类", required = true) SysIncomeQueryModel sysIncomeQueryModel) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_SALARY, LOG_OPERATE_TYPE_SELECT_PAGE);
+        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_PAGE);
         Page<SysIncomeModel> page = sysIncomeService.selectPage(sysIncomeQueryModel);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_SALARY, LOG_OPERATE_TYPE_SELECT_PAGE);
+        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_PAGE);
         return page;
     }
 }

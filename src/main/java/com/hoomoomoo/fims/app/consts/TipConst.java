@@ -64,6 +64,7 @@ public class TipConst {
      */
     public static final String LOG_OPERATE_TAG_FAIL                             = "失败";
 
+
     /**
      * 日志操作类型：查询
      */
@@ -93,6 +94,7 @@ public class TipConst {
      */
     public static final String LOG_OPERATE_TYPE_DELETE                          = "删除";
 
+
     /**
      * 日志业务类型：应用启动
      */
@@ -101,7 +103,7 @@ public class TipConst {
     /**
      * 日志业务类型：参数配置
      */
-    public static final String LOG_BUSINESS_TYPE_PARAMETER                      = "参数配置";
+    public static final String LOG_BUSINESS_TYPE_PARAMETER_CONFIG              = "参数配置";
 
     /**
      * 日志业务类型：数据初始化
@@ -112,6 +114,11 @@ public class TipConst {
      * 日志业务类型：登录过滤器
      */
     public static final String LOG_BUSINESS_TYPE_LOGIN_FILTER                   = "登录过滤器初始化";
+
+    /**
+     * 日志业务类型：freemarker模板配置
+     */
+    public static final String LOG_BUSINESS_TYPE_FREEMARKER                     = "freemarker模板配置";
 
     /**
      * 日志业务类型：邮件发送
@@ -131,7 +138,7 @@ public class TipConst {
     /**
      * 日志业务类型：收入
      */
-    public static final String LOG_BUSINESS_TYPE_SALARY                         = "收入信息";
+    public static final String LOG_BUSINESS_TYPE_INCOME                         = "收入信息";
 
     /**
      * 日志业务类型：字典
@@ -144,14 +151,49 @@ public class TipConst {
     public static final String LOG_BUSINESS_TYPE_USER                           = "用户信息";
 
     /**
+     * 日志业务类型：菜单
+     */
+    public static final String LOG_BUSINESS_TYPE_MENU                           = "菜单信息";
+
+    /**
+     * 日志业务类型：登入日志信息
+     */
+    public static final String LOG_BUSINESS_TYPE_LOGIN_LOG                      = "登入日志信息";
+
+    /**
+     * 日志业务类型：系统参数
+     */
+    public static final String LOG_BUSINESS_TYPE_PARAMETER                      = "系统参数信息";
+
+    /**
+     * 日志业务类型：数据库备份恢复
+     */
+    public static final String LOG_BUSINESS_TYPE_DATABASE                       = "数据库备份恢复信息";
+
+    /**
+     * 日志业务类型：修订
+     */
+    public static final String LOG_BUSINESS_TYPE_VERSION                        = "修订信息";
+
+    /**
+     * 日志业务类型：邮件
+     */
+    public static final String LOG_BUSINESS_TYPE_MAIL                           = "邮件信息";
+
+    /**
+     * 日志业务类型：随礼
+     */
+    public static final String LOG_BUSINESS_TYPE_GIFT                           = "随礼信息";
+
+    /**
+     * 日志业务类型：大额支出
+     */
+    public static final String LOG_BUSINESS_TYPE_PAY                            = "大额支出信息";
+
+    /**
      * 日志业务类型：字典转义
      */
     public static final String LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER            = "字典转义";
-
-    /**
-     * 日志业务类型：业务序列号
-     */
-    public static final String LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO             = "业务序列号";
 
     /**
      * 日志业务类型：业务序列号
@@ -162,15 +204,6 @@ public class TipConst {
      * 日志业务类型：业务序列号
      */
     public static final String LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_LOAD        = "加载业务序列号";
-
-    /**
-     * 日志业务类型：freemarker模板配置
-     */
-    public static final String LOG_BUSINESS_TYPE_FREEMARKER                     = "freemarker模板配置";
-
-
-
-
 
 
     /**

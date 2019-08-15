@@ -80,7 +80,7 @@ public class SystemServiceImpl implements SystemService {
             return;
         }
         Properties properties = new OrderedProperties();
-        LogUtils.configStart(logger, LOG_BUSINESS_TYPE_PARAMETER);
+        LogUtils.configStart(logger, LOG_BUSINESS_TYPE_PARAMETER_CONFIG);
         try {
             InputStream inputStream =
                     FimsApplication.class.getClassLoader().getResourceAsStream(APPLICATION_PROPERTIES.split(COLON)[1]);
@@ -110,7 +110,7 @@ public class SystemServiceImpl implements SystemService {
                 LogUtils.info(logger, singleProperty);
             }
         }
-        LogUtils.configEnd(logger, LOG_BUSINESS_TYPE_PARAMETER);
+        LogUtils.configEnd(logger, LOG_BUSINESS_TYPE_PARAMETER_CONFIG);
     }
 
     /**

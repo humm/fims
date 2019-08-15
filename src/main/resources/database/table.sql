@@ -1,3 +1,11 @@
+-- 字段说明
+-- 主键 number(30)
+-- 备注 varchar2(500)
+-- 排序 number(10)
+-- 是否 varchar2(1)
+-- 状态 varchar2(1)
+-- 金额 number(20, 2)
+
 create or replace procedure drop_table(tableName in varchar2)
 is
     v_count number(10);
@@ -13,9 +21,9 @@ end drop_table;
 call drop_table('sys_version');
 create table sys_version
 (
-    version_id      number(15) primary key,
-    version_no      varchar2(30)  not null,
-    version_type    varchar2(30)  not null,
+    version_id      number(30) primary key,
+    version_no      varchar2(50)  not null,
+    version_type    varchar2(50)  not null,
     version_content varchar2(500) not null,
     version_date    date,
     version_order   number(10)    not null
@@ -38,7 +46,7 @@ comment on column sys_version.version_order
 call drop_table('sys_user');
 create table sys_user
 (
-    user_id       number(15) primary key,
+    user_id       number(30) primary key,
     user_code     varchar2(50) not null,
     user_name     varchar2(50) not null,
     user_password varchar2(50) not null,
@@ -48,7 +56,7 @@ create table sys_user
     modify_date   timestamp(6) default sysdate,
     create_user   varchar2(50),
     modify_user   varchar2(50),
-    user_memo     varchar2(50)
+    user_memo     varchar2(500)
 );
 comment on column sys_user.user_id
     is '用户ID';
@@ -74,42 +82,42 @@ comment on column sys_user.user_memo
     is '备注';
 
 
-call drop_table('sys_salary');
-create table sys_salary
+call drop_table('sys_income');
+create table sys_income
 (
-    salary_id      number(15) primary key,
-    user_id        number(15)    not null,
-    salary_type    varchar2(50)  not null,
-    salary_date    date          not null,
-    salary_company varchar2(500) not null,
-    salary_amount  number(20, 2) not null,
-    salary_memo    varchar2(500),
+    income_id      number(30) primary key,
+    user_id        number(30)    not null,
+    income_type    varchar2(50)  not null,
+    income_date    date          not null,
+    income_company varchar2(50) not null,
+    income_amount  number(20, 2) not null,
+    income_memo    varchar2(500),
     create_date    timestamp(6) default sysdate,
     modify_date    timestamp(6) default sysdate,
     create_user    varchar2(50),
     modify_user    varchar2(50)
 );
-comment on column sys_salary.salary_id
+comment on column sys_income.income_id
     is '收入ID';
-comment on column sys_salary.user_id
+comment on column sys_income.user_id
     is '收入人';
-comment on column sys_salary.salary_type
+comment on column sys_income.income_type
     is '收入类型';
-comment on column sys_salary.salary_date
+comment on column sys_income.income_date
     is '收入日期';
-comment on column sys_salary.salary_company
+comment on column sys_income.income_company
     is '收入来源';
-comment on column sys_salary.salary_amount
+comment on column sys_income.income_amount
     is '收入金额';
-comment on column sys_salary.salary_memo
+comment on column sys_income.income_memo
     is '收入备注';
-comment on column sys_salary.create_date
+comment on column sys_income.create_date
     is '创建时间';
-comment on column sys_salary.modify_date
+comment on column sys_income.modify_date
     is '修改时间';
-comment on column sys_salary.create_user
+comment on column sys_income.create_user
     is '创建人';
-comment on column sys_salary.modify_user
+comment on column sys_income.modify_user
     is '修改人';
 
 
@@ -121,7 +129,7 @@ create table sys_dictionary
     dictionary_caption VARCHAR2(100) not null,
     item_order         NUMBER(10),
     code_order         NUMBER(10),
-    user_id            VARCHAR2(32)  not null,
+    user_id            VARCHAR2(50)  not null,
     constraint pk_sys_dictionary primary key (dictionary_code, dictionary_item)
 );
 
