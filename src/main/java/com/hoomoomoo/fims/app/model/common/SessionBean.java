@@ -1,11 +1,11 @@
-package com.hoomoomoo.fims.app.dto.common;
+package com.hoomoomoo.fims.app.model.common;
 
 import lombok.Data;
 
 /**
  * @author humm23693
  * @description Session信息
- * @package com.hoomoomoo.fims.app.config.bean
+ * @package com.hoomoomoo.fims.app.model.common
  * @date 2019/08/08
  */
 

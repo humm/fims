@@ -9,8 +9,8 @@
          user_id userId
     </sql>
 
-    <select id="selectSysSalary" parameterType="com.hoomoomoo.fims.app.dto.SysDictionaryQueryDto"
-            resultType="com.hoomoomoo.fims.app.dto.SysDictionaryDto">
+    <select id="selectSysDictionary" parameterType="com.hoomoomoo.fims.app.model.SysDictionaryQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.SysDictionaryModel">
         select
             <include refid="Base_Column_List"/>
         from sys_dictionary

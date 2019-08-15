@@ -1,10 +1,11 @@
 package com.hoomoomoo.fims.app.dao;
 
-import com.hoomoomoo.fims.app.dto.SysSalaryDto;
-import com.hoomoomoo.fims.app.dto.SysSalaryQueryDto;
+import com.hoomoomoo.fims.app.model.SysIncomeModel;
+import com.hoomoomoo.fims.app.model.SysIncomeQueryModel;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+
 
 /**
  * @author humm23693
@@ -14,14 +15,14 @@ import java.util.List;
  */
 
 @Mapper
-public interface SysSalaryDao {
+public interface SysIncomeDao {
 
     /**
      * 分页查询收入信息
      *
-     * @param sysSalaryQueryDto
+     * @param sysIncomeQueryModel
      * @return
      */
-    List<SysSalaryDto> selectPage(SysSalaryQueryDto sysSalaryQueryDto);
+    List<SysIncomeModel> selectPage(SysIncomeQueryModel sysIncomeQueryModel);
 
 }

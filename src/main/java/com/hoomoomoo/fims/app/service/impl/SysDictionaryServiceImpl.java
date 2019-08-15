@@ -1,10 +1,9 @@
 package com.hoomoomoo.fims.app.service.impl;
 
 import com.hoomoomoo.fims.app.dao.SysDictionaryDao;
-import com.hoomoomoo.fims.app.dto.SysDictionaryDto;
-import com.hoomoomoo.fims.app.dto.SysDictionaryQueryDto;
+import com.hoomoomoo.fims.app.model.SysDictionaryModel;
+import com.hoomoomoo.fims.app.model.SysDictionaryQueryModel;
 import com.hoomoomoo.fims.app.service.SysDictionaryService;
-import com.hoomoomoo.fims.app.util.BeanMapUtils;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.slf4j.Logger;
@@ -34,22 +33,22 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
     /**
      * 查询字典信息
      *
-     * @param sysDictionaryQueryDto
+     * @param sysDictionaryQueryModel
      * @return
      */
     @Override
-    public List<SysDictionaryDto> selectSysSalary(SysDictionaryQueryDto sysDictionaryQueryDto){
+    public List<SysDictionaryModel> selectSysSalary(SysDictionaryQueryModel sysDictionaryQueryModel){
 
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
 
-        SystemUtils.setSessionInfo(sysDictionaryQueryDto);
+        SystemUtils.setSessionInfo(sysDictionaryQueryModel);
 
-        LogUtils.parameter(logger, sysDictionaryQueryDto);
+        LogUtils.parameter(logger, sysDictionaryQueryModel);
 
-        List<SysDictionaryDto> sysDictionaryDtoList = sysDictionaryDao.selectSysSalary(sysDictionaryQueryDto);
+        List<SysDictionaryModel> sysDictionaryList = sysDictionaryDao.selectSysDictionary(sysDictionaryQueryModel);
 
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
 
-        return sysDictionaryDtoList;
+        return sysDictionaryList;
     }
 }

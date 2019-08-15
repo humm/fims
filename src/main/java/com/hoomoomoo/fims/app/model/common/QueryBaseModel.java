@@ -1,4 +1,4 @@
-package com.hoomoomoo.fims.app.dto.common;
+package com.hoomoomoo.fims.app.model.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,12 +8,12 @@ import lombok.Data;
 /**
  * @author humm23693
  * @description 查询dto
- * @package com.hoomoomoo.fims.app.dto
+ * @package com.hoomoomoo.fims.app.model.common
  * @date 2019/08/10
  */
 
 @Data
-public class QueryDto {
+public class QueryBaseModel {
 
     @ApiModelProperty(value = "当前页码", required = true)
     private Integer page;

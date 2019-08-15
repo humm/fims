@@ -1,8 +1,7 @@
 package com.hoomoomoo.fims.test;
 
-import com.hoomoomoo.fims.app.dto.SysSalaryDto;
+import com.hoomoomoo.fims.app.model.SysIncomeModel;
 import com.hoomoomoo.fims.app.service.SystemService;
-import com.hoomoomoo.fims.app.util.BeanMapUtils;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,20 +28,20 @@ public class FunctionTest {
     private SystemService systemService;
 
     @Test
-    public void testGetBusinessSerialNo(){
+    public void getBusinessSerialNo(){
         systemService.getBusinessSerialNo("user");
     }
 
     @Test
-    public void testLog(){
+    public void log(){
         LogUtils.controllerStart(logger, null, null);
     }
 
     @Test
-    public void testTransferData(){
-        SysSalaryDto sysSalaryDto = new SysSalaryDto();
-        sysSalaryDto.setSalaryAmount(12345D);
-        sysSalaryDto = (SysSalaryDto)systemService.transferData(sysSalaryDto);
-        logger.info(sysSalaryDto.toString());
+    public void transferData(){
+        SysIncomeModel sysIncomeModel = new SysIncomeModel();
+        sysIncomeModel.setIncomeAmount(12345D);
+        sysIncomeModel = (SysIncomeModel)systemService.transferData(sysIncomeModel);
+        logger.info(sysIncomeModel.toString());
     }
 }

@@ -1,6 +1,6 @@
 package com.hoomoomoo.fims.app.util;
 
-import com.hoomoomoo.fims.app.dto.common.SessionBean;
+import com.hoomoomoo.fims.app.model.common.SessionBean;
 
 /**
  * @author humm23693

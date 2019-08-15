@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.dao;
 
-import com.hoomoomoo.fims.app.dto.SysUserDto;
-import com.hoomoomoo.fims.app.dto.SysUserQueryDto;
+import com.hoomoomoo.fims.app.model.SysUserModel;
+import com.hoomoomoo.fims.app.model.SysUserQueryModel;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -19,8 +19,8 @@ public interface SysUserDao {
     /**
      * 查询用户信息
      *
-     * @param sysUserQueryDto
+     * @param sysUserQueryModel
      * @return
      */
-    List<SysUserDto> selectSysUser(SysUserQueryDto sysUserQueryDto);
+    List<SysUserModel> selectSysUser(SysUserQueryModel sysUserQueryModel);
 }

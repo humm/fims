@@ -1,18 +1,18 @@
-package com.hoomoomoo.fims.app.dto;
+package com.hoomoomoo.fims.app.model;
 
-import com.hoomoomoo.fims.app.dto.common.ModelDto;
+import com.hoomoomoo.fims.app.model.common.QueryBaseModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
  * @author humm23693
- * @description 字典信息实体类
- * @package com.hoomoomoo.fims.app.dto
+ * @description 字典信息查询实体类
+ * @package com.hoomoomoo.fims.app.model
  * @date 2019/08/11
  */
 
 @Data
-public class SysDictionaryDto extends ModelDto {
+public class SysDictionaryQueryModel extends QueryBaseModel {
 
     @ApiModelProperty(value="字典代码", required = false)
     private String dictionaryCode;

@@ -1,12 +1,10 @@
 package com.hoomoomoo.fims.app.service.impl;
 
 import com.hoomoomoo.fims.app.dao.SysUserDao;
-import com.hoomoomoo.fims.app.dto.SysUserDto;
-import com.hoomoomoo.fims.app.dto.SysUserQueryDto;
-import com.hoomoomoo.fims.app.dto.common.SessionBean;
+import com.hoomoomoo.fims.app.model.SysUserModel;
+import com.hoomoomoo.fims.app.model.SysUserQueryModel;
 import com.hoomoomoo.fims.app.service.SysUserService;
-import com.hoomoomoo.fims.app.util.BeanMapUtils;
-import com.hoomoomoo.fims.app.util.SystemSessionUtils;
+import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,18 +33,22 @@ public class SysUserServiceImpl implements SysUserService {
     /**
      * 查询用户信息
      *
-     * @param sysUserQueryDto
+     * @param sysUserQueryModel
      * @return
      */
     @Override
-    public List<SysUserDto> selectSysUser(SysUserQueryDto sysUserQueryDto) {
-        logger.info(String.format(LOG_FORMAT_TIP, LOG_BUSINESS_TYPE_USER, LOG_TYPE_SERVICE, LOG_OPERATE_TYPE_SELECT,
-                LOG_OPERATE_TAG_START));
-        SystemUtils.setSessionInfo(sysUserQueryDto);
-        logger.info(LOG_REQUEST_PARAMETER, BeanMapUtils.beanToMap(sysUserQueryDto));
-        List<SysUserDto> sysUserDtoList = sysUserDao.selectSysUser(sysUserQueryDto);
-        logger.info(String.format(LOG_FORMAT_TIP, LOG_BUSINESS_TYPE_USER, LOG_TYPE_SERVICE, LOG_OPERATE_TYPE_SELECT,
-                LOG_OPERATE_TAG_END));
-        return sysUserDtoList;
+    public List<SysUserModel> selectSysUser(SysUserQueryModel sysUserQueryModel) {
+
+        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
+
+        SystemUtils.setSessionInfo(sysUserQueryModel);
+
+        LogUtils.parameter(logger, sysUserQueryModel);
+
+        List<SysUserModel> sysUserList = sysUserDao.selectSysUser(sysUserQueryModel);
+
+        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
+
+        return sysUserList;
     }
 }

@@ -48,8 +48,8 @@
 
                 <!-- 查询按钮 -->
                 <div class="layui-inline">
-                    <button class="layui-btn layuiadmin-btn-salary-list" lay-submit
-                            lay-filter="LAY-app-salarylist-search">
+                    <button class="layui-btn layuiadmin-btn-income-list" lay-submit
+                            lay-filter="LAY-app-incomelist-search">
                         <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
                     </button>
                 </div>
@@ -59,15 +59,15 @@
 
         <div class="layui-card-body">
             <!-- 头部操作按钮 -->
-            <div style="padding-bottom: 10px;" id="LAY-app-salary-list-button">
-                <button class="layui-btn layuiadmin-btn-salary-list" data-type="batchdel">删除</button>
+            <div style="padding-bottom: 10px;" id="LAY-app-income-list-button">
+                <button class="layui-btn layuiadmin-btn-income-list" data-type="batchdel">删除</button>
             </div>
 
             <!-- 列表数据 -->
-            <table id="LAY-app-salary-list" lay-filter="LAY-app-salary-list"></table>
+            <table id="LAY-app-income-list" lay-filter="LAY-app-income-list"></table>
 
             <!--行数据按钮 -->
-            <script type="text/html" id="table-salary-list">
+            <script type="text/html" id="table-income-list">
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">
                     <i class="layui-icon layui-icon-edit"></i>编辑</a>
                 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">
@@ -83,19 +83,19 @@
         base: '${appName}/layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'fims', 'salary', 'table'], function () {
+    }).use(['index', 'fims', 'income', 'table'], function () {
         var $ = layui.$, form = layui.form, table = layui.table, fims = layui.fims;
 
         // 权限设置
-        fims.setAuthority(false, "table-salary-list,LAY-app-salary-list-button");
+        fims.setAuthority(false, "table-income-list,LAY-app-income-list-button");
 
 
         //监听搜索
-        form.on('submit(LAY-app-salarylist-search)', function (data) {
+        form.on('submit(LAY-app-incomelist-search)', function (data) {
             var field = data.field;
 
             //执行重载
-            table.reload('LAY-app-salary-list', {
+            table.reload('LAY-app-income-list', {
                 where: field
             });
         });
@@ -103,7 +103,7 @@
         //事件
         var active = {
             batchdel: function () {
-                var checkStatus = table.checkStatus('LAY-app-salary-list')
+                var checkStatus = table.checkStatus('LAY-app-income-list')
                     , checkData = checkStatus.data; //得到选中的数据
 
                 if (checkData.length === 0) {
@@ -119,13 +119,13 @@
                       //,……
                     });
                     */
-                    table.reload('LAY-app-salary-list');
+                    table.reload('LAY-app-income-list');
                     layer.msg('已删除');
                 });
             }
         }
 
-        $('.layui-btn.layuiadmin-btn-salary-list').on('click', function () {
+        $('.layui-btn.layuiadmin-btn-income-list').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });

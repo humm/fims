@@ -1,8 +1,8 @@
 package com.hoomoomoo.fims.app.util;
 
-import com.hoomoomoo.fims.app.dto.common.ModelDto;
-import com.hoomoomoo.fims.app.dto.common.QueryDto;
-import com.hoomoomoo.fims.app.dto.common.SessionBean;
+import com.hoomoomoo.fims.app.model.common.QueryBaseModel;
+import com.hoomoomoo.fims.app.model.common.SessionBean;
+import com.hoomoomoo.fims.app.model.common.BaseModel;
 
 import java.util.Date;
 
@@ -18,40 +18,40 @@ public class SystemUtils {
     /**
      * 设置创建人修改人信息
      *
-     * @param modelDto
+     * @param baseModel
      */
-    public static void setCreateUserInfo(ModelDto modelDto){
+    public static void setCreateUserInfo(BaseModel baseModel){
         SessionBean sessionBean = SystemSessionUtils.getSession();
         if(sessionBean != null){
-            modelDto.setCreateUser(sessionBean.getUserCode());
-            modelDto.setModifyUser(sessionBean.getUserCode());
+            baseModel.setCreateUser(sessionBean.getUserCode());
+            baseModel.setModifyUser(sessionBean.getUserCode());
         }
         Date date = new Date();
-        modelDto.setCreateDate(date);
-        modelDto.setModifyDate(date);
+        baseModel.setCreateDate(date);
+        baseModel.setModifyDate(date);
     }
 
     /**
      * 设置修改人信息
      *
-     * @param modelDto
+     * @param baseModel
      */
-    public static void setModifyUserInfo(ModelDto modelDto){
+    public static void setModifyUserInfo(BaseModel baseModel){
         SessionBean sessionBean = SystemSessionUtils.getSession();
         if(sessionBean != null){
-            modelDto.setModifyUser(sessionBean.getUserCode());
+            baseModel.setModifyUser(sessionBean.getUserCode());
         }
-        modelDto.setModifyDate(new Date());
+        baseModel.setModifyDate(new Date());
     }
 
     /**
      * 设置查询实体session信息
      *
-     * @param queryDto
+     * @param queryBaseModel
      */
-    public static void setSessionInfo(QueryDto queryDto){
+    public static void setSessionInfo(QueryBaseModel queryBaseModel){
         SessionBean sessionBean = SystemSessionUtils.getSession();
-        queryDto.setUserKey(sessionBean.getUserId());
-        queryDto.setIsAdmin(sessionBean.getIsAdmin());
+        queryBaseModel.setUserKey(sessionBean.getUserId());
+        queryBaseModel.setIsAdmin(sessionBean.getIsAdmin());
     }
 }

@@ -6,8 +6,8 @@ import com.hoomoomoo.fims.app.config.bean.MailConfigBean;
 import com.hoomoomoo.fims.app.dao.SysDictionaryDao;
 import com.hoomoomoo.fims.app.dao.SysUserDao;
 import com.hoomoomoo.fims.app.dao.SystemDao;
-import com.hoomoomoo.fims.app.dto.*;
-import com.hoomoomoo.fims.app.dto.common.ModelDto;
+import com.hoomoomoo.fims.app.model.*;
+import com.hoomoomoo.fims.app.model.common.BaseModel;
 import com.hoomoomoo.fims.app.service.SystemService;
 import com.hoomoomoo.fims.app.util.BeanMapUtils;
 import com.hoomoomoo.fims.app.util.DateUtils;
@@ -116,11 +116,11 @@ public class SystemServiceImpl implements SystemService {
     /**
      * 发送邮件
      *
-     * @param mailDto
+     * @param mailModel
      * @return
      */
     @Override
-    public Boolean sendMail(MailDto mailDto) {
+    public Boolean sendMail(MailModel mailModel) {
         LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
         boolean isSend = true;
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
@@ -128,8 +128,8 @@ public class SystemServiceImpl implements SystemService {
         try {
             mimeMessageHelper.setTo(mailConfigBean.getTo());
             mimeMessageHelper.setFrom(mailConfigBean.getFrom());
-            mimeMessage.setSubject(mailDto.getSubject());
-            mimeMessageHelper.setText(mailDto.getText(), true);
+            mimeMessage.setSubject(mailModel.getSubject());
+            mimeMessageHelper.setText(mailModel.getText(), true);
             javaMailSender.send(mimeMessage);
             LogUtils.success(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
         } catch (MessagingException e) {
@@ -143,11 +143,11 @@ public class SystemServiceImpl implements SystemService {
     /**
      * 接收指定主题邮件
      *
-     * @param mailDto
+     * @param mailModel
      * @return
      */
     @Override
-    public List<Map<String, Message>> receiveMail(MailDto mailDto) {
+    public List<Map<String, Message>> receiveMail(MailModel mailModel) {
         LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
         Properties properties = new Properties();
         Session session = Session.getDefaultInstance(properties);
@@ -161,7 +161,7 @@ public class SystemServiceImpl implements SystemService {
             folder.open(Folder.READ_WRITE);
             Message[] messages = folder.getMessages();
             for (Message message : messages) {
-                if (StringUtils.isBlank(mailDto.getSubject()) || mailDto.getSubject().equals(message.getSubject())) {
+                if (StringUtils.isBlank(mailModel.getSubject()) || mailModel.getSubject().equals(message.getSubject())) {
                     Map msg = new HashMap(1);
                     String mailId = mailConfigBean.getReceiveHost() + MINUS + ((IMAPFolder) folder).getUID(message);
                     msg.put(mailId, message);
@@ -184,9 +184,9 @@ public class SystemServiceImpl implements SystemService {
      * @param messages
      */
     @Override
-    public List<MailDto> handleMailData(List<Map<String, Message>> messages) {
+    public List<MailModel> handleMailData(List<Map<String, Message>> messages) {
         LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE);
-        List<MailDto> mailDtoList = new ArrayList<>();
+        List<MailModel> mailDtoList = new ArrayList<>();
         for (Map<String, Message> messageMap : messages) {
             Iterator<String> iterator = messageMap.keySet().iterator();
             String mailId = STR_0;
@@ -200,7 +200,7 @@ public class SystemServiceImpl implements SystemService {
             try {
                 Object content = mimeMessage.getContent();
                 if (content instanceof String) {
-                    mailDtoList.add(new MailDto(mimeMessage.getSubject(), String.valueOf(content), mailId));
+                    mailDtoList.add(new MailModel(mimeMessage.getSubject(), String.valueOf(content), mailId));
                 } else if (content instanceof MimeMultipart) {
                     MimeMultipart mimeMultipart = (MimeMultipart) mimeMessage.getContent();
                     inner:
@@ -208,7 +208,7 @@ public class SystemServiceImpl implements SystemService {
                         BodyPart bodyPart = mimeMultipart.getBodyPart(i);
                         if (bodyPart.isMimeType(TEXT_PLAIN)) {
                             // 文本内容
-                            mailDtoList.add(new MailDto(mimeMessage.getSubject(),
+                            mailDtoList.add(new MailModel(mimeMessage.getSubject(),
                                     String.valueOf(bodyPart.getContent()), mailId));
                             break inner;
                         } else if (bodyPart.isMimeType(TEXT_HTML)) {
@@ -331,20 +331,20 @@ public class SystemServiceImpl implements SystemService {
     /**
      * 字典转义
      *
-     * @param modelDto
+     * @param baseModel
      * @return
      */
     @Override
-    public ModelDto transferData(ModelDto modelDto) {
+    public BaseModel transferData(BaseModel baseModel) {
         LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
-        if(modelDto != null){
+        if(baseModel != null){
             Map dictionaryCache = new HashMap(16);
-            Map ele = BeanMapUtils.beanToMap(modelDto);
+            Map ele = BeanMapUtils.beanToMap(baseModel);
             transfer(dictionaryCache, ele);
-            modelDto = BeanMapUtils.mapToBean(ele, modelDto);
+            baseModel = BeanMapUtils.mapToBean(ele, baseModel);
         }
         LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
-        return modelDto;
+        return baseModel;
     }
 
     /**
@@ -367,13 +367,14 @@ public class SystemServiceImpl implements SystemService {
                 } else {
                     String dictionaryCode = value.split(MINUS)[0];
                     String dictionaryItem = value.split(MINUS)[1];
-                    SysDictionaryQueryDto sysDictionaryQueryDto = new SysDictionaryQueryDto();
-                    sysDictionaryQueryDto.setDictionaryCode(dictionaryCode);
-                    sysDictionaryQueryDto.setDictionaryItem(dictionaryItem);
-                    List<SysDictionaryDto> dictionaryDtoList = sysDictionaryDao.selectSysSalary(sysDictionaryQueryDto);
-                    if (CollectionUtils.isNotEmpty(dictionaryDtoList)) {
-                        ele.put(key, dictionaryDtoList.get(0).getDictionaryCaption());
-                        dictionaryCache.put(value, dictionaryDtoList.get(0).getDictionaryCaption());
+                    SysDictionaryQueryModel sysDictionaryQueryModel = new SysDictionaryQueryModel();
+                    sysDictionaryQueryModel.setDictionaryCode(dictionaryCode);
+                    sysDictionaryQueryModel.setDictionaryItem(dictionaryItem);
+                    List<SysDictionaryModel> dictionaryList =
+                            sysDictionaryDao.selectSysDictionary(sysDictionaryQueryModel);
+                    if (CollectionUtils.isNotEmpty(dictionaryList)) {
+                        ele.put(key, dictionaryList.get(0).getDictionaryCaption());
+                        dictionaryCache.put(value, dictionaryList.get(0).getDictionaryCaption());
                     }
                 }
                 continue;
@@ -396,12 +397,12 @@ public class SystemServiceImpl implements SystemService {
                 switch (index) {
                     case 0:
                         // 转义 userId
-                        SysUserQueryDto sysUserQueryDto = new SysUserQueryDto();
-                        sysUserQueryDto.setUserId(value);
-                        List<SysUserDto> sysUserDtoList = sysUserDao.selectSysUser(sysUserQueryDto);
-                        if(CollectionUtils.isNotEmpty(sysUserDtoList)){
-                            ele.put(key, sysUserDtoList.get(0).getUserName());
-                            dictionaryCache.put(value, sysUserDtoList.get(0).getUserName());
+                        SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
+                        sysUserQueryModel.setUserId(value);
+                        List<SysUserModel> sysUserList = sysUserDao.selectSysUser(sysUserQueryModel);
+                        if(CollectionUtils.isNotEmpty(sysUserList)){
+                            ele.put(key, sysUserList.get(0).getUserName());
+                            dictionaryCache.put(value, sysUserList.get(0).getUserName());
                         }
                         break;
                     default:

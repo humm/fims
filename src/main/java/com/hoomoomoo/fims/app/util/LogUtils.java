@@ -171,7 +171,9 @@ public class LogUtils {
      * @param obj
      */
     public static void parameter(Logger logger, Object obj) {
-        logger.info(LOG_REQUEST_PARAMETER, BeanMapUtils.beanToMap(obj));
+        if(LOG_START_END){
+            logger.info(LOG_REQUEST_PARAMETER, BeanMapUtils.beanToMap(obj));
+        }
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.hoomoomoo.fims.app.dto.common;
+package com.hoomoomoo.fims.app.model.common;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -11,7 +11,7 @@ import static com.hoomoomoo.fims.app.consts.CueConst.PAGE_MSG_SUCCESS;
 /**
  * @author humm23693
  * @description 分页信息
- * @package com.hoomoomoo.fims.app.dto
+ * @package com.hoomoomoo.fims.app.model.common
  * @date 2019/08/10
  */
 

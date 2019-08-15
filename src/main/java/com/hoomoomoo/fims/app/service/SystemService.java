@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.service;
 
-import com.hoomoomoo.fims.app.dto.MailDto;
-import com.hoomoomoo.fims.app.dto.common.ModelDto;
+import com.hoomoomoo.fims.app.model.MailModel;
+import com.hoomoomoo.fims.app.model.common.BaseModel;
 
 import javax.mail.Message;
 import java.util.List;
@@ -24,25 +24,25 @@ public interface SystemService {
     /**
      * 发送邮件
      *
-     * @param mailDto
+     * @param mailModel
      * @return
      */
-    Boolean sendMail(MailDto mailDto);
+    Boolean sendMail(MailModel mailModel);
 
     /**
      * 接收指定主题邮件
      *
-     * @param mailDto
+     * @param mailModel
      * @return
      */
-    List<Map<String, Message>> receiveMail(MailDto mailDto);
+    List<Map<String, Message>> receiveMail(MailModel mailModel);
 
     /**
      * 处理邮件内容
      *
      * @param messages
      */
-    List<MailDto> handleMailData(List<Map<String, Message>> messages);
+    List<MailModel> handleMailData(List<Map<String, Message>> messages);
 
     /**
      * 加载业务ID
@@ -71,8 +71,8 @@ public interface SystemService {
     /**
      * 字典转义
      *
-     * @param modelDto
+     * @param baseModel
      * @return
      */
-    ModelDto transferData(ModelDto modelDto);
+    BaseModel transferData(BaseModel baseModel);
 }

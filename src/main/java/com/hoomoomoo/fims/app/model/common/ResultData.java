@@ -1,4 +1,4 @@
-package com.hoomoomoo.fims.app.dto.common;
+package com.hoomoomoo.fims.app.model.common;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.STATUS_SUCCESS;
 /**
  * @author humm23693
  * @description 返回结果集
- * @package com.hoomoomoo.fims.app.dto.common
+ * @package com.hoomoomoo.fims.app.model.common
  * @date 2019/08/05
  */
 

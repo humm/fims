@@ -1,7 +1,6 @@
-package com.hoomoomoo.fims.app.dto.common;
+package com.hoomoomoo.fims.app.model.common;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,12 +10,12 @@ import java.util.Date;
 /**
  * @author humm23693
  * @description 实体dto
- * @package com.hoomoomoo.fims.app.dto
+ * @package com.hoomoomoo.fims.app.model.common
  * @date 2019/08/08
  */
 
 @Data
-public class ModelDto {
+public class BaseModel {
 
     @ApiModelProperty(value="创建人", required = false)
     private String createUser;

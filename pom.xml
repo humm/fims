@@ -6,7 +6,7 @@
 
     <groupId>com.hoomoomoo</groupId>
     <artifactId>fims</artifactId>
-    <version>201908.03-SNAPSHOT</version>
+    <version>201908.01-SNAPSHOT</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

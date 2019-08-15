@@ -1,6 +1,6 @@
 package com.hoomoomoo.fims.test;
 
-import com.hoomoomoo.fims.app.dto.MailDto;
+import com.hoomoomoo.fims.app.model.MailModel;
 import com.hoomoomoo.fims.app.service.SystemService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,18 +30,18 @@ public class MailConfigTest {
     private SystemService systemService;
 
     @Test
-    public void testSend() {
-        MailDto mailDto = new MailDto();
-        mailDto.setSubject("测试邮件主题");
-        mailDto.setText("测试邮件内容");
-        systemService.sendMail(mailDto);
+    public void send() {
+        MailModel mailModel = new MailModel();
+        mailModel.setSubject("测试邮件主题");
+        mailModel.setText("测试邮件内容");
+        systemService.sendMail(mailModel);
     }
 
     @Test
-    public void testReceive() {
-        List<Map<String,Message>> messageList = systemService.receiveMail(new MailDto("测试邮件主题"));
-        List<MailDto> mailTDtos = systemService.handleMailData(messageList);
-        for(MailDto dto : mailTDtos){
+    public void receive() {
+        List<Map<String,Message>> messageList = systemService.receiveMail(new MailModel("测试邮件主题"));
+        List<MailModel> mailTDtos = systemService.handleMailData(messageList);
+        for(MailModel dto : mailTDtos){
             logger.info(dto.toString());
         }
     }

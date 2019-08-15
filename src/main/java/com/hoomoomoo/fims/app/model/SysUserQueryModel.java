@@ -1,18 +1,18 @@
-package com.hoomoomoo.fims.app.dto;
+package com.hoomoomoo.fims.app.model;
 
-import com.hoomoomoo.fims.app.dto.common.QueryDto;
+import com.hoomoomoo.fims.app.model.common.QueryBaseModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
  * @author humm23693
  * @description 用户信息查询实体类
- * @package com.hoomoomoo.fims.app.dto
+ * @package com.hoomoomoo.fims.app.model
  * @date 2019/08/11
  */
 
 @Data
-public class SysUserQueryDto extends QueryDto {
+public class SysUserQueryModel extends QueryBaseModel {
 
     @ApiModelProperty(value="用户ID", required = false)
     private String userId;

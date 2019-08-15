@@ -10,8 +10,8 @@
         create_user createUser, modify_user modifyUser
     </sql>
 
-    <select id="selectSysUser" parameterType="com.hoomoomoo.fims.app.dto.SysUserQueryDto"
-            resultType="com.hoomoomoo.fims.app.dto.SysUserDto">
+    <select id="selectSysUser" parameterType="com.hoomoomoo.fims.app.model.SysUserQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.SysUserModel">
         select
             <include refid="Base_Column_List"/>
         from sys_user

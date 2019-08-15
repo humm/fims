@@ -1,9 +1,9 @@
 package com.hoomoomoo.fims.app.controller;
 
-import com.hoomoomoo.fims.app.dto.common.Page;
-import com.hoomoomoo.fims.app.dto.common.ResultData;
-import com.hoomoomoo.fims.app.dto.SysSalaryQueryDto;
-import com.hoomoomoo.fims.app.service.SysSalaryService;
+import com.hoomoomoo.fims.app.model.SysIncomeModel;
+import com.hoomoomoo.fims.app.model.SysIncomeQueryModel;
+import com.hoomoomoo.fims.app.model.common.Page;
+import com.hoomoomoo.fims.app.service.SysIncomeService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -24,13 +24,13 @@ import static com.hoomoomoo.fims.app.consts.TipConst.*;
  */
 
 @Controller
-@RequestMapping("/salary")
-public class SysSalaryController {
+@RequestMapping("/income")
+public class SysIncomeController {
 
-    private static final Logger logger = LoggerFactory.getLogger(SysSalaryController.class);
+    private static final Logger logger = LoggerFactory.getLogger(SysIncomeController.class);
 
     @Autowired
-    private SysSalaryService sysSalaryService;
+    private SysIncomeService sysIncomeService;
 
     /**
      * 跳转列表查询页面
@@ -45,16 +45,15 @@ public class SysSalaryController {
     /**
      * 分页查询
      *
-     * @param sysSalaryQueryDto
+     * @param sysIncomeQueryModel
      * @return
      */
     @RequestMapping(value = "selectPage", method = RequestMethod.GET)
     @ResponseBody
-    public Page<SysSalaryQueryDto> selectPage(
-            @ApiParam(name = "收入信息查询实体类", required = true)
-            SysSalaryQueryDto sysSalaryQueryDto) {
+    public Page<SysIncomeModel> selectPage(
+            @ApiParam(name = "收入信息查询实体类", required = true) SysIncomeQueryModel sysIncomeQueryModel) {
         LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_SALARY, LOG_OPERATE_TYPE_SELECT_PAGE);
-        Page<SysSalaryQueryDto> page = sysSalaryService.selectPage(sysSalaryQueryDto);
+        Page<SysIncomeModel> page = sysIncomeService.selectPage(sysIncomeQueryModel);
         LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_SALARY, LOG_OPERATE_TYPE_SELECT_PAGE);
         return page;
     }

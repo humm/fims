@@ -1,7 +1,7 @@
-package com.hoomoomoo.fims.app.dto;
+package com.hoomoomoo.fims.app.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.hoomoomoo.fims.app.dto.common.ModelDto;
+import com.hoomoomoo.fims.app.model.common.QueryBaseModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,34 +10,34 @@ import java.util.Date;
 
 /**
  * @author humm23693
- * @description 收入信息实体类
- * @package com.hoomoomoo.fims.app.dto
+ * @description 收入信息查询实体类
+ * @package com.hoomoomoo.fims.app.model
  * @date 2019/08/10
  */
 
 @Data
-public class SysSalaryDto extends ModelDto {
+public class SysIncomeQueryModel extends QueryBaseModel {
 
     @ApiModelProperty(value="收入ID", required = false)
-    private String salaryId;
+    private String incomeId;
 
     @ApiModelProperty(value="用户Id", required = false)
     private String userId;
 
     @ApiModelProperty(value="收入类型", required = false)
-    private String salaryType;
+    private String incomeType;
 
     @ApiModelProperty(value="收入日期", required = false)
     @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date salaryDate;
+    private Date incomeDate;
 
     @ApiModelProperty(value="收入来源", required = false)
-    private String salaryCompany;
+    private String incomeCompany;
 
     @ApiModelProperty(value="收入金额", required = false)
-    private Double salaryAmount;
+    private String incomeAmount;
 
     @ApiModelProperty(value="收入备注", required = false)
-    private String salaryMemo;
+    private String incomeMemo;
 }

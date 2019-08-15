@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.service;
 
-import com.hoomoomoo.fims.app.dto.SysDictionaryDto;
-import com.hoomoomoo.fims.app.dto.SysDictionaryQueryDto;
+import com.hoomoomoo.fims.app.model.SysDictionaryModel;
+import com.hoomoomoo.fims.app.model.SysDictionaryQueryModel;
 
 import java.util.List;
 
@@ -17,8 +17,8 @@ public interface SysDictionaryService {
     /**
      * 查询字典信息
      *
-     * @param sysDictionaryQueryDto
+     * @param sysDictionaryQueryModel
      * @return
      */
-    List<SysDictionaryDto> selectSysSalary(SysDictionaryQueryDto sysDictionaryQueryDto);
+    List<SysDictionaryModel> selectSysSalary(SysDictionaryQueryModel sysDictionaryQueryModel);
 }

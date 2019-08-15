@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.config;
 
 
-import com.hoomoomoo.fims.app.dto.common.SessionBean;
+import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import org.slf4j.Logger;
@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
-import static com.hoomoomoo.fims.app.consts.TipConst.LOG_OPERATE_TAG_END;
 
 /**
  * @author humm23693

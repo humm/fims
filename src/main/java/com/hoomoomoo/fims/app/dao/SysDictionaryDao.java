@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.dao;
 
-import com.hoomoomoo.fims.app.dto.SysDictionaryDto;
-import com.hoomoomoo.fims.app.dto.SysDictionaryQueryDto;
+import com.hoomoomoo.fims.app.model.SysDictionaryModel;
+import com.hoomoomoo.fims.app.model.SysDictionaryQueryModel;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -19,8 +19,8 @@ public interface SysDictionaryDao {
     /**
      * 查询字典信息
      *
-     * @param sysDictionaryQueryDto
+     * @param sysDictionaryQueryModel
      * @return
      */
-    List<SysDictionaryDto> selectSysSalary(SysDictionaryQueryDto sysDictionaryQueryDto);
+    List<SysDictionaryModel> selectSysDictionary(SysDictionaryQueryModel sysDictionaryQueryModel);
 }

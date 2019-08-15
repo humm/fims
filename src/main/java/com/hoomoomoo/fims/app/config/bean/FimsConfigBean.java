@@ -67,7 +67,7 @@ public class FimsConfigBean {
     private String swaggerLocation;
 
     /**
-     * 开始结束日志打印
+     * 是否打印开始结束日志
      */
     private Boolean logStartEnd;
 

@@ -39,22 +39,22 @@ public class ConfigBeanTest {
     private MailConfigBean mailConfigBean;
 
     @Test
-    public void testScheduleConfigBean(){
+    public void scheduleConfigBean(){
         logger.info(scheduleConfigBean.toString());
     }
 
     @Test
-    public void testEnvironment(){
+    public void environment(){
         environment.getProperty("---");
     }
 
     @Test
-    public void testApplicationBean(){
+    public void applicationBean(){
         logger.info(applicationBean.toString());
     }
 
     @Test
-    public void testMailConfigBean(){
+    public void mailConfigBean(){
         logger.info(mailConfigBean.toString());
     }
 
