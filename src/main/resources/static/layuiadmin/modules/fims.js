@@ -6,6 +6,8 @@
         isBlank: function (parameter) {
             if (parameter == null || parameter == '' || parameter == undefined || parameter == 'undefined') {
                 return true;
+            } else {
+                return false;
             }
         },
         setAuthority: function (isAdmin, buttonId) {
@@ -16,11 +18,32 @@
                 }
             }
         },
-        set:{
-            area: {
-                width: "550px",
-                height: "400px"
+        clearBlank: function (data) {
+            if(this.isBlank(data)){
+                return null;
             }
+            var convertData = {}
+            for(var key in data){
+                if(!this.isBlank(data[key])){
+                    convertData[key] = data[key];
+                }
+            }
+            return convertData;
+        },
+        set: {
+            area: {
+                defaut: [
+                    "550px",
+                    "550px"
+                ]
+            },
+            rowBtn: false
+        },
+        operate: {
+            add: "add",
+            delete: "delete",
+            edit: "edit",
+            detail: "detail"
         },
         tips: {
             title: {
@@ -41,7 +64,9 @@
             msg: {
                 delSuccess: "删除成功",
                 editSuccess: "修改成功",
-                addSuccess: "新增成功"
+                addSuccess: "新增成功",
+                notSupportEvent: "不支持的事件类型",
+                emptyData: "暂无相关数据"
             }
         }
     };

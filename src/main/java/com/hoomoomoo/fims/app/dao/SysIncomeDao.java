@@ -25,4 +25,12 @@ public interface SysIncomeDao {
      */
     List<SysIncomeModel> selectPage(SysIncomeQueryModel sysIncomeQueryModel);
 
+    /**
+     * 删除收入信息
+     *
+     * @param sysIncomeQueryModelList
+     * @return
+     */
+    void delete(List<SysIncomeQueryModel> sysIncomeQueryModelList);
+
 }

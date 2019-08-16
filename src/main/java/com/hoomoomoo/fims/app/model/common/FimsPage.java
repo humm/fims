@@ -15,7 +15,7 @@ import static com.hoomoomoo.fims.app.consts.CueConst.PAGE_MSG_SUCCESS;
  * @date 2019/08/10
  */
 
-public class Page<T> {
+public class FimsPage<T> {
 
     @ApiModelProperty(value="状态码", required = false)
     private String code;
@@ -35,22 +35,22 @@ public class Page<T> {
     @ApiModelProperty(value="分页数据", required = false)
     private List<T> data;
 
-    public Page() {
+    public FimsPage() {
     }
 
-    public Page(Integer page, Integer limit) {
+    public FimsPage(Integer page, Integer limit) {
         this.page = page;
         this.limit = limit;
     }
 
-    public Page(Long count, List<T> data) {
+    public FimsPage(Long count, List<T> data) {
         this.code = PAGE_CODE_SUCCESS;
         this.msg = PAGE_MSG_SUCCESS;
         this.count = count;
         this.data = data;
     }
 
-    public Page(String code, String msg, Long count, List<T> data) {
+    public FimsPage(String code, String msg, Long count, List<T> data) {
         this.code = code;
         this.msg = msg;
         this.count = count;

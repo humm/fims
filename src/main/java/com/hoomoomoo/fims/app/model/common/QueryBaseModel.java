@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import static com.hoomoomoo.fims.app.consts.BusinessConst.UNDERLINE;
+
 
 /**
  * @author humm23693
@@ -35,5 +37,19 @@ public class QueryBaseModel {
     @ApiModelProperty(value = "session用户ID", required = false)
     private String userKey;
 
-
+    public String getSort() {
+        if(this.sort == null){
+            return null;
+        }
+        StringBuffer convertSort = new StringBuffer();
+        for(int i=0; i<this.sort.length(); i++){
+            char single = this.sort.charAt(i);
+            if(i != 0 && Character.isUpperCase(single)){
+                convertSort.append(UNDERLINE).append(single);
+            }else{
+                convertSort.append(single);
+            }
+        }
+        return convertSort.toString().toLowerCase();
+    }
 }

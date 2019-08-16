@@ -26,7 +26,7 @@
                 and income_type = #{incomeType}
             </if>
             <if test="incomeDate != null" >
-                and income_date = #{incomeDate}
+                and to_char(income_date, 'yyyy-MM') = to_char(#{incomeDate}, 'yyyy-MM')
             </if>
             <if test="incomeCompany != null" >
                 and income_company = #{incomeCompany}
@@ -50,5 +50,14 @@
         </if>
     </select>
 
+    <delete id="delete" parameterType="java.util.List">
+        delete from sys_income
+        <where>
+            income_id in
+            <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                #{item.incomeId}
+            </foreach>
+        </where>
+    </delete>
 
 </mapper>

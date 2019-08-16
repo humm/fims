@@ -3,7 +3,10 @@ package com.hoomoomoo.fims.app.service;
 
 import com.hoomoomoo.fims.app.model.SysIncomeModel;
 import com.hoomoomoo.fims.app.model.SysIncomeQueryModel;
-import com.hoomoomoo.fims.app.model.common.Page;
+import com.hoomoomoo.fims.app.model.common.FimsPage;
+import com.hoomoomoo.fims.app.model.common.ResultData;
+
+import java.util.List;
 
 /**
  * @author humm23693
@@ -20,5 +23,13 @@ public interface SysIncomeService {
      * @param sysIncomeQueryModel
      * @return
      */
-    Page<SysIncomeModel> selectPage(SysIncomeQueryModel sysIncomeQueryModel);
+    FimsPage<SysIncomeModel> selectPage(SysIncomeQueryModel sysIncomeQueryModel);
+
+    /**
+     * 删除收入信息
+     *
+     * @param sysIncomeQueryModelList
+     * @return
+     */
+    ResultData delete(List<SysIncomeQueryModel> sysIncomeQueryModelList);
 }

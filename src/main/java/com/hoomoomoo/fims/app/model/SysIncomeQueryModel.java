@@ -28,8 +28,8 @@ public class SysIncomeQueryModel extends QueryBaseModel {
     private String incomeType;
 
     @ApiModelProperty(value="收入日期", required = false)
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM", timezone="GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM")
     private Date incomeDate;
 
     @ApiModelProperty(value="收入来源", required = false)

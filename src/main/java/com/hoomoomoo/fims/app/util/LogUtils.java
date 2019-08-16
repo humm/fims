@@ -3,6 +3,8 @@ package com.hoomoomoo.fims.app.util;
 
 import org.slf4j.Logger;
 
+import java.util.List;
+
 import static com.hoomoomoo.fims.app.config.RunData.LOG_START_END;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
@@ -23,7 +25,7 @@ public class LogUtils {
      * @param messages
      */
     public static void controllerStart(Logger logger, String businessType, String messages) {
-        if(LOG_START_END){
+        if (LOG_START_END) {
             logger.info(String.format(LOG_FORMAT_TIP, businessType, LOG_TYPE_CONTROLLER, messages, LOG_OPERATE_TAG_START));
         }
     }
@@ -36,7 +38,7 @@ public class LogUtils {
      * @param messages
      */
     public static void controllerEnd(Logger logger, String businessType, String messages) {
-        if(LOG_START_END){
+        if (LOG_START_END) {
             logger.info(String.format(LOG_FORMAT_TIP, businessType, LOG_TYPE_CONTROLLER, messages, LOG_OPERATE_TAG_END));
         }
     }
@@ -49,7 +51,7 @@ public class LogUtils {
      * @param messages
      */
     public static void serviceStart(Logger logger, String businessType, String messages) {
-        if(LOG_START_END){
+        if (LOG_START_END) {
             logger.info(String.format(LOG_FORMAT_TIP, businessType, LOG_TYPE_SERVICE, messages, LOG_OPERATE_TAG_START));
         }
     }
@@ -62,7 +64,7 @@ public class LogUtils {
      * @param messages
      */
     public static void serviceEnd(Logger logger, String businessType, String messages) {
-        if(LOG_START_END){
+        if (LOG_START_END) {
             logger.info(String.format(LOG_FORMAT_TIP, businessType, LOG_TYPE_SERVICE, messages, LOG_OPERATE_TAG_END));
         }
     }
@@ -147,7 +149,7 @@ public class LogUtils {
      * @param businessType
      */
     public static void functionStart(Logger logger, String businessType) {
-        if(LOG_START_END){
+        if (LOG_START_END) {
             logger.info(String.format(LOG_FORMAT_STATUS, businessType, LOG_OPERATE_TAG_START));
         }
     }
@@ -159,7 +161,7 @@ public class LogUtils {
      * @param businessType
      */
     public static void functionEnd(Logger logger, String businessType) {
-        if(LOG_START_END){
+        if (LOG_START_END) {
             logger.info(String.format(LOG_FORMAT_STATUS, businessType, LOG_OPERATE_TAG_END));
         }
     }
@@ -171,8 +173,12 @@ public class LogUtils {
      * @param obj
      */
     public static void parameter(Logger logger, Object obj) {
-        if(LOG_START_END){
-            logger.info(LOG_REQUEST_PARAMETER, BeanMapUtils.beanToMap(obj));
+        if (LOG_START_END) {
+            if (obj instanceof List) {
+                logger.info(LOG_REQUEST_PARAMETER, BeanMapUtils.beanToMap((List)obj));
+            } else {
+                logger.info(LOG_REQUEST_PARAMETER, BeanMapUtils.beanToMap(obj));
+            }
         }
     }
 
@@ -182,7 +188,7 @@ public class LogUtils {
      * @param logger
      * @param obj
      */
-    public static void info(Logger logger, Object obj){
+    public static void info(Logger logger, Object obj) {
         logger.info(obj.toString());
     }
 }

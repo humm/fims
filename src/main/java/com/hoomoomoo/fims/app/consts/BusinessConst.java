@@ -60,6 +60,11 @@ public class BusinessConst {
     public static final String EQUAL_SIGN                                   = "=";
 
     /**
+     * underline
+     */
+    public static final String UNDERLINE                                    = "_";
+
+    /**
      * 六个*
      */
     public static final String ASTERISK_SIX                                 = "******";

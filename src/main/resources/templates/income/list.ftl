@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>收入信息</title>
+    <title>收入信息-列表</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -17,27 +17,48 @@
             <div class="layui-form-item">
                 <!-- 查询条件 -->
                 <div class="layui-inline">
-                    <label class="layui-form-label">ID</label>
+                    <label class="layui-form-label">收入人</label>
                     <div class="layui-input-block">
-                        <input type="text" name="id" placeholder="请输入" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">发帖人</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="poster" placeholder="请输入" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">帖子状态</label>
-                    <div class="layui-input-block">
-                        <select name="top">
-                            <option value="0">正常</option>
-                            <option value="1">置顶</option>
-                            <option value="2">封禁</option>
+                        <select name="userId">
+                            <option value=""></option>
+                            <option value="111">AAA</option>
+                            <option value="222">BBB</option>
+                            <option value="333">CCC</option>
                         </select>
                     </div>
                 </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">收入来源</label>
+                    <div class="layui-input-block">
+                        <select name="incomeCompany">
+                            <option value=""></option>
+                            <option value="DDD">DDD</option>
+                            <option value="EEE">EEE</option>
+                            <option value="FFF">FFF</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">收入类型</label>
+                    <div class="layui-input-block">
+                        <select name="incomeType">
+                            <option value=""></option>
+                            <option value="GGG">GGG</option>
+                            <option value="JJJ">JJJ</option>
+                            <option value="HHH">HHH</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">收入日期</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" name="incomeDate" id="incomeDate" placeholder="yyyy-MM">
+                    </div>
+                </div>
+
 
                 <!-- 查询按钮 -->
                 <div class="layui-inline">
@@ -61,15 +82,6 @@
             <!-- 列表数据 -->
             <table id="LAY-app-income-list" lay-filter="LAY-app-income-list"></table>
 
-            <!--行数据按钮 -->
-            <script type="text/html" id="table-income-list">
-                <a class="layui-btn layui-btn-xs" lay-event="edit">
-                    <i class="layui-icon"></i>修改</a>
-                <a class="layui-btn layui-btn-xs" lay-event="delete">
-                    <i class="layui-icon"></i>删除</a>
-                <a class="layui-btn layui-btn-xs" lay-event="detail">
-                    <i class="layui-icon"></i>详情</a>
-            </script>
         </div>
     </div>
 </div>
@@ -80,11 +92,21 @@
         base: '${appName}/layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'fims', 'table'], function () {
-        var $ = layui.$, form = layui.form, table = layui.table, fims = layui.fims;
+    }).use(['index', 'table', 'laydate', 'admin', 'fims'], function () {
+        var $ = layui.$,
+            form = layui.form,
+            table = layui.table,
+            admin = layui.admin,
+            fims = layui.fims,
+            laydate = layui.laydate;
 
+        // 应用名称
         var appName = '${appName}';
 
+        // 业务类型
+        var businessType = "income";
+
+        // 请求url
         var url = {
             page: appName + "/income/selectPage",
             select: appName + "/income/selectOne",
@@ -94,109 +116,47 @@
             detail: appName + "/income/view/detail"
         }
 
-        // 权限设置
-        fims.setAuthority(false, "table-income-list,LAY-app-income-list-button");
+        // 列表字段
+        var tableColumn = [[
+            {type: "checkbox", fixed: "left"},
+            {field: "incomeId", title: "收入序列号", sort: false, hide: true},
+            {field: "userId", title: "收入人", sort: true},
+            {field: "incomeDate", title: "收入日期", align: 'center', sort: true},
+            {field: "incomeCompany", title: "收入来源", sort: true},
+            {field: "incomeType", title: "收入类型", sort: true},
+            {field: "incomeAmount", title: "收入金额", sort: true},
+            {field: "incomeMemo", title: "收入备注"}
+        ]];
 
-        // 列表数据渲染
-        table.render({
-            elem: "#LAY-app-income-list",
-            url: url.page,
-            cols: [
-                [
-                    {type: "checkbox", fixed: "left"},
-                    {field: "incomeId", title: "收入序列号", sort: false, hide: true},
-                    {field: "userId", title: "收入人", sort: true},
-                    {field: "incomeDate", title: "收入日期", sort: true},
-                    {field: "incomeCompany", title: "收入来源", sort: true},
-                    {field: "incomeType", title: "收入类型", sort: true},
-                    {field: "incomeAmount", title: "收入金额", sort: true},
-                    {field: "incomeMemo", title: "收入备注"},
-                    {title: "操作", width: 180, align: "center", fixed: "right", toolbar: "#table-income-list"}
-                ]
-            ],
-            page: true,
-            limit: 10,
-            limits: [10, 15, 20, 25, 30],
-            text: "数据加载出现异常"
-        });
-
-        // 行数据按钮事件绑定
-        table.on("tool(LAY-app-income-list)", function (obj) {
-            // 获取数据值
-            var data = obj.data;
-            switch (obj.event) {
-                case "delete":
-                    var convertData = new Array();
-                    convertData.push(data);
-                    del(convertData);
-                    break;
-                case "detail":
-                    detail(data);
-                    break;
-                case "add":
-                    add(data);
-                    break;
-                case "edit":
-                    edit(data);
-                    break;
-                default:
-                    layer.alert("不支持的事件类型");
-                    break;
-            }
-        });
-
-        table.on('rowDouble(LAY-app-income-list)', function(obj){
-            detail(obj.data);
-        });
-
-        // table按钮事件监听
-        $('.layui-btn.layuiadmin-btn-income-list').on('click', function () {
-
-            // 获取选中的数据
-            var checkData = table.checkStatus('LAY-app-income-list').data;
-
-            var type = $(this).data('type');
-            switch (type) {
-                case "add":
-                    add();
-                    break;
-                case "edit":
-                    if (checkData.length === 0) {
-                        return layer.msg(fims.tips.warn.notSelect);
-                    }
-                    if (checkData.length > 1) {
-                        return layer.msg(fims.tips.warn.selectOne);
-                    }
-                    edit(checkData[0]);
-                    break
-                case "delete":
-                    if (checkData.length === 0) {
-                        return layer.msg(fims.tips.warn.notSelect);
-                    }
-                    del(checkData);
-                    break;
-                default:
-                    layer.alert("不支持的事件类型");
-            }
-        });
-
-        //监听搜索
-        form.on('submit(LAY-app-incomelist-search)', function (data) {
-            var field = data.field;
-            //执行重载
-            table.reload('LAY-app-income-list', {
-                where: field
-            });
+        //年月选择器
+        laydate.render({
+            elem: '#incomeDate'
+            , type: 'month'
         });
 
         // 数据删除
         var del = function (data) {
             console.log(data);
             layer.confirm(fims.tips.warn.confirmDel, function (index) {
-                // 删除数据
-                layer.close(index);
+                admin.req({
+                    url: url.del,
+                    type: "post",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    done: function (response) {
+                        if (response.bizResult) {
+                            setTimeout(function () {
+                                layer.close(index);
+                                table.reload("LAY-app-" + businessType + "-list");
+                                layer.msg(fims.tips.msg.delSuccess);
+                            }, 500);
+                        } else {
+                            layer.msg(response.msg);
+                        }
+                    }
+                });
             });
-            table.reload('LAY-app-income-list');
         }
 
         // 数据新增
@@ -206,7 +166,7 @@
                 type: 2,
                 title: fims.tips.title.add,
                 content: url.add,
-                area: [fims.set.area.height, fims.set.area.width],
+                area: fims.set.area.defaut,
                 btn: [fims.tips.btn.ok, fims.tips.btn.cancel],
                 resize: false
             });
@@ -219,7 +179,7 @@
                 type: 2,
                 title: fims.tips.title.edit,
                 content: url.edit,
-                area: [fims.set.area.height, fims.set.area.width],
+                area: fims.set.area.defaut,
                 btn: [fims.tips.btn.ok, fims.tips.btn.cancel],
                 resize: false
             });
@@ -232,39 +192,112 @@
                 type: 2,
                 title: fims.tips.title.detail,
                 content: url.detail,
-                area: [fims.set.area.height, fims.set.area.width],
+                area: fims.set.area.defaut,
                 btn: [fims.tips.btn.ok, fims.tips.btn.cancel],
                 resize: false
             });
         }
 
+        // 权限按钮设置
+        fims.setAuthority(false, "LAY-app-" + businessType + "-list-button");
 
-        /* if ("del" === e.event) layer.confirm("确定删除此条帖子？", function (t) {
-             e.del(), layer.close(t)
-         }); else if ("edit" === e.event) {
-             $(e.tr);
-             layer.open({
-                 type: 2,
-                 title: "编辑帖子",
-                 content: "../../../views/app/income/listform.html",
-                 area: ["550px", "400px"],
-                 btn: ["确定", "取消"],
-                 resize: !1,
-                 yes: function (e, t) {
-                     var l = window["layui-layer-iframe" + e], r = "LAY-app-income-submit",
-                         o = t.find("iframe").contents().find("#" + r);
-                     l.layui.form.on("submit(" + r + ")", function (t) {
-                         t.field;
-                         i.reload("LAY-app-income-list"), layer.close(e)
-                     }), o.trigger("click")
-                 },
-                 success: function (e, t) {
-                 }
-             })
-         }
-     });
-*/
+        // 列表数据渲染
+        table.render({
+            elem: "#LAY-app-" + businessType + "-list",
+            url: url.page,
+            cols: tableColumn,
+            autoSort: false, // 禁用前端自动排序
+            page: true,
+            limit: 10,
+            limits: [10, 15, 20, 25, 30],
+            text: {
+                none: fims.tips.msg.emptyData
+            }
+        });
 
+        // 行数据按钮事件绑定 暂未启用
+        table.on("tool(LAY-app-" + businessType + "-list)", function (obj) {
+            // 获取数据值
+            var data = obj.data;
+            switch (obj.event) {
+                case fims.operate.delete:
+                    var convertData = new Array();
+                    convertData.push(data);
+                    del(convertData);
+                    break;
+                case fims.operate.detail:
+                    detail(data);
+                    break;
+                case fims.operate.add:
+                    add(data);
+                    break;
+                case fims.operate.edit:
+                    edit(data);
+                    break;
+                default:
+                    layer.alert(fims.tips.msg.notSupportEvent);
+                    break;
+            }
+        });
+
+        // table按钮事件监听
+        $(".layui-btn.layuiadmin-btn-" + businessType + "-list").on("click", function () {
+
+            // 获取选中的数据
+            var checkData = table.checkStatus("LAY-app-" + businessType + "-list").data;
+
+            var type = $(this).data("type");
+            if (fims.isBlank(type)) {
+                return;
+            }
+            switch (type) {
+                case fims.operate.add:
+                    add();
+                    break;
+                case fims.operate.edit:
+                    if (checkData.length === 0) {
+                        return layer.msg(fims.tips.warn.notSelect);
+                    }
+                    if (checkData.length > 1) {
+                        return layer.msg(fims.tips.warn.selectOne);
+                    }
+                    edit(checkData[0]);
+                    break
+                case fims.operate.delete:
+                    if (checkData.length === 0) {
+                        return layer.msg(fims.tips.warn.notSelect);
+                    }
+                    del(checkData);
+                    break;
+                default:
+                    layer.alert(fims.tips.msg.notSupportEvent);
+            }
+        });
+
+        //监听查询
+        form.on("submit(LAY-app-" + businessType + "list-search)", function (data) {
+            console.log(fims.clearBlank(data.field));
+            //执行重载
+            table.reload("LAY-app-" + businessType + "-list", {
+                where: fims.clearBlank(data.field)
+            });
+        });
+
+        //  监听列表排序
+        table.on("sort(LAY-app-" + businessType + "-list)", function (data) {
+            table.reload("LAY-app-" + businessType + "-list", {
+                initSort: data,
+                where: {
+                    sort: data.field,
+                    order: data.type
+                }
+            });
+        });
+
+        // 监听双击事件
+        table.on("rowDouble(LAY-app-" + businessType + "-list)", function (obj) {
+            detail(obj.data);
+        });
 
     });
 </script>
