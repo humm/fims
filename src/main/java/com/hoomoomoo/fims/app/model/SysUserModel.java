@@ -30,7 +30,7 @@ public class SysUserModel extends BaseModel {
     private String userStatus;
 
     @ApiModelProperty(value="是否管理员", required = false)
-    private String isAdmin;
+    private Boolean isAdmin;
 
     @ApiModelProperty(value="备注", required = false)
     private String userMemo;

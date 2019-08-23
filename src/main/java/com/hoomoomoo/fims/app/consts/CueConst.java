@@ -47,35 +47,35 @@ public class CueConst {
     /**
      * 提示信息：删除失败
      */
-    public static final String DELETE_FAIL                         = "删除失败";
+    public static final String DELETE_FAIL                          = "删除失败";
 
     /**
      * 提示信息：修改成功
      */
-    public static final String UPDATE_SUCCESS                      = "修改成功";
+    public static final String UPDATE_SUCCESS                       = "修改成功";
 
     /**
      * 提示信息：修改失败
      */
-    public static final String UPDATE_FAIL                         = "修改失败";
+    public static final String UPDATE_FAIL                          = "修改失败";
 
     /**
      * 提示信息：校验成功
      */
-    public static final String CHECK_SUCCESS                      = "校验成功";
+    public static final String CHECK_SUCCESS                        = "校验成功";
 
     /**
      * 提示信息：校验失败
      */
-    public static final String CHECK_FAIL                         = "校验失败";
+    public static final String CHECK_FAIL                           = "校验失败";
 
     /**
      * 提示信息：分页查询成功代码
      */
-    public static final String PAGE_CODE_SUCCESS                  = "0";
+    public static final String PAGE_CODE_SUCCESS                    = "0";
 
     /**
      * 提示信息：分页查询成功
      */
-    public static final String PAGE_MSG_SUCCESS                   = "分页查询成功";
+    public static final String PAGE_MSG_SUCCESS                     = "分页查询成功";
 }

@@ -13,7 +13,6 @@ public class TipConst {
      * 日志输出格式
      */
     public static final String LOG_TIP                                          = "====================== %s %s ======================";
-
     /**
      * 日志输出格式
      */
@@ -98,12 +97,12 @@ public class TipConst {
     /**
      * 日志业务类型：应用启动
      */
-    public static final String LOG_BUSINESS_TYPE_APP_START                     = "应用启动";
+    public static final String LOG_BUSINESS_TYPE_APP_START                      = "应用启动";
 
     /**
      * 日志业务类型：参数配置
      */
-    public static final String LOG_BUSINESS_TYPE_PARAMETER_CONFIG              = "参数配置";
+    public static final String LOG_BUSINESS_TYPE_PARAMETER_CONFIG               = "参数配置";
 
     /**
      * 日志业务类型：数据初始化
@@ -205,6 +204,10 @@ public class TipConst {
      */
     public static final String LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_LOAD        = "加载业务序列号";
 
+    /**
+     * 日志业务类型：字典信息
+     */
+    public static final String LOG_BUSINESS_TYPE_DICTIONARY_LOAD                = "加载字典信息";
 
     /**
      * 请求入参

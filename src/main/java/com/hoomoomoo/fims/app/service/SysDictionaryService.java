@@ -20,5 +20,6 @@ public interface SysDictionaryService {
      * @param sysDictionaryQueryModel
      * @return
      */
-    List<SysDictionaryModel> selectSysSalary(SysDictionaryQueryModel sysDictionaryQueryModel);
+    List<SysDictionaryModel> selectSysDictionary(SysDictionaryQueryModel sysDictionaryQueryModel);
+
 }

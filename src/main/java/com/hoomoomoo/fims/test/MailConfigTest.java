@@ -1,5 +1,6 @@
 package com.hoomoomoo.fims.test;
 
+import com.hoomoomoo.fims.FimsApplication;
 import com.hoomoomoo.fims.app.model.MailModel;
 import com.hoomoomoo.fims.app.service.SystemService;
 import org.junit.Test;
@@ -21,7 +22,7 @@ import java.util.*;
  */
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = FimsApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class MailConfigTest {
 
     private static final Logger logger = LoggerFactory.getLogger(MailConfigTest.class);

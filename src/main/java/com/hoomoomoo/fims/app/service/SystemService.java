@@ -75,4 +75,11 @@ public interface SystemService {
      * @return
      */
     BaseModel transferData(BaseModel baseModel);
+
+    /**
+     * 加载所有字典查询条件
+     *
+     * @return
+     */
+    void loadSysDictionaryCondition();
 }

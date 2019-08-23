@@ -30,6 +30,11 @@ public class BusinessConst {
     public static final String STR_0                                        = "0";
 
     /**
+     * 空串
+     */
+    public static final String STR_EMPTY                                    = "";
+
+    /**
      * 分号
      */
     public static final String SEMICOLON                                    = ";";
@@ -149,5 +154,14 @@ public class BusinessConst {
      */
     public static final String BUSINESS_TYPE_PAY                           = "pay";
 
+    /**
+     * 字典项空白
+     */
+    public static final String BLANK                                       = "blank";
+
+    /**
+     * 请选择
+     */
+    public static final String SELECT                                      = "请选择";
 
 }

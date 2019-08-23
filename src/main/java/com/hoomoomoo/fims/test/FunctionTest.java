@@ -1,6 +1,8 @@
 package com.hoomoomoo.fims.test;
 
+import com.hoomoomoo.fims.FimsApplication;
 import com.hoomoomoo.fims.app.model.SysIncomeModel;
+import com.hoomoomoo.fims.app.service.SysDictionaryService;
 import com.hoomoomoo.fims.app.service.SystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import org.junit.Test;
@@ -25,13 +27,16 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.UNDERLINE;
  */
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = FimsApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class FunctionTest {
 
     private static final Logger logger = LoggerFactory.getLogger(FunctionTest.class);
 
     @Autowired
     private SystemService systemService;
+
+    @Autowired
+    private SysDictionaryService sysDictionaryService;
 
     @Test
     public void getBusinessSerialNo(){
@@ -64,8 +69,11 @@ public class FunctionTest {
             }
         }
         logger.info(convert.toString().toLowerCase());
-
     }
 
+    @Test
+    public void loadSysDictionaryCondition(){
+        systemService.loadSysDictionaryCondition();
+    }
 
 }

@@ -38,17 +38,13 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public List<SysUserModel> selectSysUser(SysUserQueryModel sysUserQueryModel) {
-
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
-
         SystemUtils.setSessionInfo(sysUserQueryModel);
-
         LogUtils.parameter(logger, sysUserQueryModel);
 
         List<SysUserModel> sysUserList = sysUserDao.selectSysUser(sysUserQueryModel);
 
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
-
         return sysUserList;
     }
 }

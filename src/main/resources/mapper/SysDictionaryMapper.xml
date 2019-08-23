@@ -28,5 +28,15 @@
         order by code_order desc, item_order desc
     </select>
 
-
+    <select id="selectSysDictionaryCondition" resultType="com.hoomoomoo.fims.app.model.SysDictionaryModel">
+        select  dictionary_code dictionaryCode,
+                dictionary_code || ',' || dictionary_item dictionaryItem,
+                dictionary_caption dictionaryCaption,
+                item_order itemOrder,
+                code_order codeOrder,
+                user_id userId
+        from sys_dictionary
+        where dictionary_item != '#'
+        order by code_order, item_order
+    </select>
 </mapper>

@@ -47,21 +47,16 @@ public class SysIncomeServiceImpl implements SysIncomeService {
      */
     @Override
     public FimsPage<SysIncomeModel> selectPage(SysIncomeQueryModel sysIncomeQueryModel) {
-
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_PAGE);
-
         SystemUtils.setSessionInfo(sysIncomeQueryModel);
-
         LogUtils.parameter(logger, sysIncomeQueryModel);
 
         PageHelper.startPage(sysIncomeQueryModel.getPage(), sysIncomeQueryModel.getLimit());
         List<SysIncomeModel> sysIncomeModelList = sysIncomeDao.selectPage(sysIncomeQueryModel);
-
         // 创建PageInfo对象前 不能处理数据否则getTotal数据不正确
         PageInfo<SysIncomeModel> pageInfo = new PageInfo<>(sysIncomeModelList);
 
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_PAGE);
-
         return new FimsPage(pageInfo.getTotal(), systemService.transferData(pageInfo.getList(), SysIncomeModel.class));
     }
 
@@ -74,13 +69,11 @@ public class SysIncomeServiceImpl implements SysIncomeService {
     @Override
     public ResultData delete(List<SysIncomeQueryModel> sysIncomeQueryModelList) {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_DELETE);
-
         LogUtils.parameter(logger, sysIncomeQueryModelList);
 
         sysIncomeDao.delete(sysIncomeQueryModelList);
 
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_DELETE);
-
         return new ResultData();
     }
 }

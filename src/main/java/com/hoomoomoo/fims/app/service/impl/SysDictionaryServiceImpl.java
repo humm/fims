@@ -1,8 +1,10 @@
 package com.hoomoomoo.fims.app.service.impl;
 
 import com.hoomoomoo.fims.app.dao.SysDictionaryDao;
+import com.hoomoomoo.fims.app.dao.SysUserDao;
 import com.hoomoomoo.fims.app.model.SysDictionaryModel;
 import com.hoomoomoo.fims.app.model.SysDictionaryQueryModel;
+import com.hoomoomoo.fims.app.model.SysUserModel;
 import com.hoomoomoo.fims.app.service.SysDictionaryService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
@@ -37,18 +39,15 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
      * @return
      */
     @Override
-    public List<SysDictionaryModel> selectSysSalary(SysDictionaryQueryModel sysDictionaryQueryModel){
-
+    public List<SysDictionaryModel> selectSysDictionary(SysDictionaryQueryModel sysDictionaryQueryModel){
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
-
         SystemUtils.setSessionInfo(sysDictionaryQueryModel);
-
         LogUtils.parameter(logger, sysDictionaryQueryModel);
 
         List<SysDictionaryModel> sysDictionaryList = sysDictionaryDao.selectSysDictionary(sysDictionaryQueryModel);
 
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
-
         return sysDictionaryList;
     }
+
 }

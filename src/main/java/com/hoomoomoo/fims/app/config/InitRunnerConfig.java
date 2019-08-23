@@ -6,6 +6,8 @@ import com.hoomoomoo.fims.app.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -21,9 +23,10 @@ import static com.hoomoomoo.fims.app.consts.TipConst.*;
  */
 
 @Component
-public class InitConfig {
+@Order(1)
+public class InitRunnerConfig implements CommandLineRunner {
 
-    private static final Logger logger = LoggerFactory.getLogger(InitConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(InitRunnerConfig.class);
 
     @Autowired
     private FimsConfigBean fimsConfigBean;
@@ -31,25 +34,20 @@ public class InitConfig {
     @Autowired
     private SystemService systemService;
 
-    /**
-     * 数据初始化
-     */
-    @PostConstruct
-    public void init(){
-        try {
-            // 输出系统配置参数至控制台
-            systemService.outputConfigParameter();
+    @Override
+    public void run(String... args) throws Exception {
+        // 输出系统配置参数至控制台
+        systemService.outputConfigParameter();
 
-            // 加载业务ID数据
-            systemService.loadBusinessId();
+        // 开始结束日志打印参数配置
+        LOG_START_END = fimsConfigBean.getLogStartEnd();
 
-            // 开始结束日志打印参数配置
-            LOG_START_END = fimsConfigBean.getLogStartEnd();
+        // 加载业务ID数据
+        systemService.loadBusinessId();
 
-            LogUtils.success(logger, LOG_BUSINESS_TYPE_INIT);
-        }catch (Exception e){
-            LogUtils.exception(logger, LOG_BUSINESS_TYPE_INIT, e);
-        }
+        // 加载查询数据字典
+        systemService.loadSysDictionaryCondition();
+
+        LogUtils.success(logger, LOG_BUSINESS_TYPE_INIT);
     }
-
 }

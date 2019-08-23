@@ -23,4 +23,13 @@ public interface SysDictionaryDao {
      * @return
      */
     List<SysDictionaryModel> selectSysDictionary(SysDictionaryQueryModel sysDictionaryQueryModel);
+
+    /**
+     * 查询所有字典查询条件
+     *
+     * @return
+     */
+    List<SysDictionaryModel> selectSysDictionaryCondition();
+
+
 }

@@ -17,6 +17,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -30,10 +31,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static com.hoomoomoo.fims.app.config.RunData.BUSINESS_SERIAL_NO;
+import static com.hoomoomoo.fims.app.config.RunData.SYSDICTIONARY_CONDITION;
+import static com.hoomoomoo.fims.app.consts.DictionaryConst.D005;
 import static com.hoomoomoo.fims.app.consts.SystemConst.APPLICATION_PROPERTIES;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
@@ -345,6 +349,100 @@ public class SystemServiceImpl implements SystemService {
         }
         LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
         return baseModel;
+    }
+
+    /**
+     * 加载所有字典查询条件
+     *
+     * @return
+     */
+    @Override
+    public void loadSysDictionaryCondition() {
+        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_DICTIONARY_LOAD);
+        // 查询用户信息
+        List<SysUserModel> sysUserList = sysUserDao.selectSysUser(null);
+        // 查询字典信息
+        List<SysDictionaryModel> sysDictionaryList = sysDictionaryDao.selectSysDictionaryCondition();
+        // 拼装数据
+        for(SysUserModel sysUserModel : sysUserList){
+            for(SysDictionaryModel sysDictionaryModel : sysDictionaryList){
+                String dictionaryCode = sysDictionaryModel.getDictionaryCode();
+                // 用户不存在
+                if(SYSDICTIONARY_CONDITION.get(sysUserModel.getUserId()) == null){
+                    setDictionaryItem(sysUserModel, sysDictionaryModel, new ConcurrentHashMap(),
+                            new ConcurrentHashMap());
+                }else{
+                    // 用户存在 字典不存在
+                    if(SYSDICTIONARY_CONDITION.get(sysUserModel.getUserId()).get(dictionaryCode) == null){
+                        setDictionaryItem(sysUserModel, sysDictionaryModel,
+                                SYSDICTIONARY_CONDITION.get(sysUserModel.getUserId()),
+                                SYSDICTIONARY_CONDITION.get(new StringBuffer(sysUserModel.getUserId()).append(BLANK).toString()));
+                    }else{
+                        // 用户存在 字典存在
+                        if(isUserDictionary(sysUserModel, sysDictionaryModel)){
+                            SYSDICTIONARY_CONDITION.get(sysUserModel.getUserId()).get(dictionaryCode).add(sysDictionaryModel);
+                            SYSDICTIONARY_CONDITION.get(new StringBuffer(sysUserModel.getUserId()).append(BLANK).toString()).get(dictionaryCode).add(sysDictionaryModel);
+                        }
+                    }
+                }
+            }
+        }
+        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY_LOAD);
+    }
+
+    /**
+     * 设置字典项
+     *
+     * @param sysUserModel
+     * @param sysDictionaryModel
+     * @param codeMap
+     * @param codeMapBlank
+     */
+    private void setDictionaryItem(SysUserModel sysUserModel, SysDictionaryModel sysDictionaryModel,
+                                   ConcurrentHashMap<String, List<SysDictionaryModel>> codeMap,
+                                   ConcurrentHashMap<String, List<SysDictionaryModel>> codeMapBlank){
+        // 字典不存在
+        if(codeMap.get(sysDictionaryModel.getDictionaryCode()) == null){
+            List<SysDictionaryModel> item = new ArrayList<>();
+            List<SysDictionaryModel> itemBlank = new ArrayList<>();
+            // 设置请选择选项
+            SysDictionaryModel select = new SysDictionaryModel();
+            BeanUtils.copyProperties(sysDictionaryModel, select);
+            select.setDictionaryItem(STR_EMPTY);
+            select.setDictionaryCaption(SELECT);
+            select.setItemOrder(0);
+            itemBlank.add(select);
+
+            if(isUserDictionary(sysUserModel, sysDictionaryModel)){
+                item.add(sysDictionaryModel);
+                itemBlank.add(sysDictionaryModel);
+            }
+
+            codeMap.put(sysDictionaryModel.getDictionaryCode(), item);
+            codeMapBlank.put(sysDictionaryModel.getDictionaryCode(), itemBlank);
+        }else{
+            // 字典存在
+            if(isUserDictionary(sysUserModel, sysDictionaryModel)){
+                codeMap.get(sysDictionaryModel.getDictionaryCode()).add(sysDictionaryModel);
+                codeMapBlank.get(sysDictionaryModel.getDictionaryCode()).add(sysDictionaryModel);
+            }
+        }
+        SYSDICTIONARY_CONDITION.put(sysUserModel.getUserId(), codeMap);
+        SYSDICTIONARY_CONDITION.put(new StringBuffer(sysUserModel.getUserId()).append(BLANK).toString(), codeMapBlank);
+    }
+
+    /**
+     * 是否用户字典信息
+     *
+     * @param sysUserModel
+     * @param sysDictionaryModel
+     * @return
+     */
+    private Boolean isUserDictionary(SysUserModel sysUserModel, SysDictionaryModel sysDictionaryModel){
+        if(!sysUserModel.getIsAdmin() && D005.equals(sysDictionaryModel.getDictionaryCode())){
+            return sysUserModel.getUserId().equals(sysDictionaryModel.getUserId());
+        }
+        return true;
     }
 
     /**
