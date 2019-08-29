@@ -24,10 +24,10 @@ public class SysDictionaryQueryModel extends QueryBaseModel {
     private String dictionaryCaption;
 
     @ApiModelProperty(value="选值排序", required = false)
-    private Integer itemOrder;
+    private String itemOrder;
 
     @ApiModelProperty(value="代码排序", required = false)
-    private Integer codeOrder;
+    private String codeOrder;
 
     @ApiModelProperty(value="用户ID", required = false)
     private String userId;

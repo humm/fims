@@ -36,7 +36,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static com.hoomoomoo.fims.app.config.RunData.BUSINESS_SERIAL_NO;
-import static com.hoomoomoo.fims.app.config.RunData.SYSDICTIONARY_CONDITION;
+import static com.hoomoomoo.fims.app.config.RunData.DICTIONARY_CONDITION;
+import static com.hoomoomoo.fims.app.consts.DictionaryConst.D000;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D005;
 import static com.hoomoomoo.fims.app.consts.SystemConst.APPLICATION_PROPERTIES;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
@@ -368,20 +369,20 @@ public class SystemServiceImpl implements SystemService {
             for(SysDictionaryModel sysDictionaryModel : sysDictionaryList){
                 String dictionaryCode = sysDictionaryModel.getDictionaryCode();
                 // 用户不存在
-                if(SYSDICTIONARY_CONDITION.get(sysUserModel.getUserId()) == null){
+                if(DICTIONARY_CONDITION.get(sysUserModel.getUserId()) == null){
                     setDictionaryItem(sysUserModel, sysDictionaryModel, new ConcurrentHashMap(),
                             new ConcurrentHashMap());
                 }else{
                     // 用户存在 字典不存在
-                    if(SYSDICTIONARY_CONDITION.get(sysUserModel.getUserId()).get(dictionaryCode) == null){
+                    if(DICTIONARY_CONDITION.get(sysUserModel.getUserId()).get(dictionaryCode) == null){
                         setDictionaryItem(sysUserModel, sysDictionaryModel,
-                                SYSDICTIONARY_CONDITION.get(sysUserModel.getUserId()),
-                                SYSDICTIONARY_CONDITION.get(new StringBuffer(sysUserModel.getUserId()).append(BLANK).toString()));
+                                DICTIONARY_CONDITION.get(sysUserModel.getUserId()),
+                                DICTIONARY_CONDITION.get(new StringBuffer(sysUserModel.getUserId()).append(BLANK).toString()));
                     }else{
                         // 用户存在 字典存在
                         if(isUserDictionary(sysUserModel, sysDictionaryModel)){
-                            SYSDICTIONARY_CONDITION.get(sysUserModel.getUserId()).get(dictionaryCode).add(sysDictionaryModel);
-                            SYSDICTIONARY_CONDITION.get(new StringBuffer(sysUserModel.getUserId()).append(BLANK).toString()).get(dictionaryCode).add(sysDictionaryModel);
+                            DICTIONARY_CONDITION.get(sysUserModel.getUserId()).get(dictionaryCode).add(sysDictionaryModel);
+                            DICTIONARY_CONDITION.get(new StringBuffer(sysUserModel.getUserId()).append(BLANK).toString()).get(dictionaryCode).add(sysDictionaryModel);
                         }
                     }
                 }
@@ -410,7 +411,7 @@ public class SystemServiceImpl implements SystemService {
             BeanUtils.copyProperties(sysDictionaryModel, select);
             select.setDictionaryItem(STR_EMPTY);
             select.setDictionaryCaption(SELECT);
-            select.setItemOrder(0);
+            select.setItemOrder(STR_0);
             itemBlank.add(select);
 
             if(isUserDictionary(sysUserModel, sysDictionaryModel)){
@@ -427,8 +428,8 @@ public class SystemServiceImpl implements SystemService {
                 codeMapBlank.get(sysDictionaryModel.getDictionaryCode()).add(sysDictionaryModel);
             }
         }
-        SYSDICTIONARY_CONDITION.put(sysUserModel.getUserId(), codeMap);
-        SYSDICTIONARY_CONDITION.put(new StringBuffer(sysUserModel.getUserId()).append(BLANK).toString(), codeMapBlank);
+        DICTIONARY_CONDITION.put(sysUserModel.getUserId(), codeMap);
+        DICTIONARY_CONDITION.put(new StringBuffer(sysUserModel.getUserId()).append(BLANK).toString(), codeMapBlank);
     }
 
     /**
@@ -439,7 +440,9 @@ public class SystemServiceImpl implements SystemService {
      * @return
      */
     private Boolean isUserDictionary(SysUserModel sysUserModel, SysDictionaryModel sysDictionaryModel){
-        if(!sysUserModel.getIsAdmin() && D005.equals(sysDictionaryModel.getDictionaryCode())){
+        Boolean flag =
+                D005.equals(sysDictionaryModel.getDictionaryCode()) || D000.equals(sysDictionaryModel.getDictionaryCode());
+        if(!sysUserModel.getIsAdmin() && flag){
             return sysUserModel.getUserId().equals(sysDictionaryModel.getUserId());
         }
         return true;

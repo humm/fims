@@ -29,14 +29,25 @@
     </select>
 
     <select id="selectSysDictionaryCondition" resultType="com.hoomoomoo.fims.app.model.SysDictionaryModel">
-        select  dictionary_code dictionaryCode,
-                dictionary_code || ',' || dictionary_item dictionaryItem,
-                dictionary_caption dictionaryCaption,
-                item_order itemOrder,
-                code_order codeOrder,
-                user_id userId
+        select
+            dictionary_code dictionaryCode,
+            dictionary_code || '-' || dictionary_item dictionaryItem,
+            dictionary_caption dictionaryCaption,
+            item_order itemOrder,
+            code_order codeOrder,
+            user_id userId
         from sys_dictionary
         where dictionary_item != '#'
-        order by code_order, item_order
+        union all
+        select
+            'D000' as dictionaryCode,
+            to_char(user_id) as dictionaryItem,
+            user_name as dictionary_caption,
+            user_Id as itemOrder,
+            0 as codeOrder,
+            user_id as userId
+        from sys_user
+        where is_admin != '1'
+        order by codeOrder, itemOrder
     </select>
 </mapper>

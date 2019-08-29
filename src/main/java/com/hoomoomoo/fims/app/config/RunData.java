@@ -22,7 +22,7 @@ public class RunData {
     /**
      * 字典项查询条件
      */
-    public static ConcurrentHashMap<String, ConcurrentHashMap<String, List<SysDictionaryModel>>> SYSDICTIONARY_CONDITION    = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, ConcurrentHashMap<String, List<SysDictionaryModel>>> DICTIONARY_CONDITION = new ConcurrentHashMap<>();
 
     /**
      * 开始结束日志打印

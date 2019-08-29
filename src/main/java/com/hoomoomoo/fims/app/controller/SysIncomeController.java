@@ -1,9 +1,11 @@
 package com.hoomoomoo.fims.app.controller;
 
+import com.hoomoomoo.fims.app.model.SysDictionaryModel;
 import com.hoomoomoo.fims.app.model.SysIncomeModel;
 import com.hoomoomoo.fims.app.model.SysIncomeQueryModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
+import com.hoomoomoo.fims.app.model.common.ViewData;
 import com.hoomoomoo.fims.app.service.SysIncomeService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import io.swagger.annotations.ApiParam;
@@ -11,12 +13,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
@@ -68,6 +73,17 @@ public class SysIncomeController {
         FimsPage<SysIncomeModel> page = sysIncomeService.selectPage(sysIncomeQueryModel);
         LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_PAGE);
         return page;
+    }
+
+    /**
+     * 获取列表页面初始化信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "selectListInitData", method = RequestMethod.GET)
+    @ResponseBody
+    public ResultData selectListInitData() {
+        return sysIncomeService.selectListInitData();
     }
 
     /**

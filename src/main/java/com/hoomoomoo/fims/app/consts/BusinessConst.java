@@ -164,4 +164,19 @@ public class BusinessConst {
      */
     public static final String SELECT                                      = "请选择";
 
+    /**
+     * 查询条件：用户ID
+     */
+    public static final String SELECT_USER_ID                              = "userId";
+
+    /**
+     * 查询条件：收入来源
+     */
+    public static final String SELECT_INCOME_COMPANY                       = "incomeCompany";
+
+    /**
+     * 查询条件：收入类型
+     */
+    public static final String SELECT_INCOME_TYPE                          = "incomeType";
+
 }

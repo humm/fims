@@ -68,10 +68,16 @@ public class TipConst {
      * 日志操作类型：查询
      */
     public static final String LOG_OPERATE_TYPE_SELECT                          = "查询";
+
     /**
      * 日志操作类型：分页查询
      */
     public static final String LOG_OPERATE_TYPE_SELECT_PAGE                     = "分页查询";
+
+    /**
+     * 日志操作类型：页面渲染参数查询
+     */
+    public static final String LOG_OPERATE_TYPE_SELECT_INIT                     = "页面渲染参数查询";
 
     /**
      * 日志操作类型：新增

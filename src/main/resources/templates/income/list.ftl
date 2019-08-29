@@ -19,36 +19,21 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">收入人</label>
                     <div class="layui-input-block">
-                        <select name="userId">
-                            <option value=""></option>
-                            <option value="111">AAA</option>
-                            <option value="222">BBB</option>
-                            <option value="333">CCC</option>
-                        </select>
+                        <select name="userId"></select>
                     </div>
                 </div>
 
                 <div class="layui-inline">
                     <label class="layui-form-label">收入来源</label>
                     <div class="layui-input-block">
-                        <select name="incomeCompany">
-                            <option value=""></option>
-                            <option value="DDD">DDD</option>
-                            <option value="EEE">EEE</option>
-                            <option value="FFF">FFF</option>
-                        </select>
+                        <select name="incomeCompany"></select>
                     </div>
                 </div>
 
                 <div class="layui-inline">
                     <label class="layui-form-label">收入类型</label>
                     <div class="layui-input-block">
-                        <select name="incomeType">
-                            <option value=""></option>
-                            <option value="GGG">GGG</option>
-                            <option value="JJJ">JJJ</option>
-                            <option value="HHH">HHH</option>
-                        </select>
+                        <select name="incomeType"></select>
                     </div>
                 </div>
 
@@ -108,6 +93,7 @@
 
         // 请求url
         var url = {
+            init: appName + "/income/selectListInitData",
             page: appName + "/income/selectPage",
             select: appName + "/income/selectOne",
             del: appName + "/income/delete",
@@ -132,6 +118,22 @@
         laydate.render({
             elem: '#incomeDate'
             , type: 'month'
+        });
+
+        // 初始化页面信息
+        admin.req({
+            url: url.init,
+            type: "get",
+            dataType: "json",
+            done: function (response) {
+                if (response.bizResult) {
+                    // 设置查询条件
+                    fims.setCondition("layui-form-item", response.data.condition);
+                    form.render();
+                } else {
+                    layer.msg(response.msg);
+                }
+            }
         });
 
         // 数据删除

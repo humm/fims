@@ -5,6 +5,7 @@ import com.hoomoomoo.fims.app.model.SysIncomeModel;
 import com.hoomoomoo.fims.app.model.SysIncomeQueryModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
+import com.hoomoomoo.fims.app.model.common.ViewData;
 
 import java.util.List;
 
@@ -16,6 +17,13 @@ import java.util.List;
  */
 
 public interface SysIncomeService {
+
+    /**
+     * 获取列表页面初始化相关数据
+     *
+     * @return
+     */
+    ResultData selectListInitData();
 
     /**
      * 分页查询收入信息

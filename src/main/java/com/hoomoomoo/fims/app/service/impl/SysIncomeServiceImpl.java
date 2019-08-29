@@ -1,24 +1,33 @@
 package com.hoomoomoo.fims.app.service.impl;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hoomoomoo.fims.app.dao.SysIncomeDao;
+import com.hoomoomoo.fims.app.model.SysDictionaryModel;
 import com.hoomoomoo.fims.app.model.SysIncomeModel;
 import com.hoomoomoo.fims.app.model.SysIncomeQueryModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
+import com.hoomoomoo.fims.app.model.common.SessionBean;
+import com.hoomoomoo.fims.app.model.common.ViewData;
 import com.hoomoomoo.fims.app.service.SysIncomeService;
 import com.hoomoomoo.fims.app.service.SystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import static com.hoomoomoo.fims.app.config.RunData.DICTIONARY_CONDITION;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
+import static com.hoomoomoo.fims.app.consts.CueConst.SELECT_SUCCESS;
+import static com.hoomoomoo.fims.app.consts.DictionaryConst.*;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
@@ -38,6 +47,31 @@ public class SysIncomeServiceImpl implements SysIncomeService {
 
     @Autowired
     private SystemService systemService;
+
+    /**
+     * 获取列表页面相关数据
+     *
+     * @return
+     */
+    @Override
+    public ResultData selectListInitData() {
+        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_INIT);
+
+        ViewData viewData = new ViewData();
+        Map<String, List<SysDictionaryModel>> condition = new HashMap<>();
+        SessionBean sessionBean = SystemSessionUtils.getSession();
+        String userId = sessionBean.getUserId();
+        condition.put(SELECT_USER_ID,
+                DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D000));
+        condition.put(SELECT_INCOME_COMPANY,
+                DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D005));
+        condition.put(SELECT_INCOME_TYPE,
+                DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D003));
+        viewData.setCondition(condition);
+
+        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_INIT);
+        return new ResultData(true, SELECT_SUCCESS, viewData);
+    }
 
     /**
      * 分页查询收入信息

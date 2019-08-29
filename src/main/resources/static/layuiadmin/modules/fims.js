@@ -30,6 +30,23 @@
             }
             return convertData;
         },
+        setCondition: function(tag, data){
+            var that = this;
+            $("." + tag + " [name]").each(function () {
+                var name =  $(this).attr("name");
+                var type = $(this)[0].tagName.toLowerCase();
+                if(type != "select"){
+                    return;
+                }
+                var select = data[name];
+                if(!that.isBlank(select)){
+                    for(var i=0; i<select.length; i++){
+                        var option = "<option value='" + select[i]["dictionaryItem"] + "'>" + select[i]["dictionaryCaption"] + "</option>";
+                        $(this).append(option);
+                    }
+                }
+            });
+        },
         set: {
             area: {
                 defaut: [
