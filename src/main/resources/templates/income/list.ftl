@@ -138,20 +138,21 @@
 
         // 数据删除
         var del = function (data) {
-            console.log(data);
+            var incomeIds = [];
+            for(var i=0; i<data.length; i++){
+                incomeIds.push(data[i].incomeId);
+            }
             layer.confirm(fims.tips.warn.confirmDel, function (index) {
                 admin.req({
                     url: url.del,
                     type: "post",
-                    dataType: "json",
-                    contentType: "application/json",
-                    data: JSON.stringify(data),
+                    data: {incomeIds: incomeIds.join(",")},
                     done: function (response) {
                         if (response.bizResult) {
                             setTimeout(function () {
                                 layer.close(index);
                                 table.reload("LAY-app-" + businessType + "-list");
-                                layer.msg(fims.tips.msg.delSuccess);
+                                layer.msg(response.msg);
                             }, 500);
                         } else {
                             layer.msg(response.msg);
@@ -163,7 +164,6 @@
 
         // 数据新增
         var add = function (data) {
-            console.log(data);
             layer.open({
                 type: 2,
                 title: fims.tips.title.add,
@@ -176,7 +176,6 @@
 
         // 数据修改
         var edit = function (data) {
-            console.log(data);
             layer.open({
                 type: 2,
                 title: fims.tips.title.edit,
@@ -189,7 +188,6 @@
 
         // 数据详情
         var detail = function (data) {
-            console.log(data);
             layer.open({
                 type: 2,
                 title: fims.tips.title.detail,
@@ -278,7 +276,6 @@
 
         //监听查询
         form.on("submit(LAY-app-" + businessType + "list-search)", function (data) {
-            console.log(fims.clearBlank(data.field));
             //执行重载
             table.reload("LAY-app-" + businessType + "-list", {
                 where: fims.clearBlank(data.field)

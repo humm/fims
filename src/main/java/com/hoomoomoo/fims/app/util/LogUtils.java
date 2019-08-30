@@ -3,9 +3,12 @@ package com.hoomoomoo.fims.app.util;
 
 import org.slf4j.Logger;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import static com.hoomoomoo.fims.app.config.RunData.LOG_START_END;
+import static com.hoomoomoo.fims.app.config.RunDataConfig.LOG_PARAMETER;
+import static com.hoomoomoo.fims.app.config.RunDataConfig.LOG_START_END;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
@@ -173,11 +176,11 @@ public class LogUtils {
      * @param obj
      */
     public static void parameter(Logger logger, Object obj) {
-        if (LOG_START_END) {
+        if (LOG_PARAMETER) {
             if (obj instanceof List) {
-                logger.info(LOG_REQUEST_PARAMETER, BeanMapUtils.beanToMap((List)obj));
+                logger.info(LOG_REQUEST_PARAMETER, clearBlank(BeanMapUtils.beanToMap((List)obj)));
             } else {
-                logger.info(LOG_REQUEST_PARAMETER, BeanMapUtils.beanToMap(obj));
+                logger.info(LOG_REQUEST_PARAMETER, clearBlank(BeanMapUtils.beanToMap(obj)));
             }
         }
     }
@@ -191,4 +194,43 @@ public class LogUtils {
     public static void info(Logger logger, Object obj) {
         logger.info(obj.toString());
     }
+
+    /**
+     * 空值过滤
+     *
+     * @param list
+     * @return
+     */
+    private static List<Map<String, Object>> clearBlank(List<Map<String, Object>> list){
+        for(Map<String, Object> ele : list){
+            Iterator<String> iterator = ele.keySet().iterator();
+            while(iterator.hasNext()){
+                String key = iterator.next();
+                Object value = ele.get(key);
+                if(value == null){
+                    iterator.remove();
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 空值过滤
+     *
+     * @param map
+     * @return
+     */
+    private static Map<String, Object> clearBlank(Map<String, Object> map){
+        Iterator<String> iterator = map.keySet().iterator();
+        while(iterator.hasNext()){
+            String key = iterator.next();
+            Object value = map.get(key);
+            if(value == null){
+                iterator.remove();
+            }
+        }
+        return map;
+    }
+
 }

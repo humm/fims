@@ -35,8 +35,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static com.hoomoomoo.fims.app.config.RunData.BUSINESS_SERIAL_NO;
-import static com.hoomoomoo.fims.app.config.RunData.DICTIONARY_CONDITION;
+import static com.hoomoomoo.fims.app.config.RunDataConfig.BUSINESS_SERIAL_NO;
+import static com.hoomoomoo.fims.app.config.RunDataConfig.DICTIONARY_CONDITION;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D000;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D005;
 import static com.hoomoomoo.fims.app.consts.SystemConst.APPLICATION_PROPERTIES;

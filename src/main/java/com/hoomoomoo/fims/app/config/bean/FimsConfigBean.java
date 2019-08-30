@@ -71,4 +71,9 @@ public class FimsConfigBean {
      */
     private Boolean logStartEnd;
 
+    /**
+     * 是否打印请求入参日志
+     */
+    private Boolean logParameter;
+
 }

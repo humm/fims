@@ -165,6 +165,11 @@ public class BusinessConst {
     public static final String SELECT                                      = "请选择";
 
     /**
+     * shutdown
+     */
+    public static final String SHUTDOWN                                    = "shutdown";
+
+    /**
      * 查询条件：用户ID
      */
     public static final String SELECT_USER_ID                              = "userId";

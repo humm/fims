@@ -118,12 +118,17 @@ public class TipConst {
     /**
      * 日志业务类型：登录过滤器
      */
-    public static final String LOG_BUSINESS_TYPE_LOGIN_FILTER                   = "登录过滤器初始化";
+    public static final String LOG_BUSINESS_TYPE_LOGIN_FILTER                   = "登录过滤器配置";
 
     /**
      * 日志业务类型：freemarker模板配置
      */
     public static final String LOG_BUSINESS_TYPE_FREEMARKER                     = "freemarker模板配置";
+
+    /**
+     * 日志业务类型：freemarker模板配置
+     */
+    public static final String LOG_BUSINESS_TYPE_SCHEDULE                       = "定时任务配置";
 
     /**
      * 日志业务类型：邮件发送

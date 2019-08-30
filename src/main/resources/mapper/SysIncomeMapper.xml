@@ -60,4 +60,34 @@
         </where>
     </delete>
 
+    <select id="selectOne" parameterType="com.hoomoomoo.fims.app.model.SysIncomeQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.SysIncomeModel">
+        select
+            <include refid="Base_Column_List"/>
+        from sys_income
+        <where>
+            <if test="incomeId != null" >
+                and income_id = #{incomeId}
+            </if>
+            <if test="userId != null" >
+                and user_id = #{userId}
+            </if>
+            <if test="incomeType != null" >
+                and income_type = #{incomeType}
+            </if>
+            <if test="incomeDate != null" >
+                and to_char(income_date, 'yyyy-MM') = to_char(#{incomeDate}, 'yyyy-MM')
+            </if>
+            <if test="incomeCompany != null" >
+                and income_company = #{incomeCompany}
+            </if>
+            <if test="incomeAmount != null" >
+                and income_amount = #{incomeAmount}
+            </if>
+            <if test="isAdmin == false">
+                and user_id = #{userKey}
+            </if>
+        </where>
+    </select>
+
 </mapper>

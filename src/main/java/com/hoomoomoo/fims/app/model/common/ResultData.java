@@ -56,7 +56,7 @@ public class ResultData<T> {
     }
 
     /**
-     * 请求 业务处理 入参：请求正常则业务处理成功 请求异常则业务处理失败
+     * 请求 业务处理状态 入参：请求正常则业务处理成功 请求异常则业务处理失败
      *
      * @param code
      * @param msg
@@ -69,7 +69,7 @@ public class ResultData<T> {
     }
 
     /**
-     * 请求正常 业务处理 入参
+     * 请求正常 业务处理状态 入参
      *
      * @param bizResult
      * @param msg
@@ -81,7 +81,7 @@ public class ResultData<T> {
     }
 
     /**
-     * 请求正常 业务处理 入参
+     * 请求正常 业务处理状态 入参
      *
      * @param bizResult
      * @param msg

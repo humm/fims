@@ -1,5 +1,6 @@
-package com.hoomoomoo.fims.app.config.bean;
+package com.hoomoomoo.fims.app.config;
 
+import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +17,7 @@ import static com.hoomoomoo.fims.app.consts.TipConst.*;
 /**
  * @author humm23693
  * @description Swagger配置
- * @package com.hoomoomoo.fims.app.config.bean
+ * @package com.hoomoomoo.fims.app.config
  * @date 2019/08/08
  */
 

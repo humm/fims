@@ -5,9 +5,6 @@ import com.hoomoomoo.fims.app.model.SysIncomeModel;
 import com.hoomoomoo.fims.app.model.SysIncomeQueryModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
-import com.hoomoomoo.fims.app.model.common.ViewData;
-
-import java.util.List;
 
 /**
  * @author humm23693
@@ -19,7 +16,7 @@ import java.util.List;
 public interface SysIncomeService {
 
     /**
-     * 获取列表页面初始化相关数据
+     * 查询列表页面初始化相关数据
      *
      * @return
      */
@@ -36,8 +33,16 @@ public interface SysIncomeService {
     /**
      * 删除收入信息
      *
-     * @param sysIncomeQueryModelList
+     * @param incomeIds
      * @return
      */
-    ResultData delete(List<SysIncomeQueryModel> sysIncomeQueryModelList);
+    ResultData delete(String incomeIds);
+
+    /**
+     * 查询收入信息
+     *
+     * @param incomeId
+     * @return
+     */
+    ResultData selectOne(String incomeId);
 }

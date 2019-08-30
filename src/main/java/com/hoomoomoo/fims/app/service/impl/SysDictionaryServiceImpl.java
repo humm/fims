@@ -43,9 +43,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
         SystemUtils.setSessionInfo(sysDictionaryQueryModel);
         LogUtils.parameter(logger, sysDictionaryQueryModel);
-
         List<SysDictionaryModel> sysDictionaryList = sysDictionaryDao.selectSysDictionary(sysDictionaryQueryModel);
-
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
         return sysDictionaryList;
     }

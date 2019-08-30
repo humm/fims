@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2019/08/08
  */
 
-public class RunData {
+public class RunDataConfig {
 
     /**
      * 业务序列号
@@ -28,4 +28,9 @@ public class RunData {
      * 开始结束日志打印
      */
     public static Boolean LOG_START_END                                     = true;
+
+    /**
+     * 服务请求入参打印
+     */
+    public static Boolean LOG_PARAMETER                                     = true;
 }

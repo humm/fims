@@ -79,9 +79,6 @@
                 confirmDel: "确定删除吗"
             },
             msg: {
-                delSuccess: "删除成功",
-                editSuccess: "修改成功",
-                addSuccess: "新增成功",
                 notSupportEvent: "不支持的事件类型",
                 emptyData: "暂无相关数据"
             }
