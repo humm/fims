@@ -20,7 +20,7 @@ public interface SysIncomeService {
      *
      * @return
      */
-    ResultData selectListInitData();
+    ResultData selectInitData();
 
     /**
      * 分页查询收入信息
@@ -44,5 +44,13 @@ public interface SysIncomeService {
      * @param incomeId
      * @return
      */
-    ResultData selectOne(String incomeId);
+    ResultData selectOne(String incomeId, Boolean isTranslate);
+
+    /**
+     * 保存收入信息
+     *
+     * @param sysIncomeModel
+     * @return
+     */
+    ResultData save(SysIncomeModel sysIncomeModel);
 }

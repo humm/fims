@@ -78,4 +78,9 @@ public class CueConst {
      * 提示信息：分页查询成功
      */
     public static final String PAGE_MSG_SUCCESS                     = "分页查询成功";
+
+    /**
+     * 提示信息：系统错误
+     */
+    public static final String ERROR                                = "系统错误";
 }

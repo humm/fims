@@ -6,10 +6,7 @@ import com.hoomoomoo.fims.app.dao.SysIncomeDao;
 import com.hoomoomoo.fims.app.model.SysDictionaryModel;
 import com.hoomoomoo.fims.app.model.SysIncomeModel;
 import com.hoomoomoo.fims.app.model.SysIncomeQueryModel;
-import com.hoomoomoo.fims.app.model.common.FimsPage;
-import com.hoomoomoo.fims.app.model.common.ResultData;
-import com.hoomoomoo.fims.app.model.common.SessionBean;
-import com.hoomoomoo.fims.app.model.common.ViewData;
+import com.hoomoomoo.fims.app.model.common.*;
 import com.hoomoomoo.fims.app.service.SysIncomeService;
 import com.hoomoomoo.fims.app.service.SystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
@@ -27,9 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 import static com.hoomoomoo.fims.app.config.RunDataConfig.DICTIONARY_CONDITION;
+import static com.hoomoomoo.fims.app.config.RunDataConfig.MIND_FILL;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
-import static com.hoomoomoo.fims.app.consts.CueConst.DELETE_SUCCESS;
-import static com.hoomoomoo.fims.app.consts.CueConst.SELECT_SUCCESS;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.*;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
@@ -57,12 +54,13 @@ public class SysIncomeServiceImpl implements SysIncomeService {
      * @return
      */
     @Override
-    public ResultData selectListInitData() {
+    public ResultData selectInitData() {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_INIT);
         ViewData viewData = new ViewData();
         Map<String, List<SysDictionaryModel>> condition = new HashMap<>();
         SessionBean sessionBean = SystemSessionUtils.getSession();
         String userId = sessionBean.getUserId();
+        // 获取查询条件
         condition.put(SELECT_USER_ID,
                 DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D000));
         condition.put(SELECT_INCOME_COMPANY,
@@ -70,6 +68,13 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         condition.put(SELECT_INCOME_TYPE,
                 DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D003));
         viewData.setCondition(condition);
+        // 智能填充
+        viewData.setMindFill(MIND_FILL);
+        // 最近一次操作类型
+        SysIncomeQueryModel sysIncomeQueryModel = new SysIncomeQueryModel();
+        sysIncomeQueryModel.setUserId(userId);
+        LastType lastType = sysIncomeDao.selectLastType(sysIncomeQueryModel);
+        viewData.setLastType(lastType);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_INIT);
         return new ResultData(true, SELECT_SUCCESS, viewData);
     }
@@ -102,13 +107,13 @@ public class SysIncomeServiceImpl implements SysIncomeService {
     @Override
     public ResultData delete(String incomeIds) {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_DELETE);
-        List<SysIncomeQueryModel> list = new ArrayList<>();
+        List<SysIncomeModel> list = new ArrayList<>();
         if(StringUtils.isNotBlank(incomeIds)){
             String[] incomeId = incomeIds.split(COMMA);
             for(String ele : incomeId){
-                SysIncomeQueryModel sysIncomeQueryModel = new SysIncomeQueryModel();
-                sysIncomeQueryModel.setIncomeId(ele);
-                list.add(sysIncomeQueryModel);
+                SysIncomeModel sysIncomeModel = new SysIncomeModel();
+                sysIncomeModel.setIncomeId(ele);
+                list.add(sysIncomeModel);
             }
             sysIncomeDao.delete(list);
         }
@@ -124,13 +129,37 @@ public class SysIncomeServiceImpl implements SysIncomeService {
      * @return
      */
     @Override
-    public ResultData selectOne(String incomeId) {
+    public ResultData selectOne(String incomeId, Boolean isTranslate) {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT);
         SysIncomeQueryModel sysIncomeQueryModel = new SysIncomeQueryModel();
         sysIncomeQueryModel.setIncomeId(incomeId);
         LogUtils.parameter(logger, sysIncomeQueryModel);
         SysIncomeModel sysIncomeModel = sysIncomeDao.selectOne(sysIncomeQueryModel);
+        if(isTranslate){
+            sysIncomeModel = (SysIncomeModel)systemService.transferData(sysIncomeModel);
+        }
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysIncomeModel);
+    }
+
+    /**
+     * 保存收入信息
+     *
+     * @param sysIncomeModel
+     * @return
+     */
+    @Override
+    public ResultData save(SysIncomeModel sysIncomeModel) {
+        String operateType = sysIncomeModel.getIncomeId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
+        String tipMsg = sysIncomeModel.getIncomeId() == null ? ADD_SUCCESS : UPDATE_SUCCESS;
+        if(sysIncomeModel.getIncomeId() == null){
+            sysIncomeModel.setIncomeId(systemService.getBusinessSerialNo(BUSINESS_TYPE_INCOME));
+        }
+        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
+        SystemUtils.setCreateUserInfo(sysIncomeModel);
+        LogUtils.parameter(logger, sysIncomeModel);
+        sysIncomeDao.save(sysIncomeModel);
+        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
+        return new ResultData(true, tipMsg, null);
     }
 }

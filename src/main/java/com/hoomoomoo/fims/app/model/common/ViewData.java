@@ -21,4 +21,14 @@ public class ViewData {
      * 查询条件
      */
     private Map<String, List<SysDictionaryModel>> condition               = new HashMap<>();
+
+    /**
+     * 智能填充
+     */
+    private Boolean mindFill;
+
+    /**
+     * 最近一次操作类型
+     */
+    private LastType lastType;
 }

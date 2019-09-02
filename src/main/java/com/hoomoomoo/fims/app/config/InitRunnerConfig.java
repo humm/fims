@@ -10,8 +10,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import static com.hoomoomoo.fims.app.config.RunDataConfig.LOG_PARAMETER;
-import static com.hoomoomoo.fims.app.config.RunDataConfig.LOG_START_END;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
@@ -37,12 +35,6 @@ public class InitRunnerConfig implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // 输出系统配置参数至控制台
         systemService.outputConfigParameter();
-
-        // 开始结束日志打印参数配置
-        LOG_START_END = fimsConfigBean.getLogStartEnd();
-
-        // 请求入参日志打印参数配置
-        LOG_PARAMETER = fimsConfigBean.getLogParameter();
 
         // 加载业务ID数据
         systemService.loadBusinessId();

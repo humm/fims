@@ -23,8 +23,8 @@ public class SystemUtils {
     public static void setCreateUserInfo(BaseModel baseModel){
         SessionBean sessionBean = SystemSessionUtils.getSession();
         if(sessionBean != null){
-            baseModel.setCreateUser(sessionBean.getUserCode());
-            baseModel.setModifyUser(sessionBean.getUserCode());
+            baseModel.setCreateUser(sessionBean.getUserId());
+            baseModel.setModifyUser(sessionBean.getUserId());
         }
         Date date = new Date();
         baseModel.setCreateDate(date);
@@ -39,7 +39,7 @@ public class SystemUtils {
     public static void setModifyUserInfo(BaseModel baseModel){
         SessionBean sessionBean = SystemSessionUtils.getSession();
         if(sessionBean != null){
-            baseModel.setModifyUser(sessionBean.getUserCode());
+            baseModel.setModifyUser(sessionBean.getUserId());
         }
         baseModel.setModifyDate(new Date());
     }

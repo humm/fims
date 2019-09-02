@@ -35,6 +35,11 @@ public class BusinessConst {
     public static final String STR_EMPTY                                    = "";
 
     /**
+     * 空串
+     */
+    public static final String STR_SPACE                                    = " ";
+
+    /**
      * 分号
      */
     public static final String SEMICOLON                                    = ";";

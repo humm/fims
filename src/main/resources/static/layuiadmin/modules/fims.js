@@ -1,6 +1,7 @@
 /** fims自定义方法 */
 ;layui.define(function (e) {
-    var $ = layui.$;
+    var $ = layui.$,
+        form = layui.form;
 
     var obj = {
         isBlank: function (parameter) {
@@ -19,58 +20,111 @@
             }
         },
         clearBlank: function (data) {
-            if(this.isBlank(data)){
-                return null;
-            }
-            var convertData = {}
-            for(var key in data){
-                if(!this.isBlank(data[key])){
-                    convertData[key] = data[key];
+            var convertData = {};
+            if (!this.isBlank(data)) {
+                for (var key in data) {
+                    if (!this.isBlank(data[key])) {
+                        convertData[key] = data[key];
+                    }
                 }
             }
             return convertData;
         },
-        setCondition: function(tag, data){
+        setCondition: function (tag, data) {
             var that = this;
             $("." + tag + " [name]").each(function () {
-                var name =  $(this).attr("name");
+                var name = $(this).attr("name");
                 var type = $(this)[0].tagName.toLowerCase();
-                if(type != "select"){
+                if (type != "select") {
                     return;
                 }
                 var select = data[name];
-                if(!that.isBlank(select)){
-                    for(var i=0; i<select.length; i++){
+                if (!that.isBlank(select)) {
+                    for (var i = 0; i < select.length; i++) {
                         var option = "<option value='" + select[i]["dictionaryItem"] + "'>" + select[i]["dictionaryCaption"] + "</option>";
                         $(this).append(option);
                     }
                 }
             });
+            form.render();
+        },
+        setValue: function (tag, data) {
+            var that = this;
+            if (that.isBlank(data)) {
+                return;
+            }
+            $("." + tag + " [name]").each(function () {
+                var name = $(this).attr("name");
+                var type = $(this)[0].tagName.toLowerCase();
+                if (type == "textarea") {
+                    $(this).text(data[name]);
+                } else {
+                    // select input
+                    $(this).val(data[name]);
+                }
+            });
+            form.render();
+        },
+        getValue: function (tag) {
+            var data = {};
+            $("." + tag + " [name]").each(function () {
+                var name = $(this).attr("name");
+                var type = $(this)[0].tagName.toLowerCase();
+                if (type == "textarea") {
+                    data[name] = $(this).text();
+                } else {
+                    // select input
+                    data[name] = $(this).val();
+                }
+            });
+            return data;
+        },
+        clearValue: function (tag) {
+            $("." + tag + " [name]").each(function () {
+                var type = $(this)[0].tagName.toLowerCase();
+                if (type == "textarea") {
+                    $(this).text("");
+                } else {
+                    // select input
+                    $(this).val("");
+                }
+            });
+            form.render();
+        },
+        getUrlParameter: function (parameter) {
+            var reg = new RegExp("(^|&)" + parameter + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
+        },
+        getDate: function () {
+            var date = new Date;
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            month = (month < 10 ? "0" + month : month);
+            day = (day < 10 ? "0" + day : day);
+            return year + "-" + month + "-" + day;
         },
         set: {
-            area: {
-                defaut: [
-                    "550px",
-                    "550px"
-                ]
-            },
-            rowBtn: false
+            resize: false
         },
         operate: {
             add: "add",
             delete: "delete",
-            edit: "edit",
+            update: "update",
             detail: "detail"
         },
         tips: {
             title: {
                 add: "新增",
-                edit: "修改",
+                update: "修改",
                 del: "删除",
                 detail: "详情"
             },
             btn: {
                 ok: "确定",
+                save: "保存",
                 cancel: "取消"
             },
             warn: {
@@ -80,7 +134,8 @@
             },
             msg: {
                 notSupportEvent: "不支持的事件类型",
-                emptyData: "暂无相关数据"
+                emptyData: "暂无相关数据",
+                request: "数据提交中..."
             }
         }
     };

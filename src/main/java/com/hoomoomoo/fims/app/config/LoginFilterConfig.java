@@ -39,7 +39,10 @@ public class LoginFilterConfig implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String servletPath = request.getServletPath();
-
+        if(request.getParameter("test") == null){
+            response.setHeader("status", "timeout");
+            return;
+        }
         SessionBean sessionBean = new SessionBean();
         sessionBean.setUserId("20190808000001");
         sessionBean.setUserCode("admin");

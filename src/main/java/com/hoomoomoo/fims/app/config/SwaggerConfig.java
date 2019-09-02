@@ -1,6 +1,9 @@
 package com.hoomoomoo.fims.app.config;
 
 import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
+import com.hoomoomoo.fims.app.util.LogUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,11 +28,14 @@ import static com.hoomoomoo.fims.app.consts.TipConst.*;
 @EnableSwagger2
 public class SwaggerConfig {
 
+    private static final Logger logger = LoggerFactory.getLogger(SwaggerConfig.class);
+
     @Autowired
     private FimsConfigBean fimsConfigBean;
 
     @Bean
     public Docket init() {
+        LogUtils.success(logger, LOG_BUSINESS_TYPE_SWAGGER);
         return new Docket(DocumentationType.SWAGGER_2)
                 .enable(fimsConfigBean.getSwagger())
                 .apiInfo(apiInfo())

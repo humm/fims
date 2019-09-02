@@ -11,7 +11,7 @@ import com.hoomoomoo.fims.app.model.common.SessionBean;
 
 public class SystemSessionUtils {
 
-    private static ThreadLocal<SessionBean> threadLocal = new ThreadLocal<SessionBean>();
+    private static ThreadLocal<SessionBean> threadLocal = new ThreadLocal<>();
 
     /**
      * 设置Session

@@ -131,6 +131,26 @@ public class TipConst {
     public static final String LOG_BUSINESS_TYPE_SCHEDULE                       = "定时任务配置";
 
     /**
+     * 日志业务类型：session配置
+     */
+    public static final String LOG_BUSINESS_TYPE_SESSION                        = "session配置";
+
+    /**
+     * 日志业务类型：swagger配置
+     */
+    public static final String LOG_BUSINESS_TYPE_SWAGGER                        = "swagger配置";
+
+    /**
+     * 日志业务类型：Interceptor配置
+     */
+    public static final String LOG_BUSINESS_TYPE_INTERCEPTOR                    = "拦截器配置";
+
+    /**
+     * 日志业务类型：全局异常配置
+     */
+    public static final String LOG_BUSINESS_TYPE_EXCEPTION                      = "全局异常配置";
+
+    /**
      * 日志业务类型：邮件发送
      */
     public static final String LOG_BUSINESS_TYPE_MAIL_SEND                      = "邮件发送";
@@ -223,7 +243,7 @@ public class TipConst {
     /**
      * 请求入参
      */
-    public static final String LOG_REQUEST_PARAMETER                            = "服务请求入参：{}";
+    public static final String LOG_BUSINESS_PARAMETER                           = "服务请求入参：{}";
 
     /**
      * 邮件超文本内容暂不读取
@@ -248,16 +268,16 @@ public class TipConst {
     /**
      * Swagger标题
      */
-    public static final String SWAGGER_TITLE                                    = "FIMS测试";
+    public static final String SWAGGER_TITLE                                    = "fims";
 
     /**
      * Swagger描述
      */
-    public static final String SWAGGER_DESCRIPTION                              = "这里没有bug...";
+    public static final String SWAGGER_DESCRIPTION                              = "no bug ...";
 
     /**
      * Swagger版本
      */
-    public static final String SWAGGER_VERSION                                  = "1.0";
+    public static final String SWAGGER_VERSION                                  = "3.0";
 
 }

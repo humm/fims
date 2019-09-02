@@ -2,6 +2,7 @@ package com.hoomoomoo.fims.app.dao;
 
 import com.hoomoomoo.fims.app.model.SysIncomeModel;
 import com.hoomoomoo.fims.app.model.SysIncomeQueryModel;
+import com.hoomoomoo.fims.app.model.common.LastType;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -28,10 +29,10 @@ public interface SysIncomeDao {
     /**
      * 删除收入信息
      *
-     * @param sysIncomeQueryModelList
+     * @param SysIncomeModelList
      * @return
      */
-    void delete(List<SysIncomeQueryModel> sysIncomeQueryModelList);
+    void delete(List<SysIncomeModel> SysIncomeModelList);
 
     /**
      * 查询收入信息
@@ -40,5 +41,20 @@ public interface SysIncomeDao {
      * @return
      */
     SysIncomeModel selectOne(SysIncomeQueryModel sysIncomeQueryModel);
+
+    /**
+     * 查询最后一次操作类型
+     *
+     * @param sysIncomeQueryModel
+     * @return
+     */
+    LastType selectLastType(SysIncomeQueryModel sysIncomeQueryModel);
+
+    /**
+     * 保存收入信息
+     *
+     * @param sysIncomeModel
+     */
+    void save(SysIncomeModel sysIncomeModel);
 
 }

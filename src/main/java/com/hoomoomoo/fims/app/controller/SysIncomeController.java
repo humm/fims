@@ -56,6 +56,28 @@ public class SysIncomeController {
         return "income/detail";
     }
 
+    /**
+     * 跳转新增页面
+     *
+     * @return
+     */
+    @ApiOperation("跳转新增页面")
+    @RequestMapping(value = "view/add", method = RequestMethod.GET)
+    public String viewAdd() {
+        return "income/add";
+    }
+
+    /**
+     * 跳转修改页面
+     *
+     * @return
+     */
+    @ApiOperation("跳转修改页面")
+    @RequestMapping(value = "view/update", method = RequestMethod.GET)
+    public String viewUpdate() {
+        return "income/update";
+    }
+
 
     /**
      * 分页查询收入信息
@@ -66,8 +88,7 @@ public class SysIncomeController {
     @ApiOperation("分页查询收入信息")
     @RequestMapping(value = "selectPage", method = RequestMethod.GET)
     @ResponseBody
-    public FimsPage<SysIncomeModel> selectPage(
-                    SysIncomeQueryModel sysIncomeQueryModel) {
+    public FimsPage<SysIncomeModel> selectPage(SysIncomeQueryModel sysIncomeQueryModel) {
         LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_PAGE);
         FimsPage<SysIncomeModel> page = sysIncomeService.selectPage(sysIncomeQueryModel);
         LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_PAGE);
@@ -80,11 +101,11 @@ public class SysIncomeController {
      * @return
      */
     @ApiOperation("查询列表页面初始化信息")
-    @RequestMapping(value = "selectListInitData", method = RequestMethod.GET)
+    @RequestMapping(value = "selectInitData", method = RequestMethod.GET)
     @ResponseBody
-    public ResultData selectListInitData() {
+    public ResultData selectInitData() {
         LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_INIT);
-        ResultData resultData = sysIncomeService.selectListInitData();
+        ResultData resultData = sysIncomeService.selectInitData();
         LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_INIT);
         return resultData;
     }
@@ -119,10 +140,29 @@ public class SysIncomeController {
     @ResponseBody
     public ResultData selectOne(
             @ApiParam(value = "收入信息ID", required = true)
-            @RequestParam String incomeId) {
+            @RequestParam String incomeId,
+            @ApiParam(value = "是否翻译", required = true)
+            @RequestParam Boolean isTranslate) {
         LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT);
-        ResultData resultData = sysIncomeService.selectOne(incomeId);
+        ResultData resultData = sysIncomeService.selectOne(incomeId, isTranslate);
         LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT);
+        return resultData;
+    }
+
+    /**
+     * 保存收入信息
+     *
+     * @param sysIncomeModel
+     * @return
+     */
+    @ApiOperation("保存收入信息")
+    @RequestMapping(value = "save", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultData save(SysIncomeModel sysIncomeModel) {
+        String operateType = sysIncomeModel.getIncomeId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
+        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
+        ResultData resultData = sysIncomeService.save(sysIncomeModel);
+        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
         return resultData;
     }
 

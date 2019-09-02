@@ -40,7 +40,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">收入日期</label>
                     <div class="layui-input-block">
-                        <input type="text" class="layui-input" name="incomeDate" id="incomeDate" placeholder="yyyy-MM">
+                        <input type="text" class="layui-input" name="incomeDate" id="incomeDate">
                     </div>
                 </div>
 
@@ -52,6 +52,13 @@
                         <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
                     </button>
                 </div>
+                <!-- 重置按钮 -->
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-income-list" lay-submit
+                            lay-filter="LAY-app-incomelist-refresh">
+                        <i class="layui-icon layui-icon-refresh-1 layuiadmin-button-btn"></i>
+                    </button>
+                </div>
 
             </div>
         </div>
@@ -60,7 +67,7 @@
             <!-- 头部操作按钮 -->
             <div style="padding-bottom: 10px;" id="LAY-app-income-list-button">
                 <button class="layui-btn layuiadmin-btn-income-list" data-type="add">新增</button>
-                <button class="layui-btn layuiadmin-btn-income-list" data-type="edit">修改</button>
+                <button class="layui-btn layuiadmin-btn-income-list" data-type="update">修改</button>
                 <button class="layui-btn layuiadmin-btn-income-list" data-type="delete">删除</button>
             </div>
 
@@ -93,12 +100,12 @@
 
         // 请求url
         var url = {
-            init: appName + "/income/selectListInitData",
+            init: appName + "/income/selectInitData",
             page: appName + "/income/selectPage",
-            select: appName + "/income/selectOne",
             del: appName + "/income/delete",
+            save: appName + "/income/save",
             add: appName + "/income/view/add",
-            edit: appName + "/income/view/edit",
+            update: appName + "/income/view/update",
             detail: appName + "/income/view/detail"
         }
 
@@ -116,9 +123,12 @@
 
         //年月选择器
         laydate.render({
-            elem: '#incomeDate'
-            , type: 'month'
+            elem: '#incomeDate',
+            type: 'month'
         });
+
+        // 权限按钮设置
+        fims.setAuthority(false, "LAY-app-" + businessType + "-list-button");
 
         // 初始化页面信息
         admin.req({
@@ -129,7 +139,6 @@
                 if (response.bizResult) {
                     // 设置查询条件
                     fims.setCondition("layui-form-item", response.data.condition);
-                    form.render();
                 } else {
                     layer.msg(response.msg);
                 }
@@ -139,7 +148,7 @@
         // 数据删除
         var del = function (data) {
             var incomeIds = [];
-            for(var i=0; i<data.length; i++){
+            for (var i = 0; i < data.length; i++) {
                 incomeIds.push(data[i].incomeId);
             }
             layer.confirm(fims.tips.warn.confirmDel, function (index) {
@@ -151,7 +160,7 @@
                         if (response.bizResult) {
                             setTimeout(function () {
                                 layer.close(index);
-                                table.reload("LAY-app-" + businessType + "-list");
+                                reloadData(fims.getValue("layui-form-item"));
                                 layer.msg(response.msg);
                             }, 500);
                         } else {
@@ -168,38 +177,72 @@
                 type: 2,
                 title: fims.tips.title.add,
                 content: url.add,
-                area: fims.set.area.defaut,
-                btn: [fims.tips.btn.ok, fims.tips.btn.cancel],
-                resize: false
+                area: ["450px", "500px"],
+                btn: [fims.tips.btn.save, fims.tips.btn.cancel],
+                resize: fims.set.resize,
+                yes: function (e, t) {
+                    save(e, t, fims.operate.add, data);
+                }
             });
         }
 
         // 数据修改
-        var edit = function (data) {
+        var update = function (data) {
+            var request = {
+                incomeId: data.incomeId,
+                isTranslate: "0"
+            }
             layer.open({
                 type: 2,
-                title: fims.tips.title.edit,
-                content: url.edit,
-                area: fims.set.area.defaut,
-                btn: [fims.tips.btn.ok, fims.tips.btn.cancel],
-                resize: false
+                title: fims.tips.title.update,
+                content: url.update + "?" + $.param(request),
+                area: ["450px", "500px"],
+                btn: [fims.tips.btn.save, fims.tips.btn.cancel],
+                resize: fims.set.resize,
+                yes: function (e, t) {
+                    save(e, t, fims.operate.update, data);
+                }
             });
         }
 
         // 数据详情
         var detail = function (data) {
+            var request = {
+                incomeId: data.incomeId,
+                isTranslate: "1"
+            }
             layer.open({
                 type: 2,
                 title: fims.tips.title.detail,
-                content: url.detail,
-                area: fims.set.area.defaut,
-                btn: [fims.tips.btn.ok, fims.tips.btn.cancel],
+                content: url.detail + "?" + $.param(request),
+                area: ["450px", "450px"],
                 resize: false
             });
         }
 
-        // 权限按钮设置
-        fims.setAuthority(false, "LAY-app-" + businessType + "-list-button");
+        // 数据保存
+        var save = function (e, t, type, data) {
+            var iframe = window["layui-layer-iframe" + e],
+                button = t.find("iframe").contents().find("#LAY-app-" + businessType + "-" + type);
+            iframe.layui.form.on("submit(LAY-app-" + businessType + "-" + type +")", function (data) {
+                admin.req({
+                    url: url.save,
+                    type: "post",
+                    data: fims.clearBlank(data.field),
+                    done: function (response) {
+                        if (response.bizResult) {
+                            setTimeout(function () {
+                                reloadData(fims.getValue("layui-form-item"));
+                                layer.close(e);
+                                layer.msg(response.msg);
+                            }, 500);
+                        } else {
+                            layer.msg(response.msg);
+                        }
+                    }
+                });
+            }), button.trigger("click");
+        }
 
         // 列表数据渲染
         table.render({
@@ -231,11 +274,11 @@
                 case fims.operate.add:
                     add(data);
                     break;
-                case fims.operate.edit:
-                    edit(data);
+                case fims.operate.update:
+                    update(data);
                     break;
                 default:
-                    layer.alert(fims.tips.msg.notSupportEvent);
+                    layer.msg(fims.tips.msg.notSupportEvent);
                     break;
             }
         });
@@ -254,15 +297,15 @@
                 case fims.operate.add:
                     add();
                     break;
-                case fims.operate.edit:
+                case fims.operate.update:
                     if (checkData.length === 0) {
                         return layer.msg(fims.tips.warn.notSelect);
                     }
                     if (checkData.length > 1) {
                         return layer.msg(fims.tips.warn.selectOne);
                     }
-                    edit(checkData[0]);
-                    break
+                    update(checkData[0]);
+                    break;
                 case fims.operate.delete:
                     if (checkData.length === 0) {
                         return layer.msg(fims.tips.warn.notSelect);
@@ -270,16 +313,21 @@
                     del(checkData);
                     break;
                 default:
-                    layer.alert(fims.tips.msg.notSupportEvent);
+                    layer.msg(fims.tips.msg.notSupportEvent);
             }
         });
 
         //监听查询
         form.on("submit(LAY-app-" + businessType + "list-search)", function (data) {
             //执行重载
-            table.reload("LAY-app-" + businessType + "-list", {
-                where: fims.clearBlank(data.field)
-            });
+            reloadData(fims.getValue("layui-form-item"));
+        });
+
+        //监听重置
+        form.on("submit(LAY-app-" + businessType + "list-refresh)", function (data) {
+            fims.clearValue("layui-form-item");
+            //执行重载
+            reloadData({});
         });
 
         //  监听列表排序
@@ -289,6 +337,9 @@
                 where: {
                     sort: data.field,
                     order: data.type
+                },
+                done: function (res, curr, count) {
+                    this.where = {};
                 }
             });
         });
@@ -297,6 +348,16 @@
         table.on("rowDouble(LAY-app-" + businessType + "-list)", function (obj) {
             detail(obj.data);
         });
+
+        // 重载列表数据
+        var reloadData = function (data) {
+            table.reload("LAY-app-" + businessType + "-list", {
+                where: fims.clearBlank(data),
+                done: function (res, curr, count) {
+                    this.where = {};
+                }
+            });
+        }
 
     });
 </script>

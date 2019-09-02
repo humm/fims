@@ -6,6 +6,7 @@
         }, s = "LAY_app_body", d = function (e) {
             this.id = e, this.container = t("#" + (e || s))
         };
+
     i.loading = function (e) {
         e.append(this.elemLoad = t('<i class="layui-anim layui-anim-rotate layui-anim-loop layui-icon layui-icon-loading layadmin-loading"></i>'))
     }, i.removeLoad = function () {
@@ -27,7 +28,15 @@
                 }
                 "function" == typeof n && n(t)
             },
-            error: function (e, t) {
+            error: function (xhr, t) {
+                var status = xhr.getResponseHeader("status");
+                // 跳转登录页面
+                if(status == "timeout") {
+                    layer.alert('由于您长时间没有操作, 请重新登录...', function () {
+                        layer.msg("页面已跳转") ;
+                    });
+                    return;
+                }
                 var n = ["请求异常，请重试<br><cite>错误信息：</cite>" + t, s()].join("");
                 i.error(n), "function" == typeof n && n(res)
             }

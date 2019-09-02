@@ -13,25 +13,25 @@
     <select id="selectPage" parameterType="com.hoomoomoo.fims.app.model.SysIncomeQueryModel"
             resultType="com.hoomoomoo.fims.app.model.SysIncomeModel">
         select
-            <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List"/>
         from sys_income
         <where>
-            <if test="incomeId != null" >
+            <if test="incomeId != null">
                 and income_id = #{incomeId}
             </if>
-            <if test="userId != null" >
+            <if test="userId != null">
                 and user_id = #{userId}
             </if>
-            <if test="incomeType != null" >
+            <if test="incomeType != null">
                 and income_type = #{incomeType}
             </if>
-            <if test="incomeDate != null" >
+            <if test="incomeDate != null">
                 and to_char(income_date, 'yyyy-MM') = to_char(#{incomeDate}, 'yyyy-MM')
             </if>
-            <if test="incomeCompany != null" >
+            <if test="incomeCompany != null">
                 and income_company = #{incomeCompany}
             </if>
-            <if test="incomeAmount != null" >
+            <if test="incomeAmount != null">
                 and income_amount = #{incomeAmount}
             </if>
             <if test="isAdmin == false">
@@ -39,14 +39,14 @@
             </if>
         </where>
         order by
-        <if test="sort != null and order != null" >
+        <if test="sort != null and order != null">
             ${sort} ${order}
         </if>
-        <if test="sort != null and order == null" >
+        <if test="sort != null and order == null">
             ${sort}
         </if>
         <if test="sort == null">
-            income_date desc
+            modify_date desc
         </if>
     </select>
 
@@ -63,31 +63,105 @@
     <select id="selectOne" parameterType="com.hoomoomoo.fims.app.model.SysIncomeQueryModel"
             resultType="com.hoomoomoo.fims.app.model.SysIncomeModel">
         select
-            <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List"/>
         from sys_income
         <where>
-            <if test="incomeId != null" >
+            <if test="incomeId != null">
                 and income_id = #{incomeId}
             </if>
-            <if test="userId != null" >
+            <if test="userId != null">
                 and user_id = #{userId}
             </if>
-            <if test="incomeType != null" >
+            <if test="incomeType != null">
                 and income_type = #{incomeType}
             </if>
-            <if test="incomeDate != null" >
+            <if test="incomeDate != null">
                 and to_char(income_date, 'yyyy-MM') = to_char(#{incomeDate}, 'yyyy-MM')
             </if>
-            <if test="incomeCompany != null" >
+            <if test="incomeCompany != null">
                 and income_company = #{incomeCompany}
             </if>
-            <if test="incomeAmount != null" >
+            <if test="incomeAmount != null">
                 and income_amount = #{incomeAmount}
             </if>
             <if test="isAdmin == false">
                 and user_id = #{userKey}
             </if>
         </where>
+    </select>
+
+    <select id="selectLastType" parameterType="com.hoomoomoo.fims.app.model.SysIncomeQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.common.LastType">
+        select s.income_type as incomeType
+        from (
+            select t.income_type
+            from sys_income t
+            where t.user_id = #{userId}
+            order by t.modify_date desc
+        )s
+        where rownum = 1
+    </select>
+
+    <select id="save" parameterType="com.hoomoomoo.fims.app.model.SysIncomeModel">
+        merge into sys_income a
+        using (select #{incomeId} as income_id from dual) b
+        on (a.income_id = b.income_id)
+        when matched then
+            update
+                <set>
+                    <if test="userId != null">
+                        user_id = #{userId},
+                    </if>
+                    <if test="incomeType != null">
+                        income_type = #{incomeType},
+                    </if>
+                    <if test="incomeDate != null">
+                        income_date = #{incomeDate},
+                    </if>
+                    <if test="incomeCompany != null">
+                        income_company = #{incomeCompany},
+                    </if>
+                    <if test="incomeAmount != null">
+                        income_amount = #{incomeAmount},
+                    </if>
+                    <if test="incomeMemo != null">
+                        income_memo = #{incomeMemo},
+                    </if>
+                    <if test="modifyDate != null">
+                        modify_date = #{modifyDate},
+                    </if>
+                    <if test="modifyUser != null">
+                        modify_user = #{modifyUser}
+                    </if>
+                </set>
+            where income_id = #{incomeId}
+        when not matched then
+            insert(
+                income_id,
+                user_id,
+                income_type,
+                income_date,
+                income_company,
+                income_amount,
+                income_memo,
+                create_date,
+                create_user,
+                modify_date,
+                modify_user
+            )
+            values(
+                #{incomeId},
+                #{userId},
+                #{incomeType},
+                #{incomeDate},
+                #{incomeCompany},
+                #{incomeAmount},
+                #{incomeMemo},
+                #{createDate},
+                #{createUser},
+                #{modifyDate},
+                #{modifyUser}
+            )
     </select>
 
 </mapper>
