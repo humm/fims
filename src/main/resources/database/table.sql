@@ -129,7 +129,7 @@ create table sys_dictionary
     dictionary_caption VARCHAR2(100) not null,
     item_order         NUMBER(10),
     code_order         NUMBER(10),
-    user_id            VARCHAR2(50)  not null,
+    user_id            number(30)    not null,
     constraint pk_sys_dictionary primary key (dictionary_code, dictionary_item)
 );
 

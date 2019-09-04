@@ -244,6 +244,9 @@ public class SystemServiceImpl implements SystemService {
         List<String> businessIdList = systemDao.loadBusinessId();
         if (CollectionUtils.isNotEmpty(businessIdList)) {
             for (String businessId : businessIdList) {
+                if(businessId.split(MINUS).length != 2){
+                    continue;
+                }
                 String businessKey = businessId.split(MINUS)[0];
                 String businessValue = businessId.split(MINUS)[1];
                 BUSINESS_SERIAL_NO.put(businessKey, businessValue);

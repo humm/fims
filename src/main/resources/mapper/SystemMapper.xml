@@ -3,9 +3,9 @@
 <mapper namespace="com.hoomoomoo.fims.app.dao.SystemDao">
 
     <select id="loadBusinessId" resultType="java.lang.String">
-        select 'user-' || max(to_number(user_id)) as businessId from sy_user
+        select 'user-' || max(to_number(user_id)) as businessId from sys_user
         union all
-        select 'salary-' || max(to_number(salary_id)) as businessId from sy_salary
+        select 'salary-' || max(to_number(income_id)) as businessId from sys_income
     </select>
 
 
