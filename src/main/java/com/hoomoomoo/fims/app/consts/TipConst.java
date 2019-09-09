@@ -181,6 +181,21 @@ public class TipConst {
     public static final String LOG_BUSINESS_TYPE_USER                           = "用户信息";
 
     /**
+     * 日志业务类型：通知
+     */
+    public static final String LOG_BUSINESS_TYPE_NOTICE                         = "通知信息";
+
+    /**
+     * 日志业务类型：收入信息报表
+     */
+    public static final String LOG_BUSINESS_TYPE_REPORT_INCOME                  = "收入信息报表";
+
+    /**
+     * 日志业务类型：随礼信息报表
+     */
+    public static final String LOG_BUSINESS_TYPE_REPORT_GIFTE                   = "随礼信息报表";
+
+    /**
      * 日志业务类型：菜单
      */
     public static final String LOG_BUSINESS_TYPE_MENU                           = "菜单信息";

@@ -68,6 +68,18 @@ public class BeanMapUtils {
     /**
      * map 转换成 bean
      *
+     * @param map
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> T mapToBean(Map<String, Object> map, Class<T> clazz) throws Exception{
+        return mapToBean(map, clazz.newInstance());
+    }
+
+    /**
+     * map 转换成 bean
+     *
      * @param maps
      * @param clazz
      * @param <T>

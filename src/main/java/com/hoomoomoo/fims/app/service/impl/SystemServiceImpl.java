@@ -8,10 +8,12 @@ import com.hoomoomoo.fims.app.dao.SysUserDao;
 import com.hoomoomoo.fims.app.dao.SystemDao;
 import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.BaseModel;
+import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SystemService;
 import com.hoomoomoo.fims.app.util.BeanMapUtils;
 import com.hoomoomoo.fims.app.util.DateUtils;
 import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import com.sun.mail.imap.IMAPFolder;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -23,6 +25,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.*;
 import javax.mail.internet.MimeMessage;
@@ -39,6 +42,7 @@ import static com.hoomoomoo.fims.app.config.RunDataConfig.BUSINESS_SERIAL_NO;
 import static com.hoomoomoo.fims.app.config.RunDataConfig.DICTIONARY_CONDITION;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D000;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D005;
+import static com.hoomoomoo.fims.app.consts.SystemConst.ADMIN_CODE;
 import static com.hoomoomoo.fims.app.consts.SystemConst.APPLICATION_PROPERTIES;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
@@ -51,6 +55,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
  */
 
 @Service
+@Transactional
 public class SystemServiceImpl implements SystemService {
 
     private static final Logger logger = LoggerFactory.getLogger(SystemServiceImpl.class);
@@ -392,6 +397,31 @@ public class SystemServiceImpl implements SystemService {
             }
         }
         LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY_LOAD);
+    }
+
+    /**
+     * 获取用户ID
+     *
+     * @return
+     */
+    @Override
+    public String getUserId() {
+        String userId = STR_EMPTY;
+        SessionBean sessionBean = SystemSessionUtils.getSession();
+        if(sessionBean != null){
+            userId = sessionBean.getUserId();
+        }else{
+            SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
+            sysUserQueryModel.setUserCode(ADMIN_CODE);
+            List<SysUserModel> sysUserModelList = sysUserDao.selectSysUser(sysUserQueryModel);
+            if(CollectionUtils.isNotEmpty(sysUserModelList)){
+                SysUserModel sysUserModel = sysUserModelList.get(0);
+                if(sysUserModel != null){
+                    userId = sysUserModel.getUserId();
+                }
+            }
+        }
+        return userId;
     }
 
     /**

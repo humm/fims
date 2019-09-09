@@ -84,9 +84,6 @@
             <if test="incomeAmount != null">
                 and income_amount = #{incomeAmount}
             </if>
-            <if test="isAdmin == false">
-                and user_id = #{userKey}
-            </if>
         </where>
     </select>
 
@@ -102,7 +99,7 @@
         where rownum = 1
     </select>
 
-    <select id="save" parameterType="com.hoomoomoo.fims.app.model.SysIncomeModel">
+    <update id="save" parameterType="com.hoomoomoo.fims.app.model.SysIncomeModel">
         merge into sys_income a
         using (select #{incomeId} as income_id from dual) b
         on (a.income_id = b.income_id)
@@ -162,6 +159,6 @@
                 #{modifyDate},
                 #{modifyUser}
             )
-    </select>
+    </update>
 
 </mapper>

@@ -107,7 +107,13 @@
                   <a lay-href="home/homepage2">主页二</a>
                 </dd>
                 <dd data-name="income">
-                  <a lay-href="income/view/list">Demo</a>
+                  <a lay-href="income/view/list">收入信息</a>
+                </dd>
+                <dd data-name="gift">
+                  <a lay-href="gift/view/list">随礼信息</a>
+                </dd>
+                <dd data-name="incomeReport">
+                  <a lay-href="report/view/income/report">收入报表</a>
                 </dd>
               </dl>
             </li>

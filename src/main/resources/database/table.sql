@@ -5,6 +5,7 @@
 -- 是否 varchar2(1)
 -- 状态 varchar2(1)
 -- 金额 number(20, 2)
+-- 其他 varchar2(50)
 
 create or replace procedure drop_table(tableName in varchar2)
 is
@@ -18,31 +19,6 @@ begin
 end drop_table;
 
 
-call drop_table('sys_version');
-create table sys_version
-(
-    version_id      number(30) primary key,
-    version_no      varchar2(50)  not null,
-    version_type    varchar2(50)  not null,
-    version_content varchar2(500) not null,
-    version_date    date,
-    version_order   number(10)    not null
-);
-comment on column sys_version.version_id
-    is '修订id';
-comment on column sys_version.version_no
-    is '修订版本';
-comment on column sys_version.version_type
-    is '修订类型';
-comment on column sys_version.version_content
-    is '修订内容';
-comment on column sys_version.version_date
-    is '修订时间';
-comment on column sys_version.version_order
-    is '修订排序';
-
-
-
 call drop_table('sys_user');
 create table sys_user
 (
@@ -54,8 +30,8 @@ create table sys_user
     is_admin      varchar2(1)  default '0',
     create_date   timestamp(6) default sysdate,
     modify_date   timestamp(6) default sysdate,
-    create_user   varchar2(50),
-    modify_user   varchar2(50),
+    create_user   varchar2(50) not null,
+    modify_user   varchar2(50) not null,
     user_memo     varchar2(500)
 );
 comment on column sys_user.user_id
@@ -89,13 +65,13 @@ create table sys_income
     user_id        number(30)    not null,
     income_type    varchar2(50)  not null,
     income_date    date          not null,
-    income_company varchar2(50) not null,
+    income_company varchar2(50)  not null,
     income_amount  number(20, 2) not null,
     income_memo    varchar2(500),
     create_date    timestamp(6) default sysdate,
     modify_date    timestamp(6) default sysdate,
-    create_user    varchar2(50),
-    modify_user    varchar2(50)
+    create_user    varchar2(50) not null,
+    modify_user    varchar2(50) not null
 );
 comment on column sys_income.income_id
     is '收入ID';
@@ -124,11 +100,11 @@ comment on column sys_income.modify_user
 call drop_table('sys_dictionary');
 create table sys_dictionary
 (
-    dictionary_code    VARCHAR2(50)  not null,
-    dictionary_item    VARCHAR2(50)  not null,
-    dictionary_caption VARCHAR2(100) not null,
-    item_order         NUMBER(10),
-    code_order         NUMBER(10),
+    dictionary_code    varchar2(50)  not null,
+    dictionary_item    varchar2(50)  not null,
+    dictionary_caption varchar2(100) not null,
+    item_order         number(10),
+    code_order         number(10),
     user_id            number(30)    not null,
     constraint pk_sys_dictionary primary key (dictionary_code, dictionary_item)
 );
@@ -144,4 +120,93 @@ comment on column sy_dictionary.item_order
 comment on column sy_dictionary.code_order
     is '代码排序';
 comment on column sy_dictionary.user_id
-    is '用户id';
+    is '用户ID';
+
+
+call drop_table('sys_notice');
+create table sys_notice
+(
+    notice_id           number(30)  primary key,
+    user_id             number(30)  not null,
+    business_id         number(30)  not null,
+    business_type       varchar2(50) not null,
+    business_sub_type   varchar2(50) not null,
+    business_date       timestamp(6) default sysdate,
+    business_amount     number(20, 2) not null,
+    notice_status       varchar2(50) not null,
+    notice_type         varchar2(50) not null,
+    is_read             varchar2(1) not null,
+    create_date         timestamp(6) default sysdate,
+    modify_date         timestamp(6) default sysdate,
+    create_user         varchar2(50) not null,
+    modify_user         varchar2(50) not null
+);
+
+comment on column sys_notice.notice_id
+    is '通知ID';
+comment on column sys_notice.user_id
+    is '用户ID';
+comment on column sys_notice.business_id
+    is '业务ID';
+comment on column sys_notice.business_type
+    is '业务类型';
+comment on column sys_notice.business_sub_type
+    is '业务子类型';
+comment on column sys_notice.business_date
+    is '业务日期';
+comment on column sys_notice.business_amount
+    is '业务金额';
+comment on column sys_notice.notice_status
+    is '通知状态';
+comment on column sys_notice.notice_type
+    is '通知类型';
+comment on column sys_notice.is_read
+    is '是否已读';
+comment on column sys_notice.create_date
+    is '创建时间';
+comment on column sys_notice.modify_date
+    is '修改时间';
+comment on column sys_notice.create_user
+    is '创建人';
+comment on column sys_notice.modify_user
+    is '修改人';
+
+
+call drop_table('sys_gift');
+create table sys_gift
+(
+    gift_id       number(30)  primary key,
+    gift_type     varchar2(50) not null,
+    gift_sender   varchar2(50) not null,
+    gift_receiver varchar2(50) not null,
+    gift_date     date not null,
+    gift_amount   number(20,2) not null,
+    gift_memo     varchar2(500) not null,
+    create_date   timestamp(6) not null,
+    modify_date   timestamp(6) not null,
+    create_user   varchar2(50) not null,
+    modify_user   varchar2(50) not null
+);
+
+comment on column sys_gift.gift_id
+    is '随礼ID';
+comment on column sys_gift.gift_type
+    is '随礼类型';
+comment on column sys_gift.gift_sender
+    is '送礼人';
+comment on column sys_gift.gift_receiver
+    is '收礼人';
+comment on column sys_gift.gift_date
+    is '随礼日期';
+comment on column sys_gift.gift_amount
+    is '随礼金额';
+comment on column sys_gift.gift_memo
+    is '随礼备注';
+comment on column sys_gift.create_date
+    is '创建时间';
+comment on column sys_gift.modify_date
+    is '修改时间';
+comment on column sys_gift.create_user
+    is '创建人';
+comment on column sys_gift.modify_user
+    is '修改人';

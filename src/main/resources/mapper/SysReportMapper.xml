@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoomoomoo.fims.app.dao.SysReportDao">
+
+    <select id="selectIncomeYear" parameterType="com.hoomoomoo.fims.app.model.SysReportQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.SysReportModel">
+        select
+            <if test="userId != null">
+                s.user_name reportName,
+            </if>
+            sum(t.income_amount) reportNum,
+            to_number(substr(to_char(t.income_date, 'yyyyMMdd'), 1, 4)) reportDate,
+            '全年度' title,
+            '' subTitle
+        from sys_income t, sys_user s
+        where t.user_id = s.user_id
+            <if test="userId != null">
+                and t.user_id = #{userId}
+            </if>
+        group by
+            <if test="userId != null">
+                s.user_name,
+            </if>
+            to_number(substr(to_char(t.income_date, 'yyyyMMdd'), 1, 4))
+        order by
+            <if test="userId != null">
+                s.user_name,
+            </if>
+            to_number(substr(to_char(t.income_date, 'yyyyMMdd'), 1, 4))
+    </select>
+
+    <select id="selectIncomeMonth" parameterType="com.hoomoomoo.fims.app.model.SysReportQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.SysReportModel">
+        select
+            <if test="userId != null">
+                s.user_name reportName,
+            </if>
+            sum(t.income_amount) reportNum,
+            to_number(substr(to_char(t.income_date, 'yyyyMMdd'), 5, 2)) reportDate,
+            #{reportValue} || '年' title,
+            '' subTitle
+        from sys_income t, sys_user s
+        where t.user_id = s.user_id
+        and substr(to_char(t.income_date, 'yyyyMMdd'), 1, 4) = #{reportValue}
+            <if test="userId != null">
+                and t.user_id = #{userId}
+            </if>
+        group by
+            <if test="userId != null">
+                s.user_name,
+            </if>
+            to_number(substr(to_char(t.income_date, 'yyyyMMdd'), 5, 2))
+        order by
+            <if test="userId != null">
+                s.user_name,
+            </if>
+            to_number(substr(to_char(t.income_date, 'yyyyMMdd'), 5, 2))
+    </select>
+
+</mapper>

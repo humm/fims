@@ -20,7 +20,7 @@ public class ViewData {
     /**
      * 查询条件
      */
-    private Map<String, List<SysDictionaryModel>> condition               = new HashMap<>();
+    private Map<String, List<SysDictionaryModel>> condition               = new HashMap<>(16);
 
     /**
      * 智能填充
@@ -31,4 +31,9 @@ public class ViewData {
      * 最近一次操作类型
      */
     private LastType lastType;
+
+    /**
+     * 登录用户信息
+     */
+    private SessionBean sessionBean;
 }

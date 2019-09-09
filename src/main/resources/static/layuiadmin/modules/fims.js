@@ -135,7 +135,9 @@
             msg: {
                 notSupportEvent: "不支持的事件类型",
                 emptyData: "暂无相关数据",
-                request: "数据提交中..."
+                request: "数据提交中...",
+                notSameOne: "送礼人和收礼人不能为同一人",
+                isLoginOne: "送礼人或者收礼人必须有一个为当前登录人"
             }
         }
     };

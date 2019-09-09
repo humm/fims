@@ -43,4 +43,19 @@ public class DictionaryConst {
      */
     public static final String D006                          = "D006";
 
+    /**
+     * 消息通知状态
+     */
+    public static final String D007                          = "D007";
+
+    /**
+     * 消息通知类型
+     */
+    public static final String D008                          = "D008";
+
+    /**
+     * 随礼人
+     */
+    public static final String D009                          = "D009";
+
 }

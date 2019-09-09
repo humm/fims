@@ -6,8 +6,10 @@ import com.hoomoomoo.fims.app.dao.SysIncomeDao;
 import com.hoomoomoo.fims.app.model.SysDictionaryModel;
 import com.hoomoomoo.fims.app.model.SysIncomeModel;
 import com.hoomoomoo.fims.app.model.SysIncomeQueryModel;
+import com.hoomoomoo.fims.app.model.SysNoticeModel;
 import com.hoomoomoo.fims.app.model.common.*;
 import com.hoomoomoo.fims.app.service.SysIncomeService;
+import com.hoomoomoo.fims.app.service.SysNoticeService;
 import com.hoomoomoo.fims.app.service.SystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
@@ -17,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +41,7 @@ import static com.hoomoomoo.fims.app.consts.TipConst.*;
  */
 
 @Service
+@Transactional
 public class SysIncomeServiceImpl implements SysIncomeService {
 
     private static final Logger logger = LoggerFactory.getLogger(SysIncomeServiceImpl.class);
@@ -48,6 +52,9 @@ public class SysIncomeServiceImpl implements SysIncomeService {
     @Autowired
     private SystemService systemService;
 
+    @Autowired
+    private SysNoticeService sysNoticeService;
+
     /**
      * 查询列表页面相关数据
      *
@@ -57,17 +64,14 @@ public class SysIncomeServiceImpl implements SysIncomeService {
     public ResultData selectInitData() {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_INIT);
         ViewData viewData = new ViewData();
-        Map<String, List<SysDictionaryModel>> condition = new HashMap<>();
-        SessionBean sessionBean = SystemSessionUtils.getSession();
-        String userId = sessionBean.getUserId();
+        String userId = systemService.getUserId();
         // 获取查询条件
-        condition.put(SELECT_USER_ID,
+        viewData.getCondition().put(SELECT_USER_ID,
                 DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D000));
-        condition.put(SELECT_INCOME_COMPANY,
+        viewData.getCondition().put(SELECT_INCOME_COMPANY,
                 DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D005));
-        condition.put(SELECT_INCOME_TYPE,
+        viewData.getCondition().put(SELECT_INCOME_TYPE,
                 DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D003));
-        viewData.setCondition(condition);
         // 智能填充
         viewData.setMindFill(MIND_FILL);
         // 最近一次操作类型
@@ -113,6 +117,9 @@ public class SysIncomeServiceImpl implements SysIncomeService {
             for(String ele : incomeId){
                 SysIncomeModel sysIncomeModel = new SysIncomeModel();
                 sysIncomeModel.setIncomeId(ele);
+                SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysIncomeModel);
+                sysNoticeModel.setBusinessId(ele);
+                sysNoticeService.update(sysNoticeModel);
                 list.add(sysIncomeModel);
             }
             sysIncomeDao.delete(list);
@@ -152,14 +159,41 @@ public class SysIncomeServiceImpl implements SysIncomeService {
     public ResultData save(SysIncomeModel sysIncomeModel) {
         String operateType = sysIncomeModel.getIncomeId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
         String tipMsg = sysIncomeModel.getIncomeId() == null ? ADD_SUCCESS : UPDATE_SUCCESS;
-        if(sysIncomeModel.getIncomeId() == null){
-            sysIncomeModel.setIncomeId(systemService.getBusinessSerialNo(BUSINESS_TYPE_INCOME));
-        }
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
+        SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysIncomeModel);
+        sysNoticeModel.setNoticeId(systemService.getBusinessSerialNo(BUSINESS_TYPE_NOTICE));
+        if(sysIncomeModel.getIncomeId() == null){
+            // 新增
+            String incomeId = systemService.getBusinessSerialNo(BUSINESS_TYPE_INCOME);
+            sysIncomeModel.setIncomeId(incomeId);
+            sysNoticeModel.setBusinessId(incomeId);
+        }else{
+            // 修改
+            sysNoticeModel.setBusinessId(sysIncomeModel.getIncomeId());
+            sysNoticeService.update(sysNoticeModel);
+        }
+        sysNoticeService.save(sysNoticeModel);
         SystemUtils.setCreateUserInfo(sysIncomeModel);
         LogUtils.parameter(logger, sysIncomeModel);
         sysIncomeDao.save(sysIncomeModel);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
         return new ResultData(true, tipMsg, null);
+    }
+
+    /**
+     * 设置消息通知属性
+     *
+     * @param sysIncomeModel
+     * @return
+     */
+    private SysNoticeModel setSysNoticeProperties(SysIncomeModel sysIncomeModel){
+        SysNoticeModel sysNoticeModel = new SysNoticeModel();
+        sysNoticeModel.setUserId(sysIncomeModel.getUserId());
+        sysNoticeModel.setBusinessType(BUSINESS_TYPE_INCOME);
+        sysNoticeModel.setBusinessSubType(sysIncomeModel.getIncomeType());
+        sysNoticeModel.setBusinessDate(sysIncomeModel.getIncomeDate());
+        sysNoticeModel.setBusinessAmount(sysIncomeModel.getIncomeAmount());
+        sysNoticeModel.setNoticeType(new StringBuffer(D008).append(MINUS).append(STR_1).toString());
+        return sysNoticeModel;
     }
 }

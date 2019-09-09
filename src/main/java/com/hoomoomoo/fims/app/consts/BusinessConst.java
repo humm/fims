@@ -19,15 +19,21 @@ public class BusinessConst {
      */
     public static final String STATUS_FAIL                                  = "-1";
 
+
+    /**
+     * 字符串：0
+     */
+    public static final String STR_0                                        = "0";
+
     /**
      * 字符串：1
      */
     public static final String STR_1                                        = "1";
 
     /**
-     * 字符串：0
+     * 字符串：2
      */
-    public static final String STR_0                                        = "0";
+    public static final String STR_2                                        = "2";
 
     /**
      * 空串
@@ -115,6 +121,11 @@ public class BusinessConst {
     public static final String BUSINESS_TYPE_INCOME                         = "income";
 
     /**
+     * 业务类型 收入
+     */
+    public static final String BUSINESS_TYPE_NOTICE                         = "notice";
+
+    /**
      * 业务类型 菜单
      */
     public static final String BUSINESS_TYPE_MENU                           = "menu";
@@ -188,5 +199,57 @@ public class BusinessConst {
      * 查询条件：收入类型
      */
     public static final String SELECT_INCOME_TYPE                          = "incomeType";
+
+    /**
+     * 查询条件：随礼类型
+     */
+    public static final String SELECT_GIFT_TYPE                            = "giftType";
+
+    /**
+     * 查询条件：送礼人
+     */
+    public static final String SELECT_GIFT_SENDER                          = "giftSender";
+
+    /**
+     * 查询条件：收礼人
+     */
+    public static final String SELECT_GIFT_RECEIVER                        = "giftReceiver";
+
+    /**
+     * 报表：汇总title
+     */
+    public static final String REPORT_COLLECT_TITLE                        = "合计";
+
+    /**
+     * 报表类型：收入报表
+     */
+    public static final String REPORT_TYPE_INCOME                          = "income";
+
+    /**
+     * 报表类型：送礼报表
+     */
+    public static final String REPORT_TYPE_GIFT_SEND                       = "send";
+
+    /**
+     * 报表类型：收礼礼报表
+     */
+    public static final String REPORT_TYPE_GIFT_RECEIVE                    = "receive";
+
+    /**
+     * 报表子类型：年度报表
+     */
+    public static final String REPORT_SUB_TYPE_YEAR                        = "year";
+
+    /**
+     * 报表子类型：月度报表
+     */
+    public static final String REPORT_SUB_TYPE_MONTH                       = "month";
+
+    /**
+     * 报表月份数：12
+     */
+    public static final Integer REPORT_NUM_12                              = 12;
+
+
 
 }

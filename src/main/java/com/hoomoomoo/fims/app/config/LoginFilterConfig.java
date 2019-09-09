@@ -39,15 +39,11 @@ public class LoginFilterConfig implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String servletPath = request.getServletPath();
-        if(request.getParameter("test") == null){
-            response.setHeader("status", "timeout");
-            return;
-        }
         SessionBean sessionBean = new SessionBean();
         sessionBean.setUserId("20190808000001");
-        sessionBean.setUserCode("admin");
-        sessionBean.setUserName("系统管理员");
-        sessionBean.setIsAdmin(false);
+        sessionBean.setUserCode("20190808000001");
+        sessionBean.setUserName("管理员");
+        sessionBean.setIsAdmin(true);
 
         SystemSessionUtils.setSession(sessionBean);
 

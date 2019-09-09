@@ -82,4 +82,11 @@ public interface SystemService {
      * @return
      */
     void loadSysDictionaryCondition();
+
+    /**
+     * 获取用户ID
+     *
+     * @return
+     */
+    String getUserId();
 }

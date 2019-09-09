@@ -5,7 +5,9 @@
     <select id="loadBusinessId" resultType="java.lang.String">
         select 'user-' || max(to_number(user_id)) as businessId from sys_user
         union all
-        select 'salary-' || max(to_number(income_id)) as businessId from sys_income
+        select 'income-' || max(to_number(income_id)) as businessId from sys_income
+        union all
+        select 'notice-' || max(to_number(notice_id)) as businessId from sys_notice
     </select>
 
 

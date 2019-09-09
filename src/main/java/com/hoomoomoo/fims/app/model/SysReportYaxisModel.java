@@ -1,0 +1,21 @@
+package com.hoomoomoo.fims.app.model;
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+/**
+ * @author humm23693
+ * @description 报表信息Y轴实体类
+ * @package com.hoomoomoo.fims.app.model
+ * @date 2019/09/08
+ */
+
+@Data
+public class SysReportYaxisModel {
+
+    @ApiModelProperty(value = "名称", required = false)
+    private String name;
+
+    @ApiModelProperty(value = "数据", required = false)
+    private String[] data;
+}

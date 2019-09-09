@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoomoomoo.fims.app.dao.SysNoticeDao">
+
+    <insert id="save" parameterType="com.hoomoomoo.fims.app.model.SysNoticeModel">
+        insert into sys_notice(
+            notice_id,
+            user_id,
+            business_id,
+            business_type,
+            business_sub_type,
+            business_date,
+            business_amount,
+            notice_status,
+            notice_type,
+            is_read,
+            create_date,
+            modify_date,
+            create_user,
+            modify_user
+        )values(
+            #{noticeId},
+            #{userId},
+            #{businessId},
+            #{businessType},
+            #{businessSubType},
+            #{businessDate},
+            #{businessAmount},
+            #{noticeStatus},
+            #{noticeType},
+            '0',
+            #{createDate},
+            #{modifyDate},
+            #{createUser},
+            #{modifyUser}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.hoomoomoo.fims.app.model.SysNoticeModel">
+        update sys_notice
+        set is_read = '0', notice_status = #{noticeStatus}
+        where business_id = #{businessId}
+        and business_type = #{businessType}
+    </update>
+
+</mapper>

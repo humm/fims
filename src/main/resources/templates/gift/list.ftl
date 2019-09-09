@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>收入信息-列表</title>
+    <title>随礼信息-列表</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -17,45 +17,45 @@
             <div class="layui-form-item">
                 <!-- 查询条件 -->
                 <div class="layui-inline">
-                    <label class="layui-form-label">收入人</label>
+                    <label class="layui-form-label">送礼人</label>
                     <div class="layui-input-block">
-                        <select name="userId"></select>
+                        <select name="giftSender"></select>
                     </div>
                 </div>
 
                 <div class="layui-inline">
-                    <label class="layui-form-label">收入来源</label>
+                    <label class="layui-form-label">收礼人</label>
                     <div class="layui-input-block">
-                        <select name="incomeCompany"></select>
+                        <select name="giftReceiver"></select>
                     </div>
                 </div>
 
                 <div class="layui-inline">
-                    <label class="layui-form-label">收入类型</label>
+                    <label class="layui-form-label">随礼类型</label>
                     <div class="layui-input-block">
-                        <select name="incomeType"></select>
+                        <select name="giftType"></select>
                     </div>
                 </div>
 
                 <div class="layui-inline">
-                    <label class="layui-form-label">收入日期</label>
+                    <label class="layui-form-label">随礼日期</label>
                     <div class="layui-input-block">
-                        <input type="text" class="layui-input" name="incomeDate" id="incomeDate">
+                        <input type="text" class="layui-input" name="giftDate" id="giftDate">
                     </div>
                 </div>
 
 
                 <!-- 查询按钮 -->
                 <div class="layui-inline">
-                    <button class="layui-btn layuiadmin-btn-income-list" lay-submit
-                            lay-filter="LAY-app-incomelist-search">
+                    <button class="layui-btn layuiadmin-btn-gift-list" lay-submit
+                            lay-filter="LAY-app-giftlist-search">
                         <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
                     </button>
                 </div>
                 <!-- 重置按钮 -->
                 <div class="layui-inline">
-                    <button class="layui-btn layuiadmin-btn-income-list" lay-submit
-                            lay-filter="LAY-app-incomelist-refresh">
+                    <button class="layui-btn layuiadmin-btn-gift-list" lay-submit
+                            lay-filter="LAY-app-giftlist-refresh">
                         <i class="layui-icon layui-icon-refresh-1 layuiadmin-button-btn"></i>
                     </button>
                 </div>
@@ -65,14 +65,14 @@
 
         <div class="layui-card-body">
             <!-- 头部操作按钮 -->
-            <div style="padding-bottom: 10px;" id="LAY-app-income-list-button">
-                <button class="layui-btn layuiadmin-btn-income-list" data-type="add">新增</button>
-                <button class="layui-btn layuiadmin-btn-income-list" data-type="update">修改</button>
-                <button class="layui-btn layuiadmin-btn-income-list" data-type="delete">删除</button>
+            <div style="padding-bottom: 10px;" id="LAY-app-gift-list-button">
+                <button class="layui-btn layuiadmin-btn-gift-list" data-type="add">新增</button>
+                <button class="layui-btn layuiadmin-btn-gift-list" data-type="update">修改</button>
+                <button class="layui-btn layuiadmin-btn-gift-list" data-type="delete">删除</button>
             </div>
 
             <!-- 列表数据 -->
-            <table id="LAY-app-income-list" lay-filter="LAY-app-income-list"></table>
+            <table id="LAY-app-gift-list" lay-filter="LAY-app-gift-list"></table>
 
         </div>
     </div>
@@ -96,34 +96,37 @@
         var appName = '${appName}';
 
         // 业务类型
-        var businessType = "income";
+        var businessType = "gift";
+
+        // 登录用户信息
+        var sessionBean = {};
 
         // 请求url
         var url = {
-            init: appName + "/income/selectInitData",
-            page: appName + "/income/selectPage",
-            del: appName + "/income/delete",
-            save: appName + "/income/save",
-            add: appName + "/income/view/add",
-            update: appName + "/income/view/update",
-            detail: appName + "/income/view/detail"
+            init: appName + "/gift/selectInitData",
+            page: appName + "/gift/selectPage",
+            del: appName + "/gift/delete",
+            save: appName + "/gift/save",
+            add: appName + "/gift/view/add",
+            update: appName + "/gift/view/update",
+            detail: appName + "/gift/view/detail"
         }
 
         // 列表字段
         var tableColumn = [[
             {type: "checkbox", fixed: "left"},
-            {field: "incomeId", title: "收入序列号", sort: false, hide: true},
-            {field: "userId", title: "收入人", sort: true},
-            {field: "incomeDate", title: "收入日期", align: 'center', sort: true},
-            {field: "incomeCompany", title: "收入来源", sort: true},
-            {field: "incomeType", title: "收入类型", sort: true},
-            {field: "incomeAmount", title: "收入金额", sort: true},
-            {field: "incomeMemo", title: "收入备注"}
+            {field: "giftId", title: "随礼序列号", sort: false, hide: true},
+            {field: "giftSender", title: "送礼人", sort: true},
+            {field: "giftReceiver", title: "收礼人", sort: true},
+            {field: "giftType", title: "随礼类型", sort: true},
+            {field: "giftDate", title: "随礼日期", sort: true},
+            {field: "giftAmount", title: "随礼金额", sort: true},
+            {field: "giftMemo", title: "随礼备注"}
         ]];
 
         // 年月选择器
         laydate.render({
-            elem: '#incomeDate',
+            elem: '#giftDate',
             type: 'month'
         });
 
@@ -139,6 +142,8 @@
                 if (response.bizResult) {
                     // 设置查询条件
                     fims.setCondition("layui-form-item", response.data.condition);
+                    // 设置登录人信息
+                    sessionBean = response.data.sessionBean;
                 } else {
                     layer.msg(response.msg);
                 }
@@ -147,15 +152,15 @@
 
         // 数据删除
         var del = function (data) {
-            var incomeIds = [];
+            var giftIds = [];
             for (var i = 0; i < data.length; i++) {
-                incomeIds.push(data[i].incomeId);
+                giftIds.push(data[i].giftId);
             }
             layer.confirm(fims.tips.warn.confirmDel, function (index) {
                 admin.req({
                     url: url.del,
                     type: "post",
-                    data: {incomeIds: incomeIds.join(",")},
+                    data: {giftIds: giftIds.join(",")},
                     done: function (response) {
                         if (response.bizResult) {
                             setTimeout(function () {
@@ -189,7 +194,7 @@
         // 数据修改
         var update = function (data) {
             var request = {
-                incomeId: data.incomeId,
+                giftId: data.giftId,
                 isTranslate: "0"
             }
             layer.open({
@@ -208,7 +213,7 @@
         // 数据详情
         var detail = function (data) {
             var request = {
-                incomeId: data.incomeId,
+                giftId: data.giftId,
                 isTranslate: "1"
             }
             layer.open({
@@ -224,11 +229,21 @@
         var save = function (e, t, type, data) {
             var iframe = window["layui-layer-iframe" + e],
                 button = t.find("iframe").contents().find("#LAY-app-" + businessType + "-" + type);
-            iframe.layui.form.on("submit(LAY-app-" + businessType + "-" + type +")", function (data) {
+            iframe.layui.form.on("submit(LAY-app-" + businessType + "-" + type + ")", function (data) {
+                var param = fims.clearBlank(data.field);
+                if (param.giftSender == param.giftReceiver) {
+                    layer.msg(fims.tips.msg.notSameOne);
+                    return;
+                }
+                var isLoginUser = param.giftSender.indexOf(sessionBean.userId) == -1 && param.giftReceiver.indexOf(sessionBean.userId) == -1;
+                if (isLoginUser) {
+                    layer.msg(fims.tips.msg.isLoginOne);
+                    return;
+                }
                 admin.req({
                     url: url.save,
                     type: "post",
-                    data: fims.clearBlank(data.field),
+                    data: param,
                     done: function (response) {
                         if (response.bizResult) {
                             setTimeout(function () {

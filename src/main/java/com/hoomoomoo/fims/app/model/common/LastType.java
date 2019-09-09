@@ -16,4 +16,9 @@ public class LastType {
      * 收入类型
      */
     private String incomeType;
+
+    /**
+     * 随礼类型
+     */
+    private String giftType;
 }
