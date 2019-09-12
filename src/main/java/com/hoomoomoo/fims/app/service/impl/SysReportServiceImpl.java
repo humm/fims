@@ -1,10 +1,7 @@
 package com.hoomoomoo.fims.app.service.impl;
 
 import com.hoomoomoo.fims.app.dao.SysReportDao;
-import com.hoomoomoo.fims.app.model.SysDictionaryModel;
-import com.hoomoomoo.fims.app.model.SysReportModel;
-import com.hoomoomoo.fims.app.model.SysReportQueryModel;
-import com.hoomoomoo.fims.app.model.SysReportYaxisModel;
+import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysReportService;
@@ -47,43 +44,30 @@ public class SysReportServiceImpl implements SysReportService {
     /**
      * 查询报表数据
      *
+     * @param reportMode
      * @param reportType
      * @param reportSubType
      * @param reportValue
      * @return
      */
     @Override
-    public ResultData initData(String reportType, String reportSubType, String reportValue) {
+    public ResultData initData(String reportMode, String reportType, String reportSubType, String reportValue) {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_REPORT_INCOME, LOG_OPERATE_TYPE_SELECT);
         SysReportQueryModel sysReportQueryModel = new SysReportQueryModel();
+        sysReportQueryModel.setReportMode(reportMode);
         sysReportQueryModel.setReportType(reportType);
         sysReportQueryModel.setReportSubType(reportSubType);
         sysReportQueryModel.setReportValue(reportValue);
-        SessionBean sessionBean = SystemSessionUtils.getSession();
-        SysReportModel sysReportModel = new SysReportModel();
-        if (sessionBean != null) {
-            String loginUserId = sessionBean.getUserId();
-            // 获取所有用户数据
-            if (sessionBean.getIsAdmin()) {
-                // 获取汇总数据
-                List<SysReportModel> sysReportModelList = getSysReportData(sysReportQueryModel);
-                setSysReportCommonProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean);
-                setSysReportProperties(sysReportModel, sysReportModelList, sessionBean, 0);
-                // 获取用户信息
-                List<SysDictionaryModel> userList = DICTIONARY_CONDITION.get(loginUserId).get(D000);
-                for (int i = 0; i < userList.size(); i++) {
-                    String userId = userList.get(i).getDictionaryItem();
-                    sysReportQueryModel.setUserId(userId);
-                    sysReportModelList = getSysReportData(sysReportQueryModel);
-                    setSysReportProperties(sysReportModel, sysReportModelList, sessionBean, i + 1);
-                }
-            } else {
-                // 获取当前用户数据
-                sysReportQueryModel.setUserId(loginUserId);
-                List<SysReportModel> sysReportModelList = getSysReportData(sysReportQueryModel);
-                setSysReportCommonProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean);
-                setSysReportProperties(sysReportModel, sysReportModelList, sessionBean, 0);
-            }
+        SysReportModel sysReportModel = null;
+        switch (reportMode) {
+            case REPORT_MODE_BAR:
+                sysReportModel = initBarData(sysReportQueryModel);
+                break;
+            case REPORT_MODE_PIE:
+                sysReportModel = initPieData(sysReportQueryModel);
+                break;
+            default:
+                break;
         }
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_REPORT_INCOME, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysReportModel);
@@ -100,10 +84,21 @@ public class SysReportServiceImpl implements SysReportService {
         LogUtils.parameter(logger, sysReportQueryModel);
         switch (sysReportQueryModel.getReportType()) {
             case REPORT_TYPE_INCOME:
-                if(REPORT_SUB_TYPE_YEAR.equals(sysReportQueryModel.getReportSubType())){
+                if (REPORT_SUB_TYPE_YEAR.equals(sysReportQueryModel.getReportSubType())) {
+                    // 年度
                     sysReportModelList = sysReportDao.selectIncomeYear(sysReportQueryModel);
-                }else if(REPORT_SUB_TYPE_MONTH.equals(sysReportQueryModel.getReportSubType())){
+                } else if (REPORT_SUB_TYPE_MONTH.equals(sysReportQueryModel.getReportSubType())) {
+                    // 月度
                     sysReportModelList = sysReportDao.selectIncomeMonth(sysReportQueryModel);
+                } else if (REPORT_SUB_TYPE_SOURCE.equals(sysReportQueryModel.getReportSubType())) {
+                    // 来源
+                    sysReportModelList = sysReportDao.selectIncomeSource(sysReportQueryModel);
+                } else if (REPORT_SUB_TYPE_TYPE.equals(sysReportQueryModel.getReportSubType())) {
+                    // 类型
+                    sysReportModelList = sysReportDao.selectIncomeType(sysReportQueryModel);
+                } else if (REPORT_SUB_TYPE_PEAK.equals(sysReportQueryModel.getReportSubType())) {
+                    // 极值
+                    sysReportModelList = sysReportDao.selectIncomePeak(sysReportQueryModel);
                 }
                 break;
             case REPORT_TYPE_GIFT_SEND:
@@ -128,47 +123,12 @@ public class SysReportServiceImpl implements SysReportService {
      */
     private void setSysReportCommonProperties(SysReportModel sysReportModel, SysReportQueryModel sysReportQueryModel,
                                               List<SysReportModel> sysReportModelList, SessionBean sessionBean) {
-        // 设置公共数据
-        if (CollectionUtils.isNotEmpty(sysReportModelList)) {
-            Integer length = DICTIONARY_CONDITION.get(sessionBean.getUserId()).get(D000).size();
-            length = sessionBean.getIsAdmin() ? length + 1 : length;
-            sysReportModel.setLegendData(new String[length]);
-            sysReportModel.setTitle(sysReportModelList.get(0).getTitle());
-            sysReportModel.setSubTitle(sysReportModelList.get(0).getSubTitle());
-            sysReportModel.setYAxisData(new ArrayList<>());
-            // 设置x轴数据
-            setXAxisData(sysReportModel, sysReportQueryModel, sysReportModelList);
-        } else {
-            sysReportModel.setLegendData(new String[0]);
-            sysReportModel.setXAxisData(new String[0]);
-            sysReportModel.setTitle(STR_EMPTY);
-            sysReportModel.setSubTitle(STR_EMPTY);
-            sysReportModel.setYAxisData(new ArrayList<>());
-        }
-    }
-
-    /**
-     * 设置X轴数据
-     *
-     * @param sysReportModel
-     * @param sysReportModelList
-     */
-    private void setXAxisData(SysReportModel sysReportModel, SysReportQueryModel sysReportQueryModel,
-                              List<SysReportModel> sysReportModelList) {
-        switch (sysReportQueryModel.getReportSubType()) {
-            case REPORT_SUB_TYPE_YEAR:
-                Integer start = Integer.valueOf(sysReportModelList.get(0).getReportDate());
-                Integer end = Integer.valueOf(sysReportModelList.get(sysReportModelList.size() - 1).getReportDate());
-                sysReportModel.setXAxisData(new String[end - start + 1]);
-                for (int i = 0; i < end - start + 1; i++) {
-                    sysReportModel.getXAxisData()[i] = String.valueOf(start + i);
-                }
+        switch (sysReportQueryModel.getReportMode()) {
+            case REPORT_MODE_BAR:
+                setBarSysReportCommonProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean);
                 break;
-            case REPORT_SUB_TYPE_MONTH:
-                sysReportModel.setXAxisData(new String[REPORT_NUM_12]);
-                for (int i = 0; i < REPORT_NUM_12; i++) {
-                    sysReportModel.getXAxisData()[i] = String.valueOf(i + 1);
-                }
+            case REPORT_MODE_PIE:
+                setPieSysReportCommonProperties(sysReportModel, sysReportModelList);
                 break;
             default:
                 break;
@@ -182,8 +142,170 @@ public class SysReportServiceImpl implements SysReportService {
      * @param sysReportModelList
      * @param sessionBean
      */
-    private void setSysReportProperties(SysReportModel sysReportModel, List<SysReportModel> sysReportModelList,
-                                        SessionBean sessionBean, Integer index) {
+    private void setSysReportProperties(SysReportModel sysReportModel, SysReportQueryModel sysReportQueryModel,
+                                        List<SysReportModel> sysReportModelList, SessionBean sessionBean,
+                                        Integer index) {
+        switch (sysReportQueryModel.getReportMode()) {
+            case REPORT_MODE_BAR:
+                setBarSysReportProperties(sysReportModel, sysReportModelList, sessionBean, index);
+                break;
+            case REPORT_MODE_PIE:
+                setPieSysReportProperties(sysReportModel, sysReportModelList);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 查询饼图数据
+     *
+     * @param sysReportQueryModel
+     * @return
+     */
+    private SysReportModel initPieData(SysReportQueryModel sysReportQueryModel) {
+        SysReportModel sysReportModel = new SysReportModel();
+        SessionBean sessionBean = SystemSessionUtils.getSession();
+        if (sessionBean != null) {
+            String loginUserId = sessionBean.getUserId();
+            if (!sessionBean.getIsAdmin()) {
+                sysReportQueryModel.setUserId(loginUserId);
+            }
+            List<SysReportModel> sysReportModelList = getSysReportData(sysReportQueryModel);
+            setSysReportCommonProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean);
+            setSysReportProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean, null);
+        }
+        return sysReportModel;
+    }
+
+    /**
+     * 查询柱状图报表数据
+     *
+     * @param sysReportQueryModel
+     * @return
+     */
+    private SysReportModel initBarData(SysReportQueryModel sysReportQueryModel) {
+        SysReportModel sysReportModel = new SysReportModel();
+        SessionBean sessionBean = SystemSessionUtils.getSession();
+        if (sessionBean != null) {
+            String loginUserId = sessionBean.getUserId();
+            // 获取所有用户数据
+            if (sessionBean.getIsAdmin()) {
+                // 获取汇总数据
+                List<SysReportModel> sysReportModelList = getSysReportData(sysReportQueryModel);
+                setSysReportCommonProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean);
+                setSysReportProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean, 0);
+                // 获取用户信息
+                List<SysDictionaryModel> userList = DICTIONARY_CONDITION.get(loginUserId).get(D000);
+                for (int i = 0; i < userList.size(); i++) {
+                    String userId = userList.get(i).getDictionaryItem();
+                    sysReportQueryModel.setUserId(userId);
+                    sysReportModelList = getSysReportData(sysReportQueryModel);
+                    setSysReportProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean, i + 1);
+                }
+            } else {
+                // 获取当前用户数据
+                sysReportQueryModel.setUserId(loginUserId);
+                List<SysReportModel> sysReportModelList = getSysReportData(sysReportQueryModel);
+                setSysReportCommonProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean);
+                setSysReportProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean, 0);
+            }
+        }
+        return sysReportModel;
+    }
+
+    /**
+     * 设置柱状图公共数据
+     *
+     * @param sysReportModel
+     * @param sysReportQueryModel
+     * @param sysReportModelList
+     * @param sessionBean
+     */
+    private void setBarSysReportCommonProperties(SysReportModel sysReportModel, SysReportQueryModel sysReportQueryModel,
+                                                 List<SysReportModel> sysReportModelList, SessionBean sessionBean) {
+        // 设置公共数据
+        if (CollectionUtils.isNotEmpty(sysReportModelList)) {
+            Integer length = DICTIONARY_CONDITION.get(sessionBean.getUserId()).get(D000).size();
+            length = sessionBean.getIsAdmin() ? length + 1 : length;
+            sysReportModel.setLegendData(new String[length]);
+            sysReportModel.setTitle(sysReportModelList.get(0).getTitle());
+            sysReportModel.setSubTitle(sysReportModelList.get(0).getSubTitle());
+            sysReportModel.setYAxisData(new ArrayList<>());
+            // 设置x轴数据
+            setXAxisData(sysReportModel, sysReportQueryModel, sysReportModelList);
+        } else {
+            sysReportModel.setLegendData(new String[0]);
+            sysReportModel.setTitle(STR_EMPTY);
+            sysReportModel.setSubTitle(STR_EMPTY);
+            sysReportModel.setYAxisData(new ArrayList<>());
+            sysReportModel.setXAxisData(new String[0]);
+        }
+    }
+
+    /**
+     * 设置饼图公共数据
+     *
+     * @param sysReportModel
+     * @param sysReportModelList
+     */
+    private void setPieSysReportCommonProperties(SysReportModel sysReportModel, List<SysReportModel> sysReportModelList) {
+        // 设置公共数据
+        if (CollectionUtils.isNotEmpty(sysReportModelList)) {
+            sysReportModel.setLegendData(new String[sysReportModelList.size()]);
+            sysReportModel.setTitle(sysReportModelList.get(0).getTitle());
+            sysReportModel.setSubTitle(sysReportModelList.get(0).getSubTitle());
+            sysReportModel.setPieData(new ArrayList<>());
+        } else {
+            sysReportModel.setLegendData(new String[0]);
+            sysReportModel.setTitle(STR_EMPTY);
+            sysReportModel.setSubTitle(STR_EMPTY);
+            sysReportModel.setPieData(new ArrayList<>());
+        }
+    }
+
+    /**
+     * 设置X轴数据
+     *
+     * @param sysReportModel
+     * @param sysReportModelList
+     */
+    private void setXAxisData(SysReportModel sysReportModel, SysReportQueryModel sysReportQueryModel,
+                              List<SysReportModel> sysReportModelList) {
+        switch (sysReportQueryModel.getReportMode()) {
+            case REPORT_MODE_BAR:
+                if (REPORT_SUB_TYPE_YEAR.equals(sysReportQueryModel.getReportSubType())) {
+                    Integer start = Integer.valueOf(sysReportModelList.get(0).getReportDate());
+                    Integer end = Integer.valueOf(sysReportModelList.get(sysReportModelList.size() - 1).getReportDate());
+                    sysReportModel.setXAxisData(new String[end - start + 1]);
+                    for (int i = 0; i < end - start + 1; i++) {
+                        sysReportModel.getXAxisData()[i] = String.valueOf(start + i);
+                    }
+                } else if (REPORT_SUB_TYPE_MONTH.equals(sysReportQueryModel.getReportSubType())) {
+                    sysReportModel.setXAxisData(new String[REPORT_NUM_12]);
+                    for (int i = 0; i < REPORT_NUM_12; i++) {
+                        sysReportModel.getXAxisData()[i] = String.valueOf(i + 1);
+                    }
+                }
+                break;
+            case REPORT_MODE_PIE:
+                // 无需设置
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 设置柱状图报表信息数据
+     *
+     * @param sysReportModel
+     * @param sysReportModelList
+     * @param sessionBean
+     * @param index
+     */
+    private void setBarSysReportProperties(SysReportModel sysReportModel, List<SysReportModel> sysReportModelList,
+                                           SessionBean sessionBean, Integer index) {
         // 设置Y轴数据
         Integer length = sysReportModel.getXAxisData().length;
         SysReportYaxisModel sysReportYaxisModel = new SysReportYaxisModel();
@@ -224,4 +346,27 @@ public class SysReportServiceImpl implements SysReportService {
             }
         }
     }
+
+    /**
+     * 设置饼图报表信息数据
+     *
+     * @param sysReportModel
+     * @param sysReportModelList
+     */
+    private void setPieSysReportProperties(SysReportModel sysReportModel, List<SysReportModel> sysReportModelList) {
+        if (CollectionUtils.isNotEmpty(sysReportModelList)) {
+            SysReportPieModel sysReportPieModel = new SysReportPieModel();
+            sysReportPieModel.setData(new SysReportPieSubModel[sysReportModelList.size()]);
+            sysReportPieModel.setName(sysReportModelList.get(0).getTitle());
+            sysReportModel.getPieData().add(sysReportPieModel);
+            for (int i = 0; i < sysReportModelList.size(); i++) {
+                sysReportModel.getLegendData()[i] = sysReportModelList.get(i).getReportName();
+                SysReportPieSubModel sysReportPieSubModel = new SysReportPieSubModel();
+                sysReportPieSubModel.setName(sysReportModelList.get(i).getReportName());
+                sysReportPieSubModel.setValue(sysReportModelList.get(i).getReportNum());
+                sysReportPieModel.getData()[i] = sysReportPieSubModel;
+            }
+        }
+    }
+
 }

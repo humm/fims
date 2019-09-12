@@ -53,6 +53,8 @@ public class SysReportController {
     @RequestMapping(value = "initData", method = RequestMethod.GET)
     @ResponseBody
     public ResultData initData(
+            @ApiParam(value = "报表模式", required = true)
+            @RequestParam String reportMode,
             @ApiParam(value = "报表类型", required = true)
             @RequestParam String reportType,
             @ApiParam(value = "报表子类型", required = true)
@@ -60,7 +62,7 @@ public class SysReportController {
             @ApiParam(value = "报表选值", required = false)
             @RequestParam(required = false) String reportValue) {
         LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_REPORT_INCOME, LOG_OPERATE_TYPE_SELECT);
-        ResultData resultData = sysReportService.initData(reportType, reportSubType, reportValue);
+        ResultData resultData = sysReportService.initData(reportMode, reportType, reportSubType, reportValue);
         LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_REPORT_INCOME, LOG_OPERATE_TYPE_SELECT);
         return resultData;
     }

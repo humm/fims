@@ -236,6 +236,16 @@ public class BusinessConst {
     public static final String REPORT_TYPE_GIFT_RECEIVE                    = "receive";
 
     /**
+     * 报表模式：柱状图
+     */
+    public static final String REPORT_MODE_BAR                             = "bar";
+
+    /**
+     * 报表模式：饼图
+     */
+    public static final String REPORT_MODE_PIE                             = "pie";
+
+    /**
      * 报表子类型：年度报表
      */
     public static final String REPORT_SUB_TYPE_YEAR                        = "year";
@@ -244,6 +254,21 @@ public class BusinessConst {
      * 报表子类型：月度报表
      */
     public static final String REPORT_SUB_TYPE_MONTH                       = "month";
+
+    /**
+     * 报表子类型：收入来源
+     */
+    public static final String REPORT_SUB_TYPE_SOURCE                      = "source";
+
+    /**
+     * 报表子类型：随礼类型、收入类型
+     */
+    public static final String REPORT_SUB_TYPE_TYPE                        = "type";
+
+    /**
+     * 报表子类型：极值
+     */
+    public static final String REPORT_SUB_TYPE_PEAK                        = "peak";
 
     /**
      * 报表月份数：12

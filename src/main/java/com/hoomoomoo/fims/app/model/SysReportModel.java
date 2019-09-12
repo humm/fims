@@ -1,13 +1,10 @@
 package com.hoomoomoo.fims.app.model;
 
-import com.hoomoomoo.fims.app.model.common.BaseModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.hoomoomoo.fims.app.consts.BusinessConst.STR_EMPTY;
 
 /**
  * @author humm23693
@@ -33,6 +30,9 @@ public class SysReportModel {
 
     @ApiModelProperty(value = "y轴数据", required = false)
     private List<SysReportYaxisModel> yAxisData;
+
+    @ApiModelProperty(value = "饼图数据", required = false)
+    private List<SysReportPieModel> pieData;
 
 
     @ApiModelProperty(value = "报表数据", required = false)

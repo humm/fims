@@ -31,4 +31,29 @@ public interface SysReportDao {
      * @return
      */
     List<SysReportModel> selectIncomeMonth(SysReportQueryModel sysReportQueryModel);
+
+    /**
+     * 收入信息来源报表
+     *
+     * @param sysReportQueryModel
+     * @return
+     */
+    List<SysReportModel> selectIncomeSource(SysReportQueryModel sysReportQueryModel);
+
+    /**
+     * 收入信息类型报表
+     *
+     * @param sysReportQueryModel
+     * @return
+     */
+    List<SysReportModel> selectIncomeType(SysReportQueryModel sysReportQueryModel);
+
+    /**
+     * 收入信息极值报表
+     *
+     * @param sysReportQueryModel
+     * @return
+     */
+    List<SysReportModel> selectIncomePeak(SysReportQueryModel sysReportQueryModel);
+
 }

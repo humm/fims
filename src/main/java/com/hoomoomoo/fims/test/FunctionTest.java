@@ -1,10 +1,13 @@
 package com.hoomoomoo.fims.test;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.hoomoomoo.fims.FimsApplication;
 import com.hoomoomoo.fims.app.model.SysIncomeModel;
 import com.hoomoomoo.fims.app.service.SysDictionaryService;
 import com.hoomoomoo.fims.app.service.SystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
+import org.apache.commons.collections.ArrayStack;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -14,7 +17,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.UNDERLINE;
 
@@ -74,6 +79,18 @@ public class FunctionTest {
     @Test
     public void loadSysDictionaryCondition(){
         systemService.loadSysDictionaryCondition();
+    }
+
+    @Test
+    public void Json(){
+        List<Map> list = new ArrayList<>();
+        Map ele = new HashMap();
+        Map a = new HashMap();
+        a.put("12", "456");
+        ele.put("websocket", a);
+        list.add(ele);
+        list.add(ele);
+        logger.info(JSONObject.toJSONString(list, SerializerFeature.DisableCircularReferenceDetect));
     }
 
 }

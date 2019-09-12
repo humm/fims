@@ -15,10 +15,11 @@ public interface SysReportService {
     /**
      * 查询报表数据
      *
+     * @param reportMode
      * @param reportType
      * @param reportSubType
      * @param reportValue
      * @return
      */
-    ResultData initData(String reportType, String reportSubType, String reportValue);
+    ResultData initData(String reportMode, String reportType, String reportSubType, String reportValue);
 }
