@@ -106,6 +106,84 @@
             day = (day < 10 ? "0" + day : day);
             return year + "-" + month + "-" + day;
         },
+        getBarData: function (bar) {
+            var data = {
+                title: {text: bar.title, subtext: bar.subTitle},
+                tooltip: {trigger: 'axis'},
+                legend: {data: bar.legendData},
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: {show: false},
+                        dataView: {show: true, readOnly: false},
+                        magicType: {show: true, type: ['line', 'bar']},
+                        restore: {show: true},
+                        saveAsImage: {show: true}
+                    }
+                },
+                calculable: true,
+                xAxis: [{type: 'category', data: bar.xaxisData}],
+                yAxis: [{type: 'value'}],
+                series: []
+            }
+            var element = {
+                name: "",
+                type: 'bar',
+                data: [],
+                markPoint: {data: [{type: 'max', name: '最大值'}, {type: 'min', name: '最小值'}]},
+                markLine: {data: [{type: 'average', name: '平均值'}]}
+            }
+            for (var i = 0; i < bar.yaxisData.length; i++) {
+                var ele = JSON.parse(JSON.stringify(element));
+                ele.name = bar.yaxisData[i].name;
+                ele.data = bar.yaxisData[i].data;
+                data.series.push(ele);
+            }
+            return data;
+        },
+        getPieData: function (pie) {
+            var data = {
+                title: {text: pie.title, subtext: pie.subTitle, x: "center", textStyle: {fontSize: 14}},
+                tooltip: {trigger: "item", formatter: "{a} <br/>{b} : {c} ({d}%)"},
+                legend: {orient: "vertical", x: "left", data: pie.legendData},
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: {show: false},
+                        dataView: {show: true, readOnly: false},
+                        magicType: {
+                            show: true,
+                            type: ['pie', 'funnel'],
+                            option: {
+                                funnel: {
+                                    x: '25%',
+                                    width: '50%',
+                                    funnelAlign: 'left',
+                                    max: 1548
+                                }
+                            }
+                        },
+                        restore: {show: true},
+                        saveAsImage: {show: true}
+                    }
+                },
+                series: []
+            }
+            var element = {
+                name: "",
+                type: "pie",
+                radius: "55%",
+                center: ["50%", "50%"],
+                data: []
+            }
+            for (var i = 0; i < pie.pieData.length; i++) {
+                var ele = JSON.parse(JSON.stringify(element));
+                ele.name = pie.pieData[i].name;
+                ele.data = pie.pieData[i].data;
+                data.series.push(ele);
+            }
+            return data;
+        },
         set: {
             resize: false
         },

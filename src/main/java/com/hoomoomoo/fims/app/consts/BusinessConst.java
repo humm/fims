@@ -275,6 +275,16 @@ public class BusinessConst {
      */
     public static final Integer REPORT_NUM_12                              = 12;
 
+    /**
+     * 报表单位：年
+     */
+    public static final String REPORT_UNIT_YEAR                            = "年";
+
+    /**
+     * 报表单位：月
+     */
+    public static final String REPORT_UNIT_MONTH                           = "月";
+
 
 
 }

@@ -16,6 +16,9 @@ public class SysReportQueryModel {
     @ApiModelProperty(value="用户ID", required = false)
     private String userId;
 
+    @ApiModelProperty(value="用户名称", required = false)
+    private String userName;
+
     @ApiModelProperty(value="报表模式", required = false)
     private String reportMode;
 

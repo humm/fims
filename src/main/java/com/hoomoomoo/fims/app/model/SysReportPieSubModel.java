@@ -17,6 +17,6 @@ public class SysReportPieSubModel {
     private String name;
 
     @ApiModelProperty(value = "值", required = false)
-    private String value;
+    private Double value;
 
 }

@@ -147,7 +147,7 @@ public class SysReportServiceImpl implements SysReportService {
                                         Integer index) {
         switch (sysReportQueryModel.getReportMode()) {
             case REPORT_MODE_BAR:
-                setBarSysReportProperties(sysReportModel, sysReportModelList, sessionBean, index);
+                setBarSysReportProperties(sysReportModel, sysReportQueryModel, sysReportModelList, index);
                 break;
             case REPORT_MODE_PIE:
                 setPieSysReportProperties(sysReportModel, sysReportModelList);
@@ -198,8 +198,8 @@ public class SysReportServiceImpl implements SysReportService {
                 // 获取用户信息
                 List<SysDictionaryModel> userList = DICTIONARY_CONDITION.get(loginUserId).get(D000);
                 for (int i = 0; i < userList.size(); i++) {
-                    String userId = userList.get(i).getDictionaryItem();
-                    sysReportQueryModel.setUserId(userId);
+                    sysReportQueryModel.setUserId(userList.get(i).getDictionaryItem());
+                    sysReportQueryModel.setUserName(userList.get(i).getDictionaryCaption());
                     sysReportModelList = getSysReportData(sysReportQueryModel);
                     setSysReportProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean, i + 1);
                 }
@@ -279,12 +279,14 @@ public class SysReportServiceImpl implements SysReportService {
                     Integer end = Integer.valueOf(sysReportModelList.get(sysReportModelList.size() - 1).getReportDate());
                     sysReportModel.setXAxisData(new String[end - start + 1]);
                     for (int i = 0; i < end - start + 1; i++) {
-                        sysReportModel.getXAxisData()[i] = String.valueOf(start + i);
+                        sysReportModel.getXAxisData()[i] =
+                                new StringBuffer(String.valueOf(start + i)).append(REPORT_UNIT_YEAR).toString();
                     }
                 } else if (REPORT_SUB_TYPE_MONTH.equals(sysReportQueryModel.getReportSubType())) {
                     sysReportModel.setXAxisData(new String[REPORT_NUM_12]);
                     for (int i = 0; i < REPORT_NUM_12; i++) {
-                        sysReportModel.getXAxisData()[i] = String.valueOf(i + 1);
+                        sysReportModel.getXAxisData()[i] =
+                                new StringBuffer(String.valueOf(i + 1)).append(REPORT_UNIT_MONTH).toString();
                     }
                 }
                 break;
@@ -301,21 +303,24 @@ public class SysReportServiceImpl implements SysReportService {
      *
      * @param sysReportModel
      * @param sysReportModelList
-     * @param sessionBean
+     * @param sysReportQueryModel
      * @param index
      */
-    private void setBarSysReportProperties(SysReportModel sysReportModel, List<SysReportModel> sysReportModelList,
-                                           SessionBean sessionBean, Integer index) {
+    private void setBarSysReportProperties(SysReportModel sysReportModel, SysReportQueryModel sysReportQueryModel,
+                                           List<SysReportModel> sysReportModelList, Integer index) {
         // 设置Y轴数据
         Integer length = sysReportModel.getXAxisData().length;
+        if (length == 0) {
+            return;
+        }
         SysReportYaxisModel sysReportYaxisModel = new SysReportYaxisModel();
-        sysReportYaxisModel.setData(new String[length]);
+        sysReportYaxisModel.setData(new Double[length]);
         sysReportModel.getYAxisData().add(sysReportYaxisModel);
         // 设置Y轴标题
         if (CollectionUtils.isEmpty(sysReportModelList)) {
-            sysReportYaxisModel.setName(sessionBean.getUserName());
+            sysReportYaxisModel.setName(sysReportQueryModel.getUserName());
             if (sysReportModel.getLegendData().length > 0) {
-                sysReportModel.getLegendData()[index] = sessionBean.getUserName();
+                sysReportModel.getLegendData()[index] = sysReportQueryModel.getUserName();
             }
         } else {
             if (StringUtils.isBlank(sysReportModelList.get(0).getReportName())) {
@@ -332,17 +337,20 @@ public class SysReportServiceImpl implements SysReportService {
                 String year = sysReportModel.getXAxisData()[i];
                 inner:
                 for (SysReportModel sysReport : sysReportModelList) {
-                    if (year.equals(sysReport.getReportDate())) {
+                    Boolean flag =
+                            year.equals(new StringBuffer(sysReport.getReportDate()).append(REPORT_UNIT_YEAR).toString()) ||
+                                    year.equals(new StringBuffer(sysReport.getReportDate()).append(REPORT_UNIT_MONTH).toString());
+                    if (flag) {
                         sysReportYaxisModel.getData()[i] = sysReport.getReportNum();
                         break inner;
                     }
                 }
                 // 若无则设置为0
-                if (StringUtils.isBlank(sysReportYaxisModel.getData()[i])) {
-                    sysReportYaxisModel.getData()[i] = STR_0;
+                if (sysReportYaxisModel.getData()[i] == null) {
+                    sysReportYaxisModel.getData()[i] = 0D;
                 }
             } else {
-                sysReportYaxisModel.getData()[i] = STR_0;
+                sysReportYaxisModel.getData()[i] = 0D;
             }
         }
     }

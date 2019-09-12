@@ -36,7 +36,7 @@ public class SysReportModel {
 
 
     @ApiModelProperty(value = "报表数据", required = false)
-    private String reportNum;
+    private Double reportNum;
 
     @ApiModelProperty(value = "报表时间", required = false)
     private String reportDate;

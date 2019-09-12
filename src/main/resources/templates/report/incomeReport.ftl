@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>layuiAdmin 控制台主页一</title>
+    <title>收入信息报表</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -16,15 +16,54 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-sm12">
             <div class="layui-card">
-                <div class="layui-card-header">数据概览</div>
+                <div class="layui-card-header">收入年度分析</div>
                 <div class="layui-card-body">
-
-                    <div class="layui-carousel layadmin-carousel layadmin-dataview"
-                         data-anim="fade" lay-filter="LAY-index-income-dataview">
-                        <div carousel-item id="LAY-index-income-dataview">
+                    <div class="layui-carousel layadmin-carousel layadmin-dataview layadmin-carousel-year"
+                         data-anim="fade" lay-filter="LAY-index-income-year">
+                        <div carousel-item id="LAY-index-income-year">
                             <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
-                            <div></div>
-                            <div></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12">
+            <div class="layui-card">
+                <div class="layui-card-header">收入来源分析</div>
+                <div class="layui-card-body">
+                    <div class="layui-carousel layadmin-carousel layadmin-dataview layadmin-carousel-source"
+                         data-anim="fade" lay-filter="LAY-index-income-source">
+                        <div carousel-item id="LAY-index-income-source">
+                            <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12">
+            <div class="layui-card">
+                <div class="layui-card-header">收入类型分析</div>
+                <div class="layui-card-body">
+                    <div class="layui-carousel layadmin-carousel layadmin-dataview layadmin-carousel-type"
+                         data-anim="fade" lay-filter="LAY-index-income-type">
+                        <div carousel-item id="LAY-index-income-type">
+                            <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12">
+            <div class="layui-card">
+                <div class="layui-card-header">收入极值分析</div>
+                <div class="layui-card-body">
+                    <div class="layui-carousel layadmin-carousel layadmin-dataview layadmin-carousel-peak"
+                         data-anim="fade" lay-filter="LAY-index-income-peak">
+                        <div carousel-item id="LAY-index-income-peak">
+                            <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
                         </div>
                     </div>
 
@@ -40,139 +79,161 @@
         base: '${appName}/layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'admin', 'carousel', 'echarts'], function () {
+    }).use(['index', 'admin', 'carousel', 'echarts', 'fims'], function () {
         var $ = layui.$,
+            form = layui.form,
+            admin = layui.admin,
             report = (layui.admin, layui.carousel),
+            fims = layui.fims,
             element = layui.element,
             device = layui.device(),
             carousel = layui.carousel,
             echarts = layui.echarts;
 
-        $(".layadmin-carousel").each(function () {
-            var that = $(this);
-            report.render({
-                elem: this,
-                width: "100%",
-                arrow: "none",
-                interval: that.data("interval"),
-                autoplay: that.data("autoplay") === true,
-                trigger: device.ios || device.android ? "click" : "hover",
-                anim: that.data("anim")
-            });
-        }), element.render("progress");
+        var appName = '${appName}';
+        var url = appName + "/report/initData?";
+        var request = {
+            reportMode: "bar",
+            reportType: "income",
+            reportSubType: "year",
+            reportValue: ""
+        }
 
+        var reportList = [];
 
-        var i = [],
-            l = [
-                    {
-                        title : {
-                            text: '某地区蒸发量和降水量',
-                            subtext: '纯属虚构'
-                        },
-                        tooltip : {
-                            trigger: 'axis'
-                        },
-                        legend: {
-                            data:['蒸发量','降水量']
-                        },
-                        toolbox: {
-                            show : true,
-                            feature : {
-                                mark : {show: false},
-                                dataView : {show: true, readOnly: false},
-                                magicType : {show: true, type: ['line', 'bar']},
-                                restore : {show: true},
-                                saveAsImage : {show: true}
-                            }
-                        },
-                        calculable : true,
-                        xAxis : [
-                            {
-                                type : 'category',
-                                data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
-                            }
-                        ],
-                        yAxis : [
-                            {
-                                type : 'value'
-                            }
-                        ],
-                        series : [
-                            {
-                                name:'蒸发量',
-                                type:'bar',
-                                data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
-                                markPoint : {
-                                    data : [
-                                        {type : 'max', name: '最大值'},
-                                        {type : 'min', name: '最小值'}
-                                    ]
-                                },
-                                markLine : {
-                                    data : [
-                                        {type : 'average', name: '平均值'}
-                                    ]
-                                }
-                            },
-                            {
-                                name:'降水量',
-                                type:'bar',
-                                data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-                                markPoint : {
-                                    data : [
-                                        {type : 'max', name: '最大值'},
-                                        {type : 'min', name: '最小值'}
-                                    ]
-                                },
-                                markLine : {
-                                    data : [
-                                        {type : 'average', name: '平均值'}
-                                    ]
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        title: {text: "访客浏览器分布", x: "center", textStyle: {fontSize: 14}},
-                        tooltip: {trigger: "item", formatter: "{a} <br/>{b} : {c} ({d}%)"},
-                        legend: {orient: "vertical", x: "left", data: ["Chrome", "Firefox", "IE 8.0", "Safari", "其它浏览器"]},
-                        series: [{
-                            name: "访问来源",
-                            type: "pie",
-                            radius: "55%",
-                            center: ["50%", "50%"],
-                            data: [{value: 9052, name: "Chrome"}, {value: 1610, name: "Firefox"}, {
-                                value: 3200,
-                                name: "IE 8.0"
-                            }, {value: 535, name: "Safari"}, {value: 1700, name: "其它浏览器"}]
-                        }]
-                    },
-                    {
-                        title: {text: "最近一周新增的用户量", x: "center", textStyle: {fontSize: 14}},
-                        tooltip: {trigger: "axis", formatter: "{b}<br>新增用户：{c}"},
-                        xAxis: [{type: "category", data: ["11-07", "11-08", "11-09", "11-10", "11-11", "11-12", "11-13"]}],
-                        yAxis: [{type: "value"}],
-                        series: [{type: "line", data: [200, 300, 400, 610, 150, 270, 380]}]
+        // 收入年度分析
+        var initYearReport = function (index, type) {
+            var year = $("#LAY-index-income-year").children("div")[index];
+            if (index == 0) {
+                request.reportMode = "bar";
+                request.reportSubType = "year";
+            } else {
+                var select = $(year).attr("year");
+                request.reportMode = "bar";
+                request.reportSubType = "month";
+                request.reportValue = select;
+            }
+            admin.req({
+                url: url + $.param(request),
+                type: "get",
+                dataType: "json",
+                done: function (response) {
+                    if (response.bizResult) {
+                        if (type == "init") {
+                            loopYear(response.data);
+                        }
+                        reportList[index] = echarts.init(year, layui.echartsTheme);
+                        reportList[index].setOption(fims.getBarData(response.data));
+                        window.onresize = reportList[index].resize;
+                    } else {
+                        layer.msg(response.msg);
                     }
-        ],
-        n = $("#LAY-index-income-dataview").children("div"),
-        r = function (e) {
-            i[e] = echarts.init(n[e], layui.echartsTheme),
-            i[e].setOption(l[e]), window.onresize = i[e].resize
-        };
-        if (n[0]) {
-            r(0);
-            var o = 0;
-            carousel.on("change(LAY-index-income-dataview)", function (e) {
-                r(o = e.index);
-            }), layui.admin.on("side", function () {
-                setTimeout(function () {
-                    r(o);
-                }, 300);
-            }), layui.admin.on("hash(tab)", function () {
-                layui.router().path.join("") || r(o);
+                }
             });
         }
+        initYearReport(0, "init");
+
+        // 收入来源分析
+        request.reportMode = "pie";
+        request.reportSubType = "source";
+        reportRender("layadmin-carousel-source");
+        admin.req({
+            url: url + $.param(request),
+            type: "get",
+            dataType: "json",
+            done: function (response) {
+                if (response.bizResult) {
+                    var source = $("#LAY-index-income-source").children("div")[0];
+                    var sourcePie = echarts.init(source, layui.echartsTheme);
+                    sourcePie.setOption(fims.getPieData(response.data));
+                    window.onresize = sourcePie.resize;
+                } else {
+                    layer.msg(response.msg);
+                }
+            }
+        });
+
+        // 收入类型分析
+        request.reportMode = "pie";
+        request.reportSubType = "type";
+        reportRender("layadmin-carousel-type");
+        admin.req({
+            url: url + $.param(request),
+            type: "get",
+            dataType: "json",
+            done: function (response) {
+                if (response.bizResult) {
+                    var type = $("#LAY-index-income-type").children("div")[0];
+                    var typePie = echarts.init(type, layui.echartsTheme);
+                    typePie.setOption(fims.getPieData(response.data));
+                    window.onresize = typePie.resize;
+                } else {
+                    layer.msg(response.msg);
+                }
+            }
+        });
+
+        // 收入极值分析
+        request.reportMode = "pie";
+        request.reportSubType = "peak";
+        reportRender("layadmin-carousel-peak");
+        admin.req({
+            url: url + $.param(request),
+            type: "get",
+            dataType: "json",
+            done: function (response) {
+                if (response.bizResult) {
+                    var peak = $("#LAY-index-income-peak").children("div")[0];
+                    var peakPie = echarts.init(peak, layui.echartsTheme);
+                    peakPie.setOption(fims.getPieData(response.data));
+                    window.onresize = peakPie.resize;
+                } else {
+                    layer.msg(response.msg);
+                }
+            }
+        });
+
+        // 收入年度分析后续操作
+        function loopYear(data) {
+            var years = JSON.parse(JSON.stringify(data.xaxisData)).reverse();
+            var options = "";
+            for (var i = 0; i < years.length; i++) {
+                options += "<div year='" + years[i].replace("年","") + "'></div>";
+            }
+            $("#LAY-index-income-year").append(options);
+
+            reportRender("layadmin-carousel-year");
+
+            var index = 0;
+            carousel.on("change(LAY-index-income-year)", function (e) {
+                initYearReport(index = e.index);
+            }), layui.admin.on("side", function () {
+                setTimeout(function () {
+                    initYearReport(index);
+                }, 500);
+            }), layui.admin.on("hash(tab)", function () {
+                layui.router().path.join("") || initYearReport(index);
+                ;
+            });
+
+        }
+
+        // 渲染报表
+        function reportRender(className) {
+            $("." + className).each(function () {
+                var that = $(this);
+                report.render({
+                    elem: this,
+                    width: "100%",
+                    arrow: "none",
+                    interval: that.data("interval"),
+                    autoplay: that.data("autoplay") === true,
+                    trigger: device.ios || device.android ? "click" : "hover",
+                    anim: that.data("anim")
+                });
+            }), element.render("progress");
+        }
+
     });
 </script>
 </body>

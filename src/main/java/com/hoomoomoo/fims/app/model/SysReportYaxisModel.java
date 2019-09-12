@@ -17,5 +17,5 @@ public class SysReportYaxisModel {
     private String name;
 
     @ApiModelProperty(value = "数据", required = false)
-    private String[] data;
+    private Double[] data;
 }
