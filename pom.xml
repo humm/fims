@@ -136,10 +136,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>${xstream.version}</version>
         </dependency>
     </dependencies>
 
@@ -163,6 +167,7 @@
         <spring-session.version>2.1.2.RELEASE</spring-session.version>
         <lombok.version>1.16.4</lombok.version>
         <spring-test.version>5.0.7.RELEASE</spring-test.version>
+        <xstream.version>1.4.11.1</xstream.version>
     </properties>
 
     <build>
