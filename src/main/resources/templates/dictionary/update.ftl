@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>收入信息-修改</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="${appName}/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="${appName}/layuiadmin/style/fims.css" media="all">
+    <style type="text/css">
+        button{
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="layui-form" style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">字典代码</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input layui-detail" disabled="disabled" name="dictionaryCode">
+        </div>
+        <label class="layui-form-label">字典描述</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input layui-detail" disabled="disabled" name="dictionaryCodeCaption">
+        </div>
+        <button class="layui-btn layui-btn-xs layuiadmin-btn-dictionary-add">
+            <i class="layui-icon">新增</i>
+        </button>
+    </div>
+    <div class="layui-form-item dictionary"></div>
+    <div class="layui-form-item layui-hide">
+        <input type="button" lay-submit lay-filter="LAY-app-dictionary-update" id="LAY-app-dictionary-update"/>
+    </div>
+</div>
+
+<script src="${appName}/layuiadmin/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '${appName}/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form', 'laydate', 'admin', 'fims'], function () {
+        var $ = layui.$,
+            form = layui.form,
+            admin = layui.admin,
+            fims = layui.fims;
+
+        // 应用名称
+        var appName = '${appName}';
+
+        var dictionaryCode = fims.getUrlParameter("dictionaryCode");
+        var dictionaryCaption = decodeURI(fims.getUrlParameter("dictionaryCaption"));
+        var isOpen = fims.getUrlParameter("isOpen");
+        var userList = [];
+
+        var request = {
+            dictionaryCode: dictionaryCode,
+            isTranslate: fims.getUrlParameter("isTranslate")
+        }
+
+        var url = {
+            load: appName + "/dictionary/selectOne?" + $.param(request)
+        };
+
+        // 初始化页面信息
+        admin.req({
+            url: url.load,
+            type: "get",
+            dataType: "json",
+            done: function (response) {
+                if (response.bizResult) {
+                    addDictionary(response.data);
+                } else {
+                    fims.msg(response.msg);
+                }
+            }
+        });
+
+        // 绑定新增事件
+        $(document).on('click', 'button.layuiadmin-btn-dictionary-add', function () {
+            $(".dictionary").append(addItem(userList, '', '', ''));
+            form.render();
+        });
+
+        // 绑定删除事件
+        $(document).on('click', 'button.layuiadmin-btn-dictionary-delete', function () {
+            $(this).parent().remove();
+        });
+
+        // 添加字典项
+        function addDictionary(data) {
+            if (!$.isEmptyObject(data)) {
+                for (var i = 0; i < data.dictionary.length; i++) {
+                    userList = data.user;
+                    $(".dictionary").append(addItem(data.user, data.dictionary[i].userId, data.dictionary[i].dictionaryItem, data.dictionary[i].dictionaryCaption));
+                    form.render();
+                }
+            }
+            $("input[name='dictionaryCode']").val(dictionaryCode);
+            $("input[name='dictionaryCodeCaption']").val(dictionaryCaption);
+            if ("0" == isOpen) {
+                $("button.layuiadmin-btn-dictionary-add").hide();
+                $("button.layuiadmin-btn-dictionary-delete").hide();
+                $("input[name='dictionaryItem']").addClass("layui-detail");
+                $("input[name='dictionaryItem']").attr("disabled", true);
+                $("select[name='userId']").parent().prev().hide();
+                $("select[name='userId']").parent().hide();
+            }
+        }
+
+        // 添加元素
+        function addItem(userList, userId, dictionaryItem, dictionaryCaption) {
+            var item = '';
+            item = '<div class="layui-form-item layui-form-item-dictionary">';
+            item += '   <label class="layui-form-label">字典选值</label>';
+            item += '   <div class="layui-input-inline">';
+            item += '       <input type="text" class="layui-input" name="dictionaryItem" value="' + dictionaryItem + '">';
+            item += '   </div>';
+            item += '   <label class="layui-form-label">选值描述</label>';
+            item += '   <div class="layui-input-inline">';
+            item += '       <input type="text" class="layui-input" name="dictionaryCaption" value="' + dictionaryCaption + '">';
+            item += '   </div>';
+            item += '   <label class="layui-form-label">选值用户</label>';
+            item += '   <div class="layui-input-inline">';
+            item += '       <select name="userId">';
+            item += '           <option value="">请选择</option>';
+            for (var i = 0; i < userList.length; i++) {
+                if (userId == userList[i].userId) {
+                    item += '   <option selected = true value="' + userList[i].userId + '">' + userList[i].userName + '</option>';
+                } else {
+                    item += '   <option value="' + userList[i].userId + '">' + userList[i].userName + '</option>';
+                }
+            }
+            item += '       </select>';
+            item += '   </div>';
+            item += '   <button class="layui-btn layui-btn-danger layui-btn-xs layuiadmin-btn-dictionary-delete">';
+            item += '       <i class="layui-icon layuiadmin-button-btn">删除</i>';
+            item += '   </button>';
+            item += '</div>';
+            return item;
+        }
+    })
+</script>
+</body>
+</html>

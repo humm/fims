@@ -4,6 +4,13 @@
         form = layui.form;
 
     var obj = {
+        msg: function (msg, param) {
+            if ($.isEmptyObject(param)) {
+                layer.msg(msg, {time: 500});
+            } else {
+                layer.msg(msg, param);
+            }
+        },
         isBlank: function (parameter) {
             if (parameter == null || parameter == '' || parameter == undefined || parameter == 'undefined') {
                 return true;
@@ -215,7 +222,8 @@
                 emptyData: "暂无相关数据",
                 request: "数据提交中...",
                 notSameOne: "送礼人和收礼人不能为同一人",
-                isLoginOne: "送礼人或者收礼人必须有一个为当前登录人"
+                isLoginOne: "送礼人或者收礼人必须有一个为当前登录人",
+                notEmpty: "不能为空"
             }
         }
     };

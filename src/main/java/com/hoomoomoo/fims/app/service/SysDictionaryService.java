@@ -2,6 +2,8 @@ package com.hoomoomoo.fims.app.service;
 
 import com.hoomoomoo.fims.app.model.SysDictionaryModel;
 import com.hoomoomoo.fims.app.model.SysDictionaryQueryModel;
+import com.hoomoomoo.fims.app.model.common.FimsPage;
+import com.hoomoomoo.fims.app.model.common.ResultData;
 
 import java.util.List;
 
@@ -15,11 +17,42 @@ import java.util.List;
 public interface SysDictionaryService {
 
     /**
+     * 查询页面初始化相关数据
+     *
+     * @return
+     */
+    ResultData selectInitData();
+
+    /**
+     * 分页查询字典信息
+     *
+     * @param sysDictionaryQueryModel
+     * @return
+     */
+    FimsPage<SysDictionaryModel> selectPage(SysDictionaryQueryModel sysDictionaryQueryModel);
+
+    /**
      * 查询字典信息
      *
      * @param sysDictionaryQueryModel
      * @return
      */
     List<SysDictionaryModel> selectSysDictionary(SysDictionaryQueryModel sysDictionaryQueryModel);
+
+    /**
+     * 查询字典信息
+     *
+     * @param dictionaryCode
+     * @return
+     */
+    ResultData selectOne(String dictionaryCode, Boolean isTranslate);
+
+    /**
+     * 保存字典信息
+     *
+     * @param sysDictionaryModelList
+     * @return
+     */
+    ResultData save(List<SysDictionaryModel> sysDictionaryModelList);
 
 }

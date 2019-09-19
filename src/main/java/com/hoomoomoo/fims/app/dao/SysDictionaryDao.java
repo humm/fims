@@ -17,6 +17,14 @@ import java.util.List;
 public interface SysDictionaryDao {
 
     /**
+     * 分页查询字典信息
+     *
+     * @param sysDictionaryQueryModel
+     * @return
+     */
+    List<SysDictionaryModel> selectPage(SysDictionaryQueryModel sysDictionaryQueryModel);
+
+    /**
      * 查询字典信息
      *
      * @param sysDictionaryQueryModel

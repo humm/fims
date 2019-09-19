@@ -95,6 +95,9 @@
         // 应用名称
         var appName = '${appName}';
 
+        // 是否管理员
+        var isAdmin = ${isAdmin?string('true','false')};
+
         // 业务类型
         var businessType = "income";
 
@@ -128,7 +131,7 @@
         });
 
         // 权限按钮设置
-        fims.setAuthority(false, "LAY-app-" + businessType + "-list-button");
+        fims.setAuthority(isAdmin, "LAY-app-" + businessType + "-list-button");
 
         // 初始化页面信息
         admin.req({
@@ -140,7 +143,7 @@
                     // 设置查询条件
                     fims.setCondition("layui-form-item", response.data.condition);
                 } else {
-                    layer.msg(response.msg);
+                    fims.msg(response.msg);
                 }
             }
         });
@@ -161,10 +164,10 @@
                             setTimeout(function () {
                                 layer.close(index);
                                 reloadData(fims.getValue("layui-form-item"));
-                                layer.msg(response.msg);
+                                fims.msg(response.msg);
                             }, 500);
                         } else {
-                            layer.msg(response.msg);
+                            fims.msg(response.msg);
                         }
                     }
                 });
@@ -234,10 +237,10 @@
                             setTimeout(function () {
                                 reloadData(fims.getValue("layui-form-item"));
                                 layer.close(e);
-                                layer.msg(response.msg);
+                                fims.msg(response.msg);
                             }, 500);
                         } else {
-                            layer.msg(response.msg);
+                            fims.msg(response.msg);
                         }
                     }
                 });
@@ -278,7 +281,7 @@
                     update(data);
                     break;
                 default:
-                    layer.msg(fims.tips.msg.notSupportEvent);
+                    fims.msg(fims.tips.msg.notSupportEvent);
                     break;
             }
         });
@@ -299,21 +302,21 @@
                     break;
                 case fims.operate.update:
                     if (checkData.length === 0) {
-                        return layer.msg(fims.tips.warn.notSelect);
+                        return fims.msg(fims.tips.warn.notSelect);
                     }
                     if (checkData.length > 1) {
-                        return layer.msg(fims.tips.warn.selectOne);
+                        return fims.msg(fims.tips.warn.selectOne);
                     }
                     update(checkData[0]);
                     break;
                 case fims.operate.delete:
                     if (checkData.length === 0) {
-                        return layer.msg(fims.tips.warn.notSelect);
+                        return fims.msg(fims.tips.warn.notSelect);
                     }
                     del(checkData);
                     break;
                 default:
-                    layer.msg(fims.tips.msg.notSupportEvent);
+                    fims.msg(fims.tips.msg.notSupportEvent);
             }
         });
 

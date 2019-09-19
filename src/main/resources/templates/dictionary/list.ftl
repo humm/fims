@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>随礼信息-列表</title>
+    <title>字典信息-列表</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -17,45 +17,30 @@
             <div class="layui-form-item">
                 <!-- 查询条件 -->
                 <div class="layui-inline">
-                    <label class="layui-form-label">送礼人</label>
+                    <label class="layui-form-label">字典代码</label>
                     <div class="layui-input-block">
-                        <select name="giftSender"></select>
+                        <input type="text" class="layui-input" name="dictionaryCode">
                     </div>
                 </div>
 
                 <div class="layui-inline">
-                    <label class="layui-form-label">收礼人</label>
+                    <label class="layui-form-label">字典描述</label>
                     <div class="layui-input-block">
-                        <select name="giftReceiver"></select>
+                        <input type="text" class="layui-input" name="dictionaryCaption">
                     </div>
                 </div>
-
-                <div class="layui-inline">
-                    <label class="layui-form-label">随礼类型</label>
-                    <div class="layui-input-block">
-                        <select name="giftType"></select>
-                    </div>
-                </div>
-
-                <div class="layui-inline">
-                    <label class="layui-form-label">随礼日期</label>
-                    <div class="layui-input-block">
-                        <input type="text" class="layui-input" name="giftDate" id="giftDate">
-                    </div>
-                </div>
-
 
                 <!-- 查询按钮 -->
                 <div class="layui-inline">
-                    <button class="layui-btn layuiadmin-btn-gift-list" lay-submit
-                            lay-filter="LAY-app-giftlist-search">
+                    <button class="layui-btn layuiadmin-btn-dictionary-list" lay-submit
+                            lay-filter="LAY-app-dictionarylist-search">
                         <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
                     </button>
                 </div>
                 <!-- 重置按钮 -->
                 <div class="layui-inline">
-                    <button class="layui-btn layuiadmin-btn-gift-list" lay-submit
-                            lay-filter="LAY-app-giftlist-refresh">
+                    <button class="layui-btn layuiadmin-btn-dictionary-list" lay-submit
+                            lay-filter="LAY-app-dictionarylist-refresh">
                         <i class="layui-icon layui-icon-refresh-1 layuiadmin-button-btn"></i>
                     </button>
                 </div>
@@ -65,14 +50,12 @@
 
         <div class="layui-card-body">
             <!-- 头部操作按钮 -->
-            <div style="padding-bottom: 10px;" id="LAY-app-gift-list-button">
-                <button class="layui-btn layuiadmin-btn-gift-list" data-type="add">新增</button>
-                <button class="layui-btn layuiadmin-btn-gift-list" data-type="update">修改</button>
-                <button class="layui-btn layuiadmin-btn-gift-list" data-type="delete">删除</button>
+            <div style="padding-bottom: 10px;" id="LAY-app-dictionary-list-button">
+                <button class="layui-btn layuiadmin-btn-dictionary-list" data-type="update">修改</button>
             </div>
 
             <!-- 列表数据 -->
-            <table id="LAY-app-gift-list" lay-filter="LAY-app-gift-list"></table>
+            <table id="LAY-app-dictionary-list" lay-filter="LAY-app-dictionary-list"></table>
 
         </div>
     </div>
@@ -89,8 +72,7 @@
             form = layui.form,
             table = layui.table,
             admin = layui.admin,
-            fims = layui.fims,
-            laydate = layui.laydate;
+            fims = layui.fims;
 
         // 应用名称
         var appName = '${appName}';
@@ -99,112 +81,50 @@
         var isAdmin = ${isAdmin?string('true','false')};
 
         // 业务类型
-        var businessType = "gift";
-
-        // 登录用户信息
-        var sessionBean = {};
+        var businessType = "dictionary";
 
         // 请求url
         var url = {
-            init: appName + "/gift/selectInitData",
-            page: appName + "/gift/selectPage",
-            del: appName + "/gift/delete",
-            save: appName + "/gift/save",
-            add: appName + "/gift/view/add",
-            update: appName + "/gift/view/update",
-            detail: appName + "/gift/view/detail"
+            page: appName + "/dictionary/selectPage",
+            save: appName + "/dictionary/save",
+            update: appName + "/dictionary/view/update",
+            detail: appName + "/dictionary/view/detail"
         }
 
         // 列表字段
         var tableColumn = [[
             {type: "checkbox", fixed: "left"},
-            {field: "giftId", title: "随礼序列号", sort: false, hide: true},
-            {field: "giftSender", title: "送礼人", sort: true},
-            {field: "giftReceiver", title: "收礼人", sort: true},
-            {field: "giftType", title: "随礼类型", sort: true},
-            {field: "giftDate", title: "随礼日期", sort: true},
-            {field: "giftAmount", title: "随礼金额", sort: true},
-            {field: "giftMemo", title: "随礼备注"}
+            {field: "dictionaryCode", title: "字典代码", sort: true,},
+            {field: "dictionaryCaption", title: "字典描述", sort: true},
+            {field: "userId", title: "字典用户", hide: true},
         ]];
 
-        // 年月选择器
-        laydate.render({
-            elem: '#giftDate',
-            type: 'month'
-        });
-
         // 权限按钮设置
-        fims.setAuthority(isAdmin, "LAY-app-" + businessType + "-list-button");
-
-        // 初始化页面信息
-        admin.req({
-            url: url.init,
-            type: "get",
-            dataType: "json",
-            done: function (response) {
-                if (response.bizResult) {
-                    // 设置查询条件
-                    fims.setCondition("layui-form-item", response.data.condition);
-                    // 设置登录人信息
-                    sessionBean = response.data.sessionBean;
-                } else {
-                    fims.msg(response.msg);
-                }
-            }
-        });
+        fims.setAuthority(!isAdmin, "LAY-app-" + businessType + "-list-button");
 
         // 数据删除
         var del = function (data) {
-            var giftIds = [];
-            for (var i = 0; i < data.length; i++) {
-                giftIds.push(data[i].giftId);
-            }
-            layer.confirm(fims.tips.warn.confirmDel, function (index) {
-                admin.req({
-                    url: url.del,
-                    type: "post",
-                    data: {giftIds: giftIds.join(",")},
-                    done: function (response) {
-                        if (response.bizResult) {
-                            setTimeout(function () {
-                                layer.close(index);
-                                reloadData(fims.getValue("layui-form-item"));
-                                fims.msg(response.msg);
-                            }, 500);
-                        } else {
-                            fims.msg(response.msg);
-                        }
-                    }
-                });
-            });
+
         }
 
         // 数据新增
         var add = function (data) {
-            layer.open({
-                type: 2,
-                title: fims.tips.title.add,
-                content: url.add,
-                area: ["450px", "500px"],
-                btn: [fims.tips.btn.save, fims.tips.btn.cancel],
-                resize: fims.set.resize,
-                yes: function (e, t) {
-                    save(e, t, fims.operate.add, data);
-                }
-            });
+
         }
 
         // 数据修改
         var update = function (data) {
             var request = {
-                giftId: data.giftId,
+                dictionaryCode: data.dictionaryCode,
+                dictionaryCaption: encodeURI(data.dictionaryCaption),
+                isOpen: data.isOpen,
                 isTranslate: "0"
             }
             layer.open({
                 type: 2,
                 title: fims.tips.title.update,
                 content: url.update + "?" + $.param(request),
-                area: ["450px", "500px"],
+                area: ["1100px", "500px"],
                 btn: [fims.tips.btn.save, fims.tips.btn.cancel],
                 resize: fims.set.resize,
                 yes: function (e, t) {
@@ -216,7 +136,7 @@
         // 数据详情
         var detail = function (data) {
             var request = {
-                giftId: data.giftId,
+                dictionaryId: data.dictionaryId,
                 isTranslate: "1"
             }
             layer.open({
@@ -232,21 +152,49 @@
         var save = function (e, t, type, data) {
             var iframe = window["layui-layer-iframe" + e],
                 button = t.find("iframe").contents().find("#LAY-app-" + businessType + "-" + type);
+            var elements = [];
+            var flag = false;
+            t.find("iframe").contents().find(".layui-form-item-dictionary").each(function (index) {
+                if (flag) {
+                    return;
+                }
+                var that = this;
+                var item = {};
+                $(that).find("[name]").each(function () {
+                    var name = $(this).attr("name");
+                    var value = $(this).val();
+                    item[name] = value;
+                    if ((name == "userId" && data.isOpen == '0') || fims.isBlank(name)) {
+                        // 选值用户 未开放状态 不校验
+                    } else if (fims.isBlank(value)) {
+                        var title = $(this).parent().prev().html();
+                        fims.msg(title + " " + fims.tips.msg.notEmpty);
+                        flag = true;
+                        return;
+                    }
+                });
+                item["dictionaryCode"] = data.dictionaryCode;
+                item["isOpen"] = data.isOpen;
+                item["itemOrder"] = index + 1;
+                elements.push(item);
+            });
+            if (flag) {
+                return;
+            }
+            // 若为空添加默认字典代码
+            if($.isEmptyObject(elements)){
+                var item = {
+                    dictionaryCode: data.dictionaryCode,
+                    isOpen: data.isOpen
+                }
+                elements.push(item);
+            }
             iframe.layui.form.on("submit(LAY-app-" + businessType + "-" + type + ")", function (data) {
-                var param = fims.clearBlank(data.field);
-                if (param.giftSender == param.giftReceiver) {
-                    fims.msg(fims.tips.msg.notSameOne);
-                    return;
-                }
-                var isLoginUser = param.giftSender.indexOf(sessionBean.userId) == -1 && param.giftReceiver.indexOf(sessionBean.userId) == -1;
-                if (isLoginUser) {
-                    fims.msg(fims.tips.msg.isLoginOne);
-                    return;
-                }
                 admin.req({
                     url: url.save,
                     type: "post",
-                    data: param,
+                    contentType:"application/json",
+                    data: JSON.stringify(elements),
                     done: function (response) {
                         if (response.bizResult) {
                             setTimeout(function () {

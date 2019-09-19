@@ -15,7 +15,7 @@ import com.hoomoomoo.fims.app.model.common.ResultData;
 public interface SysGiftService {
 
     /**
-     * 查询列表页面初始化相关数据
+     * 查询页面初始化相关数据
      *
      * @return
      */

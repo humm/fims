@@ -56,4 +56,52 @@ public interface SysReportDao {
      */
     List<SysReportModel> selectIncomePeak(SysReportQueryModel sysReportQueryModel);
 
+    /**
+     * 随礼信息年度报表
+     *
+     * @param sysReportQueryModel
+     * @return
+     */
+    List<SysReportModel> selectGiftYear(SysReportQueryModel sysReportQueryModel);
+
+    /**
+     * 随礼信息月度报表
+     *
+     * @param sysReportQueryModel
+     * @return
+     */
+    List<SysReportModel> selectGiftMonth(SysReportQueryModel sysReportQueryModel);
+
+    /**
+     * 随礼信息来源报表
+     *
+     * @param sysReportQueryModel
+     * @return
+     */
+    List<SysReportModel> selectGiftSource(SysReportQueryModel sysReportQueryModel);
+
+    /**
+     * 随礼信息类型报表
+     *
+     * @param sysReportQueryModel
+     * @return
+     */
+    List<SysReportModel> selectGiftType(SysReportQueryModel sysReportQueryModel);
+
+    /**
+     * 随礼信息极值报表
+     *
+     * @param sysReportQueryModel
+     * @return
+     */
+    List<SysReportModel> selectGiftPeak(SysReportQueryModel sysReportQueryModel);
+
+    /**
+     * 随礼信息报表
+     * @param sysReportQueryModel
+     * @return
+     */
+    List<SysReportModel> selectGift(SysReportQueryModel sysReportQueryModel);
+
+
 }

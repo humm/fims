@@ -4,19 +4,23 @@ import com.hoomoomoo.fims.app.model.SysGiftModel;
 import com.hoomoomoo.fims.app.model.SysGiftQueryModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
+import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysGiftService;
 import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import static com.hoomoomoo.fims.app.consts.BusinessConst.IS_ADMIN;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
@@ -42,7 +46,11 @@ public class SysGiftController {
      */
     @ApiOperation("跳转列表页面")
     @RequestMapping(value = "view/list", method = RequestMethod.GET)
-    public String viewList() {
+    public String viewList(ModelMap modelMap) {
+        SessionBean sessionBean = SystemSessionUtils.getSession();
+        if(sessionBean != null){
+            modelMap.addAttribute(IS_ADMIN, sessionBean.getIsAdmin());
+        }
         return "gift/list";
     }
 
@@ -97,11 +105,11 @@ public class SysGiftController {
     }
 
     /**
-     * 查询列表页面初始化信息
+     * 查询页面初始化信息
      *
      * @return
      */
-    @ApiOperation("查询列表页面初始化信息")
+    @ApiOperation("查询页面初始化信息")
     @RequestMapping(value = "selectInitData", method = RequestMethod.GET)
     @ResponseBody
     public ResultData selectInitData() {

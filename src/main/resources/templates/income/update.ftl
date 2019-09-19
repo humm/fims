@@ -100,12 +100,12 @@
                                 $("select[name='userId']").attr("disabled", true);
                                 form.render();
                             } else {
-                                layer.msg(response.msg);
+                                fims.msg(response.msg);
                             }
                         }
                     });
                 } else {
-                    layer.msg(response.msg);
+                    fims.msg(response.msg);
                 }
             }
         });

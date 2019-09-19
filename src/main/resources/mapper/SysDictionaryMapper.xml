@@ -6,8 +6,34 @@
          dictionary_code dictionaryCode, dictionary_item dictionaryItem,
          dictionary_caption dictionaryCaption,
          item_order itemOrder, code_order codeOrder,
-         user_id userId
+         user_id userId, is_open isOpen
     </sql>
+
+    <select id="selectPage" parameterType="com.hoomoomoo.fims.app.model.SysDictionaryQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.SysDictionaryModel">
+        select
+            <include refid="Base_Column_List"/>
+        from sys_dictionary
+        <where>
+            dictionary_item = '#'
+            <if test="dictionaryCode != null">
+                and dictionary_code like '%' || #{dictionaryCode} || '%'
+            </if>
+            <if test="dictionaryCaption != null">
+                and dictionary_caption like '' || #{dictionaryCaption} || '%'
+            </if>
+        </where>
+        order by
+        <if test="sort != null and order != null">
+            ${sort} ${order}
+        </if>
+        <if test="sort != null and order == null">
+            ${sort}
+        </if>
+        <if test="sort == null">
+            code_order
+        </if>
+    </select>
 
     <select id="selectSysDictionary" parameterType="com.hoomoomoo.fims.app.model.SysDictionaryQueryModel"
             resultType="com.hoomoomoo.fims.app.model.SysDictionaryModel">
@@ -25,7 +51,7 @@
                 and dictionary_caption = #{dictionaryCaption}
             </if>
         </where>
-        order by code_order desc, item_order desc
+        order by code_order, item_order
     </select>
 
     <select id="selectSysDictionaryCondition" resultType="com.hoomoomoo.fims.app.model.SysDictionaryModel">

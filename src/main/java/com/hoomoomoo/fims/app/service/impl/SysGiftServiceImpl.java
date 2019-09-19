@@ -55,7 +55,7 @@ public class SysGiftServiceImpl implements SysGiftService {
     private SysNoticeService sysNoticeService;
 
     /**
-     * 查询列表页面初始化相关数据
+     * 查询页面初始化相关数据
      *
      * @return
      */

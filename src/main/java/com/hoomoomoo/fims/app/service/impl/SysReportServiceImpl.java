@@ -102,13 +102,46 @@ public class SysReportServiceImpl implements SysReportService {
                 }
                 break;
             case REPORT_TYPE_GIFT_SEND:
-
+                sysReportQueryModel.setGiftMode(STR_0);
+                sysReportQueryModel.setGiftSender(sysReportQueryModel.getUserId());
+                sysReportModelList = getSysGiftReportData(sysReportQueryModel);
                 break;
             case REPORT_TYPE_GIFT_RECEIVE:
-
+                sysReportQueryModel.setGiftMode(STR_1);
+                sysReportQueryModel.setGiftReceiver(sysReportQueryModel.getUserId());
+                sysReportModelList = getSysGiftReportData(sysReportQueryModel);
                 break;
             default:
                 break;
+        }
+        return sysReportModelList;
+    }
+
+    /**
+     * 获取随礼报表数据
+     *
+     * @param sysReportQueryModel
+     * @return
+     */
+    private List<SysReportModel> getSysGiftReportData(SysReportQueryModel sysReportQueryModel) {
+        List<SysReportModel> sysReportModelList = new ArrayList<>();
+        if (REPORT_SUB_TYPE_YEAR.equals(sysReportQueryModel.getReportSubType())) {
+            // 年度
+            sysReportModelList = sysReportDao.selectGiftYear(sysReportQueryModel);
+        } else if (REPORT_SUB_TYPE_MONTH.equals(sysReportQueryModel.getReportSubType())) {
+            // 月度
+            sysReportModelList = sysReportDao.selectGiftMonth(sysReportQueryModel);
+        } else if (REPORT_SUB_TYPE_TYPE.equals(sysReportQueryModel.getReportSubType())) {
+            // 类型
+            sysReportModelList = sysReportDao.selectGiftType(sysReportQueryModel);
+        } else if (REPORT_SUB_TYPE_PEAK.equals(sysReportQueryModel.getReportSubType())) {
+            // 极值
+            sysReportModelList = sysReportDao.selectGiftPeak(sysReportQueryModel);
+        } else if (REPORT_SUB_TYPE_GIFT.equals(sysReportQueryModel.getReportSubType())) {
+            // 随礼
+            sysReportQueryModel.setGiftSender(sysReportQueryModel.getUserId());
+            sysReportQueryModel.setGiftReceiver(sysReportQueryModel.getUserId());
+            sysReportModelList = sysReportDao.selectGift(sysReportQueryModel);
         }
         return sysReportModelList;
     }

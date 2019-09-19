@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>收入信息报表</title>
+    <title>收礼信息报表</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -16,11 +16,11 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-sm12">
             <div class="layui-card">
-                <div class="layui-card-header">收入年度分析</div>
+                <div class="layui-card-header">收礼年度分析</div>
                 <div class="layui-card-body">
                     <div class="layui-carousel layadmin-carousel layadmin-dataview layadmin-carousel-year"
-                         data-anim="fade" lay-filter="LAY-index-income-year">
-                        <div carousel-item id="LAY-index-income-year">
+                         data-anim="fade" lay-filter="LAY-index-giftReceive-year">
+                        <div carousel-item id="LAY-index-giftReceive-year">
                             <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
                         </div>
                     </div>
@@ -30,25 +30,11 @@
         </div>
         <div class="layui-col-sm12">
             <div class="layui-card">
-                <div class="layui-card-header">收入来源分析</div>
-                <div class="layui-card-body">
-                    <div class="layui-carousel layadmin-carousel layadmin-dataview layadmin-carousel-source"
-                         data-anim="fade" lay-filter="LAY-index-income-source">
-                        <div carousel-item id="LAY-index-income-source">
-                            <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="layui-col-sm12">
-            <div class="layui-card">
-                <div class="layui-card-header">收入类型分析</div>
+                <div class="layui-card-header">收礼类型分析</div>
                 <div class="layui-card-body">
                     <div class="layui-carousel layadmin-carousel layadmin-dataview layadmin-carousel-type"
-                         data-anim="fade" lay-filter="LAY-index-income-type">
-                        <div carousel-item id="LAY-index-income-type">
+                         data-anim="fade" lay-filter="LAY-index-giftReceive-type">
+                        <div carousel-item id="LAY-index-giftReceive-type">
                             <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
                         </div>
                     </div>
@@ -58,11 +44,25 @@
         </div>
         <div class="layui-col-sm12">
             <div class="layui-card">
-                <div class="layui-card-header">收入极值分析</div>
+                <div class="layui-card-header">收礼极值分析</div>
                 <div class="layui-card-body">
                     <div class="layui-carousel layadmin-carousel layadmin-dataview layadmin-carousel-peak"
-                         data-anim="fade" lay-filter="LAY-index-income-peak">
-                        <div carousel-item id="LAY-index-income-peak">
+                         data-anim="fade" lay-filter="LAY-index-giftReceive-peak">
+                        <div carousel-item id="LAY-index-giftReceive-peak">
+                            <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12">
+            <div class="layui-card">
+                <div class="layui-card-header">随礼分析</div>
+                <div class="layui-card-body">
+                    <div class="layui-carousel layadmin-carousel layadmin-dataview layadmin-carousel-gift"
+                         data-anim="fade" lay-filter="LAY-index-giftReceive-gift">
+                        <div carousel-item id="LAY-index-giftReceive-gift">
                             <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
                         </div>
                     </div>
@@ -94,16 +94,16 @@
         var url = appName + "/report/initData?";
         var request = {
             reportMode: "bar",
-            reportType: "income",
+            reportType: "giftReceive",
             reportSubType: "year",
             reportValue: ""
         }
 
         var reportList = [];
 
-        // 收入年度分析
+        // 收礼年度分析
         var initYearReport = function (index, type) {
-            var year = $("#LAY-index-income-year").children("div")[index];
+            var year = $("#LAY-index-giftReceive-year").children("div")[index];
             if (index == 0) {
                 request.reportMode = "bar";
                 request.reportSubType = "year";
@@ -126,37 +126,17 @@
                         reportList[index].setOption(fims.getBarData(response.data));
                         window.onresize = reportList[index].resize;
                         if($.isEmptyObject(response.data.legendData)){
-                            fims.msg(fims.tips.msg.emptyData, {time: 500});
+                            layer.msg(fims.tips.msg.emptyData, {time: 500});
                         }
                     } else {
-                        fims.msg(response.msg, {time: 500});
+                        fims.msg(response.msg);
                     }
                 }
             });
         }
         initYearReport(0, "init");
 
-        // 收入来源分析
-        request.reportMode = "pie";
-        request.reportSubType = "source";
-        reportRender("layadmin-carousel-source");
-        admin.req({
-            url: url + $.param(JSON.parse(JSON.stringify(request))),
-            type: "get",
-            dataType: "json",
-            done: function (response) {
-                if (response.bizResult) {
-                    var source = $("#LAY-index-income-source").children("div")[0];
-                    var sourcePie = echarts.init(source, layui.echartsTheme);
-                    sourcePie.setOption(fims.getPieData(response.data));
-                    window.onresize = sourcePie.resize;
-                } else {
-                    fims.msg(response.msg);
-                }
-            }
-        });
-
-        // 收入类型分析
+        // 收礼类型分析
         request.reportMode = "pie";
         request.reportSubType = "type";
         reportRender("layadmin-carousel-type");
@@ -166,7 +146,7 @@
             dataType: "json",
             done: function (response) {
                 if (response.bizResult) {
-                    var type = $("#LAY-index-income-type").children("div")[0];
+                    var type = $("#LAY-index-giftReceive-type").children("div")[0];
                     var typePie = echarts.init(type, layui.echartsTheme);
                     typePie.setOption(fims.getPieData(response.data));
                     window.onresize = typePie.resize;
@@ -176,7 +156,7 @@
             }
         });
 
-        // 收入极值分析
+        // 收礼极值分析
         request.reportMode = "pie";
         request.reportSubType = "peak";
         reportRender("layadmin-carousel-peak");
@@ -186,7 +166,7 @@
             dataType: "json",
             done: function (response) {
                 if (response.bizResult) {
-                    var peak = $("#LAY-index-income-peak").children("div")[0];
+                    var peak = $("#LAY-index-giftReceive-peak").children("div")[0];
                     var peakPie = echarts.init(peak, layui.echartsTheme);
                     peakPie.setOption(fims.getPieData(response.data));
                     window.onresize = peakPie.resize;
@@ -196,19 +176,39 @@
             }
         });
 
-        // 收入年度分析后续操作
+        // 随礼分析
+        request.reportMode = "pie";
+        request.reportSubType = "gift";
+        reportRender("layadmin-carousel-gift");
+        admin.req({
+            url: url + $.param(JSON.parse(JSON.stringify(request))),
+            type: "get",
+            dataType: "json",
+            done: function (response) {
+                if (response.bizResult) {
+                    var gift = $("#LAY-index-giftReceive-gift").children("div")[0];
+                    var giftPie = echarts.init(gift, layui.echartsTheme);
+                    giftPie.setOption(fims.getPieData(response.data));
+                    window.onresize = giftPie.resize;
+                } else {
+                    fims.msg(response.msg);
+                }
+            }
+        });
+
+        // 收礼年度分析后续操作
         function loopYear(data) {
             var years = JSON.parse(JSON.stringify(data.xaxisData)).reverse();
             var options = "";
             for (var i = 0; i < years.length; i++) {
                 options += "<div year='" + years[i].replace("年","") + "'></div>";
             }
-            $("#LAY-index-income-year").append(options);
+            $("#LAY-index-giftReceive-year").append(options);
 
             reportRender("layadmin-carousel-year");
 
             var index = 0;
-            carousel.on("change(LAY-index-income-year)", function (e) {
+            carousel.on("change(LAY-index-giftReceive-year)", function (e) {
                 initYearReport(index = e.index);
             }), layui.admin.on("side", function () {
                 setTimeout(function () {

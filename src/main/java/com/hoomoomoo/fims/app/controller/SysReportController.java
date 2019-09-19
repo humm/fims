@@ -45,6 +45,28 @@ public class SysReportController {
     }
 
     /**
+     * 跳转送礼信息报表页面
+     *
+     * @return
+     */
+    @ApiOperation("跳转送礼信息报表页面")
+    @RequestMapping(value = "view/giftSend/report", method = RequestMethod.GET)
+    public String giftSendReport() {
+        return "report/giftSendReport";
+    }
+
+    /**
+     * 跳转收礼信息报表页面
+     *
+     * @return
+     */
+    @ApiOperation("跳转收礼信息报表页面")
+    @RequestMapping(value = "view/giftReceive/report", method = RequestMethod.GET)
+    public String giftReceiveReport() {
+        return "report/giftReceiveReport";
+    }
+
+    /**
      * 查询报表数据
      *
      * @return

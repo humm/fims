@@ -81,6 +81,11 @@ public class BusinessConst {
     public static final String UNDERLINE                                    = "_";
 
     /**
+     * underline
+     */
+    public static final String WELL                                         = "#";
+
+    /**
      * 六个*
      */
     public static final String ASTERISK_SIX                                 = "******";
@@ -111,62 +116,67 @@ public class BusinessConst {
     public static final String TRANSFER_KEY                                 = "userId";
 
     /**
-     * 业务类型 用户
+     * 是否管理员
+     */
+    public static final String IS_ADMIN                                    = "isAdmin";
+
+    /**
+     * 业务类型：用户
      */
     public static final String BUSINESS_TYPE_USER                           = "user";
 
     /**
-     * 业务类型 收入
+     * 业务类型：收入
      */
     public static final String BUSINESS_TYPE_INCOME                         = "income";
 
     /**
-     * 业务类型 收入
+     * 业务类型：通知
      */
     public static final String BUSINESS_TYPE_NOTICE                         = "notice";
 
     /**
-     * 业务类型 菜单
+     * 业务类型：菜单
      */
     public static final String BUSINESS_TYPE_MENU                           = "menu";
 
     /**
-     * 业务类型 字典
+     * 业务类型：字典
      */
     public static final String BUSINESS_TYPE_DICTIONARY                     = "dictionary";
 
     /**
-     * 业务类型 登录
+     * 业务类型：登录
      */
     public static final String BUSINESS_TYPE_LOGIN_LOG                     = "loginLog";
 
     /**
-     * 业务类型 系统参数
+     * 业务类型：系统参数
      */
     public static final String BUSINESS_TYPE_PARAMETER                     = "parameter";
 
     /**
-     * 业务类型 数据库备份恢复
+     * 业务类型：数据库备份恢复
      */
     public static final String BUSINESS_TYPE_DATABASE                      = "database";
 
     /**
-     * 业务类型 修订
+     * 业务类型：修订
      */
     public static final String BUSINESS_TYPE_VERSION                       = "version";
 
     /**
-     * 业务类型 邮件
+     * 业务类型：邮件
      */
     public static final String BUSINESS_TYPE_MAIL                          = "mail";
 
     /**
-     * 业务类型 随礼
+     * 业务类型：随礼
      */
     public static final String BUSINESS_TYPE_GIFT                          = "gift";
 
     /**
-     * 业务类型 大额支出
+     * 业务类型：大额支出
      */
     public static final String BUSINESS_TYPE_PAY                           = "pay";
 
@@ -228,12 +238,12 @@ public class BusinessConst {
     /**
      * 报表类型：送礼报表
      */
-    public static final String REPORT_TYPE_GIFT_SEND                       = "send";
+    public static final String REPORT_TYPE_GIFT_SEND                       = "giftSend";
 
     /**
      * 报表类型：收礼礼报表
      */
-    public static final String REPORT_TYPE_GIFT_RECEIVE                    = "receive";
+    public static final String REPORT_TYPE_GIFT_RECEIVE                    = "giftReceive";
 
     /**
      * 报表模式：柱状图
@@ -271,6 +281,11 @@ public class BusinessConst {
     public static final String REPORT_SUB_TYPE_PEAK                        = "peak";
 
     /**
+     * 报表子类型：随礼
+     */
+    public static final String REPORT_SUB_TYPE_GIFT                        = "gift";
+
+    /**
      * 报表月份数：12
      */
     public static final Integer REPORT_NUM_12                              = 12;
@@ -284,7 +299,6 @@ public class BusinessConst {
      * 报表单位：月
      */
     public static final String REPORT_UNIT_MONTH                           = "月";
-
 
 
 }

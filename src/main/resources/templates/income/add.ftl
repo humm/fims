@@ -88,7 +88,7 @@
                         form.render();
                     }
                 } else {
-                    layer.msg(response.msg);
+                    fims.msg(response.msg);
                 }
             }
         });

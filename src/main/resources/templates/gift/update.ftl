@@ -98,12 +98,12 @@
                             if (response.bizResult) {
                                 fims.setValue("layui-form", response.data);
                             } else {
-                                layer.msg(response.msg);
+                                fims.msg(response.msg);
                             }
                         }
                     });
                 } else {
-                    layer.msg(response.msg);
+                    fims.msg(response.msg);
                 }
             }
         });

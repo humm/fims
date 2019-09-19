@@ -115,6 +115,15 @@
                 <dd data-name="incomeReport">
                   <a lay-href="report/view/income/report">收入报表</a>
                 </dd>
+                <dd data-name="giftSend">
+                  <a lay-href="report/view/giftSend/report">送礼报表</a>
+                </dd>
+                <dd data-name="giftReceive">
+                  <a lay-href="report/view/giftReceive/report">收礼报表</a>
+                </dd>
+                <dd data-name="dictionary">
+                  <a lay-href="dictionary/view/list">字典信息</a>
+                </dd>
               </dl>
             </li>
             <li data-name="component" class="layui-nav-item">

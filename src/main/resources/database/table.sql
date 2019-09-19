@@ -106,6 +106,7 @@ create table sys_dictionary
     item_order         number(10),
     code_order         number(10),
     user_id            number(30)    not null,
+    is_open            varchar2(1),
     constraint pk_sys_dictionary primary key (dictionary_code, dictionary_item)
 );
 
@@ -121,6 +122,8 @@ comment on column sy_dictionary.code_order
     is '代码排序';
 comment on column sy_dictionary.user_id
     is '用户ID';
+comment on column sy_dictionary.is_open
+    is '是否开放';
 
 
 call drop_table('sys_notice');

@@ -19,6 +19,15 @@ public class SysReportQueryModel {
     @ApiModelProperty(value="用户名称", required = false)
     private String userName;
 
+    @ApiModelProperty(value="送礼人", required = false)
+    private String giftSender;
+
+    @ApiModelProperty(value="收礼人", required = false)
+    private String giftReceiver;
+
+    @ApiModelProperty(value="随礼模式", required = false)
+    private String giftMode;
+
     @ApiModelProperty(value="报表模式", required = false)
     private String reportMode;
 

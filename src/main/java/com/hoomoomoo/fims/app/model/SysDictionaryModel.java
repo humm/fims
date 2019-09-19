@@ -31,4 +31,7 @@ public class SysDictionaryModel extends BaseModel {
 
     @ApiModelProperty(value="用户ID", required = false)
     private String userId;
+
+    @ApiModelProperty(value="是否开放", required = false)
+    private String isOpen;
 }
