@@ -36,4 +36,9 @@ public class ViewData {
      * 登录用户信息
      */
     private SessionBean sessionBean;
+
+    /**
+     * 页面类型
+     */
+    private String viewType;
 }

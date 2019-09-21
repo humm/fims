@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import static com.hoomoomoo.fims.app.consts.BusinessConst.IS_ADMIN;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.HAS_BUTTON;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
@@ -49,7 +49,8 @@ public class SysGiftController {
     public String viewList(ModelMap modelMap) {
         SessionBean sessionBean = SystemSessionUtils.getSession();
         if(sessionBean != null){
-            modelMap.addAttribute(IS_ADMIN, sessionBean.getIsAdmin());
+            // todo 获取按钮权限
+            modelMap.addAttribute(HAS_BUTTON, true);
         }
         return "gift/list";
     }

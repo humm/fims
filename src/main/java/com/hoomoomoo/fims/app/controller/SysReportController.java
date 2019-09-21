@@ -1,6 +1,5 @@
 package com.hoomoomoo.fims.app.controller;
 
-import com.hoomoomoo.fims.app.model.SysReportQueryModel;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysReportService;
 import com.hoomoomoo.fims.app.util.LogUtils;

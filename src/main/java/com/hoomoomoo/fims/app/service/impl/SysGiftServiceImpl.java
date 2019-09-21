@@ -63,21 +63,12 @@ public class SysGiftServiceImpl implements SysGiftService {
     public ResultData selectInitData() {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_INIT);
         ViewData viewData = new ViewData();
-        String userId = systemService.getUserId();
-        // 获取查询条件
-        viewData.getCondition().put(SELECT_GIFT_TYPE,
-                DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D004));
-        viewData.getCondition().put(SELECT_GIFT_SENDER,
-                DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D009));
-        viewData.getCondition().put(SELECT_GIFT_RECEIVER,
-                DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D009));
-        // 智能填充
-        viewData.setMindFill(MIND_FILL);
-        // 设置登录用户信息
-        viewData.setSessionBean(SystemSessionUtils.getSession());
+        // 设置查询条件
+        viewData.setViewType(BUSINESS_TYPE_GIFT);
+        systemService.setCondition(viewData);
         // 最近一次操作类型
         SysGiftQueryModel sysGiftQueryModel = new SysGiftQueryModel();
-        sysGiftQueryModel.setGiftSender(userId);
+        sysGiftQueryModel.setGiftSender(systemService.getUserId());
         LastType lastType = sysGiftDao.selectLastType(sysGiftQueryModel);
         viewData.setLastType(lastType);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_INIT);
@@ -145,7 +136,7 @@ public class SysGiftServiceImpl implements SysGiftService {
         LogUtils.parameter(logger, sysGiftQueryModel);
         SysGiftModel sysGiftModel = sysGiftDao.selectOne(sysGiftQueryModel);
         if(isTranslate){
-            sysGiftModel = (SysGiftModel)systemService.transferData(sysGiftModel);
+            systemService.transferData(sysGiftModel);
         }
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysGiftModel);

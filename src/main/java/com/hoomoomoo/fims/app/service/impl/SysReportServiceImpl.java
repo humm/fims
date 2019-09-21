@@ -201,7 +201,7 @@ public class SysReportServiceImpl implements SysReportService {
         SessionBean sessionBean = SystemSessionUtils.getSession();
         if (sessionBean != null) {
             String loginUserId = sessionBean.getUserId();
-            if (!sessionBean.getIsAdmin()) {
+            if (!sessionBean.getIsAdminData()) {
                 sysReportQueryModel.setUserId(loginUserId);
             }
             List<SysReportModel> sysReportModelList = getSysReportData(sysReportQueryModel);
@@ -223,7 +223,7 @@ public class SysReportServiceImpl implements SysReportService {
         if (sessionBean != null) {
             String loginUserId = sessionBean.getUserId();
             // 获取所有用户数据
-            if (sessionBean.getIsAdmin()) {
+            if (sessionBean.getIsAdminData()) {
                 // 获取汇总数据
                 List<SysReportModel> sysReportModelList = getSysReportData(sysReportQueryModel);
                 setSysReportCommonProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean);
@@ -260,7 +260,7 @@ public class SysReportServiceImpl implements SysReportService {
         // 设置公共数据
         if (CollectionUtils.isNotEmpty(sysReportModelList)) {
             Integer length = DICTIONARY_CONDITION.get(sessionBean.getUserId()).get(D000).size();
-            length = sessionBean.getIsAdmin() ? length + 1 : length;
+            length = sessionBean.getIsAdminData() ? length + 1 : length;
             sysReportModel.setLegendData(new String[length]);
             sysReportModel.setTitle(sysReportModelList.get(0).getTitle());
             sysReportModel.setSubTitle(sysReportModelList.get(0).getSubTitle());

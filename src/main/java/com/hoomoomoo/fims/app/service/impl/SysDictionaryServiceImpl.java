@@ -13,6 +13,7 @@ import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysDictionaryService;
 import com.hoomoomoo.fims.app.service.SystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -119,6 +120,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
             SysDictionaryModel sysDictionaryModel = iterator.next();
             if (WELL.equals(sysDictionaryModel.getDictionaryItem())) {
                 iterator.remove();
+                break;
             }
         }
         if (isTranslate) {
@@ -130,11 +132,13 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
             SysUserModel sysUserModel = ite.next();
             if (ADMIN_CODE.equals(sysUserModel.getUserCode())) {
                 ite.remove();
+                break;
             }
         }
         Map data = new HashMap<>();
         data.put(BUSINESS_TYPE_USER, sysUserModelList);
         data.put(BUSINESS_TYPE_DICTIONARY, sysDictionaryModelList);
+        data.put(SESSION_BEAN, SystemSessionUtils.getSession());
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, data);
     }
@@ -154,15 +158,23 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
             SysDictionaryModel sysDictionaryModel = sysDictionaryModelList.get(0);
             if (StringUtils.isNotBlank(sysDictionaryModel.getDictionaryCode()) && StringUtils.isBlank(sysDictionaryModel.getDictionaryItem())) {
                 // 删除操作
+                sysDictionaryDao.delete(sysDictionaryModel);
             } else {
                 if (STR_1.equals(sysDictionaryModel.getIsOpen())) {
                     // 开放状态先删除后插入
+                    sysDictionaryDao.delete(sysDictionaryModel);
+                    for(SysDictionaryModel sysDictionary : sysDictionaryModelList){
+                        sysDictionaryDao.save(sysDictionary);
+                    }
                 } else {
                     // 未开放状态更新
+                    for(SysDictionaryModel sysDictionary : sysDictionaryModelList){
+                        sysDictionaryDao.update(sysDictionary);
+                    }
                 }
             }
-
         }
+        systemService.loadSysDictionaryCondition();
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_UPDATE);
         return new ResultData(true, UPDATE_SUCCESS, null);
     }

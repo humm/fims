@@ -80,10 +80,15 @@
                 if (response.bizResult) {
                     fims.setCondition("layui-form", response.data.condition);
                     if(response.data.mindFill){
-                        var incomeType = response.data.lastType.incomeType;
-                        $("select[name='incomeType']").val(incomeType);
-                        $("select[name='userId']").find("option").last().attr("selected", true);
-                        $("select[name='incomeCompany']").find("option").last().attr("selected", true);
+                        var lastType = response.data.lastType;
+                        var sessionBean = response.data.sessionBean;
+                        if(!fims.isBlank(lastType)){
+                            $("select[name='incomeType']").val(lastType.incomeType);
+                            $("select[name='incomeCompany']").val(lastType.incomeCompany);
+                        }
+                        if(!fims.isBlank(sessionBean)){
+                            $("select[name='userId']").val(sessionBean.userId);
+                        }
                         $("#incomeDate").val(fims.getDate());
                         form.render();
                     }

@@ -43,12 +43,20 @@ public interface SysIncomeDao {
     SysIncomeModel selectOne(SysIncomeQueryModel sysIncomeQueryModel);
 
     /**
-     * 查询最后一次操作类型
+     * 查询最后一次收入类型
      *
      * @param sysIncomeQueryModel
      * @return
      */
     LastType selectLastType(SysIncomeQueryModel sysIncomeQueryModel);
+
+    /**
+     * 查询最后一次收入来源
+     *
+     * @param sysIncomeQueryModel
+     * @return
+     */
+    LastType selectLastTypeIncomeCompany(SysIncomeQueryModel sysIncomeQueryModel);
 
     /**
      * 保存收入信息

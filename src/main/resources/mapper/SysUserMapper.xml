@@ -5,8 +5,7 @@
     <sql id="Base_Column_List">
         user_id userId, user_code userCode,
         user_name userName, user_password userPassword,
-        user_status userStatus, is_admin isAdmin,
-        user_memo userMemo, create_date createDate, modify_date modifyDate,
+        user_status userStatus, create_date createDate, modify_date modifyDate,
         create_user createUser, modify_user modifyUser
     </sql>
 
@@ -30,9 +29,6 @@
             </if>
             <if test="userStatus != null" >
                 and user_status = #{userStatus}
-            </if>
-            <if test="isAdmin != null" >
-                and is_admin = #{isAdmin}
             </if>
         </where>
     </select>

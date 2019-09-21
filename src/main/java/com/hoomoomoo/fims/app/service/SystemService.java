@@ -2,6 +2,7 @@ package com.hoomoomoo.fims.app.service;
 
 import com.hoomoomoo.fims.app.model.MailModel;
 import com.hoomoomoo.fims.app.model.common.BaseModel;
+import com.hoomoomoo.fims.app.model.common.ViewData;
 
 import javax.mail.Message;
 import java.util.List;
@@ -20,29 +21,6 @@ public interface SystemService {
      * 控制台输出应用配置参数
      */
     void outputConfigParameter();
-
-    /**
-     * 发送邮件
-     *
-     * @param mailModel
-     * @return
-     */
-    Boolean sendMail(MailModel mailModel);
-
-    /**
-     * 接收指定主题邮件
-     *
-     * @param mailModel
-     * @return
-     */
-    List<Map<String, Message>> receiveMail(MailModel mailModel);
-
-    /**
-     * 处理邮件内容
-     *
-     * @param messages
-     */
-    List<MailModel> handleMailData(List<Map<String, Message>> messages);
 
     /**
      * 加载业务ID
@@ -74,7 +52,7 @@ public interface SystemService {
      * @param baseModel
      * @return
      */
-    BaseModel transferData(BaseModel baseModel);
+    void transferData(BaseModel baseModel);
 
     /**
      * 加载所有字典查询条件
@@ -89,4 +67,11 @@ public interface SystemService {
      * @return
      */
     String getUserId();
+
+    /**
+     * 设置查询条件
+     *
+     * @param viewData
+     */
+    void setCondition(ViewData viewData);
 }

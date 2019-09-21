@@ -116,9 +116,14 @@ public class BusinessConst {
     public static final String TRANSFER_KEY                                 = "userId";
 
     /**
-     * 是否管理员
+     * 是否有按钮权限
      */
-    public static final String IS_ADMIN                                    = "isAdmin";
+    public static final String HAS_BUTTON                                   = "hasButton";
+
+    /**
+     * 业务类型：sessionBean
+     */
+    public static final String SESSION_BEAN                                 = "sessionBean";
 
     /**
      * 业务类型：用户

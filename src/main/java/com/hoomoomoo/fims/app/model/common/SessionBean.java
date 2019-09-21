@@ -33,8 +33,8 @@ public class SessionBean {
     private String userStatus;
 
     /**
-     * 是否管理员
+     * 是否管理员数据权限
      */
-    private Boolean isAdmin;
+    private Boolean isAdminData;
 
 }

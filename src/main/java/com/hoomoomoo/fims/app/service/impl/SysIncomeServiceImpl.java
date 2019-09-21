@@ -3,7 +3,6 @@ package com.hoomoomoo.fims.app.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hoomoomoo.fims.app.dao.SysIncomeDao;
-import com.hoomoomoo.fims.app.model.SysDictionaryModel;
 import com.hoomoomoo.fims.app.model.SysIncomeModel;
 import com.hoomoomoo.fims.app.model.SysIncomeQueryModel;
 import com.hoomoomoo.fims.app.model.SysNoticeModel;
@@ -17,6 +16,7 @@ import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,21 +64,16 @@ public class SysIncomeServiceImpl implements SysIncomeService {
     public ResultData selectInitData() {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_INIT);
         ViewData viewData = new ViewData();
-        String userId = systemService.getUserId();
-        // 获取查询条件
-        viewData.getCondition().put(SELECT_USER_ID,
-                DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D000));
-        viewData.getCondition().put(SELECT_INCOME_COMPANY,
-                DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D005));
-        viewData.getCondition().put(SELECT_INCOME_TYPE,
-                DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D003));
-        // 智能填充
-        viewData.setMindFill(MIND_FILL);
+        // 设置查询条件
+        viewData.setViewType(BUSINESS_TYPE_INCOME);
+        systemService.setCondition(viewData);
         // 最近一次操作类型
         SysIncomeQueryModel sysIncomeQueryModel = new SysIncomeQueryModel();
-        sysIncomeQueryModel.setUserId(userId);
+        sysIncomeQueryModel.setUserId(systemService.getUserId());
         LastType lastType = sysIncomeDao.selectLastType(sysIncomeQueryModel);
         viewData.setLastType(lastType);
+        LastType incomeCompany = sysIncomeDao.selectLastTypeIncomeCompany(sysIncomeQueryModel);
+        viewData.getLastType().setIncomeCompany(incomeCompany.getIncomeCompany());
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_INIT);
         return new ResultData(true, SELECT_SUCCESS, viewData);
     }
@@ -112,9 +107,9 @@ public class SysIncomeServiceImpl implements SysIncomeService {
     public ResultData delete(String incomeIds) {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_DELETE);
         List<SysIncomeModel> list = new ArrayList<>();
-        if(StringUtils.isNotBlank(incomeIds)){
+        if (StringUtils.isNotBlank(incomeIds)) {
             String[] incomeId = incomeIds.split(COMMA);
-            for(String ele : incomeId){
+            for (String ele : incomeId) {
                 SysIncomeModel sysIncomeModel = new SysIncomeModel();
                 sysIncomeModel.setIncomeId(ele);
                 SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysIncomeModel);
@@ -142,8 +137,8 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         sysIncomeQueryModel.setIncomeId(incomeId);
         LogUtils.parameter(logger, sysIncomeQueryModel);
         SysIncomeModel sysIncomeModel = sysIncomeDao.selectOne(sysIncomeQueryModel);
-        if(isTranslate){
-            sysIncomeModel = (SysIncomeModel)systemService.transferData(sysIncomeModel);
+        if (isTranslate) {
+            systemService.transferData(sysIncomeModel);
         }
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysIncomeModel);
@@ -162,12 +157,12 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
         SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysIncomeModel);
         sysNoticeModel.setNoticeId(systemService.getBusinessSerialNo(BUSINESS_TYPE_NOTICE));
-        if(sysIncomeModel.getIncomeId() == null){
+        if (sysIncomeModel.getIncomeId() == null) {
             // 新增
             String incomeId = systemService.getBusinessSerialNo(BUSINESS_TYPE_INCOME);
             sysIncomeModel.setIncomeId(incomeId);
             sysNoticeModel.setBusinessId(incomeId);
-        }else{
+        } else {
             // 修改
             sysNoticeModel.setBusinessId(sysIncomeModel.getIncomeId());
             sysNoticeService.update(sysNoticeModel);
@@ -186,7 +181,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
      * @param sysIncomeModel
      * @return
      */
-    private SysNoticeModel setSysNoticeProperties(SysIncomeModel sysIncomeModel){
+    private SysNoticeModel setSysNoticeProperties(SysIncomeModel sysIncomeModel) {
         SysNoticeModel sysNoticeModel = new SysNoticeModel();
         sysNoticeModel.setUserId(sysIncomeModel.getUserId());
         sysNoticeModel.setBusinessType(BUSINESS_TYPE_INCOME);

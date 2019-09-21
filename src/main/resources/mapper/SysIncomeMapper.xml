@@ -99,6 +99,18 @@
         where rownum = 1
     </select>
 
+    <select id="selectLastTypeIncomeCompany" parameterType="com.hoomoomoo.fims.app.model.SysIncomeQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.common.LastType">
+        select s.income_company as incomeCompany
+        from (
+            select t.income_company
+            from sys_income t
+            where t.user_id = #{userId}
+            order by t.modify_date desc
+        )s
+        where rownum = 1
+    </select>
+
     <update id="save" parameterType="com.hoomoomoo.fims.app.model.SysIncomeModel">
         merge into sys_income a
         using (select #{incomeId} as income_id from dual) b

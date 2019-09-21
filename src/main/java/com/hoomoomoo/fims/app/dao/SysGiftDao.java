@@ -42,7 +42,7 @@ public interface SysGiftDao {
     SysGiftModel selectOne(SysGiftQueryModel sysGiftQueryModel);
 
     /**
-     * 查询最后一次操作类型
+     * 查询最后一次随礼类型
      *
      * @param sysGiftQueryModel
      * @return

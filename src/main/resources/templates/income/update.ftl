@@ -8,6 +8,8 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="${appName}/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="${appName}/layuiadmin/style/fims.css" media="all">
+
 </head>
 <body>
 
@@ -97,8 +99,6 @@
                         done: function (response) {
                             if (response.bizResult) {
                                 fims.setValue("layui-form", response.data);
-                                $("select[name='userId']").attr("disabled", true);
-                                form.render();
                             } else {
                                 fims.msg(response.msg);
                             }

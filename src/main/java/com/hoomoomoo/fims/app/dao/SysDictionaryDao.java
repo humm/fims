@@ -39,5 +39,26 @@ public interface SysDictionaryDao {
      */
     List<SysDictionaryModel> selectSysDictionaryCondition();
 
+    /**
+     * 删除字典信息
+     *
+     * @param sysDictionaryModel
+     */
+    void delete(SysDictionaryModel sysDictionaryModel);
+
+    /**
+     * 修改字典信息
+     *
+     * @param sysDictionaryModel
+     */
+    void update(SysDictionaryModel sysDictionaryModel);
+
+    /**
+     * 保存字典信息
+     *
+     * @param sysDictionaryModel
+     */
+    void save(SysDictionaryModel sysDictionaryModel);
+
 
 }

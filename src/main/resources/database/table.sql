@@ -27,7 +27,6 @@ create table sys_user
     user_name     varchar2(50) not null,
     user_password varchar2(50) not null,
     user_status   varchar2(1)  not null,
-    is_admin      varchar2(1)  default '0',
     create_date   timestamp(6) default sysdate,
     modify_date   timestamp(6) default sysdate,
     create_user   varchar2(50) not null,
@@ -44,8 +43,6 @@ comment on column sys_user.user_password
     is '用户密码';
 comment on column sys_user.user_status
     is '用户状态';
-comment on column sys_user.is_admin
-    is '是否管理员';
 comment on column sys_user.create_date
     is '创建时间';
 comment on column sys_user.modify_date

@@ -52,6 +52,6 @@ public class SystemUtils {
     public static void setSessionInfo(QueryBaseModel queryBaseModel){
         SessionBean sessionBean = SystemSessionUtils.getSession();
         queryBaseModel.setUserKey(sessionBean.getUserId());
-        queryBaseModel.setIsAdmin(sessionBean.getIsAdmin());
+        queryBaseModel.setIsAdmin(sessionBean.getIsAdminData());
     }
 }

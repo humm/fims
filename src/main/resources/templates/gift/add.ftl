@@ -80,8 +80,15 @@
                 if (response.bizResult) {
                     fims.setCondition("layui-form", response.data.condition);
                     if(response.data.mindFill){
-                        var giftType = response.data.lastType.giftType;
-                        $("select[name='giftType']").val(giftType);
+                        var lastType = response.data.lastType;
+                        var sessionBean = response.data.sessionBean;
+                        if(!fims.isBlank(lastType)){
+                            $("select[name='giftType']").val(lastType.giftType);
+                        }
+                        if(!fims.isBlank(sessionBean)){
+                            $("select[name='giftSender']").val('D009-' + sessionBean.userId);
+                            $("select[name='giftReceiver']").val('D009-' + sessionBean.userId);
+                        }
                         $("#giftDate").val(fims.getDate());
                         form.render();
                     }

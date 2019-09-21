@@ -9,6 +9,7 @@ import com.hoomoomoo.fims.app.dao.SystemDao;
 import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.BaseModel;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
+import com.hoomoomoo.fims.app.model.common.ViewData;
 import com.hoomoomoo.fims.app.service.SystemService;
 import com.hoomoomoo.fims.app.util.BeanMapUtils;
 import com.hoomoomoo.fims.app.util.DateUtils;
@@ -38,10 +39,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static com.hoomoomoo.fims.app.config.RunDataConfig.BUSINESS_SERIAL_NO;
-import static com.hoomoomoo.fims.app.config.RunDataConfig.DICTIONARY_CONDITION;
-import static com.hoomoomoo.fims.app.consts.DictionaryConst.D000;
-import static com.hoomoomoo.fims.app.consts.DictionaryConst.D005;
+import static com.hoomoomoo.fims.app.config.RunDataConfig.*;
+import static com.hoomoomoo.fims.app.consts.DictionaryConst.*;
 import static com.hoomoomoo.fims.app.consts.SystemConst.ADMIN_CODE;
 import static com.hoomoomoo.fims.app.consts.SystemConst.APPLICATION_PROPERTIES;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
@@ -67,12 +66,6 @@ public class SystemServiceImpl implements SystemService {
     private Environment environment;
 
     @Autowired
-    private MailConfigBean mailConfigBean;
-
-    @Autowired
-    private JavaMailSender javaMailSender;
-
-    @Autowired
     private SystemDao systemDao;
 
     @Autowired
@@ -86,7 +79,7 @@ public class SystemServiceImpl implements SystemService {
      */
     @Override
     public void outputConfigParameter() {
-        if (!fimsConfigBean.getConsoleOutput()){
+        if (!fimsConfigBean.getConsoleOutput()) {
             return;
         }
         Properties properties = new OrderedProperties();
@@ -124,121 +117,6 @@ public class SystemServiceImpl implements SystemService {
     }
 
     /**
-     * 发送邮件
-     *
-     * @param mailModel
-     * @return
-     */
-    @Override
-    public Boolean sendMail(MailModel mailModel) {
-        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
-        boolean isSend = true;
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-        try {
-            mimeMessageHelper.setTo(mailConfigBean.getTo());
-            mimeMessageHelper.setFrom(mailConfigBean.getFrom());
-            mimeMessage.setSubject(mailModel.getSubject());
-            mimeMessageHelper.setText(mailModel.getText(), true);
-            javaMailSender.send(mimeMessage);
-            LogUtils.success(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
-        } catch (MessagingException e) {
-            isSend = false;
-            LogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL_SEND, e);
-        }
-        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
-        return isSend;
-    }
-
-    /**
-     * 接收指定主题邮件
-     *
-     * @param mailModel
-     * @return
-     */
-    @Override
-    public List<Map<String, Message>> receiveMail(MailModel mailModel) {
-        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
-        Properties properties = new Properties();
-        Session session = Session.getDefaultInstance(properties);
-        session.setDebug(mailConfigBean.getDebug());
-        List<Map<String, Message>> subjectMessage = new ArrayList<>();
-        try {
-            Store store = session.getStore(mailConfigBean.getReceiveProtocol());
-            store.connect(mailConfigBean.getReceiveHost(), mailConfigBean.getReceiveUsername(), mailConfigBean.getReceivePassword());
-            Folder folder = store.getFolder(mailConfigBean.getReceiveFolder());
-            // 设置对邮件帐户的访问权限可以读写
-            folder.open(Folder.READ_WRITE);
-            Message[] messages = folder.getMessages();
-            for (Message message : messages) {
-                if (StringUtils.isBlank(mailModel.getSubject()) || mailModel.getSubject().equals(message.getSubject())) {
-                    Map msg = new HashMap(1);
-                    String mailId = mailConfigBean.getReceiveHost() + MINUS + ((IMAPFolder) folder).getUID(message);
-                    msg.put(mailId, message);
-                    subjectMessage.add(msg);
-                    // 邮件状态置为已读
-                    message.setFlag(Flags.Flag.SEEN, true);
-                }
-            }
-            LogUtils.success(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
-        } catch (Exception e) {
-            LogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE, e);
-        }
-        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
-        return subjectMessage;
-    }
-
-    /**
-     * 处理邮件内容
-     *
-     * @param messages
-     */
-    @Override
-    public List<MailModel> handleMailData(List<Map<String, Message>> messages) {
-        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE);
-        List<MailModel> mailDtoList = new ArrayList<>();
-        for (Map<String, Message> messageMap : messages) {
-            Iterator<String> iterator = messageMap.keySet().iterator();
-            String mailId = STR_0;
-            Message message = null;
-            while (iterator.hasNext()) {
-                mailId = iterator.next();
-                message = messageMap.get(mailId);
-                break;
-            }
-            MimeMessage mimeMessage = (MimeMessage) message;
-            try {
-                Object content = mimeMessage.getContent();
-                if (content instanceof String) {
-                    mailDtoList.add(new MailModel(mimeMessage.getSubject(), String.valueOf(content), mailId));
-                } else if (content instanceof MimeMultipart) {
-                    MimeMultipart mimeMultipart = (MimeMultipart) mimeMessage.getContent();
-                    inner:
-                    for (int i = 0; i < mimeMultipart.getCount(); i++) {
-                        BodyPart bodyPart = mimeMultipart.getBodyPart(i);
-                        if (bodyPart.isMimeType(TEXT_PLAIN)) {
-                            // 文本内容
-                            mailDtoList.add(new MailModel(mimeMessage.getSubject(),
-                                    String.valueOf(bodyPart.getContent()), mailId));
-                            break inner;
-                        } else if (bodyPart.isMimeType(TEXT_HTML)) {
-                            // 超文本内容
-                        } else if (bodyPart.isMimeType(MULTIPART)) {
-                            // 附件
-                        }
-                    }
-                } else {
-                    LogUtils.fail(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE, MAIL_CONTENT_NOT_SUPPORT);
-                }
-            } catch (Exception e) {
-                LogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE, e);
-            }
-        }
-        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE);
-        return mailDtoList;
-    }
-
-    /**
      * 加载业务ID
      *
      * @return
@@ -249,7 +127,7 @@ public class SystemServiceImpl implements SystemService {
         List<String> businessIdList = systemDao.loadBusinessId();
         if (CollectionUtils.isNotEmpty(businessIdList)) {
             for (String businessId : businessIdList) {
-                if(businessId.split(MINUS).length != 2){
+                if (businessId.split(MINUS).length != 2) {
                     continue;
                 }
                 String businessKey = businessId.split(MINUS)[0];
@@ -348,16 +226,14 @@ public class SystemServiceImpl implements SystemService {
      * @return
      */
     @Override
-    public BaseModel transferData(BaseModel baseModel) {
+    public void transferData(BaseModel baseModel) {
         LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
-        if(baseModel != null){
+        if (baseModel != null) {
             Map dictionaryCache = new HashMap(16);
             Map ele = BeanMapUtils.beanToMap(baseModel);
             transfer(dictionaryCache, ele);
-            baseModel = BeanMapUtils.mapToBean(ele, baseModel);
         }
         LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
-        return baseModel;
     }
 
     /**
@@ -368,27 +244,28 @@ public class SystemServiceImpl implements SystemService {
     @Override
     public void loadSysDictionaryCondition() {
         LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_DICTIONARY_LOAD);
+        DICTIONARY_CONDITION.clear();
         // 查询用户信息
         List<SysUserModel> sysUserList = sysUserDao.selectSysUser(null);
         // 查询字典信息
         List<SysDictionaryModel> sysDictionaryList = sysDictionaryDao.selectSysDictionaryCondition();
         // 拼装数据
-        for(SysUserModel sysUserModel : sysUserList){
-            for(SysDictionaryModel sysDictionaryModel : sysDictionaryList){
+        for (SysUserModel sysUserModel : sysUserList) {
+            for (SysDictionaryModel sysDictionaryModel : sysDictionaryList) {
                 String dictionaryCode = sysDictionaryModel.getDictionaryCode();
                 // 用户不存在
-                if(DICTIONARY_CONDITION.get(sysUserModel.getUserId()) == null){
+                if (DICTIONARY_CONDITION.get(sysUserModel.getUserId()) == null) {
                     setDictionaryItem(sysUserModel, sysDictionaryModel, new ConcurrentHashMap(),
                             new ConcurrentHashMap());
-                }else{
+                } else {
                     // 用户存在 字典不存在
-                    if(DICTIONARY_CONDITION.get(sysUserModel.getUserId()).get(dictionaryCode) == null){
+                    if (DICTIONARY_CONDITION.get(sysUserModel.getUserId()).get(dictionaryCode) == null) {
                         setDictionaryItem(sysUserModel, sysDictionaryModel,
                                 DICTIONARY_CONDITION.get(sysUserModel.getUserId()),
                                 DICTIONARY_CONDITION.get(new StringBuffer(sysUserModel.getUserId()).append(BLANK).toString()));
-                    }else{
+                    } else {
                         // 用户存在 字典存在
-                        if(isUserDictionary(sysUserModel, sysDictionaryModel)){
+                        if (isUserDictionary(sysUserModel, sysDictionaryModel)) {
                             DICTIONARY_CONDITION.get(sysUserModel.getUserId()).get(dictionaryCode).add(sysDictionaryModel);
                             DICTIONARY_CONDITION.get(new StringBuffer(sysUserModel.getUserId()).append(BLANK).toString()).get(dictionaryCode).add(sysDictionaryModel);
                         }
@@ -408,20 +285,55 @@ public class SystemServiceImpl implements SystemService {
     public String getUserId() {
         String userId = STR_EMPTY;
         SessionBean sessionBean = SystemSessionUtils.getSession();
-        if(sessionBean != null){
+        if (sessionBean != null) {
             userId = sessionBean.getUserId();
-        }else{
+        } else {
             SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
             sysUserQueryModel.setUserCode(ADMIN_CODE);
             List<SysUserModel> sysUserModelList = sysUserDao.selectSysUser(sysUserQueryModel);
-            if(CollectionUtils.isNotEmpty(sysUserModelList)){
+            if (CollectionUtils.isNotEmpty(sysUserModelList)) {
                 SysUserModel sysUserModel = sysUserModelList.get(0);
-                if(sysUserModel != null){
+                if (sysUserModel != null) {
                     userId = sysUserModel.getUserId();
                 }
             }
         }
         return userId;
+    }
+
+    /**
+     * 设置查询条件
+     *
+     * @param viewData
+     */
+    @Override
+    public void setCondition(ViewData viewData) {
+        // 智能填充
+        viewData.setMindFill(MIND_FILL);
+        // 设置登录用户信息
+        viewData.setSessionBean(SystemSessionUtils.getSession());
+        String userId = getUserId();
+        // 获取查询条件
+        switch (viewData.getViewType()) {
+            case BUSINESS_TYPE_INCOME:
+                viewData.getCondition().put(SELECT_USER_ID,
+                        DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D000));
+                viewData.getCondition().put(SELECT_INCOME_COMPANY,
+                        DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D005));
+                viewData.getCondition().put(SELECT_INCOME_TYPE,
+                        DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D003));
+                break;
+            case BUSINESS_TYPE_GIFT:
+                viewData.getCondition().put(SELECT_GIFT_TYPE,
+                        DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D004));
+                viewData.getCondition().put(SELECT_GIFT_SENDER,
+                        DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D009));
+                viewData.getCondition().put(SELECT_GIFT_RECEIVER,
+                        DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D009));
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -434,9 +346,9 @@ public class SystemServiceImpl implements SystemService {
      */
     private void setDictionaryItem(SysUserModel sysUserModel, SysDictionaryModel sysDictionaryModel,
                                    ConcurrentHashMap<String, List<SysDictionaryModel>> codeMap,
-                                   ConcurrentHashMap<String, List<SysDictionaryModel>> codeMapBlank){
+                                   ConcurrentHashMap<String, List<SysDictionaryModel>> codeMapBlank) {
         // 字典不存在
-        if(codeMap.get(sysDictionaryModel.getDictionaryCode()) == null){
+        if (codeMap.get(sysDictionaryModel.getDictionaryCode()) == null) {
             List<SysDictionaryModel> item = new ArrayList<>();
             List<SysDictionaryModel> itemBlank = new ArrayList<>();
             // 设置请选择选项
@@ -447,16 +359,16 @@ public class SystemServiceImpl implements SystemService {
             select.setItemOrder(STR_0);
             itemBlank.add(select);
 
-            if(isUserDictionary(sysUserModel, sysDictionaryModel)){
+            if (isUserDictionary(sysUserModel, sysDictionaryModel)) {
                 item.add(sysDictionaryModel);
                 itemBlank.add(sysDictionaryModel);
             }
 
             codeMap.put(sysDictionaryModel.getDictionaryCode(), item);
             codeMapBlank.put(sysDictionaryModel.getDictionaryCode(), itemBlank);
-        }else{
+        } else {
             // 字典存在
-            if(isUserDictionary(sysUserModel, sysDictionaryModel)){
+            if (isUserDictionary(sysUserModel, sysDictionaryModel)) {
                 codeMap.get(sysDictionaryModel.getDictionaryCode()).add(sysDictionaryModel);
                 codeMapBlank.get(sysDictionaryModel.getDictionaryCode()).add(sysDictionaryModel);
             }
@@ -472,10 +384,12 @@ public class SystemServiceImpl implements SystemService {
      * @param sysDictionaryModel
      * @return
      */
-    private Boolean isUserDictionary(SysUserModel sysUserModel, SysDictionaryModel sysDictionaryModel){
-        Boolean flag =
-                D005.equals(sysDictionaryModel.getDictionaryCode()) || D000.equals(sysDictionaryModel.getDictionaryCode());
-        if(!sysUserModel.getIsAdmin() && flag){
+    private Boolean isUserDictionary(SysUserModel sysUserModel, SysDictionaryModel sysDictionaryModel) {
+        boolean flag =
+                D000.equals(sysDictionaryModel.getDictionaryCode()) || D005.equals(sysDictionaryModel.getDictionaryCode())
+                        || D009.equals(sysDictionaryModel.getDictionaryCode());
+        // todo 没有管理员数据权限
+        if(!true && flag){
             return sysUserModel.getUserId().equals(sysDictionaryModel.getUserId());
         }
         return true;
@@ -483,14 +397,15 @@ public class SystemServiceImpl implements SystemService {
 
     /**
      * 转义
+     *
      * @param dictionaryCache
      * @param ele
      */
-    private void transfer(Map dictionaryCache, Map ele){
+    private void transfer(Map dictionaryCache, Map ele) {
         Iterator<String> iterator = ele.keySet().iterator();
         while (iterator.hasNext()) {
             String key = iterator.next();
-            if(ele.get(key) == null){
+            if (ele.get(key) == null) {
                 continue;
             }
             String value = String.valueOf(ele.get(key));
@@ -517,8 +432,8 @@ public class SystemServiceImpl implements SystemService {
             // 配置key转义
             int index = -1;
             String[] keys = TRANSFER_KEY.split(COMMA);
-            for(int i=0; i<keys.length; i++){
-                if(keys[i].equals(key)){
+            for (int i = 0; i < keys.length; i++) {
+                if (keys[i].equals(key)) {
                     index = i;
                 }
             }
@@ -527,14 +442,14 @@ public class SystemServiceImpl implements SystemService {
             }
             if (dictionaryCache.get(value) != null) {
                 ele.put(key, dictionaryCache.get(value));
-            }else{
+            } else {
                 switch (index) {
                     case 0:
                         // 转义 userId
                         SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
                         sysUserQueryModel.setUserId(value);
                         List<SysUserModel> sysUserList = sysUserDao.selectSysUser(sysUserQueryModel);
-                        if(CollectionUtils.isNotEmpty(sysUserList)){
+                        if (CollectionUtils.isNotEmpty(sysUserList)) {
                             ele.put(key, sysUserList.get(0).getUserName());
                             dictionaryCache.put(value, sysUserList.get(0).getUserName());
                         }
@@ -582,7 +497,7 @@ public class SystemServiceImpl implements SystemService {
     }
 
     /**
-     * 数值过滤转换
+     * 配置参数过滤转换
      *
      * @param key
      * @return

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-@EnableScheduling
+//@EnableScheduling
 public class MessageTask {
 
     @Autowired

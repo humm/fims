@@ -94,14 +94,15 @@
         // 添加字典项
         function addDictionary(data) {
             if (!$.isEmptyObject(data)) {
+                userList = data.user;
                 for (var i = 0; i < data.dictionary.length; i++) {
-                    userList = data.user;
                     $(".dictionary").append(addItem(data.user, data.dictionary[i].userId, data.dictionary[i].dictionaryItem, data.dictionary[i].dictionaryCaption));
                     form.render();
                 }
             }
             $("input[name='dictionaryCode']").val(dictionaryCode);
             $("input[name='dictionaryCodeCaption']").val(dictionaryCaption);
+            // 是否开放状态按钮状态控制
             if ("0" == isOpen) {
                 $("button.layuiadmin-btn-dictionary-add").hide();
                 $("button.layuiadmin-btn-dictionary-delete").hide();
@@ -110,6 +111,19 @@
                 $("select[name='userId']").parent().prev().hide();
                 $("select[name='userId']").parent().hide();
             }
+            // 系统用户随礼人信息不能修改删除
+            $(".dictionary .layui-form-item-dictionary").each(function () {
+                var dictionaryItem = $(this).find("input[name='dictionaryItem']").val();
+                for(var i = 0; i < userList.length; i++){
+                    var userId = userList[i].userId;
+                    if(userId == dictionaryItem){
+                        $(this).find("button.layuiadmin-btn-dictionary-delete").hide();
+                        $(this).find("[name]").addClass("layui-detail");
+                        $(this).find("[name]").attr("disabled", true);
+                    }
+                }
+                form.render();
+            });
         }
 
         // 添加元素

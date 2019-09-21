@@ -2,6 +2,7 @@ package com.hoomoomoo.fims.test;
 
 import com.hoomoomoo.fims.FimsApplication;
 import com.hoomoomoo.fims.app.model.MailModel;
+import com.hoomoomoo.fims.app.service.SysMailService;
 import com.hoomoomoo.fims.app.service.SystemService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,20 +29,20 @@ public class MailConfigTest {
     private static final Logger logger = LoggerFactory.getLogger(MailConfigTest.class);
 
     @Autowired
-    private SystemService systemService;
+    private SysMailService sysMailService;
 
     @Test
     public void send() {
         MailModel mailModel = new MailModel();
         mailModel.setSubject("测试邮件主题");
         mailModel.setText("测试邮件内容");
-        systemService.sendMail(mailModel);
+        sysMailService.sendMail(mailModel);
     }
 
     @Test
     public void receive() {
-        List<Map<String,Message>> messageList = systemService.receiveMail(new MailModel("测试邮件主题"));
-        List<MailModel> mailTDtos = systemService.handleMailData(messageList);
+        List<Map<String,Message>> messageList = sysMailService.receiveMail(new MailModel("测试邮件主题"));
+        List<MailModel> mailTDtos = sysMailService.handleMailData(messageList);
         for(MailModel dto : mailTDtos){
             logger.info(dto.toString());
         }

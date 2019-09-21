@@ -96,7 +96,7 @@
         var appName = '${appName}';
 
         // 是否管理员
-        var isAdmin = ${isAdmin?string('true','false')};
+        var hasButton = ${hasButton?string('true','false')};
 
         // 业务类型
         var businessType = "income";
@@ -131,7 +131,7 @@
         });
 
         // 权限按钮设置
-        fims.setAuthority(isAdmin, "LAY-app-" + businessType + "-list-button");
+        fims.setAuthority(hasButton, "LAY-app-" + businessType + "-list-button");
 
         // 初始化页面信息
         admin.req({

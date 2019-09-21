@@ -18,8 +18,8 @@
                 return false;
             }
         },
-        setAuthority: function (isAdmin, buttonId) {
-            if (isAdmin && !this.isBlank(buttonId)) {
+        setAuthority: function (hasButton, buttonId) {
+            if (!hasButton && !this.isBlank(buttonId)) {
                 var ids = buttonId.split(",");
                 for (var i = 0; i < ids.length; i++) {
                     $("#" + ids[i]).remove();
