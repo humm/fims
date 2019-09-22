@@ -78,7 +78,12 @@
     </select>
 
     <delete id="delete" parameterType="com.hoomoomoo.fims.app.model.SysDictionaryModel">
-        delete from sys_dictionary where dictionary_code = #{dictionaryCode} and dictionary_item != '#'
+        delete from sys_dictionary
+        where dictionary_code = #{dictionaryCode}
+        and dictionary_item != '#'
+        <if test="dictionaryItem != null">
+            and dictionary_item = #{dictionaryItem}
+        </if>
     </delete>
 
     <update id="update" parameterType="com.hoomoomoo.fims.app.model.SysDictionaryModel">
@@ -98,7 +103,14 @@
             #{dictionaryCode},
             #{dictionaryItem},
             #{dictionaryCaption},
-            #{itemOrder},
+            <choose>
+                <when test="itemOrder != null">
+                    #{itemOrder},
+                </when>
+                <otherwise>
+                    (select nvl(max(item_order), 0) + 1 from sys_dictionary where dictionary_code = #{dictionaryCode}),
+                </otherwise>
+            </choose>
             #{userId}
         )
     </insert>

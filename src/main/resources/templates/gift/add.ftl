@@ -90,8 +90,8 @@
                             $("select[name='giftReceiver']").val('D009-' + sessionBean.userId);
                         }
                         $("#giftDate").val(fims.getDate());
-                        form.render();
                     }
+                    form.render();
                 } else {
                     fims.msg(response.msg);
                 }

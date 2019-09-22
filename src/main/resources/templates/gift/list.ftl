@@ -95,7 +95,7 @@
         // 应用名称
         var appName = '${appName}';
 
-        // 是否管理员
+        // 是否按钮权限
         var hasButton = ${hasButton?string('true','false')};
 
         // 业务类型
@@ -235,12 +235,12 @@
             iframe.layui.form.on("submit(LAY-app-" + businessType + "-" + type + ")", function (data) {
                 var param = fims.clearBlank(data.field);
                 if (param.giftSender == param.giftReceiver) {
-                    fims.msg(fims.tips.msg.notSameOne);
+                    fims.msg(fims.tips.msg.notSameOne, {time: 1000});
                     return;
                 }
                 var isLoginUser = param.giftSender.indexOf(sessionBean.userId) == -1 && param.giftReceiver.indexOf(sessionBean.userId) == -1;
                 if (isLoginUser) {
-                    fims.msg(fims.tips.msg.isLoginOne);
+                    fims.msg(fims.tips.msg.isLoginOne, {time: 1000});
                     return;
                 }
                 admin.req({

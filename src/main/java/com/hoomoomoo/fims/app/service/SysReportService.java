@@ -1,6 +1,5 @@
 package com.hoomoomoo.fims.app.service;
 
-import com.hoomoomoo.fims.app.model.SysReportQueryModel;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 
 /**

@@ -1,6 +1,5 @@
 package com.hoomoomoo.fims.app.controller;
 
-import com.hoomoomoo.fims.app.model.MailModel;
 import com.hoomoomoo.fims.app.model.SysIncomeModel;
 import com.hoomoomoo.fims.app.model.SysIncomeQueryModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;

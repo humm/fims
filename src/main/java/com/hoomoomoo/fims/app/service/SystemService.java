@@ -1,12 +1,10 @@
 package com.hoomoomoo.fims.app.service;
 
-import com.hoomoomoo.fims.app.model.MailModel;
+import com.hoomoomoo.fims.app.model.SysUserQueryModel;
 import com.hoomoomoo.fims.app.model.common.BaseModel;
 import com.hoomoomoo.fims.app.model.common.ViewData;
 
-import javax.mail.Message;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author humm23693
@@ -50,9 +48,10 @@ public interface SystemService {
      * 字典转义
      *
      * @param baseModel
+     * @param clazz
      * @return
      */
-    void transferData(BaseModel baseModel);
+    void transferData(BaseModel baseModel, Class clazz);
 
     /**
      * 加载所有字典查询条件
@@ -74,4 +73,5 @@ public interface SystemService {
      * @param viewData
      */
     void setCondition(ViewData viewData);
+
 }

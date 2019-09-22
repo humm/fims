@@ -34,7 +34,7 @@
             <if test="incomeAmount != null">
                 and income_amount = #{incomeAmount}
             </if>
-            <if test="isAdmin == false">
+            <if test="isAdminData == false">
                 and user_id = #{userKey}
             </if>
         </where>

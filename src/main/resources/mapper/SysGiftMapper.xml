@@ -35,7 +35,7 @@
             <if test="giftAmount != null">
                 and gift_amount = #{giftAmount}
             </if>
-            <if test="isAdmin == false">
+            <if test="isAdminData == false">
                 and (
                     substr(gift_sender, instr(gift_sender, '-') + 1) = #{userKey}
                     or

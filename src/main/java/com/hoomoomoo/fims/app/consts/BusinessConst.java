@@ -231,6 +231,11 @@ public class BusinessConst {
     public static final String SELECT_GIFT_RECEIVER                        = "giftReceiver";
 
     /**
+     * 查询条件：用户状态
+     */
+    public static final String SELECT_USER_STATUS                          = "userStatus";
+
+    /**
      * 报表：汇总title
      */
     public static final String REPORT_COLLECT_TITLE                        = "合计";
@@ -304,6 +309,5 @@ public class BusinessConst {
      * 报表单位：月
      */
     public static final String REPORT_UNIT_MONTH                           = "月";
-
 
 }

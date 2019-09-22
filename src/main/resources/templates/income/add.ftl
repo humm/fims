@@ -90,8 +90,8 @@
                             $("select[name='userId']").val(sessionBean.userId);
                         }
                         $("#incomeDate").val(fims.getDate());
-                        form.render();
                     }
+                    form.render();
                 } else {
                     fims.msg(response.msg);
                 }

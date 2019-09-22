@@ -31,7 +31,7 @@ public class QueryBaseModel {
 
     @JsonIgnore
     @ApiModelProperty(value = "是否管理员", required = false)
-    private Boolean isAdmin;
+    private Boolean isAdminData;
 
     @JsonIgnore
     @ApiModelProperty(value = "session用户ID", required = false)

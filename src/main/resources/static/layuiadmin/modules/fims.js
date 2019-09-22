@@ -11,6 +11,13 @@
                 layer.msg(msg, param);
             }
         },
+        value: function (parameter) {
+            if (this.isBlank(parameter)) {
+                return "";
+            } else {
+                return parameter;
+            }
+        },
         isBlank: function (parameter) {
             if (parameter == null || parameter == '' || parameter == undefined || parameter == 'undefined') {
                 return true;
@@ -64,10 +71,10 @@
                 var name = $(this).attr("name");
                 var type = $(this)[0].tagName.toLowerCase();
                 if (type == "textarea") {
-                    $(this).text(data[name]);
+                    $(this).text(that.value(data[name]));
                 } else {
                     // select input
-                    $(this).val(data[name]);
+                    $(this).val(that.value(data[name]));
                 }
             });
             form.render();
@@ -223,7 +230,9 @@
                 request: "数据提交中...",
                 notSameOne: "送礼人和收礼人不能为同一人",
                 isLoginOne: "送礼人或者收礼人必须有一个为当前登录人",
-                notEmpty: "不能为空"
+                notEmpty: "不能为空",
+                isNumberOrLetter: "用户代码只能为字母、数字及下划线",
+                userisExist: "用户代码已经存在"
             }
         }
     };

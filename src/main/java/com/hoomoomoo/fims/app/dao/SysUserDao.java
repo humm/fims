@@ -23,4 +23,44 @@ public interface SysUserDao {
      * @return
      */
     List<SysUserModel> selectSysUser(SysUserQueryModel sysUserQueryModel);
+
+    /**
+     * 分页查询用户信息
+     *
+     * @param sysUserQueryModel
+     * @return
+     */
+    List<SysUserModel> selectPage(SysUserQueryModel sysUserQueryModel);
+    
+    /**
+     * 删除用户信息
+     *
+     * @param sysUserModelList
+     * @return
+     */
+    void delete(List<SysUserModel> sysUserModelList);
+
+    /**
+     * 查询用户信息
+     *
+     * @param sysUserQueryModel
+     * @return
+     */
+    SysUserModel selectOne(SysUserQueryModel sysUserQueryModel);
+
+    /**
+     * 保存用户信息
+     *
+     * @param sysUserModel
+     */
+    void save(SysUserModel sysUserModel);
+
+
+    /**
+     * 校验userCode是否存在
+     *
+     * @param sysUserQueryModel
+     * @return
+     */
+    Boolean checkUserCode(SysUserQueryModel sysUserQueryModel);
 }

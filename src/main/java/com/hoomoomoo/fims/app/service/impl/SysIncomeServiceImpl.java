@@ -11,23 +11,17 @@ import com.hoomoomoo.fims.app.service.SysIncomeService;
 import com.hoomoomoo.fims.app.service.SysNoticeService;
 import com.hoomoomoo.fims.app.service.SystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
-import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static com.hoomoomoo.fims.app.config.RunDataConfig.DICTIONARY_CONDITION;
-import static com.hoomoomoo.fims.app.config.RunDataConfig.MIND_FILL;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.*;
@@ -138,7 +132,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         LogUtils.parameter(logger, sysIncomeQueryModel);
         SysIncomeModel sysIncomeModel = sysIncomeDao.selectOne(sysIncomeQueryModel);
         if (isTranslate) {
-            systemService.transferData(sysIncomeModel);
+            systemService.transferData(sysIncomeModel, SysIncomeModel.class);
         }
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysIncomeModel);

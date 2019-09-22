@@ -4,8 +4,9 @@
 
     <sql id="Base_Column_List">
         user_id userId, user_code userCode,
-        user_name userName, user_password userPassword,
-        user_status userStatus, create_date createDate, modify_date modifyDate,
+        user_name userName,
+        user_status userStatus, user_memo userMemo,
+        create_date createDate, modify_date modifyDate,
         create_user createUser, modify_user modifyUser
     </sql>
 
@@ -31,6 +32,130 @@
                 and user_status = #{userStatus}
             </if>
         </where>
+    </select>
+
+    <select id="selectPage" parameterType="com.hoomoomoo.fims.app.model.SysUserQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.SysUserModel">
+        select
+            <include refid="Base_Column_List"/>
+        from sys_user
+        <where>
+            <if test="userId != null" >
+                and user_id = #{userId}
+            </if>
+            <if test="userCode != null" >
+                and user_code = #{userCode}
+            </if>
+            <if test="userName != null" >
+                and user_name = #{userName}
+            </if>
+            <if test="userStatus != null" >
+                and user_status = #{userStatus}
+            </if>
+        </where>
+        order by
+        <if test="sort != null and order != null">
+            ${sort} ${order}
+        </if>
+        <if test="sort != null and order == null">
+            ${sort}
+        </if>
+        <if test="sort == null">
+            modify_date desc
+        </if>
+    </select>
+
+    <delete id="delete" parameterType="java.util.List">
+        delete from sys_user
+        <where>
+            user_id in
+            <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                #{item.userId}
+            </foreach>
+        </where>
+    </delete>
+
+    <select id="selectOne" parameterType="com.hoomoomoo.fims.app.model.SysUserQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.SysUserModel">
+        select
+            <include refid="Base_Column_List"/>
+        from sys_user
+        <where>
+            <if test="userId != null" >
+                and user_id = #{userId}
+            </if>
+            <if test="userCode != null" >
+                and user_code = #{userCode}
+            </if>
+            <if test="userName != null" >
+                and user_name = #{userName}
+            </if>
+            <if test="userStatus != null" >
+                and user_status = #{userStatus}
+            </if>
+        </where>
+    </select>
+
+    <update id="save" parameterType="com.hoomoomoo.fims.app.model.SysUserModel">
+        merge into sys_user a
+        using (select #{userId} as user_id from dual) b
+        on (a.user_id = b.user_id)
+        when matched then
+            update
+            <set>
+                <if test="userCode != null" >
+                    user_code = #{userCode},
+                </if>
+                <if test="userName != null" >
+                    user_name = #{userName},
+                </if>
+                <if test="userStatus != null" >
+                    user_status = #{userStatus},
+                </if>
+                <if test="userMemo != null">
+                    user_memo = #{userMemo},
+                </if>
+                <if test="modifyDate != null">
+                    modify_date = #{modifyDate},
+                </if>
+                <if test="modifyUser != null">
+                    modify_user = #{modifyUser}
+                </if>
+            </set>
+            where user_id = #{userId}
+        when not matched then
+            insert(
+                user_id,
+                user_code,
+                user_name,
+                user_password,
+                user_status,
+                create_date,
+                modify_date,
+                create_user,
+                modify_user,
+                user_memo
+            )
+            values(
+                #{userId},
+                #{userCode},
+                #{userName},
+                #{userPassword},
+                #{userStatus},
+                #{createDate},
+                #{modifyDate},
+                #{createUser},
+                #{modifyUser},
+                #{userMemo}
+            )
+    </update>
+
+    <select id="checkUserCode" parameterType="com.hoomoomoo.fims.app.model.SysUserQueryModel"
+            resultType="java.lang.Boolean">
+        select case when count(1) > 0 then '0' else '1' end isExist
+        from sys_user
+        where user_code = #{userCode}
+        and user_id != #{userId}
     </select>
 
 </mapper>

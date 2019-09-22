@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>收入信息-修改</title>
+    <title>字典信息-修改</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -141,7 +141,7 @@
             item += '   <label class="layui-form-label">选值用户</label>';
             item += '   <div class="layui-input-inline">';
             item += '       <select name="userId">';
-            item += '           <option value="">请选择</option>';
+            item += '           <option value=""></option>';
             for (var i = 0; i < userList.length; i++) {
                 if (userId == userList[i].userId) {
                     item += '   <option selected = true value="' + userList[i].userId + '">' + userList[i].userName + '</option>';

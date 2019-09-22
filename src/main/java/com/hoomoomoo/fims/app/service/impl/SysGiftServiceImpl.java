@@ -9,7 +9,6 @@ import com.hoomoomoo.fims.app.service.SysGiftService;
 import com.hoomoomoo.fims.app.service.SysNoticeService;
 import com.hoomoomoo.fims.app.service.SystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
-import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -19,14 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static com.hoomoomoo.fims.app.config.RunDataConfig.DICTIONARY_CONDITION;
-import static com.hoomoomoo.fims.app.config.RunDataConfig.MIND_FILL;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
-import static com.hoomoomoo.fims.app.consts.BusinessConst.BLANK;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.UPDATE_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.*;
@@ -136,7 +130,7 @@ public class SysGiftServiceImpl implements SysGiftService {
         LogUtils.parameter(logger, sysGiftQueryModel);
         SysGiftModel sysGiftModel = sysGiftDao.selectOne(sysGiftQueryModel);
         if(isTranslate){
-            systemService.transferData(sysGiftModel);
+            systemService.transferData(sysGiftModel, SysGiftModel.class);
         }
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysGiftModel);
@@ -157,7 +151,7 @@ public class SysGiftServiceImpl implements SysGiftService {
         sysNoticeModel.setNoticeId(systemService.getBusinessSerialNo(BUSINESS_TYPE_NOTICE));
         if(sysGiftModel.getGiftId() == null){
             // 新增
-            String giftId = systemService.getBusinessSerialNo(BUSINESS_TYPE_INCOME);
+            String giftId = systemService.getBusinessSerialNo(BUSINESS_TYPE_GIFT);
             sysGiftModel.setGiftId(giftId);
             sysNoticeModel.setBusinessId(giftId);
         }else{

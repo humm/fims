@@ -3,7 +3,6 @@
 -- 备注 varchar2(500)
 -- 排序 number(10)
 -- 是否 varchar2(1)
--- 状态 varchar2(1)
 -- 金额 number(20, 2)
 -- 其他 varchar2(50)
 
@@ -26,12 +25,12 @@ create table sys_user
     user_code     varchar2(50) not null,
     user_name     varchar2(50) not null,
     user_password varchar2(50) not null,
-    user_status   varchar2(1)  not null,
+    user_status   varchar2(50)  not null,
     create_date   timestamp(6) default sysdate,
     modify_date   timestamp(6) default sysdate,
     create_user   varchar2(50) not null,
     modify_user   varchar2(50) not null,
-    user_memo     varchar2(500)
+    user_memo     varchar2(500) default ''
 );
 comment on column sys_user.user_id
     is '用户ID';
@@ -64,7 +63,7 @@ create table sys_income
     income_date    date          not null,
     income_company varchar2(50)  not null,
     income_amount  number(20, 2) not null,
-    income_memo    varchar2(500),
+    income_memo    varchar2(500) default '',
     create_date    timestamp(6) default sysdate,
     modify_date    timestamp(6) default sysdate,
     create_user    varchar2(50) not null,
@@ -102,7 +101,7 @@ create table sys_dictionary
     dictionary_caption varchar2(100) not null,
     item_order         number(10),
     code_order         number(10),
-    user_id            number(30)    not null,
+    user_id            number(30),
     is_open            varchar2(1),
     constraint pk_sys_dictionary primary key (dictionary_code, dictionary_item)
 );
@@ -130,9 +129,9 @@ create table sys_notice
     user_id             number(30)  not null,
     business_id         number(30)  not null,
     business_type       varchar2(50) not null,
-    business_sub_type   varchar2(50) not null,
+    business_sub_type   varchar2(50),
     business_date       timestamp(6) default sysdate,
-    business_amount     number(20, 2) not null,
+    business_amount     number(20, 2),
     notice_status       varchar2(50) not null,
     notice_type         varchar2(50) not null,
     is_read             varchar2(1) not null,
@@ -181,7 +180,7 @@ create table sys_gift
     gift_receiver varchar2(50) not null,
     gift_date     date not null,
     gift_amount   number(20,2) not null,
-    gift_memo     varchar2(500) not null,
+    gift_memo     varchar2(500) default '',
     create_date   timestamp(6) not null,
     modify_date   timestamp(6) not null,
     create_user   varchar2(50) not null,

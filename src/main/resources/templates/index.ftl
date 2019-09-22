@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -123,6 +121,9 @@
                 </dd>
                 <dd data-name="dictionary">
                   <a lay-href="dictionary/view/list">字典信息</a>
+                </dd>
+                <dd data-name="user">
+                  <a lay-href="user/view/list">用户信息</a>
                 </dd>
               </dl>
             </li>

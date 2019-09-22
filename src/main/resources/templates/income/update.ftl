@@ -90,7 +90,7 @@
             done: function (response) {
                 if (response.bizResult) {
                     fims.setCondition("layui-form", response.data.condition);
-
+                    form.render();
                     // 数据回填
                     admin.req({
                         url: url.load,

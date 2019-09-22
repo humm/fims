@@ -2,7 +2,6 @@ package com.hoomoomoo.fims.app.service.impl;
 
 import com.hoomoomoo.fims.FimsApplication;
 import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
-import com.hoomoomoo.fims.app.config.bean.MailConfigBean;
 import com.hoomoomoo.fims.app.dao.SysDictionaryDao;
 import com.hoomoomoo.fims.app.dao.SysUserDao;
 import com.hoomoomoo.fims.app.dao.SystemDao;
@@ -15,7 +14,6 @@ import com.hoomoomoo.fims.app.util.BeanMapUtils;
 import com.hoomoomoo.fims.app.util.DateUtils;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
-import com.sun.mail.imap.IMAPFolder;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -23,14 +21,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.mail.*;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -207,7 +200,7 @@ public class SystemServiceImpl implements SystemService {
             Map dictionaryCache = new HashMap(16);
             List<Map<String, Object>> mapList = BeanMapUtils.beanToMap(list);
             for (Map<String, Object> ele : mapList) {
-                transfer(dictionaryCache, ele);
+                transfer(dictionaryCache, ele, clazz);
             }
             try {
                 list = BeanMapUtils.mapToBean(mapList, clazz);
@@ -226,12 +219,12 @@ public class SystemServiceImpl implements SystemService {
      * @return
      */
     @Override
-    public void transferData(BaseModel baseModel) {
+    public void transferData(BaseModel baseModel, Class clazz) {
         LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
         if (baseModel != null) {
             Map dictionaryCache = new HashMap(16);
             Map ele = BeanMapUtils.beanToMap(baseModel);
-            transfer(dictionaryCache, ele);
+            transfer(dictionaryCache, ele, clazz);
         }
         LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
     }
@@ -331,6 +324,10 @@ public class SystemServiceImpl implements SystemService {
                 viewData.getCondition().put(SELECT_GIFT_RECEIVER,
                         DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D009));
                 break;
+            case BUSINESS_TYPE_USER:
+                viewData.getCondition().put(SELECT_USER_STATUS,
+                        DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D001));
+                break;
             default:
                 break;
         }
@@ -401,7 +398,7 @@ public class SystemServiceImpl implements SystemService {
      * @param dictionaryCache
      * @param ele
      */
-    private void transfer(Map dictionaryCache, Map ele) {
+    private void transfer(Map dictionaryCache, Map ele, Class clazz) {
         Iterator<String> iterator = ele.keySet().iterator();
         while (iterator.hasNext()) {
             String key = iterator.next();
@@ -445,6 +442,10 @@ public class SystemServiceImpl implements SystemService {
             } else {
                 switch (index) {
                     case 0:
+                        // 用户信息userId不转义
+                        if(clazz.equals(SysUserModel.class)){
+                            return;
+                        }
                         // 转义 userId
                         SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
                         sysUserQueryModel.setUserId(value);

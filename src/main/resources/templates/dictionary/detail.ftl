@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>收入信息-详情</title>
+    <title>字典信息-详情</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -14,42 +14,16 @@
 
 <div class="layui-form" style="padding: 20px 30px 0 0;">
     <div class="layui-form-item">
-        <label class="layui-form-label">收入人</label>
+        <label class="layui-form-label">字典代码</label>
         <div class="layui-input-inline">
-            <input type="text" name="userId" class="layui-input layui-detail" disabled="disabled" />
+            <input type="text" class="layui-input layui-detail" disabled="disabled" name="dictionaryCode">
+        </div>
+        <label class="layui-form-label">字典描述</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input layui-detail" disabled="disabled" name="dictionaryCodeCaption">
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">收入来源</label>
-        <div class="layui-input-inline">
-            <input type="text" name="incomeCompany" class="layui-input layui-detail" disabled="disabled" />
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">收入类型</label>
-        <div class="layui-input-inline">
-            <input type="text" name="incomeType" class="layui-input layui-detail" disabled="disabled" />
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">收入金额</label>
-        <div class="layui-input-inline">
-            <input type="text" name="incomeAmount" class="layui-input layui-detail" disabled="disabled" />
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">收入日期</label>
-        <div class="layui-input-inline">
-            <input type="text" name="incomeDate" class="layui-input layui-detail" disabled="disabled" />
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">收入备注</label>
-        <div class="layui-input-inline">
-            <textarea name="incomeMemo" class="layui-textarea layui-detail" disabled="disabled"></textarea>
-        </div>
-    </div>
+    <div class="layui-form-item dictionary"></div>
 </div>
 
 <script src="${appName}/layuiadmin/layui/layui.js"></script>
@@ -67,28 +41,79 @@
         // 应用名称
         var appName = '${appName}';
 
+        var dictionaryCode = fims.getUrlParameter("dictionaryCode");
+        var dictionaryCaption = decodeURI(fims.getUrlParameter("dictionaryCaption"));
+        var userList = [];
+
         var request = {
-            incomeId: fims.getUrlParameter("incomeId"),
+            dictionaryCode: dictionaryCode,
             isTranslate: fims.getUrlParameter("isTranslate")
         }
 
-        // 请求url
-        var url = appName + "/income/selectOne?" + $.param(request);
+        var url = {
+            load: appName + "/dictionary/selectOne?" + $.param(request)
+        };
 
         // 初始化页面信息
         admin.req({
-            url: url,
+            url: url.load,
             type: "get",
             dataType: "json",
             done: function (response) {
                 if (response.bizResult) {
-                    fims.setValue("layui-form", response.data);
+                    addDictionary(response.data);
                 } else {
                     fims.msg(response.msg);
                 }
             }
         });
 
+        // 绑定新增事件
+        $(document).on('click', 'button.layuiadmin-btn-dictionary-add', function () {
+            $(".dictionary").append(addItem(userList, '', '', ''));
+            form.render();
+        });
+
+        // 绑定删除事件
+        $(document).on('click', 'button.layuiadmin-btn-dictionary-delete', function () {
+            $(this).parent().remove();
+        });
+
+        // 添加字典项
+        function addDictionary(data) {
+            if (!$.isEmptyObject(data)) {
+                userList = data.user;
+                for (var i = 0; i < data.dictionary.length; i++) {
+                    $(".dictionary").append(addItem(data.user, data.dictionary[i].userId, data.dictionary[i].dictionaryItem, data.dictionary[i].dictionaryCaption));
+                    form.render();
+                }
+            }
+            $("input[name='dictionaryCode']").val(dictionaryCode);
+            $("input[name='dictionaryCodeCaption']").val(dictionaryCaption);
+            $("input[name]").addClass("layui-detail");
+            $("input[name]").attr("disabled", true);
+            form.render();
+        }
+
+        // 添加元素
+        function addItem(userList, userId, dictionaryItem, dictionaryCaption) {
+            var item = '';
+            item = '<div class="layui-form-item layui-form-item-dictionary">';
+            item += '   <label class="layui-form-label">字典选值</label>';
+            item += '   <div class="layui-input-inline">';
+            item += '       <input type="text" class="layui-input" name="dictionaryItem" value="' + dictionaryItem + '">';
+            item += '   </div>';
+            item += '   <label class="layui-form-label">选值描述</label>';
+            item += '   <div class="layui-input-inline">';
+            item += '       <input type="text" class="layui-input" name="dictionaryCaption" value="' + dictionaryCaption + '">';
+            item += '   </div>';
+            item += '   <label class="layui-form-label">选值用户</label>';
+            item += '   <div class="layui-input-inline">';
+            item += '       <input type="text" class="layui-input" name="userId" value="' + fims.value(userId) + '">';
+            item += '   </div>';
+            item += '</div>';
+            return item;
+        }
     })
 </script>
 </body>

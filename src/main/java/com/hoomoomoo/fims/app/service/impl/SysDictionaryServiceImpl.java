@@ -7,7 +7,6 @@ import com.hoomoomoo.fims.app.dao.SysUserDao;
 import com.hoomoomoo.fims.app.model.SysDictionaryModel;
 import com.hoomoomoo.fims.app.model.SysDictionaryQueryModel;
 import com.hoomoomoo.fims.app.model.SysUserModel;
-import com.hoomoomoo.fims.app.model.SysUserQueryModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysDictionaryService;
@@ -28,7 +27,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static com.hoomoomoo.fims.app.config.RunDataConfig.DICTIONARY_CONDITION;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.SELECT_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.CueConst.UPDATE_SUCCESS;
@@ -151,7 +149,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
      */
     @Override
     public ResultData save(List<SysDictionaryModel> sysDictionaryModelList) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_UPDATE);
+        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_UPDATE);
         LogUtils.parameter(logger, sysDictionaryModelList);
         // 判断是否开放状态 开放状态先删除后插入 未开放状态更新
         if (CollectionUtils.isNotEmpty(sysDictionaryModelList)) {
@@ -162,8 +160,8 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
             } else {
                 if (STR_1.equals(sysDictionaryModel.getIsOpen())) {
                     // 开放状态先删除后插入
-                    sysDictionaryDao.delete(sysDictionaryModel);
                     for(SysDictionaryModel sysDictionary : sysDictionaryModelList){
+                        sysDictionaryDao.delete(sysDictionary);
                         sysDictionaryDao.save(sysDictionary);
                     }
                 } else {
@@ -174,8 +172,9 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
                 }
             }
         }
+        // 加载字典项
         systemService.loadSysDictionaryCondition();
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_UPDATE);
+        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_UPDATE);
         return new ResultData(true, UPDATE_SUCCESS, null);
     }
 

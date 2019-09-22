@@ -2,55 +2,45 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>随礼信息-修改</title>
+    <title>用户信息-修改</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="${appName}/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="${appName}/layuiadmin/style/fims.css" media="all">
+
 </head>
 <body>
 
 <div class="layui-form" style="padding: 20px 30px 0 0;">
-    <input type="hidden" name="giftId"/>
+    <input type="hidden" name="userId"/>
     <div class="layui-form-item">
-        <label class="layui-form-label">送礼人</label>
+        <label class="layui-form-label">用户代码</label>
         <div class="layui-input-inline">
-            <select name="giftSender" lay-verify="required"></select>
+            <input type="text" name="userCode" class="layui-input" lay-verify="required" />
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">收礼人</label>
+        <label class="layui-form-label">用户名称</label>
         <div class="layui-input-inline">
-            <select name="giftReceiver" lay-verify="required"></select>
+            <input type="text" name="userName" class="layui-input" lay-verify="required" />
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">随礼类型</label>
+        <label class="layui-form-label">用户状态</label>
         <div class="layui-input-inline">
-            <select name="giftType" lay-verify="required"></select>
+            <select name="userStatus" lay-verify="required"></select>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">随礼金额</label>
+        <label class="layui-form-label">用户备注</label>
         <div class="layui-input-inline">
-            <input type="text" name="giftAmount" class="layui-input" lay-verify="required|number">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">随礼日期</label>
-        <div class="layui-input-inline">
-            <input type="text" name="giftDate" id="giftDate" class="layui-input" lay-verify="required" />
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">随礼备注</label>
-        <div class="layui-input-inline">
-            <textarea name="giftMemo" class="layui-textarea"></textarea>
+            <textarea name="userMemo" class="layui-textarea"></textarea>
         </div>
     </div>
     <div class="layui-form-item layui-hide">
-        <input type="button" lay-submit lay-filter="LAY-app-gift-update" id="LAY-app-gift-update" />
+        <input type="button" lay-submit lay-filter="LAY-app-user-update" id="LAY-app-user-update" />
     </div>
 </div>
 
@@ -71,13 +61,13 @@
         var appName = '${appName}';
 
         var request = {
-            giftId: fims.getUrlParameter("giftId"),
+            userId: fims.getUrlParameter("userId"),
             isTranslate: fims.getUrlParameter("isTranslate")
         }
 
         var url = {
-            init: appName + "/gift/selectInitData",
-            load: appName + "/gift/selectOne?" + $.param(request)
+            init: appName + "/user/selectInitData",
+            load: appName + "/user/selectOne?" + $.param(request)
         };
 
         // 初始化页面信息
@@ -88,7 +78,6 @@
             done: function (response) {
                 if (response.bizResult) {
                     fims.setCondition("layui-form", response.data.condition);
-                    form.render();
 
                     // 数据回填
                     admin.req({
@@ -108,12 +97,6 @@
                 }
             }
         });
-
-        //年月选择器
-        laydate.render({
-            elem: '#giftDate'
-        });
-
     })
 </script>
 </body>
