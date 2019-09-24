@@ -1,4 +1,4 @@
-列表行单击事件
+列表行单击选中事件
     // 监听单击事件  只改变了样式 数据没有选中
     table.on("row(LAY-app-" + businessType + "-list)", function(obj){
         var checkCell=obj.tr.find(".layui-form-checkbox");
@@ -10,7 +10,3 @@
             checkCell.addClass('layui-form-checked');
         }
     });
-
-
-session失效登录处理  view.js
-404页面异常处理
