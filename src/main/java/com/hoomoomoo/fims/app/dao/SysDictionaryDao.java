@@ -60,5 +60,4 @@ public interface SysDictionaryDao {
      */
     void save(SysDictionaryModel sysDictionaryModel);
 
-
 }

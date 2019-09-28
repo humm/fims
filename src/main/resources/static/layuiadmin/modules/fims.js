@@ -69,12 +69,28 @@
             }
             $("." + tag + " [name]").each(function () {
                 var name = $(this).attr("name");
+                if (that.isBlank(data[name])) {
+                    return;
+                }
                 var type = $(this)[0].tagName.toLowerCase();
                 if (type == "textarea") {
                     $(this).text(that.value(data[name]));
-                } else {
-                    // select input
+                } else if (type == "select") {
                     $(this).val(that.value(data[name]));
+                } else if (type == "input") {
+                    var subType = $(this).attr("type");
+                    if (subType == 'text' || subType == 'hidden' || subType == 'password') {
+                        $(this).val(that.value(data[name]));
+                    } else if (subType == 'checkbox' || subType == 'radio') {
+                        $("input[name=" + name + "]").each(function () {
+                            var value = $(this).val();
+                            if (data[name].indexOf(value) != -1) {
+                                $(this).attr("checked", true);
+                            } else {
+                                $(this).attr("checked", false);
+                            }
+                        });
+                    }
                 }
             });
             form.render();
@@ -232,7 +248,8 @@
                 isLoginOne: "送礼人或者收礼人必须有一个为当前登录人",
                 notEmpty: "不能为空",
                 isNumberOrLetter: "用户代码只能为字母、数字及下划线",
-                userisExist: "用户代码已经存在"
+                userIsExist: "用户代码已经存在",
+                roleIsExist: "角色代码已经存在"
             }
         }
     };

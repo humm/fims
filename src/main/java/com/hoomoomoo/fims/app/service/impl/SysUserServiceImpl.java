@@ -3,11 +3,9 @@ package com.hoomoomoo.fims.app.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hoomoomoo.fims.app.dao.SysDictionaryDao;
+import com.hoomoomoo.fims.app.dao.SysRoleDao;
 import com.hoomoomoo.fims.app.dao.SysUserDao;
-import com.hoomoomoo.fims.app.model.SysDictionaryModel;
-import com.hoomoomoo.fims.app.model.SysNoticeModel;
-import com.hoomoomoo.fims.app.model.SysUserModel;
-import com.hoomoomoo.fims.app.model.SysUserQueryModel;
+import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.ViewData;
@@ -27,9 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
-import static com.hoomoomoo.fims.app.consts.BusinessConst.STR_1;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
-import static com.hoomoomoo.fims.app.consts.DictionaryConst.D008;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D009;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
@@ -53,10 +49,10 @@ public class SysUserServiceImpl implements SysUserService {
     private SystemService systemService;
 
     @Autowired
-    private SysNoticeService sysNoticeService;
+    private SysDictionaryDao sysDictionaryDao;
 
     @Autowired
-    private SysDictionaryDao sysDictionaryDao;
+    private SysRoleDao sysRoleDao;
 
     /**
      * 查询用户信息
@@ -86,6 +82,9 @@ public class SysUserServiceImpl implements SysUserService {
         // 设置查询条件
         viewData.setViewType(BUSINESS_TYPE_USER);
         systemService.setCondition(viewData);
+        // 获取角色信息
+        List<SysRoleModel> roleModelList = sysRoleDao.selectSysRole(null);
+        viewData.setRoleList(roleModelList);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_INIT);
         return new ResultData(true, SELECT_SUCCESS, viewData);
     }
@@ -124,9 +123,6 @@ public class SysUserServiceImpl implements SysUserService {
             for (String ele : userId) {
                 SysUserModel sysUserModel = new SysUserModel();
                 sysUserModel.setUserId(ele);
-                SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysUserModel);
-                sysNoticeModel.setBusinessId(ele);
-                sysNoticeService.update(sysNoticeModel);
                 list.add(sysUserModel);
                 // 删除字典项
                 SysDictionaryModel sysDictionaryModel = new SysDictionaryModel();
@@ -161,6 +157,13 @@ public class SysUserServiceImpl implements SysUserService {
         if (isTranslate) {
             systemService.transferData(sysUserModel, SysUserModel.class);
         }
+        // 查询用户角色信息
+        List<SysUserRoleModel> sysUserRoleModelList = sysUserDao.selectUserRole(sysUserQueryModel);
+        String[] roles = new String[sysUserRoleModelList.size()];
+        for(int i=0; i<sysUserRoleModelList.size(); i++){
+            roles[i] = sysUserRoleModelList.get(i).getRoleId();
+        }
+        sysUserModel.setRoleId(StringUtils.join(roles, COMMA));
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysUserModel);
     }
@@ -176,8 +179,7 @@ public class SysUserServiceImpl implements SysUserService {
         String operateType = sysUserModel.getUserId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
         String tipMsg = sysUserModel.getUserId() == null ? ADD_SUCCESS : UPDATE_SUCCESS;
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, operateType);
-        SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysUserModel);
-        sysNoticeModel.setNoticeId(systemService.getBusinessSerialNo(BUSINESS_TYPE_NOTICE));
+        SystemUtils.setCreateUserInfo(sysUserModel);
         SysDictionaryModel sysDictionaryModel = new SysDictionaryModel();
         sysDictionaryModel.setDictionaryCode(D009);
         sysDictionaryModel.setDictionaryCaption(sysUserModel.getUserName());
@@ -187,29 +189,33 @@ public class SysUserServiceImpl implements SysUserService {
             sysUserModel.setUserId(userId);
             // todo 设置配置默认密码
             sysUserModel.setUserPassword("123456");
-            sysNoticeModel.setBusinessId(userId);
-            sysNoticeModel.setUserId(userId);
             // 新增字典项
             sysDictionaryModel.setDictionaryItem(userId);
             sysDictionaryModel.setUserId(userId);
             sysDictionaryDao.save(sysDictionaryModel);
         } else {
-            // 修改
-            sysNoticeModel.setBusinessId(sysUserModel.getUserId());
-            sysNoticeModel.setUserId(sysUserModel.getUserId());
-            sysNoticeService.update(sysNoticeModel);
             // 修改字典项
             sysDictionaryModel.setUserId(sysUserModel.getUserId());
             sysDictionaryModel.setDictionaryItem(sysUserModel.getUserId());
             sysDictionaryDao.update(sysDictionaryModel);
-
         }
-        sysNoticeService.save(sysNoticeModel);
-        SystemUtils.setCreateUserInfo(sysUserModel);
         LogUtils.parameter(logger, sysUserModel);
         sysUserDao.save(sysUserModel);
         // 加载字典项
         systemService.loadSysDictionaryCondition();
+        // 角色信息处理
+        sysUserDao.deleteUserRole(sysUserModel);
+        if(StringUtils.isNotBlank(sysUserModel.getRoleId())){
+            String[] roleId = sysUserModel.getRoleId().split(COMMA);
+            for(String ele : roleId){
+                SysUserRoleModel sysUserRoleModel = new SysUserRoleModel();
+                String userRoleId = systemService.getBusinessSerialNo(BUSINESS_TYPE_USER_ROLE);
+                sysUserRoleModel.setUserRoleId(userRoleId);
+                sysUserRoleModel.setUserId(sysUserModel.getUserId());
+                sysUserRoleModel.setRoleId(ele);
+                sysUserDao.saveUserRole(sysUserRoleModel);
+            }
+        }
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, operateType);
         return new ResultData(true, tipMsg, null);
     }
@@ -228,17 +234,4 @@ public class SysUserServiceImpl implements SysUserService {
         return new ResultData(true, SELECT_SUCCESS, isExist);
     }
 
-    /**
-     * 设置消息通知属性
-     *
-     * @param sysUserModel
-     * @return
-     */
-    private SysNoticeModel setSysNoticeProperties(SysUserModel sysUserModel) {
-        SysNoticeModel sysNoticeModel = new SysNoticeModel();
-        sysNoticeModel.setBusinessType(BUSINESS_TYPE_USER);
-        sysNoticeModel.setBusinessDate(sysUserModel.getCreateDate());
-        sysNoticeModel.setNoticeType(new StringBuffer(D008).append(MINUS).append(STR_1).toString());
-        return sysNoticeModel;
-    }
 }

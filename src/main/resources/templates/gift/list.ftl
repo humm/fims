@@ -9,6 +9,8 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="${appName}/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="${appName}/layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="${appName}/layuiadmin/style/fims.css" media="all">
+
 </head>
 <body>
 <div class="layui-fluid">
@@ -45,18 +47,18 @@
                 </div>
 
 
-                <!-- 查询按钮 -->
-                <div class="layui-inline">
-                    <button class="layui-btn layuiadmin-btn-gift-list" lay-submit
-                            lay-filter="LAY-app-giftlist-search">
-                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
-                    </button>
-                </div>
                 <!-- 重置按钮 -->
-                <div class="layui-inline">
+                <div class="layui-inline layui-inline-button">
                     <button class="layui-btn layuiadmin-btn-gift-list" lay-submit
                             lay-filter="LAY-app-giftlist-refresh">
                         <i class="layui-icon layui-icon-refresh-1 layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+                <!-- 查询按钮 -->
+                <div class="layui-inline layui-inline-button">
+                    <button class="layui-btn layuiadmin-btn-gift-list" lay-submit
+                            lay-filter="LAY-app-giftlist-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
                     </button>
                 </div>
 

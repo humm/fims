@@ -15,13 +15,13 @@
     <div class="layui-form-item">
         <label class="layui-form-label">用户代码</label>
         <div class="layui-input-inline">
-            <input type="text" name="userCode" class="layui-input" lay-verify="required" />
+            <input type="text" name="userCode" class="layui-input" lay-verify="required"/>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">用户名称</label>
         <div class="layui-input-inline">
-            <input type="text" name="userName" class="layui-input" lay-verify="required" />
+            <input type="text" name="userName" class="layui-input" lay-verify="required"/>
         </div>
     </div>
     <div class="layui-form-item">
@@ -29,6 +29,10 @@
         <div class="layui-input-inline">
             <select name="userStatus" lay-verify="required"></select>
         </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色信息</label>
+        <div class="layui-input-inline" id="roleId"></div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">用户备注</label>
@@ -67,6 +71,21 @@
             done: function (response) {
                 if (response.bizResult) {
                     fims.setCondition("layui-form", response.data.condition);
+                    // 设置角色信息
+                    if (!$.isEmptyObject(response.data.roleList)) {
+                        var roleList = response.data.roleList;
+                        var roleItem = "";
+                        for (var i = 0; i < roleList.length; i++) {
+                            var roleId = roleList[i].roleId;
+                            var roleName = roleList[i].roleName;
+                            roleItem += '<input type="checkbox" lay-skin="primary"';
+                            roleItem += '       title="' + roleName + '"';
+                            roleItem += '       value="' + roleId + '"';
+                            roleItem += '       name="roleId"';
+                            roleItem += '/>';
+                        }
+                        $("#roleId").append(roleItem);
+                    }
                     form.render();
                 } else {
                     fims.msg(response.msg);

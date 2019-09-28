@@ -6,6 +6,7 @@
 -- 金额 number(20, 2)
 -- 其他 varchar2(50)
 
+-- 建表存储过程
 create or replace procedure drop_table(tableName in varchar2)
 is
     v_count number(10);
@@ -17,7 +18,7 @@ begin
     end if;
 end drop_table;
 
-
+-- 用户信息
 call drop_table('sys_user');
 create table sys_user
 (
@@ -26,11 +27,11 @@ create table sys_user
     user_name     varchar2(50) not null,
     user_password varchar2(50) not null,
     user_status   varchar2(50)  not null,
+    user_memo     varchar2(500) default '',
     create_date   timestamp(6) default sysdate,
     modify_date   timestamp(6) default sysdate,
-    create_user   varchar2(50) not null,
-    modify_user   varchar2(50) not null,
-    user_memo     varchar2(500) default ''
+    create_user   varchar2(50),
+    modify_user   varchar2(50)
 );
 comment on column sys_user.user_id
     is '用户ID';
@@ -53,7 +54,7 @@ comment on column sys_user.modify_user
 comment on column sys_user.user_memo
     is '备注';
 
-
+-- 收入信息
 call drop_table('sys_income');
 create table sys_income
 (
@@ -66,8 +67,8 @@ create table sys_income
     income_memo    varchar2(500) default '',
     create_date    timestamp(6) default sysdate,
     modify_date    timestamp(6) default sysdate,
-    create_user    varchar2(50) not null,
-    modify_user    varchar2(50) not null
+    create_user    varchar2(50),
+    modify_user    varchar2(50)
 );
 comment on column sys_income.income_id
     is '收入ID';
@@ -92,7 +93,7 @@ comment on column sys_income.create_user
 comment on column sys_income.modify_user
     is '修改人';
 
-
+-- 字典信息
 call drop_table('sys_dictionary');
 create table sys_dictionary
 (
@@ -121,7 +122,7 @@ comment on column sy_dictionary.user_id
 comment on column sy_dictionary.is_open
     is '是否开放';
 
-
+-- 通知信息
 call drop_table('sys_notice');
 create table sys_notice
 (
@@ -137,8 +138,8 @@ create table sys_notice
     is_read             varchar2(1) not null,
     create_date         timestamp(6) default sysdate,
     modify_date         timestamp(6) default sysdate,
-    create_user         varchar2(50) not null,
-    modify_user         varchar2(50) not null
+    create_user         varchar2(50),
+    modify_user         varchar2(50)
 );
 
 comment on column sys_notice.notice_id
@@ -170,7 +171,7 @@ comment on column sys_notice.create_user
 comment on column sys_notice.modify_user
     is '修改人';
 
-
+-- 随礼信息
 call drop_table('sys_gift');
 create table sys_gift
 (
@@ -181,10 +182,10 @@ create table sys_gift
     gift_date     date not null,
     gift_amount   number(20,2) not null,
     gift_memo     varchar2(500) default '',
-    create_date   timestamp(6) not null,
-    modify_date   timestamp(6) not null,
-    create_user   varchar2(50) not null,
-    modify_user   varchar2(50) not null
+    create_date   timestamp(6) default sysdate,
+    modify_date   timestamp(6) default sysdate,
+    create_user   varchar2(50),
+    modify_user   varchar2(50)
 );
 
 comment on column sys_gift.gift_id
@@ -209,3 +210,109 @@ comment on column sys_gift.create_user
     is '创建人';
 comment on column sys_gift.modify_user
     is '修改人';
+
+-- 菜单信息
+call drop_table('sys_menu');
+create table sys_menu
+(
+    menu_id       number(30) primary key,
+    menu_title    varchar2(50) not null,
+    menu_icon     varchar2(50),
+    menu_url      varchar2(500),
+    parent_id     number(30),
+    menu_order    number(10) not null,
+    is_enable     varchar2(1) not null,
+    menu_type     varchar2(50) not null,
+    create_date   timestamp(6) default sysdate,
+    modify_date   timestamp(6) default sysdate,
+    create_user   varchar2(50),
+    modify_user   varchar2(50)
+);
+
+comment on column sys_menu.menu_id
+    is '菜单ID';
+comment on column sys_menu.menu_title
+    is '菜单名称';
+comment on column sys_menu.menu_icon
+    is '菜单图标';
+comment on column sys_menu.menu_url
+    is '菜单地址';
+comment on column sys_menu.parent_id
+    is '父级菜单ID';
+comment on column sys_menu.menu_order
+    is '菜单排序';
+comment on column sys_menu.is_enable
+    is '是否启用';
+comment on column sys_menu.menu_type
+    is '菜单类型';
+comment on column sys_menu.create_date
+    is '创建时间';
+comment on column sys_menu.modify_date
+    is '修改时间';
+comment on column sys_menu.create_user
+    is '创建人';
+comment on column sys_menu.modify_user
+    is '修改人';
+
+-- 角色信息
+call drop_table('sys_role');
+create table sys_role
+(
+    role_id     number(30) primary key,
+    role_code   varchar2(50) not null,
+    role_name   varchar2(50) not null,
+    role_memo   varchar2(500) default '',
+    create_date timestamp(6) default sysdate,
+    modify_date timestamp(6) default sysdate,
+    create_user varchar2(50),
+    modify_user varchar2(50)
+);
+
+comment on column sys_role.role_id
+    is '角色ID';
+comment on column sys_role.role_code
+    is '角色代码';
+comment on column sys_role.role_name
+    is '角色名称';
+comment on column sys_role.role_memo
+    is '角色备注';
+comment on column sys_role.create_date
+    is '创建时间';
+comment on column sys_role.modify_date
+    is '修改时间';
+comment on column sys_role.create_user
+    is '创建人';
+comment on column sys_role.modify_user
+    is '修改人';
+
+-- 用户角色信息
+call drop_table('sys_user_role');
+create table sys_user_role
+(
+    user_role_id  number(30) primary key,
+    user_id number(30) not null,
+    role_id number(30) not null
+);
+
+comment on column sys_user_role.user_role_id
+    is '用户角色ID';
+comment on column sys_user_role.user_id
+    is '用户ID';
+comment on column sys_user_role.role_id
+    is '角色ID';
+
+-- 角色菜单信息
+call drop_table('sys_role_menu');
+create table sys_role_menu
+(
+    role_menu_id  number(30) primary key,
+    role_id number(30),
+    menu_id number(30)
+);
+
+comment on column sys_role_menu.role_menu_id
+    is '角色菜单ID';
+comment on column sys_role_menu.role_id
+    is '角色ID';
+comment on column sys_role_menu.menu_id
+    is '菜单ID';

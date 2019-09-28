@@ -32,6 +32,10 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">角色信息</label>
+        <div class="layui-input-inline" id="roleId"></div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">用户备注</label>
         <div class="layui-input-inline">
             <textarea name="userMemo" class="layui-textarea layui-detail" disabled="disabled"></textarea>
@@ -60,16 +64,52 @@
         }
 
         // 请求url
-        var url = appName + "/user/selectOne?" + $.param(request);
+        var url = {
+            init: appName + "/user/selectInitData",
+            load: appName + "/user/selectOne?" + $.param(request)
+        }
 
         // 初始化页面信息
         admin.req({
-            url: url,
+            url: url.init,
             type: "get",
             dataType: "json",
             done: function (response) {
                 if (response.bizResult) {
-                    fims.setValue("layui-form", response.data);
+                    fims.setCondition("layui-form", response.data.condition);
+
+                    // 设置角色信息
+                    if (!$.isEmptyObject(response.data.roleList)) {
+                        var roleList = response.data.roleList;
+                        var roleItem = "";
+                        for (var i = 0; i < roleList.length; i++) {
+                            var roleId = roleList[i].roleId;
+                            var roleName = roleList[i].roleName;
+                            roleItem += '<input type="checkbox" lay-skin="primary"';
+                            roleItem += '       class="layui-input layui-detail"';
+                            roleItem += '       disabled="disabled"';
+                            roleItem += '       title="' + roleName + '"';
+                            roleItem += '       value="' + roleId + '"';
+                            roleItem += '       name="roleId"';
+                            roleItem += '/>';
+                        }
+                        $("#roleId").append(roleItem);
+                    }
+                    form.render();
+
+                    // 数据回填
+                    admin.req({
+                        url: url.load,
+                        type: "get",
+                        dataType: "json",
+                        done: function (response) {
+                            if (response.bizResult) {
+                                fims.setValue("layui-form", response.data);
+                            } else {
+                                fims.msg(response.msg);
+                            }
+                        }
+                    });
                 } else {
                     fims.msg(response.msg);
                 }

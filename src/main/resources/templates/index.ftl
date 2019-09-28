@@ -125,6 +125,9 @@
                 <dd data-name="user">
                   <a lay-href="user/view/list">用户信息</a>
                 </dd>
+                <dd data-name="role">
+                  <a lay-href="role/view/list">角色信息</a>
+                </dd>
               </dl>
             </li>
             <li data-name="component" class="layui-nav-item">

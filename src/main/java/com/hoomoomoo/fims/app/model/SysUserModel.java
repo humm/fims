@@ -4,6 +4,8 @@ import com.hoomoomoo.fims.app.model.common.BaseModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author humm23693
  * @description 用户信息实体类
@@ -31,5 +33,8 @@ public class SysUserModel extends BaseModel {
 
     @ApiModelProperty(value="备注", required = false)
     private String userMemo;
+
+    @ApiModelProperty(value="角色代码", required = false)
+    private String roleId;
 
 }

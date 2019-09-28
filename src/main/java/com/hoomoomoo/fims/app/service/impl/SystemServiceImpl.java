@@ -225,6 +225,7 @@ public class SystemServiceImpl implements SystemService {
             Map dictionaryCache = new HashMap(16);
             Map ele = BeanMapUtils.beanToMap(baseModel);
             transfer(dictionaryCache, ele, clazz);
+            BeanMapUtils.mapToBean(ele, baseModel);
         }
         LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
     }

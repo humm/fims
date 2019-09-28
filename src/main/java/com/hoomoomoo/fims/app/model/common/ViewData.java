@@ -1,6 +1,7 @@
 package com.hoomoomoo.fims.app.model.common;
 
 import com.hoomoomoo.fims.app.model.SysDictionaryModel;
+import com.hoomoomoo.fims.app.model.SysRoleModel;
 import lombok.Data;
 
 import java.util.HashMap;
@@ -41,4 +42,9 @@ public class ViewData {
      * 页面类型
      */
     private String viewType;
+
+    /**
+     * 角色信息
+     */
+    private List<SysRoleModel> roleList;
 }

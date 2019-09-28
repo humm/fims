@@ -131,6 +131,16 @@ public class BusinessConst {
     public static final String BUSINESS_TYPE_USER                           = "user";
 
     /**
+     * 业务类型：角色
+     */
+    public static final String BUSINESS_TYPE_ROLE                           = "role";
+
+    /**
+     * 业务类型：用户角色
+     */
+    public static final String BUSINESS_TYPE_USER_ROLE                      = "userRole";
+
+    /**
      * 业务类型：收入
      */
     public static final String BUSINESS_TYPE_INCOME                         = "income";

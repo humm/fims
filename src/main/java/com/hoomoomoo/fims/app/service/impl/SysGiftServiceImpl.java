@@ -147,6 +147,7 @@ public class SysGiftServiceImpl implements SysGiftService {
         String operateType = sysGiftModel.getGiftId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
         String tipMsg = sysGiftModel.getGiftId() == null ? ADD_SUCCESS : UPDATE_SUCCESS;
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_GIFT, operateType);
+        SystemUtils.setCreateUserInfo(sysGiftModel);
         SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysGiftModel);
         sysNoticeModel.setNoticeId(systemService.getBusinessSerialNo(BUSINESS_TYPE_NOTICE));
         if(sysGiftModel.getGiftId() == null){
@@ -160,7 +161,6 @@ public class SysGiftServiceImpl implements SysGiftService {
             sysNoticeService.update(sysNoticeModel);
         }
         sysNoticeService.save(sysNoticeModel);
-        SystemUtils.setCreateUserInfo(sysGiftModel);
         LogUtils.parameter(logger, sysGiftModel);
         sysGiftDao.save(sysGiftModel);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, operateType);

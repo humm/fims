@@ -2,6 +2,7 @@ package com.hoomoomoo.fims.app.dao;
 
 import com.hoomoomoo.fims.app.model.SysUserModel;
 import com.hoomoomoo.fims.app.model.SysUserQueryModel;
+import com.hoomoomoo.fims.app.model.SysUserRoleModel;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -63,4 +64,26 @@ public interface SysUserDao {
      * @return
      */
     Boolean checkUserCode(SysUserQueryModel sysUserQueryModel);
+
+    /**
+     * 删除用户角色信息
+     *
+     * @param sysUserModel
+     */
+    void deleteUserRole(SysUserModel sysUserModel);
+
+    /**
+     * 保存用户角色信息
+     *
+     * @param sysUserRoleModel
+     */
+    void saveUserRole(SysUserRoleModel sysUserRoleModel);
+
+    /**
+     * 查询用户角色信息
+     *
+     * @param sysUserQueryModel
+     */
+    List<SysUserRoleModel> selectUserRole(SysUserQueryModel sysUserQueryModel);
+
 }

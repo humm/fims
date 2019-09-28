@@ -20,7 +20,7 @@
                 and dictionary_code like '%' || #{dictionaryCode} || '%'
             </if>
             <if test="dictionaryCaption != null">
-                and dictionary_caption like '' || #{dictionaryCaption} || '%'
+                and dictionary_caption like '%' || #{dictionaryCaption} || '%'
             </if>
         </where>
         order by

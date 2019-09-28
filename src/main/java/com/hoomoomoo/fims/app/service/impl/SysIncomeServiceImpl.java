@@ -149,6 +149,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         String operateType = sysIncomeModel.getIncomeId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
         String tipMsg = sysIncomeModel.getIncomeId() == null ? ADD_SUCCESS : UPDATE_SUCCESS;
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
+        SystemUtils.setCreateUserInfo(sysIncomeModel);
         SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysIncomeModel);
         sysNoticeModel.setNoticeId(systemService.getBusinessSerialNo(BUSINESS_TYPE_NOTICE));
         if (sysIncomeModel.getIncomeId() == null) {
@@ -162,7 +163,6 @@ public class SysIncomeServiceImpl implements SysIncomeService {
             sysNoticeService.update(sysNoticeModel);
         }
         sysNoticeService.save(sysNoticeModel);
-        SystemUtils.setCreateUserInfo(sysIncomeModel);
         LogUtils.parameter(logger, sysIncomeModel);
         sysIncomeDao.save(sysIncomeModel);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, operateType);

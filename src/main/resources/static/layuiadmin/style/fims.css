@@ -1,4 +1,16 @@
-.layui-detail{
+.layui-detail {
     border: none;
     border-width: 0px;
+}
+
+.layui-form-select .layui-input {
+    padding-right: 0px;
+}
+
+.layui-inline-button {
+    float: right;
+}
+
+.layui-form-checkbox[lay-skin=primary] span {
+    color: #666;
 }

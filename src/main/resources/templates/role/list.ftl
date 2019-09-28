@@ -2,11 +2,11 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>用户信息-列表</title>
+    <title>角色信息-列表</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, role-scalable=0">
     <link rel="stylesheet" href="${appName}/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="${appName}/layuiadmin/style/admin.css" media="all">
     <link rel="stylesheet" href="${appName}/layuiadmin/style/fims.css" media="all">
@@ -19,37 +19,30 @@
             <div class="layui-form-item">
                 <!-- 查询条件 -->
                 <div class="layui-inline">
-                    <label class="layui-form-label">用户代码</label>
+                    <label class="layui-form-label">角色代码</label>
                     <div class="layui-input-block">
-                        <input type="text" class="layui-input" name="userCode">
+                        <input type="text" class="layui-input" name="roleCode">
                     </div>
                 </div>
 
                 <div class="layui-inline">
-                    <label class="layui-form-label">用户名称</label>
+                    <label class="layui-form-label">角色名称</label>
                     <div class="layui-input-block">
-                        <input type="text" class="layui-input" name="userName">
-                    </div>
-                </div>
-
-                <div class="layui-inline">
-                    <label class="layui-form-label">用户状态</label>
-                    <div class="layui-input-block">
-                        <select name="userStatus"></select>
+                        <input type="text" class="layui-input" name="roleName">
                     </div>
                 </div>
 
                 <!-- 重置按钮 -->
                 <div class="layui-inline layui-inline-button">
-                    <button class="layui-btn layuiadmin-btn-user-list" lay-submit
-                            lay-filter="LAY-app-userlist-refresh">
+                    <button class="layui-btn layuiadmin-btn-role-list" lay-submit
+                            lay-filter="LAY-app-rolelist-refresh">
                         <i class="layui-icon layui-icon-refresh-1 layuiadmin-button-btn"></i>
                     </button>
                 </div>
                 <!-- 查询按钮 -->
                 <div class="layui-inline layui-inline-button">
-                    <button class="layui-btn layuiadmin-btn-user-list" lay-submit
-                            lay-filter="LAY-app-userlist-search">
+                    <button class="layui-btn layuiadmin-btn-role-list" lay-submit
+                            lay-filter="LAY-app-rolelist-search">
                         <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
                     </button>
                 </div>
@@ -59,14 +52,14 @@
 
         <div class="layui-card-body">
             <!-- 头部操作按钮 -->
-            <div style="padding-bottom: 10px;" id="LAY-app-user-list-button">
-                <button class="layui-btn layuiadmin-btn-user-list" data-type="add">新增</button>
-                <button class="layui-btn layuiadmin-btn-user-list" data-type="update">修改</button>
-                <button class="layui-btn layuiadmin-btn-user-list" data-type="delete">删除</button>
+            <div style="padding-bottom: 10px;" id="LAY-app-role-list-button">
+                <button class="layui-btn layuiadmin-btn-role-list" data-type="add">新增</button>
+                <button class="layui-btn layuiadmin-btn-role-list" data-type="update">修改</button>
+                <button class="layui-btn layuiadmin-btn-role-list" data-type="delete">删除</button>
             </div>
 
             <!-- 列表数据 -->
-            <table id="LAY-app-user-list" lay-filter="LAY-app-user-list"></table>
+            <table id="LAY-app-role-list" lay-filter="LAY-app-role-list"></table>
 
         </div>
     </div>
@@ -92,28 +85,27 @@
         var hasButton = ${hasButton?string('true','false')};
 
         // 业务类型
-        var businessType = "user";
+        var businessType = "role";
 
         // 请求url
         var url = {
-            init: appName + "/user/selectInitData",
-            page: appName + "/user/selectPage",
-            del: appName + "/user/delete",
-            save: appName + "/user/save",
-            add: appName + "/user/view/add",
-            update: appName + "/user/view/update",
-            detail: appName + "/user/view/detail",
-            check: appName + "/user/checkUserCode"
+            init: appName + "/role/selectInitData",
+            page: appName + "/role/selectPage",
+            del: appName + "/role/delete",
+            save: appName + "/role/save",
+            add: appName + "/role/view/add",
+            update: appName + "/role/view/update",
+            detail: appName + "/role/view/detail",
+            check: appName + "/role/checkRoleCode"
         }
 
         // 列表字段
         var tableColumn = [[
             {type: "checkbox", fixed: "left"},
-            {field: "userId", title: "用户ID", sort: false, hide: true},
-            {field: "userCode", title: "用户代码", sort: true},
-            {field: "userName", title: "用户名称", sort: true},
-            {field: "userStatus", title: "用户状态", sort: true},
-            {field: "userMemo", title: "用户备注"}
+            {field: "roleId", title: "角色ID", sort: false, hide: true},
+            {field: "roleCode", title: "角色代码", sort: true},
+            {field: "roleName", title: "角色名称", sort: true},
+            {field: "roleMemo", title: "角色备注"}
         ]];
 
         // 权限按钮设置
@@ -136,15 +128,15 @@
 
         // 数据删除
         var del = function (data) {
-            var userIds = [];
+            var roleIds = [];
             for (var i = 0; i < data.length; i++) {
-                userIds.push(data[i].userId);
+                roleIds.push(data[i].roleId);
             }
             layer.confirm(fims.tips.warn.confirmDel, function (index) {
                 admin.req({
                     url: url.del,
                     type: "post",
-                    data: {userIds: userIds.join(",")},
+                    data: {roleIds: roleIds.join(",")},
                     done: function (response) {
                         if (response.bizResult) {
                             setTimeout(function () {
@@ -178,7 +170,7 @@
         // 数据修改
         var update = function (data) {
             var request = {
-                userId: data.userId,
+                roleId: data.roleId,
                 isTranslate: "0"
             }
             layer.open({
@@ -197,7 +189,7 @@
         // 数据详情
         var detail = function (data) {
             var request = {
-                userId: data.userId,
+                roleId: data.roleId,
                 isTranslate: "1"
             }
             layer.open({
@@ -213,23 +205,16 @@
         var save = function (e, t, type, data) {
             var iframe = window["layui-layer-iframe" + e],
                 button = t.find("iframe").contents().find("#LAY-app-" + businessType + "-" + type);
-            // 获取角色信息
-            var roleId = [];
-            iframe.document.getElementsByName("roleId").forEach(function (item) {
-                if(item.checked){
-                    roleId.push(item.value);
-                }
-            });
             iframe.layui.form.on("submit(LAY-app-" + businessType + "-" + type + ")", function (data) {
-                // 校验用户代码格式
+                // 校验角色代码格式
                 var param = fims.clearBlank(data.field);
                 var reg = /^[0-9a-zA-Z_]+$/;
-                if (!reg.test(param.userCode)) {
+                if (!reg.test(param.roleCode)) {
                     fims.msg(fims.tips.msg.isNumberOrLetter, {time: 1000});
                     return;
                 }
-                var userIsExist = false;
-                // 校验用户代码是否存在
+                var roleIsExist = false;
+                // 校验角色代码是否存在
                 admin.req({
                     url: url.check,
                     type: "get",
@@ -238,18 +223,17 @@
                     done: function (response) {
                         if (response.bizResult) {
                             if (response.data) {
-                                userIsExist = true;
+                                roleIsExist = true;
                             }
                         } else {
                             fims.msg(response.msg);
                         }
                     }
                 });
-                if(!userIsExist){
-                    fims.msg(fims.tips.msg.userIsExist, {time: 1000});
+                if(!roleIsExist){
+                    fims.msg(fims.tips.msg.roleIsExist, {time: 1000});
                     return;
                 }
-                data.field.roleId = roleId.join(",");
                 admin.req({
                     url: url.save,
                     type: "post",
