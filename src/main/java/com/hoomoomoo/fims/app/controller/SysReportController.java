@@ -38,7 +38,7 @@ public class SysReportController {
      * @return
      */
     @ApiOperation("跳转收入信息报表页面")
-    @RequestMapping(value = "view/income/report", method = RequestMethod.GET)
+    @RequestMapping(value = "view/income", method = RequestMethod.GET)
     public String incomeReport() {
         return "report/incomeReport";
     }
@@ -49,7 +49,7 @@ public class SysReportController {
      * @return
      */
     @ApiOperation("跳转送礼信息报表页面")
-    @RequestMapping(value = "view/giftSend/report", method = RequestMethod.GET)
+    @RequestMapping(value = "view/giftSend", method = RequestMethod.GET)
     public String giftSendReport() {
         return "report/giftSendReport";
     }
@@ -60,7 +60,7 @@ public class SysReportController {
      * @return
      */
     @ApiOperation("跳转收礼信息报表页面")
-    @RequestMapping(value = "view/giftReceive/report", method = RequestMethod.GET)
+    @RequestMapping(value = "view/giftReceive", method = RequestMethod.GET)
     public String giftReceiveReport() {
         return "report/giftReceiveReport";
     }

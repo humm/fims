@@ -25,4 +25,7 @@ public class SysRoleModel extends BaseModel {
 
     @ApiModelProperty(value="角色备注", required = false)
     private String roleMemo;
+
+    @ApiModelProperty(value="菜单ID", required = false)
+    private String menuId;
 }

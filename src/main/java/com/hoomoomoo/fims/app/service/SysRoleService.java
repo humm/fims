@@ -27,9 +27,11 @@ public interface SysRoleService {
     /**
      * 查询页面初始化相关数据
      *
+     * @param disabled
+     * @param roleId
      * @return
      */
-    ResultData selectInitData();
+    ResultData selectInitData(String disabled, String roleId);
 
     /**
      * 分页查询角色信息

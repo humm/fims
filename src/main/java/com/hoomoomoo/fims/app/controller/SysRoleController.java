@@ -48,7 +48,7 @@ public class SysRoleController {
     @RequestMapping(value = "view/list", method = RequestMethod.GET)
     public String viewList(ModelMap modelMap) {
         SessionBean sessionBean = SystemSessionUtils.getSession();
-        if(sessionBean != null){
+        if (sessionBean != null) {
             // todo 获取按钮权限
             modelMap.addAttribute(HAS_BUTTON, true);
         }
@@ -114,9 +114,12 @@ public class SysRoleController {
     @ApiOperation("查询页面初始化信息")
     @RequestMapping(value = "selectInitData", method = RequestMethod.GET)
     @ResponseBody
-    public ResultData selectInitData() {
+    public ResultData selectInitData(@ApiParam(value = "是否禁用", required = false)
+                                     @RequestParam(required = false) String disabled,
+                                     @ApiParam(value = "角色信息ID", required = false)
+                                     @RequestParam(required = false) String roleId) {
         LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_INIT);
-        ResultData resultData = sysRoleService.selectInitData();
+        ResultData resultData = sysRoleService.selectInitData(disabled, roleId);
         LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_INIT);
         return resultData;
     }

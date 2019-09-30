@@ -7,6 +7,7 @@ import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.ViewData;
+import com.hoomoomoo.fims.app.service.SysMenuService;
 import com.hoomoomoo.fims.app.service.SysRoleService;
 import com.hoomoomoo.fims.app.service.SystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
@@ -42,6 +43,9 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Autowired
     private SystemService systemService;
 
+    @Autowired
+    private SysMenuService sysMenuService;
+
     /**
      * 查询角色信息
      *
@@ -61,15 +65,21 @@ public class SysRoleServiceImpl implements SysRoleService {
     /**
      * 查询页面初始化相关数据
      *
+     * @param disabled
+     * @param roleId
      * @return
      */
     @Override
-    public ResultData selectInitData() {
+    public ResultData selectInitData(String disabled, String roleId) {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_INIT);
         ViewData viewData = new ViewData();
         // 设置查询条件
         viewData.setViewType(BUSINESS_TYPE_ROLE);
         systemService.setCondition(viewData);
+        // 设置菜单信息
+        viewData.setMenuList(sysMenuService.selectMenuTree(disabled, roleId));
+        // 设置数据权限信息
+        viewData.setDataAuthority(sysMenuService.selectDataAuthority(roleId));
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_INIT);
         return new ResultData(true, SELECT_SUCCESS, viewData);
     }

@@ -111,13 +111,13 @@
                   <a lay-href="gift/view/list">随礼信息</a>
                 </dd>
                 <dd data-name="incomeReport">
-                  <a lay-href="report/view/income/report">收入报表</a>
+                  <a lay-href="report/view/income">收入报表</a>
                 </dd>
                 <dd data-name="giftSend">
-                  <a lay-href="report/view/giftSend/report">送礼报表</a>
+                  <a lay-href="report/view/giftSend">送礼报表</a>
                 </dd>
                 <dd data-name="giftReceive">
-                  <a lay-href="report/view/giftReceive/report">收礼报表</a>
+                  <a lay-href="report/view/giftReceive">收礼报表</a>
                 </dd>
                 <dd data-name="dictionary">
                   <a lay-href="dictionary/view/list">字典信息</a>

@@ -1,6 +1,7 @@
 package com.hoomoomoo.fims.app.model.common;
 
 import com.hoomoomoo.fims.app.model.SysDictionaryModel;
+import com.hoomoomoo.fims.app.model.SysMenuTreeModel;
 import com.hoomoomoo.fims.app.model.SysRoleModel;
 import lombok.Data;
 
@@ -47,4 +48,15 @@ public class ViewData {
      * 角色信息
      */
     private List<SysRoleModel> roleList;
+
+    /**
+     * 菜单信息
+     */
+    private List<SysMenuTreeModel> menuList;
+
+    /**
+     * 数据权限
+     */
+    private String dataAuthority;
+
 }
