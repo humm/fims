@@ -15,25 +15,25 @@
 
 <div class="layui-form" style="padding: 20px 30px 0 0;">
     <input type="hidden" name="roleId"/>
-    <input type="hidden" name="menuId" />
+    <input type="hidden" name="menuId"/>
 
     <div class="layui-form-item">
         <label class="layui-form-label">角色代码</label>
         <div class="layui-input-inline">
-            <input type="text" name="roleCode" class="layui-input" lay-verify="required" />
+            <input type="text" name="roleCode" class="layui-input" lay-verify="required"/>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">角色名称</label>
         <div class="layui-input-inline">
-            <input type="text" name="roleName" class="layui-input" lay-verify="required" />
+            <input type="text" name="roleName" class="layui-input" lay-verify="required"/>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">数据权限</label>
         <div class="layui-input-inline">
-            <input type="radio" name="dataAuthority" value="1" title="所有数据" class="layui-input" lay-verify="required" />
-            <input type="radio" name="dataAuthority" value="0" title="本人数据" class="layui-input" lay-verify="required" />
+            <input type="radio" name="dataAuthority" value="1" title="所有数据" class="layui-input" lay-verify="required"/>
+            <input type="radio" name="dataAuthority" value="0" title="本人数据" class="layui-input" lay-verify="required"/>
         </div>
     </div>
     <div class="layui-form-item">
@@ -49,7 +49,7 @@
         </div>
     </div>
     <div class="layui-form-item layui-hide">
-        <input type="button" lay-submit lay-filter="LAY-app-role-update" id="LAY-app-role-update" />
+        <input type="button" lay-submit lay-filter="LAY-app-role-update" id="LAY-app-role-update"/>
     </div>
 </div>
 
@@ -101,20 +101,11 @@
                         isJump: false, //是否允许点击节点时弹出新窗口跳转
                         oncheck: function (obj) {
                             // 复选框选择事件
-                            var selectedMenu = [];
-                            var selected = tree.getChecked('menuTree');
-                            for(var i=0; i<selected.length; i++){
-                                selectedMenu.push(selected[i].id);
-                                var children = selected[i].children;
-                                if(!$.isEmptyObject(children)){
-                                    for(var j=0; j<children.length; j++){
-                                        selectedMenu.push(children[j].id);
-                                    }
-                                }
-                            }
-                            $("input[name='menuId']").val(selectedMenu.join(","));
+                            getSelectedMenu();
                         }
                     });
+
+                    getSelectedMenu();
 
                     // 数据回填
                     admin.req({
@@ -134,6 +125,23 @@
                 }
             }
         });
+
+        function getSelectedMenu() {
+            var selectedMenu = [];
+            try {
+                var selected = tree.getChecked('menuTree');
+                for (var i = 0; i < selected.length; i++) {
+                    selectedMenu.push(selected[i].id);
+                    var children = selected[i].children;
+                    if (!$.isEmptyObject(children)) {
+                        for (var j = 0; j < children.length; j++) {
+                            selectedMenu.push(children[j].id);
+                        }
+                    }
+                }
+            } catch (e) {}
+            $("input[name='menuId']").val(selectedMenu.join(","));
+        }
     })
 </script>
 </body>

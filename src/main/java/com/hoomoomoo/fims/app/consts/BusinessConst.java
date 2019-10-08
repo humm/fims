@@ -111,6 +111,11 @@ public class BusinessConst {
     public static final String BUSINESS_ID_DEFAULT                          = "000001";
 
     /**
+     * 数据权限ID
+     */
+    public static final String DATA_AUTHORITY_ID                            = "20190000000000";
+
+    /**
      * 转义key
      */
     public static final String TRANSFER_KEY                                 = "userId";
@@ -139,6 +144,11 @@ public class BusinessConst {
      * 业务类型：用户角色
      */
     public static final String BUSINESS_TYPE_USER_ROLE                      = "userRole";
+
+    /**
+     * 业务类型：角色菜单
+     */
+    public static final String BUSINESS_TYPE_ROLE_MENU                      = "roleMenu";
 
     /**
      * 业务类型：收入

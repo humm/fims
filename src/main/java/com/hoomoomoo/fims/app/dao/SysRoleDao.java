@@ -1,5 +1,6 @@
 package com.hoomoomoo.fims.app.dao;
 
+import com.hoomoomoo.fims.app.model.SysRoleMenuModel;
 import com.hoomoomoo.fims.app.model.SysRoleModel;
 import com.hoomoomoo.fims.app.model.SysRoleQueryModel;
 import org.apache.ibatis.annotations.Mapper;
@@ -63,4 +64,18 @@ public interface SysRoleDao {
      * @return
      */
     Boolean checkRoleCode(SysRoleQueryModel sysRoleQueryModel);
+
+    /**
+     * 删除角色菜单信息
+     *
+     * @param sysRoleMenuModel
+     */
+    void deleteRoleMenu(SysRoleMenuModel sysRoleMenuModel);
+
+    /**
+     * 保存角色菜单信息
+     *
+     * @param sysRoleMenuModel
+     */
+    void saveRoleMenu(SysRoleMenuModel sysRoleMenuModel);
 }

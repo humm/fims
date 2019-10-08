@@ -168,6 +168,24 @@ public class SysRoleServiceImpl implements SysRoleService {
         } else {
             // 修改
         }
+        // 处理角色菜单信息
+        SysRoleMenuModel sysRoleMenuModel = new SysRoleMenuModel();
+        sysRoleMenuModel.setRoleId(sysRoleModel.getRoleId());
+        sysRoleDao.deleteRoleMenu(sysRoleMenuModel);
+        String menuIds = sysRoleModel.getMenuId();
+        if(StringUtils.isNotBlank(menuIds)){
+            for(String menuId : menuIds.split(COMMA)){
+                sysRoleMenuModel.setMenuId(menuId);
+                sysRoleMenuModel.setRoleMenuId(systemService.getBusinessSerialNo(BUSINESS_TYPE_ROLE_MENU));
+                sysRoleDao.saveRoleMenu(sysRoleMenuModel);
+            }
+        }
+        // 处理数据权限信息
+        if(STR_1.equals(sysRoleModel.getDataAuthority())){
+            sysRoleMenuModel.setMenuId(DATA_AUTHORITY_ID);
+            sysRoleMenuModel.setRoleMenuId(systemService.getBusinessSerialNo(BUSINESS_TYPE_ROLE_MENU));
+            sysRoleDao.saveRoleMenu(sysRoleMenuModel);
+        }
         LogUtils.parameter(logger, sysRoleModel);
         sysRoleDao.save(sysRoleModel);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, operateType);

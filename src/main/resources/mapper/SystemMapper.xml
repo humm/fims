@@ -9,6 +9,8 @@
         union all
         select 'userRole-' || max(to_number(user_role_id)) as businessId from sys_user_role
         union all
+        select 'roleMenu-' || max(to_number(role_menu_id)) as businessId from sys_role_menu
+        union all
         select 'income-' || max(to_number(income_id)) as businessId from sys_income
         union all
         select 'notice-' || max(to_number(notice_id)) as businessId from sys_notice

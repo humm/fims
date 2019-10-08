@@ -6,19 +6,19 @@ import lombok.Data;
 
 /**
  * @author humm23693
- * @description 用户角色信息实体类
+ * @description 角色菜单实体类
  * @package com.hoomoomoo.fims.app.model
- * @date 2019/09/28
+ * @date 2019/10/08
  */
 
 @Data
-public class SysUserRoleModel extends BaseModel {
+public class SysRoleMenuModel extends BaseModel {
 
-    @ApiModelProperty(value="用户角色ID", required = false)
-    private String userRoleId;
+    @ApiModelProperty(value="角色菜单ID", required = false)
+    private String RoleMenuId;
 
-    @ApiModelProperty(value="用户ID", required = false)
-    private String userId;
+    @ApiModelProperty(value="菜单ID", required = false)
+    private String menuId;
 
     @ApiModelProperty(value="角色ID", required = false)
     private String roleId;

@@ -140,4 +140,20 @@
         </if>
     </select>
 
+    <delete id="deleteRoleMenu" parameterType="com.hoomoomoo.fims.app.model.SysRoleMenuModel">
+        delete from sys_role_menu where role_id = #{roleId}
+    </delete>
+
+    <insert id="saveRoleMenu" parameterType="com.hoomoomoo.fims.app.model.SysRoleMenuModel">
+        insert into sys_role_menu(
+            role_menu_id,
+            menu_id,
+            role_id
+        )values(
+            #{roleMenuId},
+            #{menuId},
+            #{roleId}
+        )
+    </insert>
+
 </mapper>

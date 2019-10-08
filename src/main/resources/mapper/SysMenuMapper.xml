@@ -8,7 +8,10 @@
             a.menu_id id,
             a.menu_title title,
             a.menu_url href,
-            case when b.role_menu_id is not null then '1' else '0' end checked,
+            case
+                when nvl(a.menu_url, '#') = '#' then '0'
+                when b.role_menu_id is not null then '1'
+                else '0' end checked,
             #{disabled} disabled,
             '0' spread
         from sys_menu a
