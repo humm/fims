@@ -32,8 +32,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">数据权限</label>
         <div class="layui-input-inline">
-            <input type="radio" name="dataAuthority" value="1" title="所有数据" class="layui-input" lay-verify="required"/>
-            <input type="radio" name="dataAuthority" value="0" title="本人数据" class="layui-input" lay-verify="required"/>
+            <input type="radio" name="dataAuthority" value="1" title="管理员" class="layui-input" lay-verify="required"/>
+            <input type="radio" name="dataAuthority" value="0" title="所属用户" class="layui-input" lay-verify="required"/>
         </div>
     </div>
     <div class="layui-form-item">
@@ -59,7 +59,7 @@
         base: '${appName}/layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'form', 'laydate', 'tree', 'util', 'admin', 'fims'], function () {
+    }).use(['index', 'form', 'tree', 'util', 'admin', 'fims'], function () {
         var $ = layui.$,
             form = layui.form,
             admin = layui.admin,
@@ -72,7 +72,8 @@
 
         var request = {
             roleId: fims.getUrlParameter("roleId"),
-            isTranslate: fims.getUrlParameter("isTranslate")
+            isTranslate: fims.getUrlParameter("isTranslate"),
+            disabled: 0
         }
 
         var url = {
@@ -90,7 +91,6 @@
                     fims.setCondition("layui-form", response.data.condition);
                     fims.setValue("layui-form", response.data);
                     form.render();
-
                     //加载菜单树
                     tree.render({
                         elem: '#menuTree',
@@ -104,9 +104,7 @@
                             getSelectedMenu();
                         }
                     });
-
                     getSelectedMenu();
-
                     // 数据回填
                     admin.req({
                         url: url.load,

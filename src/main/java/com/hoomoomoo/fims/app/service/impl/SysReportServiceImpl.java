@@ -22,7 +22,7 @@ import static com.hoomoomoo.fims.app.config.RunDataConfig.DICTIONARY_CONDITION;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.SELECT_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D000;
-import static com.hoomoomoo.fims.app.consts.TipConst.LOG_BUSINESS_TYPE_REPORT_INCOME;
+import static com.hoomoomoo.fims.app.consts.TipConst.LOG_BUSINESS_TYPE_REPORT;
 import static com.hoomoomoo.fims.app.consts.TipConst.LOG_OPERATE_TYPE_SELECT;
 
 /**
@@ -52,13 +52,14 @@ public class SysReportServiceImpl implements SysReportService {
      */
     @Override
     public ResultData initData(String reportMode, String reportType, String reportSubType, String reportValue) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_REPORT_INCOME, LOG_OPERATE_TYPE_SELECT);
+        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_REPORT, LOG_OPERATE_TYPE_SELECT);
         SysReportQueryModel sysReportQueryModel = new SysReportQueryModel();
         sysReportQueryModel.setReportMode(reportMode);
         sysReportQueryModel.setReportType(reportType);
         sysReportQueryModel.setReportSubType(reportSubType);
         sysReportQueryModel.setReportValue(reportValue);
         SysReportModel sysReportModel = null;
+        LogUtils.parameter(logger, sysReportQueryModel);
         switch (reportMode) {
             case REPORT_MODE_BAR:
                 sysReportModel = initBarData(sysReportQueryModel);
@@ -69,7 +70,7 @@ public class SysReportServiceImpl implements SysReportService {
             default:
                 break;
         }
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_REPORT_INCOME, LOG_OPERATE_TYPE_SELECT);
+        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_REPORT, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysReportModel);
     }
 
@@ -81,7 +82,6 @@ public class SysReportServiceImpl implements SysReportService {
      */
     private List<SysReportModel> getSysReportData(SysReportQueryModel sysReportQueryModel) {
         List<SysReportModel> sysReportModelList = new ArrayList<>();
-        LogUtils.parameter(logger, sysReportQueryModel);
         switch (sysReportQueryModel.getReportType()) {
             case REPORT_TYPE_INCOME:
                 if (REPORT_SUB_TYPE_YEAR.equals(sysReportQueryModel.getReportSubType())) {
@@ -230,11 +230,13 @@ public class SysReportServiceImpl implements SysReportService {
                 setSysReportProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean, 0);
                 // 获取用户信息
                 List<SysDictionaryModel> userList = DICTIONARY_CONDITION.get(loginUserId).get(D000);
-                for (int i = 0; i < userList.size(); i++) {
-                    sysReportQueryModel.setUserId(userList.get(i).getDictionaryItem());
-                    sysReportQueryModel.setUserName(userList.get(i).getDictionaryCaption());
-                    sysReportModelList = getSysReportData(sysReportQueryModel);
-                    setSysReportProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean, i + 1);
+                if(CollectionUtils.isNotEmpty(userList)){
+                    for (int i = 0; i < userList.size(); i++) {
+                        sysReportQueryModel.setUserId(userList.get(i).getDictionaryItem());
+                        sysReportQueryModel.setUserName(userList.get(i).getDictionaryCaption());
+                        sysReportModelList = getSysReportData(sysReportQueryModel);
+                        setSysReportProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean, i + 1);
+                    }
                 }
             } else {
                 // 获取当前用户数据

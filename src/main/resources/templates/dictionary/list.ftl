@@ -194,7 +194,6 @@
                 }
                 elements.push(item);
             }
-            console.log(elements)
             iframe.layui.form.on("submit(LAY-app-" + businessType + "-" + type + ")", function (data) {
                 admin.req({
                     url: url.save,

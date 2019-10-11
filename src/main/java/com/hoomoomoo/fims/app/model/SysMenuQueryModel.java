@@ -20,6 +20,9 @@ public class SysMenuQueryModel extends QueryBaseModel {
     @ApiModelProperty(value="是否父级菜单", required = false)
     private Boolean isParentId;
 
-    @ApiModelProperty(value="菜单ID", required = false)
+    @ApiModelProperty(value="用户ID", required = false)
     private String userId;
+
+    @ApiModelProperty(value="用户代码", required = false)
+    private String userCode;
 }

@@ -107,19 +107,19 @@ create table sys_dictionary
     constraint pk_sys_dictionary primary key (dictionary_code, dictionary_item)
 );
 
-comment on column sy_dictionary.dictionary_code
+comment on column sys_dictionary.dictionary_code
     is '字典代码';
-comment on column sy_dictionary.dictionary_item
+comment on column sys_dictionary.dictionary_item
     is '字典选值';
-comment on column sy_dictionary.dictionary_caption
+comment on column sys_dictionary.dictionary_caption
     is '字典描述';
-comment on column sy_dictionary.item_order
+comment on column sys_dictionary.item_order
     is '选值排序';
-comment on column sy_dictionary.code_order
+comment on column sys_dictionary.code_order
     is '代码排序';
-comment on column sy_dictionary.user_id
+comment on column sys_dictionary.user_id
     is '用户ID';
-comment on column sy_dictionary.is_open
+comment on column sys_dictionary.is_open
     is '是否开放';
 
 -- 通知信息
@@ -320,50 +320,53 @@ comment on column sys_role_menu.menu_id
 
 -- 初始化数据 开始
 -- 用户信息
+delete from sys_user;
 insert into sys_user (USER_ID, USER_CODE, USER_NAME, USER_PASSWORD, USER_STATUS, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER, USER_MEMO)
-values (20190000000001, 'admin', '管理员', '123456', 'D001-1', '11-8月 -19 02.19.25.000000 下午', '08-10月-19 08.00.58.242000 下午', '20190000000001', '20190000000001', '系统管理员，不能删除');
+values (20190000000001, 'admin', '管理员', '123456', 'D001-1', sysdate, sysdate, '20190000000001', '20190000000001', '系统管理员，不能删除');
 
 -- 菜单信息
+delete from sys_menu;
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000001, '收入信息', null, 'income/view/list', null, 1, '1', '1', '29-9月 -19 02.32.50.000000 下午', '29-9月 -19 02.32.50.000000 下午', '20190000000001', '20190000000001');
+values (20190000000000, '数据权限', null, null, null, 0, '1', '2', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000003, '随礼信息', null, 'gift/view/list', null, 10, '1', '1', '29-9月 -19 02.32.50.000000 下午', '29-9月 -19 02.32.50.000000 下午', '20190000000001', '20190000000001');
+values (20190000000001, '收入信息', null, 'income/view/list', null, 1, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000002, '设置权限', null, null, 20190000000001, 5, '1', '1', '29-9月 -19 02.32.50.000000 下午', '29-9月 -19 02.32.50.000000 下午', '20190000000001', '20190000000001');
+values (20190000000003, '随礼信息', null, 'gift/view/list', null, 10, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000004, '设置权限', null, null, 20190000000003, 15, '1', '1', '29-9月 -19 02.32.50.000000 下午', '29-9月 -19 02.32.50.000000 下午', '20190000000001', '20190000000001');
+values (20190000000002, '设置权限', null, null, 20190000000001, 5, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000005, '统计分析', null, '#', null, 20, '1', '1', '29-9月 -19 02.32.50.000000 下午', '29-9月 -19 02.32.50.000000 下午', '20190000000001', '20190000000001');
+values (20190000000004, '设置权限', null, null, 20190000000003, 15, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000006, '收入分析', null, 'report/view/income', 20190000000005, 25, '1', '1', '29-9月 -19 02.32.50.000000 下午', '29-9月 -19 02.32.50.000000 下午', '20190000000001', '20190000000001');
+values (20190000000005, '统计分析', null, '#', null, 20, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000007, '送礼分析', null, 'report/view/giftSend', 20190000000005, 30, '1', '1', '29-9月 -19 02.32.50.000000 下午', '29-9月 -19 02.32.50.000000 下午', '20190000000001', '20190000000001');
+values (20190000000006, '收入分析', null, 'report/view/income', 20190000000005, 25, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000008, '收礼分析', null, 'report/view/giftReceive', 20190000000005, 35, '1', '1', '29-9月 -19 02.32.50.000000 下午', '29-9月 -19 02.32.50.000000 下午', '20190000000001', '20190000000001');
+values (20190000000007, '送礼分析', null, 'report/view/giftSend', 20190000000005, 30, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000009, '系统设置', null, '#', null, 40, '1', '1', '29-9月 -19 02.32.50.000000 下午', '29-9月 -19 02.32.50.000000 下午', '20190000000001', '20190000000001');
+values (20190000000008, '收礼分析', null, 'report/view/giftReceive', 20190000000005, 35, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000010, '字典信息', null, 'dictionary/view/list', 20190000000009, 45, '1', '1', '29-9月 -19 02.32.50.000000 下午', '29-9月 -19 02.32.50.000000 下午', '20190000000001', '20190000000001');
+values (20190000000009, '系统设置', null, '#', null, 40, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000011, '用户信息', null, 'user/view/list', 20190000000009, 45, '1', '1', '29-9月 -19 02.32.50.000000 下午', '29-9月 -19 02.32.50.000000 下午', '20190000000001', '20190000000001');
+values (20190000000011, '用户信息', null, 'user/view/list', 20190000000009, 45, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000012, '角色信息', null, 'role/view/list', 20190000000009, 50, '1', '1', '29-9月 -19 02.32.50.000000 下午', '29-9月 -19 02.32.50.000000 下午', '20190000000001', '20190000000001');
+values (20190000000012, '角色信息', null, 'role/view/list', 20190000000009, 50, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000000, '数据权限', null, null, null, 0, '1', '2', '29-9月 -19 02.32.50.000000 下午', '29-9月 -19 02.32.50.000000 下午', '20190000000001', '20190000000001');
+values (20190000000010, '字典信息', null, 'dictionary/view/list', 20190000000009, 55, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 -- 字典信息
+delete from sys_dictionary;
 insert into sys_dictionary (DICTIONARY_CODE, DICTIONARY_ITEM, DICTIONARY_CAPTION, ITEM_ORDER, CODE_ORDER, USER_ID, IS_OPEN)
 values ('D001', '#', '用户状态', null, 1, 20190000000001, '0');
 
@@ -429,5 +432,5 @@ values ('D008', '2', '邮件', 2, null, 20190000000001, null);
 
 insert into sys_dictionary (DICTIONARY_CODE, DICTIONARY_ITEM, DICTIONARY_CAPTION, ITEM_ORDER, CODE_ORDER, USER_ID, IS_OPEN)
 values ('D009', '#', '随礼人', null, 9, 20190000000001, '1');
-
+commit;
 -- 初始化数据 结束

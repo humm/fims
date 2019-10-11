@@ -2,6 +2,7 @@ package com.hoomoomoo.fims.app.service;
 
 import com.hoomoomoo.fims.app.model.SysMenuModel;
 import com.hoomoomoo.fims.app.model.SysMenuTreeModel;
+import com.hoomoomoo.fims.app.model.common.ResultData;
 
 import java.util.List;
 
@@ -36,5 +37,5 @@ public interface SysMenuService {
      *
      * @return
      */
-    List<SysMenuModel> selectMenu();
+    ResultData selectMenu();
 }

@@ -82,9 +82,9 @@ public class SysReportController {
             @RequestParam String reportSubType,
             @ApiParam(value = "报表选值", required = false)
             @RequestParam(required = false) String reportValue) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_REPORT_INCOME, LOG_OPERATE_TYPE_SELECT);
+        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_REPORT, LOG_OPERATE_TYPE_SELECT);
         ResultData resultData = sysReportService.initData(reportMode, reportType, reportSubType, reportValue);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_REPORT_INCOME, LOG_OPERATE_TYPE_SELECT);
+        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_REPORT, LOG_OPERATE_TYPE_SELECT);
         return resultData;
     }
 }

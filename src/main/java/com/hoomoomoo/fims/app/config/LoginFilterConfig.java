@@ -40,9 +40,10 @@ public class LoginFilterConfig implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String servletPath = request.getServletPath();
         SessionBean sessionBean = new SessionBean();
-        sessionBean.setUserId("20190000000002");
-        sessionBean.setUserCode("20190000000002");
+        sessionBean.setUserId("20190000000001");
+        sessionBean.setUserCode("20190000000001");
         sessionBean.setUserName("管理员");
+        sessionBean.setUserCode("admin");
         sessionBean.setIsAdminData(true);
 
         SystemSessionUtils.setSession(sessionBean);

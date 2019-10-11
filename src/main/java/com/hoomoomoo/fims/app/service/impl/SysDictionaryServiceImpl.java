@@ -125,14 +125,6 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
             sysDictionaryModelList = systemService.transferData(sysDictionaryModelList, SysDictionaryModel.class);
         }
         List<SysUserModel> sysUserModelList = sysUserDao.selectSysUser(null);
-        Iterator<SysUserModel> ite = sysUserModelList.iterator();
-        while (ite.hasNext()) {
-            SysUserModel sysUserModel = ite.next();
-            if (ADMIN_CODE.equals(sysUserModel.getUserCode())) {
-                ite.remove();
-                break;
-            }
-        }
         Map data = new HashMap<>();
         data.put(BUSINESS_TYPE_USER, sysUserModelList);
         data.put(BUSINESS_TYPE_DICTIONARY, sysDictionaryModelList);

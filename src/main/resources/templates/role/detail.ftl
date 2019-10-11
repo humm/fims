@@ -26,6 +26,18 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">数据权限</label>
+        <div class="layui-input-inline">
+            <input type="text" name="dataAuthority" class="layui-input layui-detail" disabled="disabled" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单信息</label>
+        <div class="layui-input-inline">
+            <div id="menuTree" class="demo-tree-more"></div>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">角色备注</label>
         <div class="layui-input-inline">
             <textarea name="roleMemo" class="layui-textarea layui-detail" disabled="disabled"></textarea>
@@ -39,10 +51,12 @@
         base: '${appName}/layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'form', 'admin', 'fims'], function () {
+    }).use(['index', 'form', 'admin', 'tree', 'util', 'fims'], function () {
         var $ = layui.$,
             form = layui.form,
             admin = layui.admin,
+            tree = layui.tree,
+            util = layui.util,
             fims = layui.fims;
 
         // 应用名称
@@ -50,26 +64,75 @@
 
         var request = {
             roleId: fims.getUrlParameter("roleId"),
-            isTranslate: fims.getUrlParameter("isTranslate")
+            isTranslate: fims.getUrlParameter("isTranslate"),
+            disabled: 0
         }
 
-        // 请求url
-        var url = appName + "/role/selectOne?" + $.param(request);
+        var url = {
+            init: appName + "/role/selectInitData?" + $.param(request),
+            load: appName + "/role/selectOne?" + $.param(request)
+        };
 
         // 初始化页面信息
         admin.req({
-            url: url,
+            url: url.init,
             type: "get",
             dataType: "json",
             done: function (response) {
                 if (response.bizResult) {
+                    fims.setCondition("layui-form", response.data.condition);
+                    response.data.dataAuthority = response.data.dataAuthority == '1' ? "管理员" : "所属用户";
                     fims.setValue("layui-form", response.data);
+                    form.render();
+                    //加载菜单树
+                    tree.render({
+                        elem: '#menuTree',
+                        id: 'menuTree',
+                        data: response.data.menuList,
+                        showLine: false, // 是否显示连接线
+                        showCheckbox: true,  //是否显示复选框
+                        isJump: false, //是否允许点击节点时弹出新窗口跳转
+                        oncheck: function (obj) {
+                            // 复选框选择事件
+                            getSelectedMenu();
+                        }
+                    });
+                    getSelectedMenu();
+                    // 数据回填
+                    admin.req({
+                        url: url.load,
+                        type: "get",
+                        dataType: "json",
+                        done: function (response) {
+                            if (response.bizResult) {
+                                fims.setValue("layui-form", response.data);
+                            } else {
+                                fims.msg(response.msg);
+                            }
+                        }
+                    });
                 } else {
                     fims.msg(response.msg);
                 }
             }
         });
 
+        function getSelectedMenu() {
+            var selectedMenu = [];
+            try {
+                var selected = tree.getChecked('menuTree');
+                for (var i = 0; i < selected.length; i++) {
+                    selectedMenu.push(selected[i].id);
+                    var children = selected[i].children;
+                    if (!$.isEmptyObject(children)) {
+                        for (var j = 0; j < children.length; j++) {
+                            selectedMenu.push(children[j].id);
+                        }
+                    }
+                }
+            } catch (e) {}
+            $("input[name='menuId']").val(selectedMenu.join(","));
+        }
     })
 </script>
 </body>
