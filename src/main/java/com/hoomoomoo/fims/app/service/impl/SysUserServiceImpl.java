@@ -187,7 +187,7 @@ public class SysUserServiceImpl implements SysUserService {
             // 新增
             String userId = systemService.getBusinessSerialNo(BUSINESS_TYPE_USER);
             sysUserModel.setUserId(userId);
-            // todo 设置配置默认密码
+            // todo 设置配置默认密码 加密存储
             sysUserModel.setUserPassword("123456");
             // 新增字典项
             sysDictionaryModel.setDictionaryItem(userId);

@@ -65,9 +65,11 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         SysIncomeQueryModel sysIncomeQueryModel = new SysIncomeQueryModel();
         sysIncomeQueryModel.setUserId(systemService.getUserId());
         LastType lastType = sysIncomeDao.selectLastType(sysIncomeQueryModel);
-        viewData.setLastType(lastType);
-        LastType incomeCompany = sysIncomeDao.selectLastTypeIncomeCompany(sysIncomeQueryModel);
-        viewData.getLastType().setIncomeCompany(incomeCompany.getIncomeCompany());
+        if(lastType != null){
+            viewData.setLastType(lastType);
+            LastType incomeCompany = sysIncomeDao.selectLastTypeIncomeCompany(sysIncomeQueryModel);
+            viewData.getLastType().setIncomeCompany(incomeCompany.getIncomeCompany());
+        }
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_INIT);
         return new ResultData(true, SELECT_SUCCESS, viewData);
     }

@@ -21,6 +21,11 @@ public class DateUtils {
     /**
      * 时间格式化类型
      */
+    public static final String YYYY                                = "yyyy";
+
+    /**
+     * 时间格式化类型
+     */
     public static final String HHMMSS                              = "HHmmss";
 
     /**
@@ -35,6 +40,15 @@ public class DateUtils {
      */
     public static String yyyyMMdd(){
         return new SimpleDateFormat(YYYYMMDD).format(new Date());
+    }
+
+    /**
+     * 年
+     *
+     * @return
+     */
+    public static String yyyy(){
+        return new SimpleDateFormat(YYYY).format(new Date());
     }
 
     /**

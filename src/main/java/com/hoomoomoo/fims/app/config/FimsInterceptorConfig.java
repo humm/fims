@@ -42,7 +42,7 @@ public class FimsInterceptorConfig implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object obj) throws Exception {
-        // todo 获取 开始结束日志 请求入参 智能填充 参数
+        // todo 获取参数 是否打印开始结束日志 是否智能填充
         return true;
     }
 }

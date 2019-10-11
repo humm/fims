@@ -152,13 +152,13 @@ public class SystemServiceImpl implements SystemService {
             businessId = BUSINESS_SERIAL_NO.get(businessType);
             // 业务ID不存在 设置默认值
             if (StringUtils.isBlank(businessId)) {
-                businessId = DateUtils.yyyyMMdd() + BUSINESS_ID_DEFAULT;
+                businessId = DateUtils.yyyy() + BUSINESS_ID_DEFAULT;
             } else {
-                String businessDate = businessId.substring(0, 8);
-                String businessNo = businessId.substring(8);
+                String businessYear = businessId.substring(0, 4);
+                String businessNo = businessId.substring(4);
                 // 业务ID时间不是当前时间 设置默认值
-                if (!DateUtils.yyyyMMdd().equals(businessDate)) {
-                    businessId = DateUtils.yyyyMMdd() + BUSINESS_ID_DEFAULT;
+                if (!DateUtils.yyyy().equals(businessYear)) {
+                    businessId = DateUtils.yyyy() + BUSINESS_ID_DEFAULT;
                 } else {
                     // 去除多去的0 获取序列号
                     while (businessNo.startsWith(STR_0)) {
@@ -170,7 +170,7 @@ public class SystemServiceImpl implements SystemService {
                     while (businessNo.length() < 6) {
                         businessNo = STR_0 + businessNo;
                     }
-                    businessId = businessDate + businessNo;
+                    businessId = businessYear + businessNo;
                 }
             }
             // 更新内存数据序列号值
@@ -506,7 +506,7 @@ public class SystemServiceImpl implements SystemService {
      */
     private String convertValue(String key) {
         if (StringUtils.isNotBlank(fimsConfigBean.getConvertOutputKeyword()) && StringUtils.isNotBlank(key)) {
-            String[] keywords = fimsConfigBean.getConvertOutputKeyword().split(SEMICOLON);
+            String[] keywords = fimsConfigBean.getConvertOutputKeyword().split(COMMA);
             for (String word : keywords) {
                 if (key.contains(word)) {
                     return ASTERISK_SIX;

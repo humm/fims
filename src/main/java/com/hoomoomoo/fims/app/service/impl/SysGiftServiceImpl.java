@@ -64,7 +64,9 @@ public class SysGiftServiceImpl implements SysGiftService {
         SysGiftQueryModel sysGiftQueryModel = new SysGiftQueryModel();
         sysGiftQueryModel.setGiftSender(systemService.getUserId());
         LastType lastType = sysGiftDao.selectLastType(sysGiftQueryModel);
-        viewData.setLastType(lastType);
+        if(lastType != null){
+            viewData.setLastType(lastType);
+        }
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_INIT);
         return new ResultData(true, SELECT_SUCCESS, viewData);
     }

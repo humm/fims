@@ -108,7 +108,7 @@ public class BusinessConst {
     /**
      * 业务ID初始值
      */
-    public static final String BUSINESS_ID_DEFAULT                          = "000001";
+    public static final String BUSINESS_ID_DEFAULT                          = "0000000001";
 
     /**
      * 数据权限ID
