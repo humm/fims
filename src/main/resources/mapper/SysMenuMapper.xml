@@ -43,5 +43,30 @@
         and a.menu_type = '2'
     </select>
 
+    <select id="selectMenu" parameterType="com.hoomoomoo.fims.app.model.SysMenuQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.SysMenuModel">
+        select
+            a.menu_id menuId,
+            a.menu_title menuTitle,
+            a.menu_url menuUrl,
+            a.menu_icon menuIcon,
+        from sys_menu a
+             sys_role_menu b,
+             sys_user_role c
+        where a.menu_id = b.menu_id
+        and b.role_id = c.role_id
+        and c.user_id = #{userId}
+        and a.is_enable = '1'
+        and a.menu_type = '1'
+        <choose>
+            <when test="isParentId == true">
+                and a.parent_id is null
+            </when>
+            <otherwise>
+                and a.parent_id = #{parentId}
+            </otherwise>
+        </choose>
+        order by a.menu_order
+    </select>
 
 </mapper>

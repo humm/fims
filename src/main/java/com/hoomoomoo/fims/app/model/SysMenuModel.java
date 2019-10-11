@@ -4,6 +4,9 @@ import com.hoomoomoo.fims.app.model.common.BaseModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author humm23693
  * @description 菜单新实体类
@@ -37,4 +40,7 @@ public class SysMenuModel extends BaseModel {
 
     @ApiModelProperty(value="菜单类型", required = false)
     private String menuType;
+
+    @ApiModelProperty(value="子菜单", required = false)
+    private List<SysMenuModel> children = new ArrayList<>();
 }

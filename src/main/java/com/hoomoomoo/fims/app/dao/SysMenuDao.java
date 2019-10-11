@@ -1,7 +1,6 @@
 package com.hoomoomoo.fims.app.dao;
 
-import com.hoomoomoo.fims.app.model.SysMenuTreeModel;
-import com.hoomoomoo.fims.app.model.SysMenuTreeQueryModel;
+import com.hoomoomoo.fims.app.model.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -30,4 +29,12 @@ public interface SysMenuDao {
      * @return
      */
     String selectDataAuthority(SysMenuTreeQueryModel sysMenuTreeQueryModel);
+
+    /**
+     * 查询菜单信息
+     *
+     * @param sysMenuQueryModel
+     * @return
+     */
+    List<SysMenuModel> selectMenu(SysMenuQueryModel sysMenuQueryModel);
 }

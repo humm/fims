@@ -1,5 +1,6 @@
 package com.hoomoomoo.fims.app.service;
 
+import com.hoomoomoo.fims.app.model.SysMenuModel;
 import com.hoomoomoo.fims.app.model.SysMenuTreeModel;
 
 import java.util.List;
@@ -29,4 +30,11 @@ public interface SysMenuService {
      * @return
      */
     String selectDataAuthority(String roleId);
+
+    /**
+     * 查询菜单信息
+     *
+     * @return
+     */
+    List<SysMenuModel> selectMenu();
 }
