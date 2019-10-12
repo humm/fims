@@ -87,11 +87,11 @@
         <!-- 侧边菜单 -->
         <div class="layui-side layui-side-menu">
             <div class="layui-side-scroll">
-                <div class="layui-logo" lay-href="home/console">
-                    <span>layuiAdmin</span>
+                <div class="layui-logo">
+                    <span>fims</span>
                 </div>
-
-                <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
+                <ul class="layui-nav layui-nav-tree" lay-shrink="all"
+                    id="LAY-system-side-menu"
                     lay-filter="layadmin-system-side-menu">
                     <li data-name="home" class="layui-nav-item layui-nav-itemed">
                         <a href="javascript:;" lay-tips="主页" lay-direction="2">
@@ -515,9 +515,26 @@
             done: function (response) {
                 if (response.bizResult) {
                     console.log(response.data);
+                    initMenu(response.data);
                 }
             }
         });
+
+        function initMenu(data) {
+            var menu = '';
+            menu += '<li data-name="console" class="layui-nav-item layui-this">';
+            menu += '    <a href="javascript:;" lay-tips="首页" lay-direction="2" lay-href="home/console">';
+            menu += '       <i class="layui-icon layui-icon-home"></i>';
+            menu += '       <cite>首页</cite>';
+            menu += '    </a>';
+            menu += '</li>';
+            if(!$.isEmptyObject(data)){
+                data.forEach(function (item) {
+
+                });
+            }
+            $("#LAY-system-side-menu").append(menu);
+        }
 
     });
 </script>

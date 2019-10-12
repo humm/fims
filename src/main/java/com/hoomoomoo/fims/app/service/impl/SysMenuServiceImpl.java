@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.hoomoomoo.fims.app.consts.BusinessConst.STR_EMPTY;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.WELL;
 import static com.hoomoomoo.fims.app.consts.CueConst.SELECT_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.SystemConst.ADMIN_CODE;

@@ -32,7 +32,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">数据权限</label>
         <div class="layui-input-inline">
-            <input type="radio" name="dataAuthority" value="1" title="管理员" class="layui-input" lay-verify="required"/>
+            <input type="radio" name="dataAuthority" value="1" title="所有用户" class="layui-input" lay-verify="required"/>
             <input type="radio" name="dataAuthority" value="0" title="所属用户" class="layui-input" lay-verify="required"/>
         </div>
     </div>

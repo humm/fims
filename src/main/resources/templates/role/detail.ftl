@@ -81,7 +81,7 @@
             done: function (response) {
                 if (response.bizResult) {
                     fims.setCondition("layui-form", response.data.condition);
-                    response.data.dataAuthority = response.data.dataAuthority == '1' ? "管理员" : "所属用户";
+                    response.data.dataAuthority = response.data.dataAuthority == '1' ? "所有用户" : "所属用户";
                     fims.setValue("layui-form", response.data);
                     form.render();
                     //加载菜单树
