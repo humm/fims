@@ -59,6 +59,7 @@
         and c.user_id = #{userId}
         and a.is_enable = '1'
         and a.menu_type = '1'
+        and a.menu_url is not null
         <choose>
             <when test="isParentId == true">
                 and a.parent_id is null
@@ -81,6 +82,7 @@
         from sys_menu a
         where a.is_enable = '1'
         and a.menu_type = '1'
+        and a.menu_url is not null
         <choose>
             <when test="isParentId == true">
                 and a.parent_id is null
