@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.config;
 
 import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
-import com.hoomoomoo.fims.app.service.SystemService;
+import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,18 +29,18 @@ public class InitRunnerConfig implements CommandLineRunner {
     private FimsConfigBean fimsConfigBean;
 
     @Autowired
-    private SystemService systemService;
+    private SysSystemService sysSystemService;
 
     @Override
     public void run(String... args) throws Exception {
         // 输出系统配置参数至控制台
-        systemService.outputConfigParameter();
+        sysSystemService.outputConfigParameter();
 
         // 加载业务ID数据
-        systemService.loadBusinessId();
+        sysSystemService.loadBusinessId();
 
         // 加载查询数据字典
-        systemService.loadSysDictionaryCondition();
+        sysSystemService.loadSysDictionaryCondition();
 
         LogUtils.success(logger, LOG_BUSINESS_TYPE_INIT);
     }

@@ -6,6 +6,7 @@ import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysDictionaryService;
+import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import io.swagger.annotations.ApiOperation;
@@ -38,6 +39,9 @@ public class SysDictionaryController {
     @Autowired
     private SysDictionaryService sysDictionaryService;
 
+    @Autowired
+    private SysSystemService sysSystemService;
+
     /**
      * 跳转列表页面
      *
@@ -45,11 +49,12 @@ public class SysDictionaryController {
      */
     @ApiOperation("跳转列表页面")
     @RequestMapping(value = "view/list", method = RequestMethod.GET)
-    public String viewList(ModelMap modelMap) {
+    public String viewList(ModelMap modelMap,
+                           @ApiParam(value = "菜单ID", required = true)
+                           @RequestParam String menuId) {
         SessionBean sessionBean = SystemSessionUtils.getSession();
-        if(sessionBean != null){
-            // todo 获取按钮权限
-            modelMap.addAttribute(HAS_BUTTON, true);
+        if (sessionBean != null) {
+            modelMap.addAttribute(HAS_BUTTON, sysSystemService.selectButtonAuthority(menuId));
         }
         return "dictionary/list";
     }

@@ -42,7 +42,7 @@ public class LoginFilterConfig implements Filter {
         SessionBean sessionBean = new SessionBean();
         sessionBean.setUserId("20190000000001");
         sessionBean.setUserCode("20190000000001");
-        sessionBean.setUserName("管理员");
+        sessionBean.setUserName("管理员1");
         sessionBean.setUserCode("admin");
         sessionBean.setIsAdminData(true);
 

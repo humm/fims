@@ -9,7 +9,7 @@ import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.ViewData;
 import com.hoomoomoo.fims.app.service.SysMenuService;
 import com.hoomoomoo.fims.app.service.SysRoleService;
-import com.hoomoomoo.fims.app.service.SystemService;
+import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,7 +41,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     private SysRoleDao sysRoleDao;
 
     @Autowired
-    private SystemService systemService;
+    private SysSystemService sysSystemService;
 
     @Autowired
     private SysMenuService sysMenuService;
@@ -75,7 +75,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         ViewData viewData = new ViewData();
         // 设置查询条件
         viewData.setViewType(BUSINESS_TYPE_ROLE);
-        systemService.setCondition(viewData);
+        sysSystemService.setCondition(viewData);
         // 设置菜单信息
         viewData.setMenuList(sysMenuService.selectMenuTree(disabled, roleId));
         // 设置数据权限信息
@@ -100,7 +100,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         // 创建PageInfo对象前 不能处理数据否则getTotal数据不正确
         PageInfo<SysRoleModel> pageInfo = new PageInfo<>(sysRoleModelList);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_PAGE);
-        return new FimsPage(pageInfo.getTotal(), systemService.transferData(pageInfo.getList(), SysRoleModel.class));
+        return new FimsPage(pageInfo.getTotal(), sysSystemService.transferData(pageInfo.getList(), SysRoleModel.class));
 
     }
 
@@ -143,7 +143,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         LogUtils.parameter(logger, sysRoleQueryModel);
         SysRoleModel sysRoleModel = sysRoleDao.selectOne(sysRoleQueryModel);
         if (isTranslate) {
-            systemService.transferData(sysRoleModel, SysRoleModel.class);
+            sysSystemService.transferData(sysRoleModel, SysRoleModel.class);
         }
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysRoleModel);
@@ -163,7 +163,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         SystemUtils.setCreateUserInfo(sysRoleModel);
         if (sysRoleModel.getRoleId() == null) {
             // 新增
-            String roleId = systemService.getBusinessSerialNo(BUSINESS_TYPE_ROLE);
+            String roleId = sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_ROLE);
             sysRoleModel.setRoleId(roleId);
         } else {
             // 修改
@@ -176,14 +176,14 @@ public class SysRoleServiceImpl implements SysRoleService {
         if(StringUtils.isNotBlank(menuIds)){
             for(String menuId : menuIds.split(COMMA)){
                 sysRoleMenuModel.setMenuId(menuId);
-                sysRoleMenuModel.setRoleMenuId(systemService.getBusinessSerialNo(BUSINESS_TYPE_ROLE_MENU));
+                sysRoleMenuModel.setRoleMenuId(sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_ROLE_MENU));
                 sysRoleDao.saveRoleMenu(sysRoleMenuModel);
             }
         }
         // 处理数据权限信息
         if(STR_1.equals(sysRoleModel.getDataAuthority())){
             sysRoleMenuModel.setMenuId(DATA_AUTHORITY_ID);
-            sysRoleMenuModel.setRoleMenuId(systemService.getBusinessSerialNo(BUSINESS_TYPE_ROLE_MENU));
+            sysRoleMenuModel.setRoleMenuId(sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_ROLE_MENU));
             sysRoleDao.saveRoleMenu(sysRoleMenuModel);
         }
         LogUtils.parameter(logger, sysRoleModel);

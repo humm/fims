@@ -3,7 +3,6 @@ package com.hoomoomoo.fims.test;
 import com.hoomoomoo.fims.FimsApplication;
 import com.hoomoomoo.fims.app.model.MailModel;
 import com.hoomoomoo.fims.app.service.SysMailService;
-import com.hoomoomoo.fims.app.service.SystemService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

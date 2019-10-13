@@ -261,6 +261,21 @@ public class TipConst {
     public static final String LOG_BUSINESS_TYPE_DICTIONARY_LOAD                = "加载字典信息";
 
     /**
+     * 日志业务类型：用户ID
+     */
+    public static final String LOG_BUSINESS_TYPE_USER_ID_SELECT                 = "获取用户ID";
+
+    /**
+     * 日志业务类型：查询条件
+     */
+    public static final String LOG_BUSINESS_TYPE_CONDITION_SET                  = "设置查询条件";
+
+    /**
+     * 日志业务类型：按钮权限
+     */
+    public static final String LOG_BUSINESS_TYPE_BUTTON_AUTHORITY_SELECT        = "查询按钮权限";
+
+    /**
      * 请求入参
      */
     public static final String LOG_BUSINESS_PARAMETER                           = "服务请求入参：{}";

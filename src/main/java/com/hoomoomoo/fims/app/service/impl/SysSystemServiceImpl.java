@@ -4,12 +4,12 @@ import com.hoomoomoo.fims.FimsApplication;
 import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
 import com.hoomoomoo.fims.app.dao.SysDictionaryDao;
 import com.hoomoomoo.fims.app.dao.SysUserDao;
-import com.hoomoomoo.fims.app.dao.SystemDao;
+import com.hoomoomoo.fims.app.dao.SysSystemDao;
 import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.BaseModel;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.model.common.ViewData;
-import com.hoomoomoo.fims.app.service.SystemService;
+import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.BeanMapUtils;
 import com.hoomoomoo.fims.app.util.DateUtils;
 import com.hoomoomoo.fims.app.util.LogUtils;
@@ -48,9 +48,9 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 
 @Service
 @Transactional
-public class SystemServiceImpl implements SystemService {
+public class SysSystemServiceImpl implements SysSystemService {
 
-    private static final Logger logger = LoggerFactory.getLogger(SystemServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(SysSystemServiceImpl.class);
 
     @Autowired
     private FimsConfigBean fimsConfigBean;
@@ -59,7 +59,7 @@ public class SystemServiceImpl implements SystemService {
     private Environment environment;
 
     @Autowired
-    private SystemDao systemDao;
+    private SysSystemDao sysSystemDao;
 
     @Autowired
     private SysDictionaryDao sysDictionaryDao;
@@ -117,7 +117,7 @@ public class SystemServiceImpl implements SystemService {
     @Override
     public void loadBusinessId() {
         LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_LOAD);
-        List<String> businessIdList = systemDao.loadBusinessId();
+        List<String> businessIdList = sysSystemDao.loadBusinessId();
         if (CollectionUtils.isNotEmpty(businessIdList)) {
             for (String businessId : businessIdList) {
                 if (businessId.split(MINUS).length != 2) {
@@ -277,6 +277,7 @@ public class SystemServiceImpl implements SystemService {
      */
     @Override
     public String getUserId() {
+        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_USER_ID_SELECT);
         String userId = STR_EMPTY;
         SessionBean sessionBean = SystemSessionUtils.getSession();
         if (sessionBean != null) {
@@ -292,6 +293,7 @@ public class SystemServiceImpl implements SystemService {
                 }
             }
         }
+        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_USER_ID_SELECT);
         return userId;
     }
 
@@ -302,6 +304,7 @@ public class SystemServiceImpl implements SystemService {
      */
     @Override
     public void setCondition(ViewData viewData) {
+        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_CONDITION_SET);
         // 智能填充
         viewData.setMindFill(MIND_FILL);
         // 设置登录用户信息
@@ -332,6 +335,33 @@ public class SystemServiceImpl implements SystemService {
             default:
                 break;
         }
+        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_CONDITION_SET);
+    }
+
+    /**
+     * 查询按钮权限
+     *
+     * @param menuId
+     * @return
+     */
+    @Override
+    public Boolean selectButtonAuthority(String menuId) {
+        Boolean hasAuthority = false;
+        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BUTTON_AUTHORITY_SELECT);
+        SessionBean sessionBean = SystemSessionUtils.getSession();
+        if(sessionBean != null){
+            if(ADMIN_CODE.equals(sessionBean.getUserCode())){
+                hasAuthority = true;
+            }else{
+                // 获取按钮权限
+                SysSystemQueryModel sysSystemQueryModel = new SysSystemQueryModel();
+                sysSystemQueryModel.setMenuId(menuId);
+                sysSystemQueryModel.setUserId(sessionBean.getUserId());
+                hasAuthority = sysSystemDao.selectButtonAuthority(sysSystemQueryModel);
+            }
+        }
+        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BUTTON_AUTHORITY_SELECT);
+        return hasAuthority;
     }
 
     /**

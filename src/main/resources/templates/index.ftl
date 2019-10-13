@@ -183,7 +183,7 @@
                         if (item.menuUrl != '#') {
                             // 单页面菜单
                             menu += '<li data-name="' + item.menuId + '" class="layui-nav-item">';
-                            menu += '    <a href="javascript:;" lay-tips="' + item.menuTitle + '" lay-direction="2" lay-href="' + item.menuUrl + '?' + item.menuId + '">';
+                            menu += '    <a href="javascript:;" lay-tips="' + item.menuTitle + '" lay-direction="2" lay-href="' + item.menuUrl + '?menuId=' + item.menuId + '">';
                             menu += '       <i class="layui-icon ' + item.menuIcon + '"></i>';
                             menu += '       <cite>' + item.menuTitle + '</cite>';
                             menu += '    </a>';
@@ -223,7 +223,7 @@
                     childrenMenu += '</dd>';
                 }else{
                     childrenMenu += '<dd data-name="' + subItem.menuId + '">';
-                    childrenMenu += '   <a lay-href="' + subItem.menuUrl + '?' + subItem.menuId + '">' + subItem.menuTitle + '</a>';
+                    childrenMenu += '   <a lay-href="' + subItem.menuUrl + '?menuId=' + subItem.menuId + '">' + subItem.menuTitle + '</a>';
                     childrenMenu += '</dd>';
                 }
             });

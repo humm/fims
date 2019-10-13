@@ -91,6 +91,7 @@
                     fims.setCondition("layui-form", response.data.condition);
                     fims.setValue("layui-form", response.data);
                     form.render();
+                    console.log(response.data.menuList)
                     //加载菜单树
                     tree.render({
                         elem: '#menuTree',

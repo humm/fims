@@ -9,7 +9,8 @@
             a.menu_title title,
             a.menu_url href,
             case
-                when nvl(a.menu_url, '#') = '#' then '0'
+                when a.menu_url = '#' then '0'
+                when nvl(a.menu_url, '#') != '#' and a.parent_id is null then '0'
                 when b.role_menu_id is not null then '1'
                 else '0' end checked,
             #{disabled} disabled,
@@ -17,7 +18,7 @@
         from sys_menu a
         left join sys_role_menu b on a.menu_id = b.menu_id and b.role_id = #{roleId}
         where a.is_enable = '1'
-        and a.menu_type = '1'
+        and a.menu_type in ('1', '2', '3')
         <choose>
             <when test="isParentId == true">
                 and a.parent_id is null
@@ -40,7 +41,7 @@
         and b.role_id = #{roleId}
         and a.menu_id = '20190000000000'
         and a.is_enable = '1'
-        and a.menu_type = '2'
+        and a.menu_type = '4'
     </select>
 
     <select id="selectMenu" parameterType="com.hoomoomoo.fims.app.model.SysMenuQueryModel"
@@ -58,7 +59,7 @@
         and b.role_id = c.role_id
         and c.user_id = #{userId}
         and a.is_enable = '1'
-        and a.menu_type = '1'
+        and a.menu_type in ('1')
         and a.menu_url is not null
         <choose>
             <when test="isParentId == true">
@@ -81,7 +82,7 @@
             a.menu_icon menuIcon
         from sys_menu a
         where a.is_enable = '1'
-        and a.menu_type = '1'
+        and a.menu_type in ('1')
         and a.menu_url is not null
         <choose>
             <when test="isParentId == true">

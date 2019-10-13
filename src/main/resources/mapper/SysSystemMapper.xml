@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hoomoomoo.fims.app.dao.SystemDao">
+<mapper namespace="com.hoomoomoo.fims.app.dao.SysSystemDao">
 
     <select id="loadBusinessId" resultType="java.lang.String">
         select 'user-' || max(to_number(user_id)) as businessId from sys_user
@@ -14,6 +14,17 @@
         select 'income-' || max(to_number(income_id)) as businessId from sys_income
         union all
         select 'notice-' || max(to_number(notice_id)) as businessId from sys_notice
+    </select>
+
+    <select id="selectButtonAuthority" parameterType="com.hoomoomoo.fims.app.model.SysSystemQueryModel"
+            resultType="java.lang.Boolean">
+        select case when count(1) > 0 then '1' else '0' end
+        from sys_user_role a, sys_role_menu b, sys_menu c
+        where a.role_id = b.role_id
+        and b.menu_id = c.menu_id
+        and a.user_id = #{userId}
+        and c.parent_id = #{menuId}
+        and c.menu_type = '3'
     </select>
 
 

@@ -9,7 +9,7 @@ import com.hoomoomoo.fims.app.model.SysNoticeModel;
 import com.hoomoomoo.fims.app.model.common.*;
 import com.hoomoomoo.fims.app.service.SysIncomeService;
 import com.hoomoomoo.fims.app.service.SysNoticeService;
-import com.hoomoomoo.fims.app.service.SystemService;
+import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.apache.commons.lang.StringUtils;
@@ -44,7 +44,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
     private SysIncomeDao sysIncomeDao;
 
     @Autowired
-    private SystemService systemService;
+    private SysSystemService sysSystemService;
 
     @Autowired
     private SysNoticeService sysNoticeService;
@@ -60,10 +60,10 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         ViewData viewData = new ViewData();
         // 设置查询条件
         viewData.setViewType(BUSINESS_TYPE_INCOME);
-        systemService.setCondition(viewData);
+        sysSystemService.setCondition(viewData);
         // 最近一次操作类型
         SysIncomeQueryModel sysIncomeQueryModel = new SysIncomeQueryModel();
-        sysIncomeQueryModel.setUserId(systemService.getUserId());
+        sysIncomeQueryModel.setUserId(sysSystemService.getUserId());
         LastType lastType = sysIncomeDao.selectLastType(sysIncomeQueryModel);
         if(lastType != null){
             viewData.setLastType(lastType);
@@ -90,7 +90,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         // 创建PageInfo对象前 不能处理数据否则getTotal数据不正确
         PageInfo<SysIncomeModel> pageInfo = new PageInfo<>(sysIncomeModelList);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_PAGE);
-        return new FimsPage(pageInfo.getTotal(), systemService.transferData(pageInfo.getList(), SysIncomeModel.class));
+        return new FimsPage(pageInfo.getTotal(), sysSystemService.transferData(pageInfo.getList(), SysIncomeModel.class));
     }
 
     /**
@@ -134,7 +134,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         LogUtils.parameter(logger, sysIncomeQueryModel);
         SysIncomeModel sysIncomeModel = sysIncomeDao.selectOne(sysIncomeQueryModel);
         if (isTranslate) {
-            systemService.transferData(sysIncomeModel, SysIncomeModel.class);
+            sysSystemService.transferData(sysIncomeModel, SysIncomeModel.class);
         }
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysIncomeModel);
@@ -153,10 +153,10 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
         SystemUtils.setCreateUserInfo(sysIncomeModel);
         SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysIncomeModel);
-        sysNoticeModel.setNoticeId(systemService.getBusinessSerialNo(BUSINESS_TYPE_NOTICE));
+        sysNoticeModel.setNoticeId(sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_NOTICE));
         if (sysIncomeModel.getIncomeId() == null) {
             // 新增
-            String incomeId = systemService.getBusinessSerialNo(BUSINESS_TYPE_INCOME);
+            String incomeId = sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_INCOME);
             sysIncomeModel.setIncomeId(incomeId);
             sysNoticeModel.setBusinessId(incomeId);
         } else {

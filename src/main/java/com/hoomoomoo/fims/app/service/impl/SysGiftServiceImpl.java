@@ -7,7 +7,7 @@ import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.*;
 import com.hoomoomoo.fims.app.service.SysGiftService;
 import com.hoomoomoo.fims.app.service.SysNoticeService;
-import com.hoomoomoo.fims.app.service.SystemService;
+import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.apache.commons.lang.StringUtils;
@@ -43,7 +43,7 @@ public class SysGiftServiceImpl implements SysGiftService {
     private SysGiftDao sysGiftDao;
 
     @Autowired
-    private SystemService systemService;
+    private SysSystemService sysSystemService;
 
     @Autowired
     private SysNoticeService sysNoticeService;
@@ -59,10 +59,10 @@ public class SysGiftServiceImpl implements SysGiftService {
         ViewData viewData = new ViewData();
         // 设置查询条件
         viewData.setViewType(BUSINESS_TYPE_GIFT);
-        systemService.setCondition(viewData);
+        sysSystemService.setCondition(viewData);
         // 最近一次操作类型
         SysGiftQueryModel sysGiftQueryModel = new SysGiftQueryModel();
-        sysGiftQueryModel.setGiftSender(systemService.getUserId());
+        sysGiftQueryModel.setGiftSender(sysSystemService.getUserId());
         LastType lastType = sysGiftDao.selectLastType(sysGiftQueryModel);
         if(lastType != null){
             viewData.setLastType(lastType);
@@ -87,7 +87,7 @@ public class SysGiftServiceImpl implements SysGiftService {
         // 创建PageInfo对象前 不能处理数据否则getTotal数据不正确
         PageInfo<SysGiftModel> pageInfo = new PageInfo<>(sysGiftModelList);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_PAGE);
-        return new FimsPage(pageInfo.getTotal(), systemService.transferData(pageInfo.getList(), SysGiftModel.class));
+        return new FimsPage(pageInfo.getTotal(), sysSystemService.transferData(pageInfo.getList(), SysGiftModel.class));
     }
 
     /**
@@ -132,7 +132,7 @@ public class SysGiftServiceImpl implements SysGiftService {
         LogUtils.parameter(logger, sysGiftQueryModel);
         SysGiftModel sysGiftModel = sysGiftDao.selectOne(sysGiftQueryModel);
         if(isTranslate){
-            systemService.transferData(sysGiftModel, SysGiftModel.class);
+            sysSystemService.transferData(sysGiftModel, SysGiftModel.class);
         }
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysGiftModel);
@@ -151,10 +151,10 @@ public class SysGiftServiceImpl implements SysGiftService {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_GIFT, operateType);
         SystemUtils.setCreateUserInfo(sysGiftModel);
         SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysGiftModel);
-        sysNoticeModel.setNoticeId(systemService.getBusinessSerialNo(BUSINESS_TYPE_NOTICE));
+        sysNoticeModel.setNoticeId(sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_NOTICE));
         if(sysGiftModel.getGiftId() == null){
             // 新增
-            String giftId = systemService.getBusinessSerialNo(BUSINESS_TYPE_GIFT);
+            String giftId = sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_GIFT);
             sysGiftModel.setGiftId(giftId);
             sysNoticeModel.setBusinessId(giftId);
         }else{
@@ -177,7 +177,7 @@ public class SysGiftServiceImpl implements SysGiftService {
      */
     private SysNoticeModel setSysNoticeProperties(SysGiftModel sysGiftModel){
         SysNoticeModel sysNoticeModel = new SysNoticeModel();
-        sysNoticeModel.setUserId(systemService.getUserId());
+        sysNoticeModel.setUserId(sysSystemService.getUserId());
         sysNoticeModel.setBusinessType(BUSINESS_TYPE_GIFT);
         sysNoticeModel.setBusinessSubType(sysGiftModel.getGiftType());
         sysNoticeModel.setBusinessDate(sysGiftModel.getGiftDate());

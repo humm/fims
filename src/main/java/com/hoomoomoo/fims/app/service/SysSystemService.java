@@ -1,6 +1,5 @@
 package com.hoomoomoo.fims.app.service;
 
-import com.hoomoomoo.fims.app.model.SysUserQueryModel;
 import com.hoomoomoo.fims.app.model.common.BaseModel;
 import com.hoomoomoo.fims.app.model.common.ViewData;
 
@@ -13,7 +12,7 @@ import java.util.List;
  * @date 2019/08/04
  */
 
-public interface SystemService {
+public interface SysSystemService {
 
     /**
      * 控制台输出应用配置参数
@@ -73,5 +72,13 @@ public interface SystemService {
      * @param viewData
      */
     void setCondition(ViewData viewData);
+
+    /**
+     * 查询按钮权限
+     *
+     * @param menuId
+     * @return
+     */
+    Boolean selectButtonAuthority(String menuId);
 
 }

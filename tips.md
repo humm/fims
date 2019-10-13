@@ -9,3 +9,18 @@ SpringBoot
     05. @Component  @Configuration
         @Configuration会生成代理类 可以返回Bean
         @Component不会生成代理类  webSocket需要用这个 有代理类会导致应用启动失败
+fims
+    01. 菜单配置 sys_menu
+        01. 字段menu_type
+            1: 页面
+            2：查询权限
+            3：设置权限
+            4：数据权限(只能配置一个 menu_id为[20190000000000])
+        02. 系统管理员 用户代码user_code为[admin]加载所有菜单 其他用户根据权限加载
+        03. 系统管理员 用户代码user_code为[admin]加载页面按钮 其他用户根据权限加载
+    02. 数据权限
+        01. 系统管理员 用户代码user_code为[admin]加载所有用户数据 其他用户根据权限加载
+        02. 数据权限控制页面
+                收入信息 随礼信息 收入报表 送礼报表 收礼报表
+        03. 没有数据权限控制页面
+                用户信息 角色信息 字典信息

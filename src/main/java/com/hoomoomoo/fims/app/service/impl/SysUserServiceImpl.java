@@ -9,9 +9,8 @@ import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.ViewData;
-import com.hoomoomoo.fims.app.service.SysNoticeService;
 import com.hoomoomoo.fims.app.service.SysUserService;
-import com.hoomoomoo.fims.app.service.SystemService;
+import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -46,7 +45,7 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUserDao sysUserDao;
 
     @Autowired
-    private SystemService systemService;
+    private SysSystemService sysSystemService;
 
     @Autowired
     private SysDictionaryDao sysDictionaryDao;
@@ -81,7 +80,7 @@ public class SysUserServiceImpl implements SysUserService {
         ViewData viewData = new ViewData();
         // 设置查询条件
         viewData.setViewType(BUSINESS_TYPE_USER);
-        systemService.setCondition(viewData);
+        sysSystemService.setCondition(viewData);
         // 获取角色信息
         List<SysRoleModel> roleModelList = sysRoleDao.selectSysRole(null);
         viewData.setRoleList(roleModelList);
@@ -105,7 +104,7 @@ public class SysUserServiceImpl implements SysUserService {
         // 创建PageInfo对象前 不能处理数据否则getTotal数据不正确
         PageInfo<SysUserModel> pageInfo = new PageInfo<>(sysUserModelList);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_PAGE);
-        return new FimsPage(pageInfo.getTotal(), systemService.transferData(pageInfo.getList(), SysUserModel.class));
+        return new FimsPage(pageInfo.getTotal(), sysSystemService.transferData(pageInfo.getList(), SysUserModel.class));
     }
 
     /**
@@ -133,7 +132,7 @@ public class SysUserServiceImpl implements SysUserService {
             sysUserDao.delete(list);
         }
         // 加载字典项
-        systemService.loadSysDictionaryCondition();
+        sysSystemService.loadSysDictionaryCondition();
         LogUtils.parameter(logger, list);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_DELETE);
         return new ResultData(true, LOG_BUSINESS_TYPE_USER, null);
@@ -155,7 +154,7 @@ public class SysUserServiceImpl implements SysUserService {
         LogUtils.parameter(logger, sysUserQueryModel);
         SysUserModel sysUserModel = sysUserDao.selectOne(sysUserQueryModel);
         if (isTranslate) {
-            systemService.transferData(sysUserModel, SysUserModel.class);
+            sysSystemService.transferData(sysUserModel, SysUserModel.class);
         }
         // 查询用户角色信息
         List<SysUserRoleModel> sysUserRoleModelList = sysUserDao.selectUserRole(sysUserQueryModel);
@@ -185,7 +184,7 @@ public class SysUserServiceImpl implements SysUserService {
         sysDictionaryModel.setDictionaryCaption(sysUserModel.getUserName());
         if (sysUserModel.getUserId() == null) {
             // 新增
-            String userId = systemService.getBusinessSerialNo(BUSINESS_TYPE_USER);
+            String userId = sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_USER);
             sysUserModel.setUserId(userId);
             // todo 设置配置默认密码 加密存储
             sysUserModel.setUserPassword("123456");
@@ -202,14 +201,14 @@ public class SysUserServiceImpl implements SysUserService {
         LogUtils.parameter(logger, sysUserModel);
         sysUserDao.save(sysUserModel);
         // 加载字典项
-        systemService.loadSysDictionaryCondition();
+        sysSystemService.loadSysDictionaryCondition();
         // 角色信息处理
         sysUserDao.deleteUserRole(sysUserModel);
         if(StringUtils.isNotBlank(sysUserModel.getRoleId())){
             String[] roleId = sysUserModel.getRoleId().split(COMMA);
             for(String ele : roleId){
                 SysUserRoleModel sysUserRoleModel = new SysUserRoleModel();
-                String userRoleId = systemService.getBusinessSerialNo(BUSINESS_TYPE_USER_ROLE);
+                String userRoleId = sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_USER_ROLE);
                 sysUserRoleModel.setUserRoleId(userRoleId);
                 sysUserRoleModel.setUserId(sysUserModel.getUserId());
                 sysUserRoleModel.setRoleId(ele);

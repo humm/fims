@@ -1,5 +1,6 @@
 package com.hoomoomoo.fims.app.dao;
 
+import com.hoomoomoo.fims.app.model.SysSystemQueryModel;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  */
 
 @Mapper
-public interface SystemDao {
+public interface SysSystemDao {
 
     /**
      * 加载业务ID信息
@@ -20,4 +21,12 @@ public interface SystemDao {
      * @return
      */
     List<String> loadBusinessId();
+
+    /**
+     * 查询页面按钮权限
+     *
+     * @param sysSystemQueryModel
+     * @return
+     */
+    Boolean selectButtonAuthority(SysSystemQueryModel sysSystemQueryModel);
 }

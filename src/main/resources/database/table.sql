@@ -357,13 +357,13 @@ insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_
 values (20190000000009, '系统设置', null, '#', null, 40, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000011, '用户信息', null, 'user/view/list', 20190000000009, 45, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000010, '用户信息', null, 'user/view/list', 20190000000009, 45, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000012, '角色信息', null, 'role/view/list', 20190000000009, 50, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000011, '角色信息', null, 'role/view/list', 20190000000009, 50, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000010, '字典信息', null, 'dictionary/view/list', 20190000000009, 55, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000012, '字典信息', null, 'dictionary/view/list', 20190000000009, 55, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 -- 字典信息
 delete from sys_dictionary;

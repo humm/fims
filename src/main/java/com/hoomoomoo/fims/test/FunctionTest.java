@@ -5,9 +5,8 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.hoomoomoo.fims.FimsApplication;
 import com.hoomoomoo.fims.app.model.SysIncomeModel;
 import com.hoomoomoo.fims.app.service.SysDictionaryService;
-import com.hoomoomoo.fims.app.service.SystemService;
+import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
-import org.apache.commons.collections.ArrayStack;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -38,14 +37,14 @@ public class FunctionTest {
     private static final Logger logger = LoggerFactory.getLogger(FunctionTest.class);
 
     @Autowired
-    private SystemService systemService;
+    private SysSystemService sysSystemService;
 
     @Autowired
     private SysDictionaryService sysDictionaryService;
 
     @Test
     public void getBusinessSerialNo(){
-        systemService.getBusinessSerialNo("user");
+        sysSystemService.getBusinessSerialNo("user");
     }
 
     @Test
@@ -57,7 +56,7 @@ public class FunctionTest {
     public void transferData(){
         SysIncomeModel sysIncomeModel = new SysIncomeModel();
         sysIncomeModel.setIncomeAmount(12345D);
-        systemService.transferData(sysIncomeModel, SysIncomeModel.class);
+        sysSystemService.transferData(sysIncomeModel, SysIncomeModel.class);
         logger.info(sysIncomeModel.toString());
     }
 
@@ -78,7 +77,7 @@ public class FunctionTest {
 
     @Test
     public void loadSysDictionaryCondition(){
-        systemService.loadSysDictionaryCondition();
+        sysSystemService.loadSysDictionaryCondition();
     }
 
     @Test

@@ -10,7 +10,7 @@ import com.hoomoomoo.fims.app.model.SysUserModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysDictionaryService;
-import com.hoomoomoo.fims.app.service.SystemService;
+import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
@@ -30,7 +30,6 @@ import java.util.Map;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.SELECT_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.CueConst.UPDATE_SUCCESS;
-import static com.hoomoomoo.fims.app.consts.SystemConst.ADMIN_CODE;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
@@ -50,7 +49,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
     private SysDictionaryDao sysDictionaryDao;
 
     @Autowired
-    private SystemService systemService;
+    private SysSystemService sysSystemService;
 
     @Autowired
     private SysUserDao sysUserDao;
@@ -80,7 +79,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
         List<SysDictionaryModel> sysDictionaryModelList = sysDictionaryDao.selectPage(sysDictionaryQueryModel);
         PageInfo<SysDictionaryModel> pageInfo = new PageInfo<>(sysDictionaryModelList);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT_PAGE);
-        return new FimsPage(pageInfo.getTotal(), systemService.transferData(pageInfo.getList(), SysDictionaryModel.class));
+        return new FimsPage(pageInfo.getTotal(), sysSystemService.transferData(pageInfo.getList(), SysDictionaryModel.class));
     }
 
     /**
@@ -122,7 +121,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
             }
         }
         if (isTranslate) {
-            sysDictionaryModelList = systemService.transferData(sysDictionaryModelList, SysDictionaryModel.class);
+            sysDictionaryModelList = sysSystemService.transferData(sysDictionaryModelList, SysDictionaryModel.class);
         }
         List<SysUserModel> sysUserModelList = sysUserDao.selectSysUser(null);
         Map data = new HashMap<>();
@@ -165,7 +164,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
             }
         }
         // 加载字典项
-        systemService.loadSysDictionaryCondition();
+        sysSystemService.loadSysDictionaryCondition();
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_UPDATE);
         return new ResultData(true, UPDATE_SUCCESS, null);
     }
