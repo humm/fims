@@ -18,13 +18,26 @@
 
     <select id="selectButtonAuthority" parameterType="com.hoomoomoo.fims.app.model.SysSystemQueryModel"
             resultType="java.lang.Boolean">
-        select case when count(1) > 0 then '1' else '0' end
+        select case when count(1) > 0 then '1' else '0' end buttonAuthority
         from sys_user_role a, sys_role_menu b, sys_menu c
         where a.role_id = b.role_id
         and b.menu_id = c.menu_id
         and a.user_id = #{userId}
         and c.parent_id = #{menuId}
         and c.menu_type = '3'
+    </select>
+
+    <select id="selectDataAuthority" parameterType="com.hoomoomoo.fims.app.model.SysSystemQueryModel"
+            resultType="java.lang.Boolean">
+        select
+            case when count(1) > 0 then '1' else '0' end dataAuthority
+        from sys_user_role a, sys_role_menu b, sys_menu c
+        where a.role_id = b.role_id
+        and b.menu_id = c.menu_id
+        and a.user_id = #{userId}
+        and c.menu_id = '20190000000000'
+        and c.is_enable = '1'
+        and c.menu_type = '4'
     </select>
 
 

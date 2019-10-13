@@ -237,6 +237,7 @@ public class SysSystemServiceImpl implements SysSystemService {
      */
     @Override
     public void loadSysDictionaryCondition() {
+        Map<String, Boolean> userDataAuthority = new HashMap(16);
         LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_DICTIONARY_LOAD);
         DICTIONARY_CONDITION.clear();
         // 查询用户信息
@@ -249,17 +250,17 @@ public class SysSystemServiceImpl implements SysSystemService {
                 String dictionaryCode = sysDictionaryModel.getDictionaryCode();
                 // 用户不存在
                 if (DICTIONARY_CONDITION.get(sysUserModel.getUserId()) == null) {
-                    setDictionaryItem(sysUserModel, sysDictionaryModel, new ConcurrentHashMap(),
-                            new ConcurrentHashMap());
+                    setDictionaryItem(sysUserModel, sysDictionaryModel, userDataAuthority,
+                            new ConcurrentHashMap(), new ConcurrentHashMap());
                 } else {
                     // 用户存在 字典不存在
                     if (DICTIONARY_CONDITION.get(sysUserModel.getUserId()).get(dictionaryCode) == null) {
-                        setDictionaryItem(sysUserModel, sysDictionaryModel,
+                        setDictionaryItem(sysUserModel, sysDictionaryModel, userDataAuthority,
                                 DICTIONARY_CONDITION.get(sysUserModel.getUserId()),
                                 DICTIONARY_CONDITION.get(new StringBuffer(sysUserModel.getUserId()).append(BLANK).toString()));
                     } else {
                         // 用户存在 字典存在
-                        if (isUserDictionary(sysUserModel, sysDictionaryModel)) {
+                        if (isUserDictionary(sysUserModel, sysDictionaryModel, userDataAuthority)) {
                             DICTIONARY_CONDITION.get(sysUserModel.getUserId()).get(dictionaryCode).add(sysDictionaryModel);
                             DICTIONARY_CONDITION.get(new StringBuffer(sysUserModel.getUserId()).append(BLANK).toString()).get(dictionaryCode).add(sysDictionaryModel);
                         }
@@ -349,10 +350,10 @@ public class SysSystemServiceImpl implements SysSystemService {
         Boolean hasAuthority = false;
         LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BUTTON_AUTHORITY_SELECT);
         SessionBean sessionBean = SystemSessionUtils.getSession();
-        if(sessionBean != null){
-            if(ADMIN_CODE.equals(sessionBean.getUserCode())){
+        if (sessionBean != null) {
+            if (ADMIN_CODE.equals(sessionBean.getUserCode())) {
                 hasAuthority = true;
-            }else{
+            } else {
                 // 获取按钮权限
                 SysSystemQueryModel sysSystemQueryModel = new SysSystemQueryModel();
                 sysSystemQueryModel.setMenuId(menuId);
@@ -373,6 +374,7 @@ public class SysSystemServiceImpl implements SysSystemService {
      * @param codeMapBlank
      */
     private void setDictionaryItem(SysUserModel sysUserModel, SysDictionaryModel sysDictionaryModel,
+                                   Map<String, Boolean> userDataAuthority,
                                    ConcurrentHashMap<String, List<SysDictionaryModel>> codeMap,
                                    ConcurrentHashMap<String, List<SysDictionaryModel>> codeMapBlank) {
         // 字典不存在
@@ -387,7 +389,7 @@ public class SysSystemServiceImpl implements SysSystemService {
             select.setItemOrder(STR_0);
             itemBlank.add(select);
 
-            if (isUserDictionary(sysUserModel, sysDictionaryModel)) {
+            if (isUserDictionary(sysUserModel, sysDictionaryModel, userDataAuthority)) {
                 item.add(sysDictionaryModel);
                 itemBlank.add(sysDictionaryModel);
             }
@@ -396,7 +398,7 @@ public class SysSystemServiceImpl implements SysSystemService {
             codeMapBlank.put(sysDictionaryModel.getDictionaryCode(), itemBlank);
         } else {
             // 字典存在
-            if (isUserDictionary(sysUserModel, sysDictionaryModel)) {
+            if (isUserDictionary(sysUserModel, sysDictionaryModel, userDataAuthority)) {
                 codeMap.get(sysDictionaryModel.getDictionaryCode()).add(sysDictionaryModel);
                 codeMapBlank.get(sysDictionaryModel.getDictionaryCode()).add(sysDictionaryModel);
             }
@@ -412,15 +414,31 @@ public class SysSystemServiceImpl implements SysSystemService {
      * @param sysDictionaryModel
      * @return
      */
-    private Boolean isUserDictionary(SysUserModel sysUserModel, SysDictionaryModel sysDictionaryModel) {
+    private Boolean isUserDictionary(SysUserModel sysUserModel, SysDictionaryModel sysDictionaryModel,
+                                     Map<String, Boolean> userDataAuthority) {
         boolean flag =
                 D000.equals(sysDictionaryModel.getDictionaryCode()) || D005.equals(sysDictionaryModel.getDictionaryCode())
                         || D009.equals(sysDictionaryModel.getDictionaryCode());
-        // todo 没有管理员数据权限
-        if(!true && flag){
+        if (!selectDataAuthority(sysUserModel, userDataAuthority) && flag) {
             return sysUserModel.getUserId().equals(sysDictionaryModel.getUserId());
         }
         return true;
+    }
+
+    private Boolean selectDataAuthority(SysUserModel sysUserModel, Map<String, Boolean> userDataAuthority) {
+        if (userDataAuthority.containsKey(sysUserModel.getUserId())) {
+            return userDataAuthority.get(sysUserModel.getUserId());
+        }
+        if (ADMIN_CODE.equals(sysUserModel.getUserCode())) {
+            userDataAuthority.put(sysUserModel.getUserId(), true);
+            return true;
+        } else {
+            SysSystemQueryModel sysSystemQueryModel = new SysSystemQueryModel();
+            sysSystemQueryModel.setUserId(sysUserModel.getUserId());
+            Boolean hasDataAuthority = sysSystemDao.selectDataAuthority(sysSystemQueryModel);
+            userDataAuthority.put(sysUserModel.getUserId(), hasDataAuthority);
+            return hasDataAuthority;
+        }
     }
 
     /**
@@ -474,7 +492,7 @@ public class SysSystemServiceImpl implements SysSystemService {
                 switch (index) {
                     case 0:
                         // 用户信息userId不转义
-                        if(clazz.equals(SysUserModel.class)){
+                        if (clazz.equals(SysUserModel.class)) {
                             return;
                         }
                         // 转义 userId
