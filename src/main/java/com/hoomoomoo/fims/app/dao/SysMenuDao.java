@@ -31,6 +31,14 @@ public interface SysMenuDao {
     String selectDataAuthority(SysMenuTreeQueryModel sysMenuTreeQueryModel);
 
     /**
+     * 查询数据权限
+     *
+     * @param sysMenuTreeQueryModel
+     * @return
+     */
+    Boolean selectDataAuthorityByUserId(SysMenuTreeQueryModel sysMenuTreeQueryModel);
+
+    /**
      * 查询菜单信息
      *
      * @param sysMenuQueryModel

@@ -6,6 +6,7 @@ import com.hoomoomoo.fims.app.model.SysUserQueryModel;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysLoginService;
+import com.hoomoomoo.fims.app.service.SysMenuService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.USER_STATUS_FREEZE;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
+import static com.hoomoomoo.fims.app.consts.SystemConst.ADMIN_CODE;
 import static com.hoomoomoo.fims.app.consts.SystemConst.SESSION_BEAN;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
@@ -38,6 +40,9 @@ public class SysLoginServiceImpl implements SysLoginService {
 
     @Autowired
     private SysUserDao SysUserDao;
+
+    @Autowired
+    private SysMenuService sysMenuService;
 
     /**
      * 用户登录
@@ -69,8 +74,7 @@ public class SysLoginServiceImpl implements SysLoginService {
             if (flag && inputPassword.equals(savePassword)) {
                 // 登录成功
                 HttpSession session = request.getSession();
-                // todo 设置sessionBean信息
-                session.setAttribute(SESSION_BEAN, new SessionBean());
+                session.setAttribute(SESSION_BEAN, setSessionBeanInfo(sysUser));
                 resultData = new ResultData(true, USER_LOGON_SUCCESS, USER_LOGON_SUCCESS);
             } else if (flag) {
                 // 密码错误
@@ -79,5 +83,25 @@ public class SysLoginServiceImpl implements SysLoginService {
         }
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
         return resultData;
+    }
+
+    /**
+     * 设置sessionBean信息
+     *
+     * @param sysUserModel
+     * @return
+     */
+    private SessionBean setSessionBeanInfo(SysUserModel sysUserModel) {
+        SessionBean sessionBean = new SessionBean();
+        sessionBean.setUserId(sysUserModel.getUserId());
+        sessionBean.setUserCode(sysUserModel.getUserCode());
+        sessionBean.setUserName(sysUserModel.getUserName());
+        sessionBean.setUserStatus(sysUserModel.getUserStatus());
+        if (ADMIN_CODE.equals(sysUserModel.getUserCode())) {
+            sessionBean.setIsAdminData(true);
+        } else {
+            sessionBean.setIsAdminData(sysMenuService.selectDataAuthorityByUserId(sysUserModel.getUserId()));
+        }
+        return sessionBean;
     }
 }

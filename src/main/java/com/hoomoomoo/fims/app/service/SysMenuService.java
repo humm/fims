@@ -33,6 +33,14 @@ public interface SysMenuService {
     String selectDataAuthority(String roleId);
 
     /**
+     * 查询数据权限
+     *
+     * @param userId
+     * @return
+     */
+    Boolean selectDataAuthorityByUserId(String userId);
+
+    /**
      * 查询菜单信息
      *
      * @return

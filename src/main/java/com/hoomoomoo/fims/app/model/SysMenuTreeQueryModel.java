@@ -25,4 +25,7 @@ public class SysMenuTreeQueryModel extends QueryBaseModel {
 
     @ApiModelProperty(value="角色ID", required = false)
     private String roleId;
+
+    @ApiModelProperty(value="用户ID", required = false)
+    private String userId;
 }

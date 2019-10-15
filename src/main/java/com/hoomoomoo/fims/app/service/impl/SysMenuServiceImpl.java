@@ -80,6 +80,23 @@ public class SysMenuServiceImpl implements SysMenuService {
     }
 
     /**
+     * 查询数据权限
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public Boolean selectDataAuthorityByUserId(String userId) {
+        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DATA_AUTHORITY, LOG_OPERATE_TYPE_SELECT);
+        SysMenuTreeQueryModel sysMenuTreeQueryModel = new SysMenuTreeQueryModel();
+        sysMenuTreeQueryModel.setUserId(userId);
+        LogUtils.parameter(logger, sysMenuTreeQueryModel);
+        Boolean result = sysMenuDao.selectDataAuthorityByUserId(sysMenuTreeQueryModel);
+        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DATA_AUTHORITY, LOG_OPERATE_TYPE_SELECT);
+        return result;
+    }
+
+    /**
      * 查询子菜单树
      *
      * @param sysMenuTreeModel
