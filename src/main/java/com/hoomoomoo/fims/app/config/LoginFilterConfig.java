@@ -12,8 +12,11 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionBindingEvent;
 import java.io.IOException;
 
+import static com.hoomoomoo.fims.app.consts.SystemConst.SESSION_BEAN;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
@@ -39,15 +42,10 @@ public class LoginFilterConfig implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String servletPath = request.getServletPath();
-        SessionBean sessionBean = new SessionBean();
-        sessionBean.setUserId("20190000000001");
-        sessionBean.setUserCode("20190000000001");
-        sessionBean.setUserName("管理员1");
-        sessionBean.setUserCode("admin");
-        sessionBean.setIsAdminData(true);
-
-        SystemSessionUtils.setSession(sessionBean);
-
+        HttpSession session = request.getSession();
+        if(session != null){
+            SystemSessionUtils.setSession((SessionBean) session.getAttribute(SESSION_BEAN));
+        }
         filterChain.doFilter(request,response);
     }
 
