@@ -1,5 +1,6 @@
 package com.hoomoomoo.fims.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hoomoomoo.fims.app.model.common.BaseModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class SysUserModel extends BaseModel {
     @ApiModelProperty(value="用户名称", required = false)
     private String userName;
 
+    @JsonIgnore
     @ApiModelProperty(value="用户密码", required = false)
     private String userPassword;
 

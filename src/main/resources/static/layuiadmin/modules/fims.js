@@ -214,6 +214,9 @@
             }
             return data;
         },
+        config: {
+            index: "/index"
+        },
         set: {
             resize: false
         },

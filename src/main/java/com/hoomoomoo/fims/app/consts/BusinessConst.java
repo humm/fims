@@ -330,4 +330,14 @@ public class BusinessConst {
      */
     public static final String REPORT_UNIT_MONTH                           = "月";
 
+    /**
+     * 用户状态：正常
+     */
+    public static final String USER_STATUS_NORMAL                           = "1";
+
+    /**
+     * 用户状态：冻结
+     */
+    public static final String USER_STATUS_FREEZE                           = "2";
+
 }

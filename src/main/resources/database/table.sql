@@ -327,43 +327,49 @@ values (20190000000001, 'admin', '管理员', '123456', 'D001-1', sysdate, sysda
 -- 菜单信息
 delete from sys_menu;
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000000, '数据权限', null, null, null, 0, '1', '2', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000000, '数据权限', null, null, null, 0, '1', '4', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000001, '收入信息', null, 'income/view/list', null, 1, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000001, '收入信息', 'layui-icon-home', 'income/view/list', null, 1, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000003, '随礼信息', null, 'gift/view/list', null, 10, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000002, '查询权限', null, null, 20190000000001, 5, '1', '2', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000002, '设置权限', null, null, 20190000000001, 5, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000003, '设置权限', null, null, 20190000000001, 10, '1', '3', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000004, '设置权限', null, null, 20190000000003, 15, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000004, '随礼信息', 'layui-icon-home', 'gift/view/list', null, 15, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000005, '统计分析', null, '#', null, 20, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000005, '查询权限', null, null, 20190000000004, 20, '1', '2', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000006, '收入分析', null, 'report/view/income', 20190000000005, 25, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000006, '设置权限', null, null, 20190000000004, 25, '1', '3', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000007, '送礼分析', null, 'report/view/giftSend', 20190000000005, 30, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000007, '统计分析', 'layui-icon-home', '#', null, 30, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000008, '收礼分析', null, 'report/view/giftReceive', 20190000000005, 35, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000008, '收入分析', null, 'report/view/income', 20190000000007, 35, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000009, '系统设置', null, '#', null, 40, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000009, '送礼分析', null, 'report/view/giftSend', 20190000000007, 40, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000010, '用户信息', null, 'user/view/list', 20190000000009, 45, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000010, '收礼分析', null, 'report/view/giftReceive', 20190000000007, 45, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000011, '角色信息', null, 'role/view/list', 20190000000009, 50, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000011, '系统设置', 'layui-icon-home', '#', null, 50, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
-values (20190000000012, '字典信息', null, 'dictionary/view/list', 20190000000009, 55, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000012, '用户信息', null, 'user/view/list', 20190000000011, 55, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
+values (20190000000013, '角色信息', null, 'role/view/list', 20190000000011, 60, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (MENU_ID, MENU_TITLE, MENU_ICON, MENU_URL, PARENT_ID, MENU_ORDER, IS_ENABLE, MENU_TYPE, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER)
+values (20190000000014, '字典信息', null, 'dictionary/view/list', 20190000000011, 65, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 -- 字典信息
 delete from sys_dictionary;

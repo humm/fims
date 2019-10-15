@@ -83,4 +83,24 @@ public class CueConst {
      * 提示信息：系统错误
      */
     public static final String ERROR                                = "系统错误";
+
+    /**
+     * 提示信息：账号不存在
+     */
+    public static final String USER_LOGON_ACCOUNT_NOT_EXIST         = "账号不存在";
+
+    /**
+     * 提示信息：账号已冻结
+     */
+    public static final String USER_LOGON_ACCOUNT_FREEZE            = "账号已冻结";
+
+    /**
+     * 提示信息：密码错误
+     */
+    public static final String USER_LOGON_PASSWORD_ERROR            = "密码错误";
+
+    /**
+     * 提示信息：登入成功
+     */
+    public static final String USER_LOGON_SUCCESS                   = "登入成功";
 }
