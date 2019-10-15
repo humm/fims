@@ -69,6 +69,7 @@ public class SysLoginServiceImpl implements SysLoginService {
             if (flag && inputPassword.equals(savePassword)) {
                 // 登录成功
                 HttpSession session = request.getSession();
+                // todo 设置sessionBean信息
                 session.setAttribute(SESSION_BEAN, new SessionBean());
                 resultData = new ResultData(true, USER_LOGON_SUCCESS, USER_LOGON_SUCCESS);
             } else if (flag) {
