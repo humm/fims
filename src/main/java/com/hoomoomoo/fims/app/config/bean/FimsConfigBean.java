@@ -66,4 +66,9 @@ public class FimsConfigBean {
      */
     private String swaggerLocation;
 
+    /**
+     * session超时时间
+     */
+    private Integer sessionTimeout;
+
 }

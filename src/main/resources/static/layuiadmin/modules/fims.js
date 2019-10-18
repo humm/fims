@@ -215,7 +215,8 @@
             return data;
         },
         config: {
-            index: "/index"
+            index: "/index",
+            adminCode: "admin"
         },
         set: {
             resize: false
@@ -252,7 +253,9 @@
                 notEmpty: "不能为空",
                 isNumberOrLetter: "用户代码只能为字母、数字及下划线",
                 userIsExist: "用户代码已经存在",
-                roleIsExist: "角色代码已经存在"
+                roleIsExist: "角色代码已经存在",
+                systemUserNotDelete: "系统用户不能删除",
+                systemUserNotUpdate: "系统用户不能修改"
             }
         }
     };

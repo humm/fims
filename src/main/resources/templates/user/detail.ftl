@@ -95,7 +95,6 @@
                         }
                         $("#roleId").append(roleItem);
                     }
-                    form.render();
 
                     // 数据回填
                     admin.req({
@@ -105,6 +104,11 @@
                         done: function (response) {
                             if (response.bizResult) {
                                 fims.setValue("layui-form", response.data);
+                                // admin用户隐藏角色信息
+                                if(fims.config.adminCode == response.data.userCode){
+                                    $("#roleId").parent().hide();
+                                }
+                                form.render();
                             } else {
                                 fims.msg(response.msg);
                             }

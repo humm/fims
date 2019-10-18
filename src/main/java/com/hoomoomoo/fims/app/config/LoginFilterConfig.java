@@ -1,6 +1,7 @@
 package com.hoomoomoo.fims.app.config;
 
 
+import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
@@ -13,7 +14,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionBindingEvent;
 import java.io.IOException;
 
 import static com.hoomoomoo.fims.app.consts.SystemConst.SESSION_BEAN;
@@ -33,7 +33,7 @@ public class LoginFilterConfig implements Filter {
     private static final Logger logger = LoggerFactory.getLogger(LoginFilterConfig.class);
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         LogUtils.success(logger, LOG_BUSINESS_TYPE_LOGIN_FILTER);
     }
 

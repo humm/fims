@@ -1,5 +1,6 @@
 package com.hoomoomoo.fims.app.config;
 
+import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,8 @@ public class SessionConfig implements HttpSessionListener {
 
     private static final Logger logger = LoggerFactory.getLogger(SessionConfig.class);
 
+    private FimsConfigBean fimsConfigBean;
+
     @PostConstruct
     public void init(){
         LogUtils.success(logger, LOG_BUSINESS_TYPE_SESSION);
@@ -37,8 +40,7 @@ public class SessionConfig implements HttpSessionListener {
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
         HttpSession session = httpSessionEvent.getSession();
-        session.setMaxInactiveInterval(5);
-
+        session.setMaxInactiveInterval(fimsConfigBean.getSessionTimeout());
     }
 
     /**

@@ -167,7 +167,7 @@ public class SysSystemServiceImpl implements SysSystemService {
                     // 序列号加1
                     businessNo = String.valueOf(Long.valueOf(businessNo) + 1);
                     // 序列号补0
-                    while (businessNo.length() < 6) {
+                    while (businessNo.length() < 10) {
                         businessNo = STR_0 + businessNo;
                     }
                     businessId = businessYear + businessNo;

@@ -54,10 +54,7 @@ public class SysUserController {
     public String viewList(ModelMap modelMap,
                            @ApiParam(value = "菜单ID", required = true)
                            @RequestParam String menuId) {
-        SessionBean sessionBean = SystemSessionUtils.getSession();
-        if (sessionBean != null) {
-            modelMap.addAttribute(HAS_BUTTON, sysSystemService.selectButtonAuthority(menuId));
-        }
+        modelMap.addAttribute(HAS_BUTTON, sysSystemService.selectButtonAuthority(menuId));
         return "user/list";
     }
 

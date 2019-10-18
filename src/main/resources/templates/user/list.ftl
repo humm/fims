@@ -137,8 +137,17 @@
         // 数据删除
         var del = function (data) {
             var userIds = [];
+            var hasAdmin = false;
             for (var i = 0; i < data.length; i++) {
                 userIds.push(data[i].userId);
+                if(fims.config.adminCode == data[i].userCode){
+                    fims.msg(fims.tips.msg.systemUserNotDelete, {time: 1000});
+                    hasAdmin = true;
+                    return;
+                }
+            }
+            if(hasAdmin){
+                return;
             }
             layer.confirm(fims.tips.warn.confirmDel, function (index) {
                 admin.req({
@@ -177,6 +186,10 @@
 
         // 数据修改
         var update = function (data) {
+            if(fims.config.adminCode == data.userCode){
+                fims.msg(fims.tips.msg.systemUserNotUpdate, {time: 1000});
+                return;
+            }
             var request = {
                 userId: data.userId,
                 isTranslate: "0"
