@@ -35,6 +35,9 @@
                     layer.alert('由于您长时间没有操作, 请重新登录...', function () {
                         parent.location.href = "./login";
                     });
+                    setTimeout(function () {
+                        parent.location.href = "./login";
+                    }, 3000);
                     return;
                 }
                 var n = ["请求异常，请重试<br><cite>错误信息：</cite>" + t, s()].join("");

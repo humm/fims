@@ -60,6 +60,15 @@
             <!-- 列表数据 -->
             <table id="LAY-app-dictionary-list" lay-filter="LAY-app-dictionary-list"></table>
 
+            <!-- 用户类型 -->
+            <script type="text/html" id="openStatus">
+                {{#  if(d.isOpen == '1'){ }}
+                <button class="layui-btn layui-bg-gray layui-btn-xs">开放</button>
+                {{#  } else{ }}
+                <button class="layui-btn layui-bg-black layui-btn-xs">封闭</button>
+                {{#  } }}
+            </script>
+
         </div>
     </div>
 </div>
@@ -99,6 +108,7 @@
             {type: "checkbox", fixed: "left"},
             {field: "dictionaryCode", title: "字典代码", sort: true,},
             {field: "dictionaryCaption", title: "字典描述", sort: true},
+            {field: "dictionaryCaption", title: "开放状态", align: "center", templet: "#openStatus", sort: true},
             {field: "userId", title: "字典用户", hide: true},
         ]];
 
@@ -117,6 +127,10 @@
 
         // 数据修改
         var update = function (data) {
+            if('0' == data.isOpen ){
+                fims.msg(fims.tips.msg.closeDictionaryNotUpdate, {time: 1000});
+                return;
+            }
             var request = {
                 dictionaryCode: data.dictionaryCode,
                 dictionaryCaption: encodeURI(data.dictionaryCaption),

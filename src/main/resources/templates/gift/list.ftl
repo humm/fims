@@ -124,7 +124,7 @@
             {field: "giftSender", title: "送礼人", sort: true},
             {field: "giftReceiver", title: "收礼人", sort: true},
             {field: "giftType", title: "随礼类型", sort: true},
-            {field: "giftDate", title: "随礼日期", sort: true},
+            {field: "giftDate", title: "随礼日期", align: "center", sort: true},
             {field: "giftAmount", title: "随礼金额", sort: true},
             {field: "giftMemo", title: "随礼备注"}
         ]];

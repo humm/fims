@@ -255,7 +255,8 @@
                 userIsExist: "用户代码已经存在",
                 roleIsExist: "角色代码已经存在",
                 systemUserNotDelete: "系统用户不能删除",
-                systemUserNotUpdate: "系统用户不能修改"
+                systemUserNotUpdate: "系统用户不能修改",
+                closeDictionaryNotUpdate: "封闭字典项不能修改"
             }
         }
     };

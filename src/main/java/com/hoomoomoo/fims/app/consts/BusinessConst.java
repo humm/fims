@@ -383,7 +383,7 @@ public class BusinessConst {
     /**
      * 忽略后缀
      */
-    public static final String IGORE_SUFFIX                                 = "js,css,jpg,jpeg,png,gif";
+    public static final String IGORE_SUFFIX                                 = "js,css,jpg,jpeg,png,gif,woff2,woff,ttf";
 
     /**
      * 忽略请求

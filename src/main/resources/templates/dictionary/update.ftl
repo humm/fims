@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="${appName}/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="${appName}/layuiadmin/style/fims.css" media="all">
     <style type="text/css">
-        button{
+        button {
             margin-top: 8px;
         }
     </style>
@@ -82,7 +82,7 @@
 
         // 绑定新增事件
         $(document).on('click', 'button.layuiadmin-btn-dictionary-add', function () {
-            $(".dictionary").append(addItem(userList, '', '', ''));
+            $(".dictionary").append(addItem(userList, '', getItemValue(), ''));
             form.render();
         });
 
@@ -90,6 +90,20 @@
         $(document).on('click', 'button.layuiadmin-btn-dictionary-delete', function () {
             $(this).parent().remove();
         });
+
+        // 获取字典项最大值
+        function getItemValue() {
+            var value = 0;
+            $(".dictionary .layui-form-item-dictionary input[name='dictionaryItem']").each(function () {
+                var val = $(this).val();
+                if(val.length != 14){
+                    if(parseInt(val) > value){
+                        value = parseInt(val);
+                    }
+                }
+            });
+            return ++value;
+        }
 
         // 添加字典项
         function addDictionary(data) {
@@ -114,9 +128,9 @@
             // 系统用户随礼人信息不能修改删除
             $(".dictionary .layui-form-item-dictionary").each(function () {
                 var dictionaryItem = $(this).find("input[name='dictionaryItem']").val();
-                for(var i = 0; i < userList.length; i++){
+                for (var i = 0; i < userList.length; i++) {
                     var userId = userList[i].userId;
-                    if(userId == dictionaryItem){
+                    if (userId == dictionaryItem) {
                         $(this).find("button.layuiadmin-btn-dictionary-delete").hide();
                         $(this).find("[name]").addClass("layui-detail");
                         $(this).find("[name]").attr("disabled", true);
@@ -132,7 +146,8 @@
             item = '<div class="layui-form-item layui-form-item-dictionary">';
             item += '   <label class="layui-form-label">字典选值</label>';
             item += '   <div class="layui-input-inline">';
-            item += '       <input type="text" class="layui-input" name="dictionaryItem" value="' + dictionaryItem + '">';
+            item += '       <input type="text" maxlength="10" class="layui-input layui-detail" disabled="disabled" lay-verify="required|number"';
+            item += '        name="dictionaryItem" value="' + dictionaryItem + '">';
             item += '   </div>';
             item += '   <label class="layui-form-label">选值描述</label>';
             item += '   <div class="layui-input-inline">';

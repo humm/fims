@@ -68,6 +68,24 @@
             <!-- 列表数据 -->
             <table id="LAY-app-user-list" lay-filter="LAY-app-user-list"></table>
 
+            <!-- 用户状态 -->
+            <script type="text/html" id="userStatus">
+                {{#  if(d.userStatus == '正常'){ }}
+                <button class="layui-btn layui-bg-blue layui-btn-xs">正常</button>
+                {{#  } else{ }}
+                <button class="layui-btn layui-badge layui-btn-xs">冻结</button>
+                {{#  } }}
+            </script>
+
+            <!-- 用户类型 -->
+            <script type="text/html" id="userType">
+                {{#  if(d.userCode == 'admin'){ }}
+                <button class="layui-btn layui-bg-black layui-btn-xs">系统用户</button>
+                {{#  } else{ }}
+                <button class="layui-btn layui-bg-gray layui-btn-xs">普通用户</button>
+                {{#  } }}
+            </script>
+
         </div>
     </div>
 </div>
@@ -112,7 +130,8 @@
             {field: "userId", title: "用户ID", sort: false, hide: true},
             {field: "userCode", title: "用户代码", sort: true},
             {field: "userName", title: "用户名称", sort: true},
-            {field: "userStatus", title: "用户状态", sort: true},
+            {field: "userStatus", title: "用户状态", align: "center", templet: "#userStatus", sort: true},
+            {field: "userCode", title: "用户类型", align: "center", templet: "#userType", sort: true},
             {field: "userMemo", title: "用户备注"}
         ]];
 
@@ -140,13 +159,13 @@
             var hasAdmin = false;
             for (var i = 0; i < data.length; i++) {
                 userIds.push(data[i].userId);
-                if(fims.config.adminCode == data[i].userCode){
+                if (fims.config.adminCode == data[i].userCode) {
                     fims.msg(fims.tips.msg.systemUserNotDelete, {time: 1000});
                     hasAdmin = true;
                     return;
                 }
             }
-            if(hasAdmin){
+            if (hasAdmin) {
                 return;
             }
             layer.confirm(fims.tips.warn.confirmDel, function (index) {
@@ -186,7 +205,7 @@
 
         // 数据修改
         var update = function (data) {
-            if(fims.config.adminCode == data.userCode){
+            if (fims.config.adminCode == data.userCode) {
                 fims.msg(fims.tips.msg.systemUserNotUpdate, {time: 1000});
                 return;
             }
@@ -229,7 +248,7 @@
             // 获取角色信息
             var roleId = [];
             iframe.document.getElementsByName("roleId").forEach(function (item) {
-                if(item.checked){
+                if (item.checked) {
                     roleId.push(item.value);
                 }
             });
@@ -258,7 +277,7 @@
                         }
                     }
                 });
-                if(!userIsExist){
+                if (!userIsExist) {
                     fims.msg(fims.tips.msg.userIsExist, {time: 1000});
                     return;
                 }
