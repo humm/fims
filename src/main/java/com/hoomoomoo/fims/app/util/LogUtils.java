@@ -89,6 +89,16 @@ public class LogUtils {
      * @param logger
      * @param businessType
      */
+    public static void load(Logger logger, String businessType) {
+        logger.info(String.format(LOG_FORMAT_STATUS, LOG_OPERATE_TAG_LOAD, businessType));
+    }
+
+    /**
+     * 业务成功日志
+     *
+     * @param logger
+     * @param businessType
+     */
     public static void success(Logger logger, String businessType) {
         logger.info(String.format(LOG_FORMAT_STATUS, businessType, LOG_OPERATE_TAG_SUCCESS));
     }

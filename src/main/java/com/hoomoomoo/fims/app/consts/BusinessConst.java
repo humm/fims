@@ -46,6 +46,11 @@ public class BusinessConst {
     public static final String STR_SPACE                                    = " ";
 
     /**
+     * 点号
+     */
+    public static final String POINT                                        = ".";
+
+    /**
      * 分号
      */
     public static final String SEMICOLON                                    = ";";
@@ -66,7 +71,7 @@ public class BusinessConst {
     public static final String MINUS                                        = "-";
 
     /**
-     * 减号分隔符
+     * 分隔符
      */
     public static final String SLASH                                        = "/";
 
@@ -339,5 +344,60 @@ public class BusinessConst {
      * 用户状态：冻结
      */
     public static final String USER_STATUS_FREEZE                           = "2";
+
+    /**
+     * x_requested_with
+     */
+    public static final String X_REQUESTED_WITH                             = "x-requested-with";
+
+    /**
+     * XMLHttpRequest
+     */
+    public static final String XML_HTTPREQUEST                              = "XMLHttpRequest";
+
+    /**
+     * 管理员
+     */
+    public static final String ADMIN_CODE                                   = "admin";
+
+    /**
+     * 系统错误
+     * */
+    public static final String ERROR_PATH                                   = "/error";
+
+    /**
+     * 404页面
+     * */
+    public static final String PAGE_ERROR_404                               = "/error/404";
+
+    /**
+     * 登录请求
+     * */
+    public static final String PAGE_LOGIN                                  = "/login";
+
+    /**
+     * 首页请求
+     * */
+    public static final String PAGE_INDEX                                  = "/index";
+
+    /**
+     * 忽略后缀
+     */
+    public static final String IGORE_SUFFIX                                 = "js,css,jpg,jpeg,png,gif";
+
+    /**
+     * 忽略请求
+     */
+    public static final String IGORE_REQUEST                                = "/login,/user/login";
+
+    /**
+     * 状态：status
+     * */
+    public static final String STATUS                                       = "status";
+
+    /**
+     * 状态：timeout
+     * */
+    public static final String STATUS_TIMEOUT                               = "timeout";
 
 }

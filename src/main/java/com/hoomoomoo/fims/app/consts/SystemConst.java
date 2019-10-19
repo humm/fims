@@ -34,14 +34,4 @@ public class SystemConst {
      */
     public static final String APP_NAME                             = "appName";
 
-    /**
-     * 管理员
-     */
-    public static final String ADMIN_CODE                           = "admin";
-
-    /**
-     * sessionBean
-     */
-    public static final String SESSION_BEAN                         = "sessionBean";
-
 }

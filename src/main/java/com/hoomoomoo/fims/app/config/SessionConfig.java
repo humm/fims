@@ -4,12 +4,14 @@ import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
+import javax.xml.ws.soap.Addressing;
 
 import static com.hoomoomoo.fims.app.consts.TipConst.LOG_BUSINESS_TYPE_SESSION;
 
@@ -25,11 +27,12 @@ public class SessionConfig implements HttpSessionListener {
 
     private static final Logger logger = LoggerFactory.getLogger(SessionConfig.class);
 
+    @Autowired
     private FimsConfigBean fimsConfigBean;
 
     @PostConstruct
-    public void init(){
-        LogUtils.success(logger, LOG_BUSINESS_TYPE_SESSION);
+    public void init() {
+        LogUtils.load(logger, LOG_BUSINESS_TYPE_SESSION);
     }
 
     /**
@@ -45,10 +48,11 @@ public class SessionConfig implements HttpSessionListener {
 
     /**
      * 触发时机: request.getSession().invalidate() 自动过期也会触发 还有其他方式等
+     *
      * @param httpSessionEvent
      */
     @Override
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
-
+        // todo 回填登录日志退出信息
     }
 }

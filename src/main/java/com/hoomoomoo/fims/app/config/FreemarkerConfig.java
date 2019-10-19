@@ -41,7 +41,7 @@ public class FreemarkerConfig {
         Map<String, Object> freemarkerVariables = new HashMap<>(1);
         freemarkerVariables.put(APP_NAME, commonConfigBean.getAppName());
         configurer.setFreemarkerVariables(freemarkerVariables);
-        LogUtils.success(logger, LOG_BUSINESS_TYPE_FREEMARKER);
+        LogUtils.load(logger, LOG_BUSINESS_TYPE_FREEMARKER);
         return configurer;
     }
 }

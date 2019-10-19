@@ -20,9 +20,9 @@ public class SystemUtils {
      *
      * @param baseModel
      */
-    public static void setCreateUserInfo(BaseModel baseModel){
+    public static void setCreateUserInfo(BaseModel baseModel) {
         SessionBean sessionBean = SystemSessionUtils.getSession();
-        if(sessionBean != null){
+        if (sessionBean != null) {
             baseModel.setCreateUser(sessionBean.getUserId());
             baseModel.setModifyUser(sessionBean.getUserId());
         }
@@ -36,9 +36,9 @@ public class SystemUtils {
      *
      * @param baseModel
      */
-    public static void setModifyUserInfo(BaseModel baseModel){
+    public static void setModifyUserInfo(BaseModel baseModel) {
         SessionBean sessionBean = SystemSessionUtils.getSession();
-        if(sessionBean != null){
+        if (sessionBean != null) {
             baseModel.setModifyUser(sessionBean.getUserId());
         }
         baseModel.setModifyDate(new Date());
@@ -49,9 +49,11 @@ public class SystemUtils {
      *
      * @param queryBaseModel
      */
-    public static void setSessionInfo(QueryBaseModel queryBaseModel){
+    public static void setSessionInfo(QueryBaseModel queryBaseModel) {
         SessionBean sessionBean = SystemSessionUtils.getSession();
-        queryBaseModel.setUserKey(sessionBean.getUserId());
-        queryBaseModel.setIsAdminData(sessionBean.getIsAdminData());
+        if (sessionBean != null) {
+            queryBaseModel.setUserKey(sessionBean.getUserId());
+            queryBaseModel.setIsAdminData(sessionBean.getIsAdminData());
+        }
     }
 }

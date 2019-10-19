@@ -29,13 +29,13 @@ public class ExceptionHandlerConfig {
 
     @PostConstruct
     public void init(){
-        LogUtils.success(logger, LOG_BUSINESS_TYPE_EXCEPTION);
-
+        LogUtils.load(logger, LOG_BUSINESS_TYPE_EXCEPTION);
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResultData exceptionHandler(HttpServletRequest request, Exception e){
+        logger.error(request.getServletPath());
         e.printStackTrace();
         return new ResultData(STATUS_FAIL, ERROR);
     }

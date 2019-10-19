@@ -33,7 +33,7 @@
                 // 跳转登录页面
                 if(status == "timeout") {
                     layer.alert('由于您长时间没有操作, 请重新登录...', function () {
-                        layer.msg("页面已跳转") ;
+                        parent.location.href = "./login";
                     });
                     return;
                 }

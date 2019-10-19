@@ -39,4 +39,26 @@ public class SysSystemController {
         return "home/console";
     }
 
+    /**
+     * 跳转404页面
+     *
+     * @return
+     */
+    @ApiOperation("跳转404页面")
+    @RequestMapping(value = "error/404", method = RequestMethod.GET)
+    public String error404() {
+        return "error/404";
+    }
+
+    /**
+     * 跳转error页面
+     *
+     * @return
+     */
+    @ApiOperation("跳转error页面")
+    @RequestMapping(value = "error/error", method = RequestMethod.GET)
+    public String error() {
+        return "error/error";
+    }
+
 }

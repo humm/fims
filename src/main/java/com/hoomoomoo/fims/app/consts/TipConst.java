@@ -54,6 +54,11 @@ public class TipConst {
     public static final String LOG_OPERATE_TAG_EXCEPTION                        = "异常";
 
     /**
+     * 日志状态：加载
+     */
+    public static final String LOG_OPERATE_TAG_LOAD                             = "加载";
+
+    /**
      * 日志状态：成功
      */
     public static final String LOG_OPERATE_TAG_SUCCESS                          = "成功";
@@ -143,7 +148,12 @@ public class TipConst {
     /**
      * 日志业务类型：Interceptor配置
      */
-    public static final String LOG_BUSINESS_TYPE_INTERCEPTOR                    = "拦截器配置";
+    public static final String LOG_BUSINESS_TYPE_INTERCEPTOR                    = "拦截器配置器配置";
+
+    /**
+     * 日志业务类型：FimsInterceptor配置
+     */
+    public static final String LOG_BUSINESS_TYPE_FIMS_INTERCEPTOR              = "系统拦截器配置";
 
     /**
      * 日志业务类型：全局异常配置

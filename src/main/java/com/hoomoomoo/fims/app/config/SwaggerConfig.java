@@ -35,7 +35,7 @@ public class SwaggerConfig {
 
     @Bean
     public Docket init() {
-        LogUtils.success(logger, LOG_BUSINESS_TYPE_SWAGGER);
+        LogUtils.load(logger, LOG_BUSINESS_TYPE_SWAGGER);
         return new Docket(DocumentationType.SWAGGER_2)
                 .enable(fimsConfigBean.getSwagger())
                 .apiInfo(apiInfo())

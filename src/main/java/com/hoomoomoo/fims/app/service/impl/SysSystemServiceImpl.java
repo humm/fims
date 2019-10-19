@@ -34,7 +34,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static com.hoomoomoo.fims.app.config.RunDataConfig.*;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.*;
-import static com.hoomoomoo.fims.app.consts.SystemConst.ADMIN_CODE;
 import static com.hoomoomoo.fims.app.consts.SystemConst.APPLICATION_PROPERTIES;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;

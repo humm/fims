@@ -28,14 +28,13 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // 自定义拦截器，添加拦截路径和排除拦截路径
+        // 自定义拦截器 添加拦截路径和排除拦截路径
         registry.addInterceptor(fimsInterceptorConfig).addPathPatterns("/**");
 
         // .addPathPatterns("/**"); 所有请求
         // .addPathPatterns("/interface/**"); 指定请求
         // .excludePathPatterns("/static"); 不拦截请求
-
-        LogUtils.success(logger, LOG_BUSINESS_TYPE_INTERCEPTOR);
+        LogUtils.load(logger, LOG_BUSINESS_TYPE_INTERCEPTOR);
     }
 
 }

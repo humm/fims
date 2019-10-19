@@ -19,10 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+import static com.hoomoomoo.fims.app.consts.BusinessConst.ADMIN_CODE;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.SESSION_BEAN;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.USER_STATUS_FREEZE;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
-import static com.hoomoomoo.fims.app.consts.SystemConst.ADMIN_CODE;
-import static com.hoomoomoo.fims.app.consts.SystemConst.SESSION_BEAN;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**

@@ -32,7 +32,9 @@ public class InitRunnerConfig implements CommandLineRunner {
     private SysSystemService sysSystemService;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
+        // 系统初始化 todo
+
         // 输出系统配置参数至控制台
         sysSystemService.outputConfigParameter();
 
@@ -42,6 +44,6 @@ public class InitRunnerConfig implements CommandLineRunner {
         // 加载查询数据字典
         sysSystemService.loadSysDictionaryCondition();
 
-        LogUtils.success(logger, LOG_BUSINESS_TYPE_INIT);
+        LogUtils.load(logger, LOG_BUSINESS_TYPE_INIT);
     }
 }

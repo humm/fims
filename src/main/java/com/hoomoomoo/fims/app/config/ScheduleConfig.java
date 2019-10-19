@@ -41,7 +41,7 @@ public class ScheduleConfig implements SchedulingConfigurer, AsyncConfigurer {
 
     @PostConstruct
     public void init(){
-        LogUtils.success(logger, LOG_BUSINESS_TYPE_SCHEDULE);
+        LogUtils.load(logger, LOG_BUSINESS_TYPE_SCHEDULE);
     }
 
     /**
