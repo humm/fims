@@ -43,7 +43,7 @@ public class SessionConfig implements HttpSessionListener {
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
         HttpSession session = httpSessionEvent.getSession();
-        session.setMaxInactiveInterval(fimsConfigBean.getSessionTimeout());
+        session.setMaxInactiveInterval(500);
     }
 
     /**

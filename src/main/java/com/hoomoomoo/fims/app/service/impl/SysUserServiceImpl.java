@@ -97,7 +97,6 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public FimsPage<SysUserModel> selectPage(SysUserQueryModel sysUserQueryModel) {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_PAGE);
-        SystemUtils.setSessionInfo(sysUserQueryModel);
         LogUtils.parameter(logger, sysUserQueryModel);
         PageHelper.startPage(sysUserQueryModel.getPage(), sysUserQueryModel.getLimit());
         List<SysUserModel> sysUserModelList = sysUserDao.selectPage(sysUserQueryModel);

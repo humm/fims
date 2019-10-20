@@ -7,12 +7,16 @@
     padding-right: 0px;
 }
 
-.layui-inline-button {
-    float: right;
+.fims-padding-parameter {
+    padding-left: 20px;
 }
 
 .layui-form-checkbox[lay-skin=primary] span {
     color: #666;
+}
+
+.fims-center {
+    text-align: center;
 }
 
 .layui-bg-1 {

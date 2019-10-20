@@ -1,12 +1,24 @@
 package com.hoomoomoo.fims.app.controller;
 
+import com.hoomoomoo.fims.app.model.SysParameterModel;
+import com.hoomoomoo.fims.app.model.SysParameterQueryModel;
+import com.hoomoomoo.fims.app.model.common.FimsPage;
+import com.hoomoomoo.fims.app.model.common.ResultData;
+import com.hoomoomoo.fims.app.service.SysParameterService;
+import com.hoomoomoo.fims.app.util.LogUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 
 /**
@@ -20,6 +32,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/parameter")
 public class SysParameterController {
 
+    private static final Logger logger = LoggerFactory.getLogger(SysParameterController.class);
+
+    @Autowired
+    private SysParameterService sysParameterService;
+
     /**
      * 跳转列表页面
      *
@@ -31,6 +48,22 @@ public class SysParameterController {
                            @ApiParam(value = "菜单ID", required = true)
                            @RequestParam String menuId) {
         return "parameter/list";
+    }
+
+    /**
+     * 查询参数信息
+     *
+     * @param sysParameterQueryModel
+     * @return
+     */
+    @ApiOperation("查询参数信息")
+    @RequestMapping(value = "selectList", method = RequestMethod.GET)
+    @ResponseBody
+    public ResultData selectList(SysParameterQueryModel sysParameterQueryModel) {
+        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_SELECT);
+        ResultData resultData = sysParameterService.selectList(sysParameterQueryModel);
+        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_SELECT);
+        return resultData;
     }
 
 }

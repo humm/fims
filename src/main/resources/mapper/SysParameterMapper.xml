@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hoomoomoo.fims.app.dao.SysParameterDao">
+
+    <sql id="Base_Column_List">
+        parameter_code parameterCode,
+        parameter_caption parameterCaption,
+        parameter_value parameterValue,
+        parameter_order parameterOrder
+    </sql>
+
+    <select id="selectList" parameterType="com.hoomoomoo.fims.app.model.SysParameterQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.SysParameterModel">
+        select
+            <include refid="Base_Column_List"/>
+        from sys_parameter
+        <where>
+            <if test="parameterCode != null" >
+                and parameter_code = #{parameterCode}
+            </if>
+        </where>
+        order by parameter_order
+    </select>
+
+</mapper>

@@ -10,53 +10,13 @@
     <link rel="stylesheet" href="${appName}/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="${appName}/layuiadmin/style/admin.css" media="all">
     <link rel="stylesheet" href="${appName}/layuiadmin/style/template.css" media="all">
+    <link rel="stylesheet" href="${appName}/layuiadmin/style/fims.css" media="all">
 </head>
 <body>
 
 
 <div class="layui-fluid layadmin-maillist-fluid">
-    <div class="layui-row layui-col-space15">
-        <div class='layui-col-md4 layui-col-sm6'>
-            <div class='layadmin-contact-box'>
-                <div class='layui-col-md8 layadmin-padding-left20 layui-col-sm6'>
-                    <a href='javascript:;'><p class='layadmin-textimg'><i class='layui-icon layui-icon-reply-fill'></i>
-                        </p>layui-icon-reply-fill </a>
-                </div>
-            </div>
-        </div>
-        <div class='layui-col-md4 layui-col-sm6'>
-            <div class='layadmin-contact-box'>
-                <div class='layui-col-md8 layadmin-padding-left20 layui-col-sm6'>
-                    <a href='javascript:;'><p class='layadmin-textimg'><i class='layui-icon layui-icon-set-fill'></i>
-                        </p>layui-icon-set-fill </a>
-                </div>
-            </div>
-        </div>
-        <div class='layui-col-md4 layui-col-sm6'>
-            <div class='layadmin-contact-box'>
-                <div class='layui-col-md8 layadmin-padding-left20 layui-col-sm6'>
-                    <a href='javascript:;'><p class='layadmin-textimg'><i class='layui-icon layui-icon-menu-fill'></i>
-                        </p>layui-icon-menu-fill </a>
-                </div>
-            </div>
-        </div>
-        <div class='layui-col-md4 layui-col-sm6'>
-            <div class='layadmin-contact-box'>
-                <div class='layui-col-md8 layadmin-padding-left20 layui-col-sm6'>
-                    <a href='javascript:;'><p class='layadmin-textimg'><i class='layui-icon layui-icon-search'></i></p>
-                        layui-icon-search </a>
-                </div>
-            </div>
-        </div>
-        <div class='layui-col-md4 layui-col-sm6'>
-            <div class='layadmin-contact-box'>
-                <div class='layui-col-md8 layadmin-padding-left20 layui-col-sm6'>
-                    <a href='javascript:;'><p class='layadmin-textimg'><i class='layui-icon layui-icon-share'></i></p>
-                        layui-icon-share </a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="layui-row layui-col-space15 parameter"></div>
 </div>
 
 
@@ -66,7 +26,53 @@
         base: '${appName}/layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index']);
+    }).use(['index', 'form', 'admin', 'fims'], function () {
+        var $ = layui.$,
+            form = layui.form,
+            admin = layui.admin,
+            fims = layui.fims;
+
+        // 应用名称
+        var appName = '${appName}';
+
+        var url = {
+            init: appName + "/parameter/selectList"
+        };
+
+        // 初始化页面信息
+        admin.req({
+            url: url.init,
+            type: "get",
+            dataType: "json",
+            done: function (response) {
+                if (response.bizResult) {
+                    var parameterList = response.data;
+                    if (!$.isEmptyObject(parameterList)) {
+                        var item = "";
+                        for (var i = 0; i < parameterList.length; i++) {
+                            item += '<div class="layui-col-md4 layui-col-sm6">';
+                            item += '   <div class="layadmin-contact-box">';
+                            item += '       <div class="layui-col-md6 layui-col-sm6">';
+                            item += '           <div>';
+                            item += '               <div class="layadmin-maillist-img layadmin-font-blod">' + parameterList[i].parameterCaption + '</div>';
+                            item += '           </div>';
+                            item += '       </div>';
+                            item += '       <div class="layui-col-md8 layadmin-padding-left20 layui-col-sm6">';
+                            item += '           <p class="layadmin-textimg fims-padding-parameter">' + parameterList[i].parameterValue +
+                                '</p>';
+                            item += '       </div>';
+                            item += '    </div>';
+                            item += '</div>';
+                        }
+                        $(".parameter").append(item);
+                    }
+                    form.render();
+                } else {
+                    fims.msg(response.msg);
+                }
+            }
+        });
+    });
 </script>
 </body>
 </html>

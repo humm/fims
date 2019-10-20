@@ -51,10 +51,8 @@ public class SysUserController {
      */
     @ApiOperation("跳转列表页面")
     @RequestMapping(value = "view/list", method = RequestMethod.GET)
-    public String viewList(ModelMap modelMap,
-                           @ApiParam(value = "菜单ID", required = true)
+    public String viewList(@ApiParam(value = "菜单ID", required = true)
                            @RequestParam String menuId) {
-        modelMap.addAttribute(HAS_BUTTON, sysSystemService.selectButtonAuthority(menuId));
         return "user/list";
     }
 

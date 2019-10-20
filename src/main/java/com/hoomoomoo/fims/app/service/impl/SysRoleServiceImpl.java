@@ -93,7 +93,6 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public FimsPage<SysRoleModel> selectPage(SysRoleQueryModel sysRoleQueryModel) {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_PAGE);
-        SystemUtils.setSessionInfo(sysRoleQueryModel);
         LogUtils.parameter(logger, sysRoleQueryModel);
         PageHelper.startPage(sysRoleQueryModel.getPage(), sysRoleQueryModel.getLimit());
         List<SysRoleModel> sysRoleModelList = sysRoleDao.selectPage(sysRoleQueryModel);

@@ -97,10 +97,8 @@ public class FunctionTest {
     public void test(){
         String head = "<div class='layui-col-md3 layui-col-sm6'>\n" +
                 "            <div class='layadmin-contact-box'>\n" +
-                "                <div class='layui-col-md8 layadmin-padding-left20 layui-col-sm6'>\n" +
-                "                    <a href='javascript:;'>";
-        String end = "            </a>\n" +
-                "                </div>\n" +
+                "                <div class='layui-col-md8 layadmin-padding-left20 layui-col-sm6'>\n";
+        String end ="                </div>\n" +
                 "            </div>\n" +
                 "        </div>";
         String str = "               <p class='layadmin-textimg'><i class='layui-icon layui-icon-reply-fill'></i></p>\n" +
@@ -262,7 +260,7 @@ public class FunctionTest {
         StringBuffer buffer = new StringBuffer();
         for(int i=0; i<sss.length; i++){
              buffer.append(head).append(sss[i]);
-            buffer.append(sss[i].trim().split(" ")[3].split("'")[0]).append(end);
+            buffer.append("<span>").append(sss[i].trim().split(" ")[3].split("'")[0]).append("</span>").append(end);
         }
 System.out.println(buffer);
     }

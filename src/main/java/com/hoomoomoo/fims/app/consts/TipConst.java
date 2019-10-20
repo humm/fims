@@ -203,27 +203,22 @@ public class TipConst {
     /**
      * 日志业务类型：菜单
      */
-    public static final String LOG_BUSINESS_TYPE_MENU                          = "菜单信息";
+    public static final String LOG_BUSINESS_TYPE_MENU                           = "菜单信息";
 
     /**
      * 日志业务类型：数据权限
      */
-    public static final String LOG_BUSINESS_TYPE_DATA_AUTHORITY               = "数据权限信息";
+    public static final String LOG_BUSINESS_TYPE_DATA_AUTHORITY                 = "数据权限信息";
 
     /**
      * 日志业务类型：报表
      */
-    public static final String LOG_BUSINESS_TYPE_REPORT                       = "报表信息";
+    public static final String LOG_BUSINESS_TYPE_REPORT                         = "报表信息";
 
     /**
      * 日志业务类型：登入日志信息
      */
     public static final String LOG_BUSINESS_TYPE_LOGIN_LOG                      = "登入日志信息";
-
-    /**
-     * 日志业务类型：系统参数
-     */
-    public static final String LOG_BUSINESS_TYPE_PARAMETER                      = "系统参数信息";
 
     /**
      * 日志业务类型：数据库备份恢复
@@ -234,6 +229,11 @@ public class TipConst {
      * 日志业务类型：修订
      */
     public static final String LOG_BUSINESS_TYPE_VERSION                        = "修订信息";
+
+    /**
+     * 日志业务类型：参数
+     */
+    public static final String LOG_BUSINESS_TYPE_PARAMETER                      = "参数信息";
 
     /**
      * 日志业务类型：邮件

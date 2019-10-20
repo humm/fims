@@ -22,16 +22,6 @@ import static com.hoomoomoo.fims.app.consts.SystemConst.FIMS_CONFIG;
 public class FimsConfigBean {
 
     /**
-     * 文件上传路径
-     */
-    private String uploadLocation;
-
-    /**
-     * 文件备份路径
-     */
-    private String backupLocation;
-
-    /**
      * 应用启动打印配置参数转换为*输出key
      */
     private String convertOutputKeyword;
@@ -47,16 +37,6 @@ public class FimsConfigBean {
     private Boolean consoleOutput;
 
     /**
-     * 应用启动是否备份数据
-     */
-    private Boolean StartBackup;
-
-    /**
-     * 应用启动是否读取邮件数据
-     */
-    private Boolean StartMail;
-
-    /**
      * 是否开启Swagger
      */
     private Boolean swagger;
@@ -65,10 +45,5 @@ public class FimsConfigBean {
      * Swagger配置扫描路径
      */
     private String swaggerLocation;
-
-    /**
-     * session超时时间
-     */
-    private Integer sessionTimeout;
 
 }
