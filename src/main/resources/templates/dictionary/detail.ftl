@@ -101,7 +101,7 @@
             item = '<div class="layui-form-item layui-form-item-dictionary">';
             item += '   <label class="layui-form-label">字典选值</label>';
             item += '   <div class="layui-input-inline">';
-            item += '       <input type="text" class="layui-input" name="dictionaryItem" value="' + dictionaryItem + '">';
+            item += '       <input type="hidden" class="layui-input" name="dictionaryItem" value="' + dictionaryItem + '">';
             item += '   </div>';
             item += '   <label class="layui-form-label">选值描述</label>';
             item += '   <div class="layui-input-inline">';

@@ -27,6 +27,9 @@ public class SysIncomeModel extends BaseModel {
     @ApiModelProperty(value="收入类型", required = false)
     private String incomeType;
 
+    @ApiModelProperty(value="收入类型", required = false)
+    private String incomeTypeCode;
+
     @ApiModelProperty(value="收入日期", required = false)
     @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -34,6 +37,9 @@ public class SysIncomeModel extends BaseModel {
 
     @ApiModelProperty(value="收入来源", required = false)
     private String incomeCompany;
+
+    @ApiModelProperty(value="收入来源", required = false)
+    private String incomeCompanyCode;
 
     @ApiModelProperty(value="收入金额", required = false)
     private Double incomeAmount;

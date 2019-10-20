@@ -7,7 +7,9 @@
         income_date incomeDate, income_company incomeCompany,
         income_amount incomeAmount, income_memo incomeMemo,
         create_date createDate, modify_date modifyDate,
-        create_user createUser, modify_user modifyUser
+        create_user createUser, modify_user modifyUser,
+        substr(income_type, instr(income_type, '-') + 1) incomeTypeCode,
+        substr(income_company, instr(income_company, '-') + 1) incomeCompanyCode
     </sql>
 
     <select id="selectPage" parameterType="com.hoomoomoo.fims.app.model.SysIncomeQueryModel"

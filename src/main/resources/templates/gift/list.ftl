@@ -76,6 +76,11 @@
             <!-- 列表数据 -->
             <table id="LAY-app-gift-list" lay-filter="LAY-app-gift-list"></table>
 
+            <!-- 随礼类型 -->
+            <script type="text/html" id="giftType">
+                <button class="layui-btn layui-btn-xs layui-bg-{{ d.giftTypeCode }}">{{ d.giftType }}</button>
+            </script>
+
         </div>
     </div>
 </div>
@@ -123,7 +128,7 @@
             {field: "giftId", title: "随礼序列号", sort: false, hide: true},
             {field: "giftSender", title: "送礼人", sort: true},
             {field: "giftReceiver", title: "收礼人", sort: true},
-            {field: "giftType", title: "随礼类型", sort: true},
+            {field: "giftType", title: "随礼类型", templet: "#giftType", sort: true},
             {field: "giftDate", title: "随礼日期", align: "center", sort: true},
             {field: "giftAmount", title: "随礼金额", sort: true},
             {field: "giftMemo", title: "随礼备注"}
@@ -241,7 +246,7 @@
                     return;
                 }
                 var isLoginUser = param.giftSender.indexOf(sessionBean.userId) == -1 && param.giftReceiver.indexOf(sessionBean.userId) == -1;
-                if (isLoginUser) {
+                if (isLoginUser && !sessionBean.isAdminData) {
                     fims.msg(fims.tips.msg.isLoginOne, {time: 1000});
                     return;
                 }

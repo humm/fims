@@ -7,7 +7,8 @@
         user_name userName, user_password userPassword,
         user_status userStatus, user_memo userMemo,
         create_date createDate, modify_date modifyDate,
-        create_user createUser, modify_user modifyUser
+        create_user createUser, modify_user modifyUser,
+        substr(user_status, instr(user_status, '-') + 1) userStatusCode
     </sql>
 
     <select id="selectSysUser" parameterType="com.hoomoomoo.fims.app.model.SysUserQueryModel"

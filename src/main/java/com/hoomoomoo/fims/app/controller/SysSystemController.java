@@ -61,4 +61,15 @@ public class SysSystemController {
         return "error/error";
     }
 
+    /**
+     * 跳转icon页面
+     *
+     * @return
+     */
+    @ApiOperation("跳转icon页面")
+    @RequestMapping(value = "icon/view/list", method = RequestMethod.GET)
+    public String icon() {
+        return "icon/list";
+    }
+
 }

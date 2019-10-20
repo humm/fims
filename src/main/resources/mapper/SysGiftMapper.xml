@@ -8,7 +8,8 @@
         gift_date giftDate, gift_amount giftAmount,
         gift_memo giftMemo,
         create_date createDate, modify_date modifyDate,
-        create_user createUser, modify_user modifyUser
+        create_user createUser, modify_user modifyUser,
+        substr(gift_type, instr(gift_type, '-') + 1) giftTypeCode
     </sql>
 
     <select id="selectPage" parameterType="com.hoomoomoo.fims.app.model.SysGiftQueryModel"

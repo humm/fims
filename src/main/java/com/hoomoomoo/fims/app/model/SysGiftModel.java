@@ -24,6 +24,9 @@ public class SysGiftModel extends BaseModel {
     @ApiModelProperty(value="随礼类型", required = false)
     private String giftType;
 
+    @ApiModelProperty(value="随礼类型", required = false)
+    private String giftTypeCode;
+
     @ApiModelProperty(value="送礼人", required = false)
     private String giftSender;
 

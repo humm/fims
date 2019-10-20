@@ -151,8 +151,10 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
             } else {
                 if (STR_1.equals(sysDictionaryModel.getIsOpen())) {
                     // 开放状态先删除后插入
+                    SysDictionaryModel dictionary = new SysDictionaryModel();
+                    dictionary.setDictionaryCode(sysDictionaryModelList.get(0).getDictionaryCode());
+                    sysDictionaryDao.delete(dictionary);
                     for(SysDictionaryModel sysDictionary : sysDictionaryModelList){
-                        sysDictionaryDao.delete(sysDictionary);
                         sysDictionaryDao.save(sysDictionary);
                     }
                 } else {

@@ -47,7 +47,6 @@ public class LoginFilterConfig implements Filter {
         int index = servletPath.lastIndexOf(SLASH);
         String requestSuffix = servletPath.substring(index + 1);
         SessionBean sessionBean = (SessionBean) request.getSession().getAttribute(SESSION_BEAN);
-        logger.error(servletPath);
         if (sessionBean != null) {
             SystemSessionUtils.setSession(sessionBean);
             if (PAGE_LOGIN.equals(servletPath)) {

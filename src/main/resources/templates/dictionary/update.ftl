@@ -28,7 +28,7 @@
             <input type="text" class="layui-input layui-detail" disabled="disabled" name="dictionaryCodeCaption">
         </div>
         <button class="layui-btn layui-btn-xs layuiadmin-btn-dictionary-add">
-            <i class="layui-icon">新增</i>
+            <i class="layui-icon layui-icon-addition"></i>
         </button>
     </div>
     <div class="layui-form-item dictionary"></div>
@@ -146,7 +146,7 @@
             item = '<div class="layui-form-item layui-form-item-dictionary">';
             item += '   <label class="layui-form-label">字典选值</label>';
             item += '   <div class="layui-input-inline">';
-            item += '       <input type="text" maxlength="10" class="layui-input layui-detail" disabled="disabled" lay-verify="required|number"';
+            item += '       <input type="hidden" class="layui-input layui-detail" disabled="disabled" lay-verify="required|number"';
             item += '        name="dictionaryItem" value="' + dictionaryItem + '">';
             item += '   </div>';
             item += '   <label class="layui-form-label">选值描述</label>';
@@ -167,7 +167,7 @@
             item += '       </select>';
             item += '   </div>';
             item += '   <button class="layui-btn layui-btn-danger layui-btn-xs layuiadmin-btn-dictionary-delete">';
-            item += '       <i class="layui-icon layuiadmin-button-btn">删除</i>';
+            item += '       <i class="layui-icon layuiadmin-button-btn layui-icon-close"></i>';
             item += '   </button>';
             item += '</div>';
             return item;

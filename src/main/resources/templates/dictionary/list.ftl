@@ -61,11 +61,11 @@
             <table id="LAY-app-dictionary-list" lay-filter="LAY-app-dictionary-list"></table>
 
             <!-- 用户类型 -->
-            <script type="text/html" id="openStatus">
+            <script type="text/html" id="isOpen">
                 {{#  if(d.isOpen == '1'){ }}
-                <button class="layui-btn layui-bg-gray layui-btn-xs">开放</button>
+                <button class="layui-btn layui-bg-1 layui-btn-xs">开放</button>
                 {{#  } else{ }}
-                <button class="layui-btn layui-bg-black layui-btn-xs">封闭</button>
+                <button class="layui-btn layui-bg-2 layui-btn-xs">封闭</button>
                 {{#  } }}
             </script>
 
@@ -108,7 +108,7 @@
             {type: "checkbox", fixed: "left"},
             {field: "dictionaryCode", title: "字典代码", sort: true,},
             {field: "dictionaryCaption", title: "字典描述", sort: true},
-            {field: "dictionaryCaption", title: "开放状态", align: "center", templet: "#openStatus", sort: true},
+            {field: "isOpen", title: "开放状态", align: "center", templet: "#isOpen", sort: true},
             {field: "userId", title: "字典用户", hide: true},
         ]];
 
@@ -141,7 +141,7 @@
                 type: 2,
                 title: fims.tips.title.update,
                 content: url.update + "?" + $.param(request),
-                area: ["1100px", "450px"],
+                area: ["900px", "450px"],
                 btn: [fims.tips.btn.save, fims.tips.btn.cancel],
                 resize: fims.set.resize,
                 yes: function (e, t) {
@@ -162,7 +162,7 @@
                 type: 2,
                 title: fims.tips.title.detail,
                 content: url.detail + "?" + $.param(request),
-                area: ["1000px", "450px"],
+                area: ["800px", "450px"],
                 resize: false
             });
         }

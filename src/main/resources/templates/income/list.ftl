@@ -76,6 +76,16 @@
             <!-- 列表数据 -->
             <table id="LAY-app-income-list" lay-filter="LAY-app-income-list"></table>
 
+            <!-- 用户类型 -->
+            <script type="text/html" id="incomeType">
+                <button class="layui-btn layui-btn-xs layui-bg-{{ d.incomeTypeCode }}">{{ d.incomeType }}</button>
+            </script>
+
+            <!-- 来源类型 -->
+            <script type="text/html" id="incomeCompany">
+                <button class="layui-btn layui-btn-xs layui-bg-{{ d.incomeCompanyCode }}">{{ d.incomeCompany }}</button>
+            </script>
+
         </div>
     </div>
 </div>
@@ -120,8 +130,8 @@
             {field: "incomeId", title: "收入序列号", sort: false, hide: true},
             {field: "userId", title: "收入人", sort: true},
             {field: "incomeDate", title: "收入日期", align: 'center', sort: true},
-            {field: "incomeCompany", title: "收入来源", sort: true},
-            {field: "incomeType", title: "收入类型", sort: true},
+            {field: "incomeCompany", title: "收入来源", templet: "#incomeCompany", sort: true},
+            {field: "incomeType", title: "收入类型", templet: "#incomeType", sort: true},
             {field: "incomeAmount", title: "收入金额", sort: true},
             {field: "incomeMemo", title: "收入备注"}
         ]];

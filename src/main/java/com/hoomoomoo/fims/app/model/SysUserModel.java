@@ -33,6 +33,9 @@ public class SysUserModel extends BaseModel {
     @ApiModelProperty(value="用户状态", required = false)
     private String userStatus;
 
+    @ApiModelProperty(value="用户状态", required = false)
+    private String userStatusCode;
+
     @ApiModelProperty(value="备注", required = false)
     private String userMemo;
 
