@@ -176,7 +176,7 @@ public class BusinessConst {
     public static final String BUSINESS_TYPE_DICTIONARY                     = "dictionary";
 
     /**
-     * 业务类型：登录
+     * 业务类型：登录日志
      */
     public static final String BUSINESS_TYPE_LOGIN_LOG                     = "loginLog";
 

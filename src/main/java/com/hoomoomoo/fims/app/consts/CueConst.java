@@ -103,4 +103,9 @@ public class CueConst {
      * 提示信息：登入成功
      */
     public static final String USER_LOGON_SUCCESS                   = "登入成功";
+
+    /**
+     * 提示信息：登出成功
+     */
+    public static final String USER_LOGOUT_SUCCESS                   = "退出成功";
 }

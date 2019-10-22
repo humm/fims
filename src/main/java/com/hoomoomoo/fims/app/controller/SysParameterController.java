@@ -51,6 +51,17 @@ public class SysParameterController {
     }
 
     /**
+     * 跳转修改页面
+     *
+     * @return
+     */
+    @ApiOperation("跳转列表页面")
+    @RequestMapping(value = "view/update", method = RequestMethod.GET)
+    public String viewUpdate() {
+        return "parameter/update";
+    }
+
+    /**
      * 查询参数信息
      *
      * @param sysParameterQueryModel

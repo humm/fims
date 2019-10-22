@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoomoomoo.fims.app.dao.SysLoginLogDao">
+
+    <insert id="save" parameterType="com.hoomoomoo.fims.app.model.SysLoginLogModel">
+        insert into sys_login_log(
+            log_id,
+            user_id,
+            login_date,
+            login_status,
+            login_message
+        )values(
+            #{logId},
+            #{userId},
+            #{loginDate},
+            #{loginStatus},
+            #{loginMessage}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.hoomoomoo.fims.app.model.SysLoginLogModel">
+        update sys_login_log
+        set logout_date = #{logoutDate}
+        where log_id = (
+            select max(log_id) log_id
+            from sys_login_log
+            where login_status = 'D001-1'
+            and user_id = #{userId}
+        )
+    </update>
+
+</mapper>

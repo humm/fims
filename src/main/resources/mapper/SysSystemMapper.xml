@@ -14,6 +14,8 @@
         select 'income-' || max(to_number(income_id)) as businessId from sys_income
         union all
         select 'notice-' || max(to_number(notice_id)) as businessId from sys_notice
+        union all
+        select 'loginLog-' || max(to_number(log_id)) as businessId from sys_login_log
     </select>
 
     <select id="selectButtonAuthority" parameterType="com.hoomoomoo.fims.app.model.SysSystemQueryModel"

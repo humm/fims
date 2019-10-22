@@ -81,9 +81,6 @@
         // 应用名称
         var appName = '${appName}';
 
-        // 是否按钮权限
-        var hasButton = ${hasButton?string('true','false')};
-
         // 业务类型
         var businessType = "role";
 

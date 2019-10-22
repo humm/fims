@@ -317,11 +317,11 @@ comment on column sys_role_menu.role_id
 comment on column sys_role_menu.menu_id
     is '菜单ID';
 
-
+-- 参数信息
 call drop_table('sys_parameter');
 create table sys_parameter
 (
-    parameter_code    varchar2(50) not null,
+    parameter_code    varchar2(50) primary key,
     parameter_caption varchar2(50),
     parameter_value   varchar2(50),
     parameter_order   number(10)
@@ -335,6 +335,32 @@ comment on column sys_parameter.parameter_value
     is '参数值';
 comment on column sys_parameter.parameter_order
     is '参数排序';
+
+-- 登录日志信息
+call drop_table('sys_login_log');
+create table sys_login_log
+(
+    log_id        varchar2(30) primary key,
+    user_id       varchar2(30),
+    login_date    timestamp(6) default sysdate,
+    logout_date   timestamp(6),
+    login_status  varchar2(50),
+    login_message varchar2(50)
+);
+
+comment on column sys_login_log.log_id
+    is '日志ID';
+comment on column sys_login_log.user_id
+    is '用户ID';
+comment on column sys_login_log.login_date
+    is '登录时间';
+comment on column sys_login_log.logout_date
+    is '登出时间';
+comment on column sys_login_log.login_status
+    is '登录状态';
+comment on column sys_login_log.login_message
+    is '登录信息';
+
 
 -- 初始化数据 开始
 -- 用户信息
