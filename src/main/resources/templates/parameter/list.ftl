@@ -35,6 +35,9 @@
         // 应用名称
         var appName = '${appName}';
 
+        // 业务类型
+        var businessType = "parameter";
+
         var url = {
             init: appName + "/parameter/selectList",
             update: appName + "/parameter/view/update",
@@ -49,11 +52,14 @@
                 dataType: "json",
                 done: function (response) {
                     if (response.bizResult) {
+                        $(".parameter").html("");
                         var parameterList = response.data;
                         if (!$.isEmptyObject(parameterList)) {
                             var item = "";
                             for (var i = 0; i < parameterList.length; i++) {
-                                item += '<div class="layui-col-md4 layui-col-sm6" code="' + parameterList[i].parameterCode + '">';
+                                item += '<div class="layui-col-md4 layui-col-sm6" parameterCode="' + parameterList[i].parameterCode + '"';
+                                item += '   parameterType="' + parameterList[i].parameterType + '" parameterExt="' + parameterList[i].parameterExt +'"';
+                                item += '   isEdit="' + parameterList[i].isEdit + '" parameterOldValue="' + fims.value(parameterList[i].parameterOldValue) + '">';
                                 item += '   <div class="layadmin-contact-box">';
                                 item += '       <div class="layui-col-md6 layui-col-sm6">';
                                 item += '           <div>';
@@ -61,7 +67,7 @@
                                 item += '           </div>';
                                 item += '       </div>';
                                 item += '       <div class="layui-col-md8 layadmin-padding-left20 layui-col-sm6">';
-                                item += '           <p class="layadmin-textimg fims-padding-parameter">' + parameterList[i].parameterValue + '</p>';
+                                item += '           <p class="layadmin-textimg fims-padding-parameter">' + fims.value(parameterList[i].parameterValue) + '</p>';
                                 item += '       </div>';
                                 item += '    </div>';
                                 item += '</div>';
@@ -80,37 +86,52 @@
 
         // 绑定双击事件
         $(document).on('dblclick', 'div.layui-col-md4', function () {
-            var parameterCode = $(this).attr("code");
+            var parameterCode = $(this).attr("parameterCode");
+            var parameterType = $(this).attr("parameterType");
+            var parameterExt = $(this).attr("parameterExt");
+            var parameterOldValue = encodeURI($(this).attr("parameterOldValue"));
+            var isEdit = $(this).attr("isEdit");
             var parameterCaption = $(this).find("div.layadmin-font-blod").text();
-            var parameterValue = $(this).find("p").text();
-            console.log(parameterCode + "-" + parameterCaption + "-" + parameterValue);
+            var parameterValue = encodeURI($(this).find("p").text());
+            if(isEdit != '1'){
+                fims.msg(fims.tips.msg.parameterNotUpdate);
+                return;
+            }
             var request = {
                 parameterCode: parameterCode,
                 parameterCaption: parameterCaption,
-                parameterValue: parameterValue
+                parameterValue: parameterValue,
+                parameterType: parameterType,
+                parameterExt: parameterExt,
+                parameterOldValue: parameterOldValue
             }
             layer.open({
                 type: 2,
-                title: fims.tips.title.update,
+                title: parameterCaption,
                 content: url.update + "?" + $.param(request),
-                area: ["450px", "500px"],
+                area:  ["300px", "180px"],
                 btn: [fims.tips.btn.save, fims.tips.btn.cancel],
                 resize: fims.set.resize,
                 yes: function (e, t) {
-                    save(e, t, fims.operate.update, data);
+                    save(e, t, fims.operate.update, request);
                 }
             });
         });
 
         // 数据保存
-        var save = function (e, t, type, data) {
+        var save = function (e, t, type, request) {
             var iframe = window["layui-layer-iframe" + e],
                 button = t.find("iframe").contents().find("#LAY-app-" + businessType + "-" + type);
             iframe.layui.form.on("submit(LAY-app-" + businessType + "-" + type + ")", function (data) {
+                if(request.parameterType == 'date' && request.parameterExt != data.field[request.parameterCode].length){
+                    fims.msg(fims.tips.msg.onlyLength.replace("S", request.parameterExt));
+                    return;
+                }
+                request.parameterValue = data.field[request.parameterCode];
                 admin.req({
                     url: url.save,
                     type: "post",
-                    data: fims.clearBlank(data.field),
+                    data: fims.clearBlank(request),
                     done: function (response) {
                         if (response.bizResult) {
                             setTimeout(function () {

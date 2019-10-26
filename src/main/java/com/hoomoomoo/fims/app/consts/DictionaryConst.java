@@ -58,4 +58,9 @@ public class DictionaryConst {
      */
     public static final String D009                          = "D009";
 
+    /**
+     * 参数状态类型
+     */
+    public static final String D010                          = "D010";
+
 }

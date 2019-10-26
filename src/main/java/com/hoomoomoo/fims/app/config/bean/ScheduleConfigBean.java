@@ -41,10 +41,7 @@ public class ScheduleConfigBean {
      */
     private Boolean waitForTasksToCompleteOnShutdown;
 
-    /**
-     * 是否开启初始化数据定时任务
-     */
-    private Boolean init;
+
 
     /**
      * 是否开启邮件读取定时任务

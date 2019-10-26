@@ -356,6 +356,16 @@ public class BusinessConst {
     public static final String XML_HTTPREQUEST                              = "XMLHttpRequest";
 
     /**
+     * 开关：on
+     */
+    public static final String SWITCH_ON                                    = "on";
+
+    /**
+     * 开关：off
+     */
+    public static final String SWITCH_OFF                                   = "off";
+
+    /**
      * 管理员
      */
     public static final String ADMIN_CODE                                   = "admin";
@@ -399,5 +409,15 @@ public class BusinessConst {
      * 状态：timeout
      * */
     public static final String STATUS_TIMEOUT                               = "timeout";
+
+    /**
+     * 参数类型
+     */
+    public static final String PARAMETER_TYPE_SWITCH                        = "switch";
+
+    /**
+     * 用户密码
+     */
+    public static final String PASSWORD                                     = "password";
 
 }

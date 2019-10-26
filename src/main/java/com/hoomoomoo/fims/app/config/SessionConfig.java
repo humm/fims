@@ -5,6 +5,7 @@ import com.hoomoomoo.fims.app.model.SysLoginLogModel;
 import com.hoomoomoo.fims.app.model.SysUserModel;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysLoginLogService;
+import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,8 @@ import javax.xml.ws.soap.Addressing;
 
 import java.util.Date;
 
-import static com.hoomoomoo.fims.app.consts.BusinessConst.SESSION_BEAN;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
+import static com.hoomoomoo.fims.app.consts.ParameterConst.SESSION_TIMEOUT;
 import static com.hoomoomoo.fims.app.consts.TipConst.LOG_BUSINESS_TYPE_SESSION;
 
 /**
@@ -37,6 +39,9 @@ public class SessionConfig implements HttpSessionListener {
     @Autowired
     private SysLoginLogService sysLoginLogService;
 
+    @Autowired
+    private SysParameterService sysParameterService;
+
     @PostConstruct
     public void init() {
         LogUtils.load(logger, LOG_BUSINESS_TYPE_SESSION);
@@ -50,8 +55,7 @@ public class SessionConfig implements HttpSessionListener {
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
         HttpSession session = httpSessionEvent.getSession();
-        // todo 超时时间
-        session.setMaxInactiveInterval(500);
+        session.setMaxInactiveInterval(Integer.valueOf(sysParameterService.getParameterString(SESSION_TIMEOUT)));
     }
 
     /**

@@ -63,6 +63,7 @@
                 <button class="layui-btn layuiadmin-btn-user-list" data-type="add">新增</button>
                 <button class="layui-btn layuiadmin-btn-user-list" data-type="update">修改</button>
                 <button class="layui-btn layuiadmin-btn-user-list" data-type="delete">删除</button>
+                <button class="layui-btn layuiadmin-btn-user-list" data-type="reset">重置用户密码</button>
             </div>
 
             <!-- 列表数据 -->
@@ -110,6 +111,7 @@
             init: appName + "/user/selectInitData",
             page: appName + "/user/selectPage",
             del: appName + "/user/delete",
+            reset: appName + "/user/reset",
             save: appName + "/user/save",
             add: appName + "/user/view/add",
             update: appName + "/user/view/update",
@@ -127,9 +129,6 @@
             {field: "userCode", title: "用户类型", align: "center", templet: "#userType"},
             {field: "userMemo", title: "用户备注"}
         ]];
-
-        // 权限按钮设置
-        fims.setAuthority(hasButton, "LAY-app-" + businessType + "-list-button");
 
         // 初始化页面信息
         admin.req({
@@ -153,7 +152,7 @@
             for (var i = 0; i < data.length; i++) {
                 userIds.push(data[i].userId);
                 if (fims.config.adminCode == data[i].userCode) {
-                    fims.msg(fims.tips.msg.systemUserNotDelete, {time: 1000});
+                    fims.msg(fims.tips.msg.systemUserNotDelete);
                     hasAdmin = true;
                     return;
                 }
@@ -164,6 +163,32 @@
             layer.confirm(fims.tips.warn.confirmDel, function (index) {
                 admin.req({
                     url: url.del,
+                    type: "post",
+                    data: {userIds: userIds.join(",")},
+                    done: function (response) {
+                        if (response.bizResult) {
+                            setTimeout(function () {
+                                layer.close(index);
+                                reloadData(fims.getValue("layui-form-item"));
+                                fims.msg(response.msg);
+                            }, 500);
+                        } else {
+                            fims.msg(response.msg);
+                        }
+                    }
+                });
+            });
+        }
+
+        // 重置用户密码
+        var reset = function (data) {
+            var userIds = [];
+            for (var i = 0; i < data.length; i++) {
+                userIds.push(data[i].userId);
+            }
+            layer.confirm(fims.tips.warn.confirmResetPassword, function (index) {
+                admin.req({
+                    url: url.reset,
                     type: "post",
                     data: {userIds: userIds.join(",")},
                     done: function (response) {
@@ -199,7 +224,7 @@
         // 数据修改
         var update = function (data) {
             if (fims.config.adminCode == data.userCode) {
-                fims.msg(fims.tips.msg.systemUserNotUpdate, {time: 1000});
+                fims.msg(fims.tips.msg.systemUserNotUpdate);
                 return;
             }
             var request = {
@@ -250,7 +275,7 @@
                 var param = fims.clearBlank(data.field);
                 var reg = /^[0-9a-zA-Z_]+$/;
                 if (!reg.test(param.userCode)) {
-                    fims.msg(fims.tips.msg.isNumberOrLetter, {time: 1000});
+                    fims.msg(fims.tips.msg.isNumberOrLetter);
                     return;
                 }
                 var userIsExist = false;
@@ -271,7 +296,7 @@
                     }
                 });
                 if (!userIsExist) {
-                    fims.msg(fims.tips.msg.userIsExist, {time: 1000});
+                    fims.msg(fims.tips.msg.userIsExist);
                     return;
                 }
                 data.field.roleId = roleId.join(",");
@@ -327,6 +352,11 @@
                 case fims.operate.update:
                     update(data);
                     break;
+                case fims.operate.reset:
+                    var convertData = new Array();
+                    convertData.push(data);
+                    reset(convertData);
+                    break;
                 default:
                     fims.msg(fims.tips.msg.notSupportEvent);
                     break;
@@ -361,6 +391,12 @@
                         return fims.msg(fims.tips.warn.notSelect);
                     }
                     del(checkData);
+                    break;
+                case fims.operate.reset:
+                    if (checkData.length === 0) {
+                        return fims.msg(fims.tips.warn.notSelect);
+                    }
+                    reset(checkData);
                     break;
                 default:
                     fims.msg(fims.tips.msg.notSupportEvent);

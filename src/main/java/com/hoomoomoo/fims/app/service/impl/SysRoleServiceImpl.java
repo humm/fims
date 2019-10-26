@@ -124,7 +124,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         }
         LogUtils.parameter(logger, list);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_DELETE);
-        return new ResultData(true, LOG_BUSINESS_TYPE_ROLE, null);
+        return new ResultData(true, DELETE_SUCCESS, null);
     }
 
     /**
@@ -180,7 +180,7 @@ public class SysRoleServiceImpl implements SysRoleService {
             }
         }
         // 处理数据权限信息
-        if(STR_1.equals(sysRoleModel.getDataAuthority())){
+        if(SWITCH_ON.equals(sysRoleModel.getDataAuthority())){
             sysRoleMenuModel.setMenuId(DATA_AUTHORITY_ID);
             sysRoleMenuModel.setRoleMenuId(sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_ROLE_MENU));
             sysRoleDao.saveRoleMenu(sysRoleMenuModel);

@@ -85,6 +85,16 @@ public class TipConst {
     public static final String LOG_OPERATE_TYPE_SELECT_INIT                     = "页面渲染参数查询";
 
     /**
+     * 日志操作类型：重置用户密码
+     */
+    public static final String LOG_OPERATE_TYPE_RESET_PASSWORD                  = "重置用户密码";
+
+    /**
+     * 日志操作类型：修改用户密码
+     */
+    public static final String LOG_OPERATE_TYPE_UPDATE_PASSWORD                 = "修改用户密码";
+
+    /**
      * 日志操作类型：新增
      */
     public static final String LOG_OPERATE_TYPE_ADD                             = "新增";

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.HAS_BUTTON;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.PASSWORD;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 import static com.hoomoomoo.fims.app.consts.TipConst.LOG_BUSINESS_TYPE_USER;
 
@@ -88,6 +89,18 @@ public class SysUserController {
     @RequestMapping(value = "view/update", method = RequestMethod.GET)
     public String viewUpdate() {
         return "user/update";
+    }
+
+    /**
+     * 跳转修改密码页面
+     *
+     * @return
+     */
+    @ApiOperation("跳转修改密码页面")
+    @RequestMapping(value = "view/password", method = RequestMethod.GET)
+    public String viewPassword(ModelMap modelMap) {
+        modelMap.addAttribute(PASSWORD, sysSystemService.selectUserPassword());
+        return "user/password";
     }
 
 
@@ -193,4 +206,41 @@ public class SysUserController {
         LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_CHECK);
         return resultData;
     }
+
+    /**
+     * 重置用户密码
+     *
+     * @param userIds
+     * @return
+     */
+    @ApiOperation("重置用户密码")
+    @RequestMapping(value = "reset", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultData reset(
+            @ApiParam(value = "用户信息ID", required = true)
+            @RequestParam String userIds) {
+        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_RESET_PASSWORD);
+        ResultData resultData = sysUserService.reset(userIds);
+        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_RESET_PASSWORD);
+        return resultData;
+    }
+
+    /**
+     * 修改用户密码
+     *
+     * @param password
+     * @return
+     */
+    @ApiOperation("修改用户密码")
+    @RequestMapping(value = "changPassword", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultData changPassword(
+            @ApiParam(value = "用户信息密码", required = true)
+            @RequestParam String password) {
+        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_UPDATE_PASSWORD);
+        ResultData resultData = sysUserService.changPassword(password);
+        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_UPDATE_PASSWORD);
+        return resultData;
+    }
+
 }

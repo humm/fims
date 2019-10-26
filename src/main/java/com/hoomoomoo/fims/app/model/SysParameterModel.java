@@ -14,15 +14,30 @@ import lombok.Data;
 @Data
 public class SysParameterModel extends BaseModel {
 
-    @ApiModelProperty(value = "字典代码", required = false)
+    @ApiModelProperty(value = "参数代码", required = false)
     private String parameterCode;
 
-    @ApiModelProperty(value = "字典描述", required = false)
+    @ApiModelProperty(value = "参数描述", required = false)
     private String parameterCaption;
 
-    @ApiModelProperty(value = "字典值", required = false)
+    @ApiModelProperty(value = "参数值", required = false)
     private String parameterValue;
 
-    @ApiModelProperty(value = "字典排序", required = false)
+    @ApiModelProperty(value = "参数源值", required = false)
+    private String parameterOldValue;
+
+    @ApiModelProperty(value = "参数排序", required = false)
     private String parameterOrder;
+
+    @ApiModelProperty(value = "参数类型", required = false)
+    private String parameterType;
+
+    @ApiModelProperty(value = "参数扩展值", required = false)
+    private String parameterExt;
+
+    @ApiModelProperty(value = "是否显示", required = false)
+    private String isShow;
+
+    @ApiModelProperty(value = "是否编辑", required = false)
+    private String isEdit;
 }

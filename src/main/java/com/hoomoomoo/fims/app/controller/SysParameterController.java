@@ -77,4 +77,20 @@ public class SysParameterController {
         return resultData;
     }
 
+    /**
+     * 保存参数信息
+     *
+     * @param sysParameterModel
+     * @return
+     */
+    @ApiOperation("保存参数信息")
+    @RequestMapping(value = "save", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultData save(SysParameterModel sysParameterModel) {
+        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_UPDATE);
+        ResultData resultData = sysParameterService.save(sysParameterModel);
+        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_UPDATE);
+        return resultData;
+    }
+
 }

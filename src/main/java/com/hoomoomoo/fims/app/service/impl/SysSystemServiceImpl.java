@@ -9,6 +9,7 @@ import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.BaseModel;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.model.common.ViewData;
+import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.BeanMapUtils;
 import com.hoomoomoo.fims.app.util.DateUtils;
@@ -34,6 +35,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static com.hoomoomoo.fims.app.config.RunDataConfig.*;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.*;
+import static com.hoomoomoo.fims.app.consts.ParameterConst.START_CONSOLE_OUTPUT;
 import static com.hoomoomoo.fims.app.consts.SystemConst.APPLICATION_PROPERTIES;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
@@ -66,12 +68,15 @@ public class SysSystemServiceImpl implements SysSystemService {
     @Autowired
     private SysUserDao sysUserDao;
 
+    @Autowired
+    private SysParameterService sysParameterService;
+
     /**
      * 控制台输出应用配置参数
      */
     @Override
     public void outputConfigParameter() {
-        if (!fimsConfigBean.getConsoleOutput()) {
+        if (!sysParameterService.getParameterBoolean(START_CONSOLE_OUTPUT)) {
             return;
         }
         Properties properties = new OrderedProperties();
@@ -101,7 +106,7 @@ public class SysSystemServiceImpl implements SysSystemService {
                     }
                 }
             }
-            if (!isIgnore && fimsConfigBean.getConsoleOutput()) {
+            if (!isIgnore) {
                 LogUtils.info(logger, singleProperty);
             }
         }
@@ -362,6 +367,26 @@ public class SysSystemServiceImpl implements SysSystemService {
         }
         LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BUTTON_AUTHORITY_SELECT);
         return hasAuthority;
+    }
+
+    /**
+     * 获取用户密码
+     *
+     * @return
+     */
+    @Override
+    public String selectUserPassword() {
+        String password = STR_EMPTY;
+        SessionBean sessionBean = SystemSessionUtils.getSession();
+        if(sessionBean != null){
+            SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
+            sysUserQueryModel.setUserId(sessionBean.getUserId());
+            List<SysUserModel> sysUserModelList = sysUserDao.selectSysUser(sysUserQueryModel);
+            if(CollectionUtils.isNotEmpty(sysUserModelList)){
+                password = new StringBuffer(sysUserModelList.get(0).getUserPassword()).reverse().toString();
+            }
+        }
+        return password;
     }
 
     /**

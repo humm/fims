@@ -126,10 +126,10 @@
                         reportList[index].setOption(fims.getBarData(response.data));
                         window.onresize = reportList[index].resize;
                         if($.isEmptyObject(response.data.legendData)){
-                            fims.msg(fims.tips.msg.emptyData, {time: 500});
+                            fims.msg(fims.tips.msg.emptyData);
                         }
                     } else {
-                        fims.msg(response.msg, {time: 500});
+                        fims.msg(response.msg);
                     }
                 }
             });

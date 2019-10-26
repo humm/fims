@@ -71,4 +71,20 @@ public interface SysUserService {
      */
     ResultData checkUserCode(SysUserQueryModel sysUserQueryModel);
 
+    /**
+     * 重置用户密码
+     *
+     * @param userIds
+     * @return
+     */
+    ResultData reset(String userIds);
+
+    /**
+     * 修改用户密码
+     *
+     * @param password
+     * @return
+     */
+    ResultData changPassword(String password);
+
 }

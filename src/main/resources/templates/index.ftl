@@ -68,9 +68,9 @@
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a lay-href="set/user/info.html">基本资料</a></dd>
-                        <dd><a lay-href="set/user/password.html">修改密码</a></dd>
+                        <dd><a lay-href="${appName}/user/view/password">修改密码</a></dd>
                         <hr>
-                        <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
+                        <dd id="logout" style="text-align: center;"><a>退出</a></dd>
                     </dl>
                 </li>
 
@@ -150,7 +150,9 @@
         var appName = '${appName}';
 
         var url = {
-            init: appName + "/menu/initMenu"
+            init: appName + "/menu/initMenu",
+            logout: appName + "/user/logout",
+            login: appName + "/login"
         };
 
         // 子菜单
@@ -228,6 +230,20 @@
                 }
             });
         }
+
+        // 绑定退出事件
+        $(document).on('click', '#logout', function () {
+            admin.req({
+                url: url.logout,
+                type: "post",
+                dataType: "json",
+                done: function (response) {
+                    if (response.bizResult) {
+                        parent.location.href = url.login;
+                    }
+                }
+            });
+        });
     });
 </script>
 </body>

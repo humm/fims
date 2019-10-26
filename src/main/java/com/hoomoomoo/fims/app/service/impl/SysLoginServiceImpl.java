@@ -114,23 +114,16 @@ public class SysLoginServiceImpl implements SysLoginService {
      *
      * @param request
      * @param sessionStatus
-     * @param sysUserModel
      * @return
      */
     @Override
-    public ResultData logout(HttpServletRequest request, SessionStatus sessionStatus, SysUserModel sysUserModel) {
-        ResultData resultData = null;
-        SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
-        sysUserQueryModel.setUserCode(sysUserModel.getUserCode());
-        List<SysUserModel> sysUserModelList = SysUserDao.selectSysUser(sysUserQueryModel);
-        if (CollectionUtils.isEmpty(sysUserModelList)) {
-            // 用户不存在
-            resultData = new ResultData(false, USER_LOGON_ACCOUNT_NOT_EXIST, USER_LOGON_ACCOUNT_NOT_EXIST);
-        } else {
+    public ResultData logout(HttpServletRequest request, SessionStatus sessionStatus) {
+        ResultData resultData = new ResultData();
+        SessionBean sessionBean = (SessionBean) request.getSession().getAttribute(SESSION_BEAN);
+        if(sessionBean != null){
             // 更新登录日志
-            SysUserModel sysUser = sysUserModelList.get(0);
             SysLoginLogModel sysLoginLogModel= new SysLoginLogModel();
-            sysLoginLogModel.setUserId(sysUser.getUserId());
+            sysLoginLogModel.setUserId(sessionBean.getUserId());
             sysLoginLogModel.setLogoutDate(new Date());
             sysLoginLogService.update(sysLoginLogModel);
 

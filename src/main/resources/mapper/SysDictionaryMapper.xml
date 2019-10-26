@@ -12,7 +12,7 @@
     <select id="selectPage" parameterType="com.hoomoomoo.fims.app.model.SysDictionaryQueryModel"
             resultType="com.hoomoomoo.fims.app.model.SysDictionaryModel">
         select
-        <include refid="Base_Column_List"/>
+            <include refid="Base_Column_List"/>
         from sys_dictionary
         <where>
             dictionary_item = '#'
@@ -38,7 +38,7 @@
     <select id="selectSysDictionary" parameterType="com.hoomoomoo.fims.app.model.SysDictionaryQueryModel"
             resultType="com.hoomoomoo.fims.app.model.SysDictionaryModel">
         select
-        <include refid="Base_Column_List"/>
+            <include refid="Base_Column_List"/>
         from sys_dictionary
         <where>
             <if test="dictionaryCode != null">

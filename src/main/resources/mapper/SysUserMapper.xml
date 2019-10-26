@@ -77,6 +77,16 @@
         </where>
     </delete>
 
+    <update id="reset" parameterType="java.util.List">
+        update sys_user set user_password = #{userPassword}
+        <where>
+            user_id in
+            <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                #{item.userId}
+            </foreach>
+        </where>
+    </update>
+
     <select id="selectOne" parameterType="com.hoomoomoo.fims.app.model.SysUserQueryModel"
             resultType="com.hoomoomoo.fims.app.model.SysUserModel">
         select
@@ -187,5 +197,9 @@
         from sys_user_role
         where user_id = #{userId}
     </select>
+
+    <update id="changPassword" parameterType="com.hoomoomoo.fims.app.model.SysUserModel">
+        update sys_user set user_password = #{userPassword} where user_id = #{userId}
+    </update>
 
 </mapper>

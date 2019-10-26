@@ -24,7 +24,7 @@
         where log_id = (
             select max(log_id) log_id
             from sys_login_log
-            where login_status = 'D001-1'
+            where login_status = 'D002-1'
             and user_id = #{userId}
         )
     </update>

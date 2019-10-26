@@ -105,9 +105,6 @@
             {field: "roleMemo", title: "角色备注"}
         ]];
 
-        // 权限按钮设置
-        fims.setAuthority(hasButton, "LAY-app-" + businessType + "-list-button");
-
         // 初始化页面信息
         admin.req({
             url: url.init,
@@ -207,7 +204,7 @@
                 var param = fims.clearBlank(data.field);
                 var reg = /^[0-9a-zA-Z_]+$/;
                 if (!reg.test(param.roleCode)) {
-                    fims.msg(fims.tips.msg.isNumberOrLetter, {time: 1000});
+                    fims.msg(fims.tips.msg.isNumberOrLetter);
                     return;
                 }
                 var roleIsExist = false;
@@ -228,7 +225,7 @@
                     }
                 });
                 if(!roleIsExist){
-                    fims.msg(fims.tips.msg.roleIsExist, {time: 1000});
+                    fims.msg(fims.tips.msg.roleIsExist);
                     return;
                 }
                 admin.req({

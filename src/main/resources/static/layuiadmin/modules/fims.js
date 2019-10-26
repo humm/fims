@@ -6,7 +6,7 @@
     var obj = {
         msg: function (msg, param) {
             if ($.isEmptyObject(param)) {
-                layer.msg(msg, {time: 500});
+                layer.msg(msg, {time: 1000});
             } else {
                 layer.msg(msg, param);
             }
@@ -225,7 +225,8 @@
             add: "add",
             delete: "delete",
             update: "update",
-            detail: "detail"
+            detail: "detail",
+            reset: "reset"
         },
         tips: {
             title: {
@@ -242,7 +243,8 @@
             warn: {
                 notSelect: "请选择数据",
                 selectOne: "请选择单条数据",
-                confirmDel: "确定删除吗"
+                confirmDel: "确定删除吗",
+                confirmResetPassword: "确定重置密码吗"
             },
             msg: {
                 notSupportEvent: "不支持的事件类型",
@@ -256,7 +258,12 @@
                 roleIsExist: "角色代码已经存在",
                 systemUserNotDelete: "系统用户不能删除",
                 systemUserNotUpdate: "系统用户不能修改",
-                closeDictionaryNotUpdate: "封闭字典项不能修改"
+                closeDictionaryNotUpdate: "封闭字典项不能修改",
+                parameterNotUpdate: "参数不能修改",
+                onlyLength: "参数值必须为S位",
+                historyPasswordError: "当前密码错误",
+                historyPasswordEqualPassword: "修改后密码与历史密码一致",
+                passwordChangefresh: "密码修改成功,若要再次修改,请刷新页面"
             }
         }
     };

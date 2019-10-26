@@ -242,12 +242,12 @@
             iframe.layui.form.on("submit(LAY-app-" + businessType + "-" + type + ")", function (data) {
                 var param = fims.clearBlank(data.field);
                 if (param.giftSender == param.giftReceiver) {
-                    fims.msg(fims.tips.msg.notSameOne, {time: 1000});
+                    fims.msg(fims.tips.msg.notSameOne);
                     return;
                 }
                 var isLoginUser = param.giftSender.indexOf(sessionBean.userId) == -1 && param.giftReceiver.indexOf(sessionBean.userId) == -1;
                 if (isLoginUser && !sessionBean.isAdminData) {
-                    fims.msg(fims.tips.msg.isLoginOne, {time: 1000});
+                    fims.msg(fims.tips.msg.isLoginOne);
                     return;
                 }
                 admin.req({

@@ -14,15 +14,15 @@ import lombok.Data;
 @Data
 public class SysParameterQueryModel extends QueryBaseModel {
 
-    @ApiModelProperty(value = "字典代码", required = false)
+    @ApiModelProperty(value = "参数代码", required = false)
     private String parameterCode;
 
-    @ApiModelProperty(value = "字典描述", required = false)
+    @ApiModelProperty(value = "参数描述", required = false)
     private String parameterCaption;
 
-    @ApiModelProperty(value = "字典值", required = false)
+    @ApiModelProperty(value = "参数值", required = false)
     private String parameterValue;
 
-    @ApiModelProperty(value = "字典排序", required = false)
+    @ApiModelProperty(value = "参数排序", required = false)
     private String parameterOrder;
 }

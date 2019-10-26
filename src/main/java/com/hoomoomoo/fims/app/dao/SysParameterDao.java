@@ -23,4 +23,19 @@ public interface SysParameterDao {
      * @return
      */
     List<SysParameterModel> selectList(SysParameterQueryModel sysParameterQueryModel);
+
+    /**
+     * 保存参数信息
+     *
+     * @param sysParameterModel
+     */
+    void save(SysParameterModel sysParameterModel);
+
+    /**
+     * 查询系统参数
+     *
+     * @param sysParameterQueryModel
+     * @return
+     */
+    SysParameterModel selectSysParameter(SysParameterQueryModel sysParameterQueryModel);
 }

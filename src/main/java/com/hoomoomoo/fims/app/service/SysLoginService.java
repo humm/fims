@@ -28,8 +28,7 @@ public interface SysLoginService {
      * 登出
      * @param request
      * @param sessionStatus
-     * @param sysUserModel
      * @return
      */
-    ResultData logout(HttpServletRequest request, SessionStatus sessionStatus, SysUserModel sysUserModel);
+    ResultData logout(HttpServletRequest request, SessionStatus sessionStatus);
 }

@@ -109,9 +109,6 @@
             {field: "userId", title: "字典用户", hide: true},
         ]];
 
-        // 权限按钮设置
-        fims.setAuthority(hasButton, "LAY-app-" + businessType + "-list-button");
-
         // 数据删除
         var del = function (data) {
 
@@ -125,7 +122,7 @@
         // 数据修改
         var update = function (data) {
             if('0' == data.isOpen ){
-                fims.msg(fims.tips.msg.closeDictionaryNotUpdate, {time: 1000});
+                fims.msg(fims.tips.msg.closeDictionaryNotUpdate);
                 return;
             }
             var request = {
@@ -184,7 +181,7 @@
                         // 选值用户 未开放状态 不校验
                     } else if (fims.isBlank(value)) {
                         var title = $(this).parent().prev().html();
-                        fims.msg(title + " " + fims.tips.msg.notEmpty, {time: 1000});
+                        fims.msg(title + " " + fims.tips.msg.notEmpty);
                         flag = true;
                         return;
                     }

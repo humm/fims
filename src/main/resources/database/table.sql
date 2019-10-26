@@ -323,7 +323,11 @@ create table sys_parameter
 (
     parameter_code    varchar2(50) primary key,
     parameter_caption varchar2(50),
-    parameter_value   varchar2(50),
+    parameter_value   varchar2(500),
+    parameter_type    varchar2(50),
+    parameter_ext     varchar2(50),
+    is_show           varchar2(1),
+    is_edit           varchar2(1),
     parameter_order   number(10)
 );
 
@@ -333,6 +337,14 @@ comment on column sys_parameter.parameter_caption
     is '参数描述';
 comment on column sys_parameter.parameter_value
     is '参数值';
+comment on column sys_parameter.parameter_type
+    is '参数类型';
+comment on column sys_parameter.parameter_ext
+    is '扩展参数';
+comment on column sys_parameter.is_show
+    is '是否显示';
+comment on column sys_parameter.is_edit
+    is '是否可编辑';
 comment on column sys_parameter.parameter_order
     is '参数排序';
 

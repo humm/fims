@@ -32,8 +32,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">数据权限</label>
         <div class="layui-input-inline">
-            <input type="radio" name="dataAuthority" value="1" title="所有用户" class="layui-input" lay-verify="required"/>
-            <input type="radio" name="dataAuthority" value="0" title="所属用户" class="layui-input" lay-verify="required"/>
+            <input type="checkbox" name="dataAuthority" lay-skin="switch" lay-text="开启|关闭">
         </div>
     </div>
     <div class="layui-form-item">
@@ -89,7 +88,9 @@
             done: function (response) {
                 if (response.bizResult) {
                     fims.setCondition("layui-form", response.data.condition);
-                    fims.setValue("layui-form", response.data);
+                    if(response.data.dataAuthority == '1'){
+                        $("input[name='dataAuthority']").attr("checked", true);
+                    }
                     form.render();
                     console.log(response.data.menuList)
                     //加载菜单树

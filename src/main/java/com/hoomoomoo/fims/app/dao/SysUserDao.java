@@ -4,6 +4,7 @@ import com.hoomoomoo.fims.app.model.SysUserModel;
 import com.hoomoomoo.fims.app.model.SysUserQueryModel;
 import com.hoomoomoo.fims.app.model.SysUserRoleModel;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -40,6 +41,15 @@ public interface SysUserDao {
      * @return
      */
     void delete(List<SysUserModel> sysUserModelList);
+
+    /**
+     * 重置用户密码
+     *
+     * @param sysUserModelList
+     * @param userPassword
+     * @return
+     */
+    void reset(@Param("userPassword") String userPassword, @Param("list") List<SysUserModel> sysUserModelList);
 
     /**
      * 查询用户信息
@@ -85,5 +95,13 @@ public interface SysUserDao {
      * @param sysUserQueryModel
      */
     List<SysUserRoleModel> selectUserRole(SysUserQueryModel sysUserQueryModel);
+
+    /**
+     * 修改用户密码
+     *
+     * @param sysUserModel
+     */
+    void changPassword(SysUserModel sysUserModel);
+
 
 }

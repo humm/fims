@@ -81,4 +81,11 @@ public interface SysSystemService {
      */
     Boolean selectButtonAuthority(String menuId);
 
+    /**
+     * 获取用户密码
+     *
+     * @return
+     */
+    String selectUserPassword();
+
 }

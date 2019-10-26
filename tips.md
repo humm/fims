@@ -25,3 +25,5 @@ fims
         03. 没有数据权限及按钮权限控制页面
                 用户信息 角色信息 字典信息
     03. ajax请求session失效处理 view.js 维护
+    04. set.js 修改密码按钮事件已注释(移动至password.ftl)
+    05. index.js 退出按钮事件已注释(移动至index.ftl)

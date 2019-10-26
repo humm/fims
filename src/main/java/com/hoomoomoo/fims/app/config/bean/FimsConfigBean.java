@@ -32,11 +32,6 @@ public class FimsConfigBean {
     private String ignoreOutputKeyword;
 
     /**
-     * 应用启动是否打印配置参数
-     */
-    private Boolean consoleOutput;
-
-    /**
      * 是否开启Swagger
      */
     private Boolean swagger;

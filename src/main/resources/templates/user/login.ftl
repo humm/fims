@@ -74,7 +74,7 @@
                     if (response.bizResult) {
                         location.href = appName + fims.config.index;
                     } else {
-                        fims.msg(response.msg, {time: 1000});
+                        fims.msg(response.msg);
                     }
                 }
             });

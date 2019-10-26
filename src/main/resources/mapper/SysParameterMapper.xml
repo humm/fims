@@ -6,10 +6,28 @@
         parameter_code parameterCode,
         parameter_caption parameterCaption,
         parameter_value parameterValue,
-        parameter_order parameterOrder
+        parameter_order parameterOrder,
+        parameter_type parameterType,
+        parameter_ext parameterExt,
+        is_show isShow,
+        is_edit isEdit
     </sql>
 
     <select id="selectList" parameterType="com.hoomoomoo.fims.app.model.SysParameterQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.SysParameterModel">
+        select
+            <include refid="Base_Column_List"/>
+        from sys_parameter
+        <where>
+            is_show = '1'
+            <if test="parameterCode != null" >
+                and parameter_code = #{parameterCode}
+            </if>
+        </where>
+        order by parameter_order
+    </select>
+
+    <select id="selectSysParameter" parameterType="com.hoomoomoo.fims.app.model.SysParameterQueryModel"
             resultType="com.hoomoomoo.fims.app.model.SysParameterModel">
         select
             <include refid="Base_Column_List"/>
@@ -19,7 +37,10 @@
                 and parameter_code = #{parameterCode}
             </if>
         </where>
-        order by parameter_order
+    </select>
+
+    <select id="save" parameterType="com.hoomoomoo.fims.app.model.SysParameterModel">
+        update sys_parameter set parameter_value = #{parameterValue} where parameter_code = #{parameterCode}
     </select>
 
 </mapper>

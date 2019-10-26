@@ -13,26 +13,10 @@
 </head>
 <body>
 
-<div class="layui-form" style="padding: 20px 30px 0 0;">
-    <input type="hidden" name="roleId"/>
-    <input type="hidden" name="menuId"/>
-
-    <div class="layui-form-item input">
-        <label class="layui-form-label"></label>
-        <div class="layui-input-inline">
-            <input type="text" name="" class="layui-input" lay-verify="required"/>
-        </div>
-    </div>
-    <div class="layui-form-item radio">
-        <label class="layui-form-label"></label>
-        <div class="layui-input-inline">
-            <input type="radio" name="" value="1" title="是" class="layui-input" lay-verify="required"/>
-            <input type="radio" name="" value="0" title="否" class="layui-input" lay-verify="required"/>
-        </div>
-    </div>
+<div class="layui-form parameter" style="padding: 20px 30px 0 0;">
 
     <div class="layui-form-item layui-hide">
-        <input type="button" lay-submit lay-filter="LAY-app-role-update" id="LAY-app-role-update"/>
+        <input type="button" lay-submit lay-filter="LAY-app-parameter-update" id="LAY-app-parameter-update"/>
     </div>
 </div>
 
@@ -42,21 +26,58 @@
         base: '${appName}/layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'form', 'admin', 'fims'], function () {
+    }).use(['index', 'form', 'admin', 'fims', 'laydate'], function () {
         var $ = layui.$,
             form = layui.form,
             admin = layui.admin,
+            laydate = layui.laydate,
             fims = layui.fims;
 
         // 应用名称
-        var appName = '${appName}';
         var parameterCode = fims.getUrlParameter("parameterCode");
-        var parameterCaption = fims.getUrlParameter("parameterCaption");
-        var parameterValue = fims.getUrlParameter("parameterValue");
-
-        var url = {
-            update: appName + "/role/selectInitData"
-        };
+        var parameterValue = decodeURI(fims.getUrlParameter("parameterValue"));
+        var parameterOldValue = decodeURI(fims.getUrlParameter("parameterOldValue"));
+        var parameterType = fims.getUrlParameter("parameterType");
+        var parameterExt = fims.getUrlParameter("parameterExt");
+        var maxlength = fims.isBlank(parameterExt) ? 150 : parameterExt;
+        var item = "";
+        if (parameterType == 'text' || fims.isBlank(parameterType)) {
+            item += '<div class="layui-form-item">';
+            item += '   <div class="layui-input-inline" style="margin: 0 0 10px 30px;">';
+            item += '       <input type="text" name="' + parameterCode + '" class="layui-input"';
+            item += '        lay-verify="required" maxlength="' + maxlength + '" />';
+            item += '   </div>';
+            item += '</div>';
+        } else if (parameterType == 'number') {
+            item += '<div class="layui-form-item input">';
+            item += '   <div class="layui-input-inline" style="margin: 0 0 10px 30px;">';
+            item += '       <input type="text" name="' + parameterCode + '" class="layui-input"';
+            item += '        lay-verify="required|number" maxlength="' + maxlength+ '" />';
+            item += '   </div>';
+            item += '</div>';
+        } else if (parameterType == 'switch') {
+            item += '<div class="layui-form-item">';
+            item += '    <div class="layui-input-inline" style="margin: 0 0 10px 30px;">';
+            item += '       <input type="checkbox" name="' + parameterCode + '" lay-skin="switch"';
+            item += '        lay-text="开启|关闭" />';
+            item += '    </div>';
+            item += '</div>';
+        } else if (parameterType == 'date') {
+            item += '<div class="layui-form-item">';
+            item += '   <div class="layui-input-inline" style="margin: 0 0 10px 30px;">';
+            item += '       <input type="text" name="' + parameterCode + '" class="layui-input"';
+            item += '        lay-verify="required|number" maxlength="' + maxlength + '" />';
+            item += '   </div>';
+            item += '</div>';
+        }
+        $(".parameter").append(item);
+        // 设置value值
+        if (parameterType == 'switch' && parameterOldValue == '1') {
+            $("input[name='" + parameterCode + "']").attr("checked", true);
+        } else {
+            $("input[name='" + parameterCode + "']").val(parameterValue);
+        }
+        form.render();
 
     })
 </script>

@@ -25,6 +25,16 @@ public class CueConst {
     public static final String SELECT_SUCCESS                       = "查询成功";
 
     /**
+     * 提示信息：重置密码成功
+     */
+    public static final String RESET_PASSWORD_SUCCESS               = "重置密码成功";
+
+    /**
+     * 提示信息：修改密码成功
+     */
+    public static final String UPDATE_PASSWORD_SUCCESS              = "修改密码成功";
+
+    /**
      * 提示信息：查询失败
      */
     public static final String SELECT_FAIL                          = "查询失败";

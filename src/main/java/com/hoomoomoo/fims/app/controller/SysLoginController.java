@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -55,13 +56,14 @@ public class SysLoginController {
     /**
      * 登出
      *
-     * @param sysUserModel
+     * @param request
+     * @param sessionStatus
      * @return
      */
     @ApiOperation("用户登出")
     @RequestMapping(value = "user/logout", method = RequestMethod.POST)
     @ResponseBody
-    public ResultData logout(SysUserModel sysUserModel) {
-        return null;
+    public ResultData logout(HttpServletRequest request, SessionStatus sessionStatus) {
+        return sysLoginService.logout(request, sessionStatus);
     }
 }

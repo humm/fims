@@ -8,11 +8,15 @@ import com.hoomoomoo.fims.app.dao.SysUserDao;
 import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
+import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.model.common.ViewData;
+import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysUserService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +30,7 @@ import java.util.List;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D009;
+import static com.hoomoomoo.fims.app.consts.ParameterConst.USER_DEFAULT_PASSWORD;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
@@ -52,6 +57,9 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Autowired
     private SysRoleDao sysRoleDao;
+
+    @Autowired
+    private SysParameterService sysParameterService;
 
     /**
      * 查询用户信息
@@ -134,8 +142,7 @@ public class SysUserServiceImpl implements SysUserService {
         sysSystemService.loadSysDictionaryCondition();
         LogUtils.parameter(logger, list);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_DELETE);
-        return new ResultData(true, LOG_BUSINESS_TYPE_USER, null);
-
+        return new ResultData(true, DELETE_SUCCESS, null);
     }
 
     /**
@@ -158,7 +165,7 @@ public class SysUserServiceImpl implements SysUserService {
         // 查询用户角色信息
         List<SysUserRoleModel> sysUserRoleModelList = sysUserDao.selectUserRole(sysUserQueryModel);
         String[] roles = new String[sysUserRoleModelList.size()];
-        for(int i=0; i<sysUserRoleModelList.size(); i++){
+        for (int i = 0; i < sysUserRoleModelList.size(); i++) {
             roles[i] = sysUserRoleModelList.get(i).getRoleId();
         }
         sysUserModel.setRoleId(StringUtils.join(roles, COMMA));
@@ -185,8 +192,8 @@ public class SysUserServiceImpl implements SysUserService {
             // 新增
             String userId = sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_USER);
             sysUserModel.setUserId(userId);
-            // todo 设置配置默认密码 加密存储
-            sysUserModel.setUserPassword("2UDNzITM");
+
+            sysUserModel.setUserPassword(getPassword());
             // 新增字典项
             sysDictionaryModel.setDictionaryItem(userId);
             sysDictionaryModel.setUserId(userId);
@@ -203,9 +210,9 @@ public class SysUserServiceImpl implements SysUserService {
         sysSystemService.loadSysDictionaryCondition();
         // 角色信息处理
         sysUserDao.deleteUserRole(sysUserModel);
-        if(StringUtils.isNotBlank(sysUserModel.getRoleId())){
+        if (StringUtils.isNotBlank(sysUserModel.getRoleId())) {
             String[] roleId = sysUserModel.getRoleId().split(COMMA);
-            for(String ele : roleId){
+            for (String ele : roleId) {
                 SysUserRoleModel sysUserRoleModel = new SysUserRoleModel();
                 String userRoleId = sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_USER_ROLE);
                 sysUserRoleModel.setUserRoleId(userRoleId);
@@ -230,6 +237,62 @@ public class SysUserServiceImpl implements SysUserService {
         Boolean isExist = sysUserDao.checkUserCode(sysUserQueryModel);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_CHECK);
         return new ResultData(true, SELECT_SUCCESS, isExist);
+    }
+
+    /**
+     * 重置用户密码
+     *
+     * @param userIds
+     * @return
+     */
+    @Override
+    public ResultData reset(String userIds) {
+        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_RESET_PASSWORD);
+        List<SysUserModel> list = new ArrayList<>();
+        if (StringUtils.isNotBlank(userIds)) {
+
+            String[] userId = userIds.split(COMMA);
+            for (String ele : userId) {
+                SysUserModel sysUserModel = new SysUserModel();
+                sysUserModel.setUserId(ele);
+                list.add(sysUserModel);
+            }
+            sysUserDao.reset(getPassword(), list);
+        }
+        LogUtils.parameter(logger, list);
+        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_RESET_PASSWORD);
+        return new ResultData(true, RESET_PASSWORD_SUCCESS, null);
+    }
+
+    /**
+     * 修改用户密码
+     *
+     * @param password
+     * @return
+     */
+    @Override
+    public ResultData changPassword(String password) {
+        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_UPDATE_PASSWORD);
+        SessionBean sessionBean = SystemSessionUtils.getSession();
+        if(sessionBean != null){
+            SysUserModel sysUserModel = new SysUserModel();
+            sysUserModel.setUserId(sessionBean.getUserId());
+            sysUserModel.setUserPassword(new StringBuffer(password).reverse().toString());
+            sysUserDao.changPassword(sysUserModel);
+            LogUtils.parameter(logger, sysUserModel);
+        }
+        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_UPDATE_PASSWORD);
+        return new ResultData(true, UPDATE_PASSWORD_SUCCESS, null);
+    }
+
+    /**
+     * 获取用户密码
+     *
+     * @return
+     */
+    private String getPassword() {
+        String password = sysParameterService.getParameterString(USER_DEFAULT_PASSWORD);
+        return new StringBuffer(Base64.encode(password.getBytes())).reverse().toString();
     }
 
 }
