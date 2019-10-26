@@ -178,13 +178,12 @@ public class SysGiftServiceImpl implements SysGiftService {
     private SysNoticeModel setSysNoticeProperties(SysGiftModel sysGiftModel){
         SysNoticeModel sysNoticeModel = new SysNoticeModel();
         sysNoticeModel.setUserId(sysSystemService.getUserId());
-        sysNoticeModel.setBusinessType(BUSINESS_TYPE_GIFT);
+        sysNoticeModel.setBusinessType(new StringBuffer(D011).append(MINUS).append(STR_2).toString());
         sysNoticeModel.setBusinessSubType(sysGiftModel.getGiftType());
         sysNoticeModel.setBusinessDate(sysGiftModel.getGiftDate());
         sysNoticeModel.setBusinessAmount(sysGiftModel.getGiftAmount());
-        if(StringUtils.isBlank(sysNoticeModel.getNoticeType())){
-            sysNoticeModel.setNoticeType(new StringBuffer(D008).append(MINUS).append(STR_1).toString());
-        }
+        sysNoticeModel.setNoticeType(new StringBuffer(D008).append(MINUS).append(STR_1).toString());
+        sysNoticeModel.setReadStatus(new StringBuffer(D012).append(MINUS).append(STR_1).toString());
         return sysNoticeModel;
     }
 }

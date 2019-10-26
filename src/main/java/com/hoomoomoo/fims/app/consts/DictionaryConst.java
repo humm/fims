@@ -63,4 +63,14 @@ public class DictionaryConst {
      */
     public static final String D010                          = "D010";
 
+    /**
+     * 消息类型
+     */
+    public static final String D011                          = "D011";
+
+    /**
+     * 阅读状态
+     */
+    public static final String D012                          = "D012";
+
 }

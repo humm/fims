@@ -27,3 +27,4 @@ fims
     03. ajax请求session失效处理 view.js 维护
     04. set.js 修改密码按钮事件已注释(移动至password.ftl)
     05. index.js 退出按钮事件已注释(移动至index.ftl)
+    06. table.js  解决查询自带上次查询条件问题(178行位置) t.extend(!0, {}, i.config, e) 修改为 t.extend({}, i.config, e)

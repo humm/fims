@@ -33,18 +33,19 @@
                 </div>
 
 
-                <!-- 重置按钮 -->
-                <div class="layui-inline layui-inline-button">
-                    <button class="layui-btn layuiadmin-btn-dictionary-list" lay-submit
-                            lay-filter="LAY-app-dictionarylist-refresh">
-                        <i class="layui-icon layui-icon-refresh-1 layuiadmin-button-btn"></i>
-                    </button>
-                </div>
                 <!-- 查询按钮 -->
                 <div class="layui-inline layui-inline-button">
                     <button class="layui-btn layuiadmin-btn-dictionary-list" lay-submit
                             lay-filter="LAY-app-dictionarylist-search">
                         <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+
+                <!-- 重置按钮 -->
+                <div class="layui-inline layui-inline-button">
+                    <button class="layui-btn layuiadmin-btn-dictionary-list" lay-submit
+                            lay-filter="LAY-app-dictionarylist-refresh">
+                        <i class="layui-icon layui-icon-refresh-1 layuiadmin-button-btn"></i>
                     </button>
                 </div>
 
@@ -313,13 +314,10 @@
         table.on("sort(LAY-app-" + businessType + "-list)", function (data) {
             table.reload("LAY-app-" + businessType + "-list", {
                 initSort: data,
-                where: {
+                where: $.extend({
                     sort: data.field,
                     order: data.type
-                },
-                done: function (res, curr, count) {
-                    this.where = {};
-                }
+                }, fims.clearBlank(fims.getValue("layui-form-item")))
             });
         });
 
@@ -331,10 +329,7 @@
         // 重载列表数据
         var reloadData = function (data) {
             table.reload("LAY-app-" + businessType + "-list", {
-                where: fims.clearBlank(data),
-                done: function (res, curr, count) {
-                    this.where = {};
-                }
+                where: fims.clearBlank(data)
             });
         }
 

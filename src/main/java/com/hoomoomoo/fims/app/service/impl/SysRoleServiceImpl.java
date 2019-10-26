@@ -187,6 +187,8 @@ public class SysRoleServiceImpl implements SysRoleService {
         }
         LogUtils.parameter(logger, sysRoleModel);
         sysRoleDao.save(sysRoleModel);
+        // 加载字典项
+        sysSystemService.loadSysDictionaryCondition();
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, operateType);
         return new ResultData(true, tipMsg, null);
     }

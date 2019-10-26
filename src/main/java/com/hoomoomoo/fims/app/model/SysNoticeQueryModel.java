@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.hoomoomoo.fims.app.model.common.BaseModel;
+import com.hoomoomoo.fims.app.model.common.QueryBaseModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,13 +10,13 @@ import java.util.Date;
 
 /**
  * @author humm23693
- * @description 消息通知实体类
+ * @description 消息通知查询实体类
  * @package com.hoomoomoo.fims.app.model
- * @date 2019/09/06
+ * @date 2019/10/26
  */
 
 @Data
-public class SysNoticeModel extends BaseModel {
+public class SysNoticeQueryModel extends QueryBaseModel {
 
     @ApiModelProperty(value="通知ID", required = false)
     private String noticeId;
@@ -30,14 +30,8 @@ public class SysNoticeModel extends BaseModel {
     @ApiModelProperty(value="业务类型", required = false)
     private String businessType;
 
-    @ApiModelProperty(value="业务类型代码", required = false)
-    private String businessTypeCode;
-
     @ApiModelProperty(value="业务子类型", required = false)
     private String businessSubType;
-
-    @ApiModelProperty(value="业务子类型代码", required = false)
-    private String businessSubTypeCode;
 
     @ApiModelProperty(value="业务日期", required = false)
     @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
@@ -50,18 +44,9 @@ public class SysNoticeModel extends BaseModel {
     @ApiModelProperty(value="通知状态", required = false)
     private String noticeStatus;
 
-    @ApiModelProperty(value="通知状态代码", required = false)
-    private String noticeStatusCode;
-
     @ApiModelProperty(value="通知类型", required = false)
     private String noticeType;
 
-    @ApiModelProperty(value="通知类型代码", required = false)
-    private String noticeTypeCode;
-
     @ApiModelProperty(value="阅读状态", required = false)
     private String readStatus;
-
-    @ApiModelProperty(value="阅读状态代码", required = false)
-    private String readStatusCode;
 }

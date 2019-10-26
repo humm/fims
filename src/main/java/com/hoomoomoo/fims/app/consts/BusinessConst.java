@@ -261,6 +261,36 @@ public class BusinessConst {
     public static final String SELECT_USER_STATUS                          = "userStatus";
 
     /**
+     * 查询条件：登入状态
+     */
+    public static final String SELECT_LOGIN_STATUS                         = "loginStatus";
+
+    /**
+     * 查询条件：通知类型
+     */
+    public static final String SELECT_NOTICE_TYPE                          = "noticeType";
+
+    /**
+     * 查询条件：通知状态
+     */
+    public static final String SELECT_NOTICE_STATUS                        = "noticeStatus";
+
+    /**
+     * 查询条件：业务类型
+     */
+    public static final String SELECT_BUSINESS_TYPE                        = "businessType";
+
+    /**
+     * 查询条件：业务子类型
+     */
+    public static final String SELECT_BUSINESS_SUB_TYPE                    = "businessSubType";
+
+    /**
+     * 查询条件：阅读状态
+     */
+    public static final String SELECT_READ_STATUS                          = "readStatus";
+
+    /**
      * 报表：汇总title
      */
     public static final String REPORT_COLLECT_TITLE                        = "合计";

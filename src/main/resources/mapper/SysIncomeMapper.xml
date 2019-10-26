@@ -65,7 +65,7 @@
     <select id="selectOne" parameterType="com.hoomoomoo.fims.app.model.SysIncomeQueryModel"
             resultType="com.hoomoomoo.fims.app.model.SysIncomeModel">
         select
-        <include refid="Base_Column_List"/>
+            <include refid="Base_Column_List"/>
         from sys_income
         <where>
             <if test="incomeId != null">

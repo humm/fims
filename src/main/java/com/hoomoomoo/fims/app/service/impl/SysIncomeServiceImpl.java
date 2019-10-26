@@ -180,11 +180,12 @@ public class SysIncomeServiceImpl implements SysIncomeService {
     private SysNoticeModel setSysNoticeProperties(SysIncomeModel sysIncomeModel) {
         SysNoticeModel sysNoticeModel = new SysNoticeModel();
         sysNoticeModel.setUserId(sysIncomeModel.getUserId());
-        sysNoticeModel.setBusinessType(BUSINESS_TYPE_INCOME);
+        sysNoticeModel.setBusinessType(new StringBuffer(D011).append(MINUS).append(STR_1).toString());
         sysNoticeModel.setBusinessSubType(sysIncomeModel.getIncomeType());
         sysNoticeModel.setBusinessDate(sysIncomeModel.getIncomeDate());
         sysNoticeModel.setBusinessAmount(sysIncomeModel.getIncomeAmount());
         sysNoticeModel.setNoticeType(new StringBuffer(D008).append(MINUS).append(STR_1).toString());
+        sysNoticeModel.setReadStatus(new StringBuffer(D012).append(MINUS).append(STR_1).toString());
         return sysNoticeModel;
     }
 }

@@ -107,6 +107,9 @@
                 done: function (response) {
                     if (response.bizResult) {
                         $(".layui-btn").attr("disabled", true);
+                        $("input[name='oldPassword']").attr("disabled", true);
+                        $("input[name='password']").attr("disabled", true);
+                        $("input[name='repassword']").attr("disabled", true);
                         $(".layui-btn").text(fims.tips.msg.passwordChangefresh);
                         fims.msg(response.msg);
                     } else {

@@ -337,6 +337,27 @@ public class SysSystemServiceImpl implements SysSystemService {
                 viewData.getCondition().put(SELECT_USER_STATUS,
                         DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D001));
                 break;
+            case BUSINESS_TYPE_LOGIN_LOG:
+                viewData.getCondition().put(SELECT_USER_ID,
+                        DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D000));
+                viewData.getCondition().put(SELECT_LOGIN_STATUS,
+                        DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D002));
+                break;
+            case BUSINESS_TYPE_NOTICE:
+                viewData.getCondition().put(SELECT_USER_ID,
+                        DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D000));
+                viewData.getCondition().put(SELECT_NOTICE_TYPE,
+                        DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D008));
+                viewData.getCondition().put(SELECT_NOTICE_STATUS,
+                        DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D007));
+                viewData.getCondition().put(SELECT_READ_STATUS,
+                        DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D012));
+                viewData.getCondition().put(SELECT_BUSINESS_TYPE,
+                        DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D011));
+                viewData.getCondition().put(SELECT_BUSINESS_SUB_TYPE,
+                        DICTIONARY_CONDITION.get(new StringBuffer(userId).append(BLANK).toString()).get(D003));
+                viewData.getCondition().get(SELECT_BUSINESS_SUB_TYPE).addAll(DICTIONARY_CONDITION.get(userId).get(D004));
+                break;
             default:
                 break;
         }

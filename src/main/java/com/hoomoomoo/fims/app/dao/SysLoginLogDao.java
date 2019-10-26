@@ -1,7 +1,10 @@
 package com.hoomoomoo.fims.app.dao;
 
 import com.hoomoomoo.fims.app.model.SysLoginLogModel;
+import com.hoomoomoo.fims.app.model.SysLoginLogQueryModel;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * @author humm23693
@@ -27,4 +30,21 @@ public interface SysLoginLogDao {
      * @param sysLoginLogModel
      */
     void update(SysLoginLogModel sysLoginLogModel);
+
+    /**
+     * 分页查询登入日志信息
+     *
+     * @param sysLoginLogQueryModel
+     * @return
+     */
+    List<SysLoginLogModel> selectPage(SysLoginLogQueryModel sysLoginLogQueryModel);
+
+    /**
+     * 查询登入日志信息
+     *
+     * @param sysLoginLogQueryModel
+     * @return
+     */
+    SysLoginLogModel selectOne(SysLoginLogQueryModel sysLoginLogQueryModel);
+
 }
