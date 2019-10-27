@@ -56,7 +56,7 @@ public class FunctionTest {
     @Test
     public void transferData(){
         SysIncomeModel sysIncomeModel = new SysIncomeModel();
-        sysIncomeModel.setIncomeAmount(12345D);
+        sysIncomeModel.setIncomeAmount("12345");
         sysSystemService.transferData(sysIncomeModel, SysIncomeModel.class);
         logger.info(sysIncomeModel.toString());
     }

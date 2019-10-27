@@ -121,9 +121,13 @@
 
     <update id="update" parameterType="com.hoomoomoo.fims.app.model.SysNoticeModel">
         update sys_notice
-        set read_status = #{readStatus}, notice_status = #{noticeStatus}
+        set read_status = #{readStatus},
+            notice_status = #{noticeStatus}
         where business_id = #{businessId}
         and business_type = #{businessType}
+        <if test="noticeId != null">
+            and notice_id = #{noticeId}
+        </if>
     </update>
 
 </mapper>

@@ -1,5 +1,6 @@
 package com.hoomoomoo.fims.app.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -12,19 +13,13 @@ import lombok.Data;
 @Data
 public class MailModel {
 
-    /**
-     * 邮件主题
-     */
+    @ApiModelProperty(value="邮件主题", required = false)
     private String subject;
 
-    /**
-     * 邮件内容
-     */
+    @ApiModelProperty(value="邮件内容", required = false)
     private String text;
 
-    /**
-     * 邮件id
-     */
+    @ApiModelProperty(value="邮件ID", required = false)
     private String mailId;
 
 

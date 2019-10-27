@@ -38,8 +38,8 @@ public class SysNoticeQueryModel extends QueryBaseModel {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date businessDate;
 
-    @ApiModelProperty(value="业务子类型", required = false)
-    private Double businessAmount;
+    @ApiModelProperty(value="业务金额", required = false)
+    private String businessAmount;
 
     @ApiModelProperty(value="通知状态", required = false)
     private String noticeStatus;

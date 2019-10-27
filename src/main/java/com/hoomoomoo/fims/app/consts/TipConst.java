@@ -256,6 +256,11 @@ public class TipConst {
     public static final String LOG_BUSINESS_TYPE_GIFT                           = "随礼信息";
 
     /**
+     * 日志业务类型：首页
+     */
+    public static final String LOG_BUSINESS_TYPE_CONSOLE                        = "首页信息";
+
+    /**
      * 日志业务类型：大额支出
      */
     public static final String LOG_BUSINESS_TYPE_PAY                            = "大额支出信息";

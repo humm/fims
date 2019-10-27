@@ -1,5 +1,6 @@
 package com.hoomoomoo.fims.app.model.common;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -12,29 +13,19 @@ import lombok.Data;
 @Data
 public class SessionBean {
 
-    /**
-     * 用户ID
-     */
+    @ApiModelProperty(value="用户ID", required = false)
     private String userId;
 
-    /**
-     * 用户代码
-     */
+    @ApiModelProperty(value="用户代码", required = false)
     private String userCode;
 
-    /**
-     * 用户名称
-     */
+    @ApiModelProperty(value="用户名称", required = false)
     private String userName;
 
-    /**
-     * 用户状态
-     */
+    @ApiModelProperty(value="用户状态", required = false)
     private String userStatus;
 
-    /**
-     * 是否管理员数据权限
-     */
+    @ApiModelProperty(value="是否管理员数据权限", required = false)
     private Boolean isAdminData;
 
 }

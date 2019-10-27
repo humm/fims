@@ -3,6 +3,7 @@ package com.hoomoomoo.fims.app.model.common;
 import com.hoomoomoo.fims.app.model.SysDictionaryModel;
 import com.hoomoomoo.fims.app.model.SysMenuTreeModel;
 import com.hoomoomoo.fims.app.model.SysRoleModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.HashMap;
@@ -19,44 +20,28 @@ import java.util.Map;
 @Data
 public class ViewData {
 
-    /**
-     * 查询条件
-     */
+    @ApiModelProperty(value="查询条件", required = false)
     private Map<String, List<SysDictionaryModel>> condition               = new HashMap<>(16);
 
-    /**
-     * 智能填充
-     */
+    @ApiModelProperty(value="智能填充", required = false)
     private Boolean mindFill;
 
-    /**
-     * 最近一次操作类型
-     */
+    @ApiModelProperty(value="最近一次操作类型", required = false)
     private LastType lastType;
 
-    /**
-     * 登录用户信息
-     */
+    @ApiModelProperty(value="登录用户信息", required = false)
     private SessionBean sessionBean;
 
-    /**
-     * 页面类型
-     */
+    @ApiModelProperty(value="页面类型", required = false)
     private String viewType;
 
-    /**
-     * 角色信息
-     */
+    @ApiModelProperty(value="角色信息", required = false)
     private List<SysRoleModel> roleList;
 
-    /**
-     * 菜单信息
-     */
+    @ApiModelProperty(value="菜单信息", required = false)
     private List<SysMenuTreeModel> menuList;
 
-    /**
-     * 数据权限
-     */
+    @ApiModelProperty(value="数据权限", required = false)
     private String dataAuthority;
 
 }

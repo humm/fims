@@ -30,6 +30,6 @@ public class BaseModel {
 
     @ApiModelProperty(value="修改时间", required = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modifyDate;
 }

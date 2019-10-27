@@ -42,7 +42,7 @@ public class SysIncomeModel extends BaseModel {
     private String incomeCompanyCode;
 
     @ApiModelProperty(value="收入金额", required = false)
-    private Double incomeAmount;
+    private String incomeAmount;
 
     @ApiModelProperty(value="收入备注", required = false)
     private String incomeMemo;

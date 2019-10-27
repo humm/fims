@@ -12,8 +12,10 @@ import com.hoomoomoo.fims.app.service.SysNoticeService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +56,9 @@ public class SysNoticeServiceImpl implements SysNoticeService {
     public void save(SysNoticeModel sysNoticeModel) {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_ADD);
         SystemUtils.setCreateUserInfo(sysNoticeModel);
-        sysNoticeModel.setNoticeStatus(new StringBuffer(D007).append(MINUS).append(STR_1).toString());
+        if (StringUtils.isBlank(sysNoticeModel.getNoticeStatus())) {
+            sysNoticeModel.setNoticeStatus(new StringBuffer(D007).append(MINUS).append(STR_1).toString());
+        }
         LogUtils.parameter(logger, sysNoticeModel);
         sysNoticeDao.save(sysNoticeModel);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_ADD);
@@ -70,8 +74,9 @@ public class SysNoticeServiceImpl implements SysNoticeService {
     public void update(SysNoticeModel sysNoticeModel) {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
         SystemUtils.setCreateUserInfo(sysNoticeModel);
-        sysNoticeModel.setNoticeStatus(new StringBuffer(D007).append(MINUS).append(STR_2).toString());
-        sysNoticeModel.setReadStatus(new StringBuffer(D012).append(MINUS).append(STR_1).toString());
+        if (StringUtils.isBlank(sysNoticeModel.getNoticeStatus())) {
+            sysNoticeModel.setNoticeStatus(new StringBuffer(D007).append(MINUS).append(STR_2).toString());
+        }
         LogUtils.parameter(logger, sysNoticeModel);
         sysNoticeDao.update(sysNoticeModel);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
@@ -90,7 +95,8 @@ public class SysNoticeServiceImpl implements SysNoticeService {
         viewData.setViewType(BUSINESS_TYPE_NOTICE);
         sysSystemService.setCondition(viewData);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT_INIT);
-        return new ResultData(true, SELECT_SUCCESS, viewData);    }
+        return new ResultData(true, SELECT_SUCCESS, viewData);
+    }
 
     /**
      * 分页查询消息通知信息
@@ -125,9 +131,14 @@ public class SysNoticeServiceImpl implements SysNoticeService {
         sysNoticeQueryModel.setNoticeId(noticeId);
         LogUtils.parameter(logger, sysNoticeQueryModel);
         SysNoticeModel sysNoticeModel = sysNoticeDao.selectOne(sysNoticeQueryModel);
+        SysNoticeModel sysNotice = new SysNoticeModel();
+        BeanUtils.copyProperties(sysNoticeModel, sysNotice);
         if (isTranslate) {
             sysSystemService.transferData(sysNoticeModel, SysNoticeModel.class);
         }
+        sysNotice.setReadStatus(new StringBuffer(D012).append(MINUS).append(STR_2).toString());
+        // 修改阅读状态
+        update(sysNotice);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysNoticeModel);
     }

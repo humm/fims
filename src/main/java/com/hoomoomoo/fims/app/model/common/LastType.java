@@ -1,5 +1,6 @@
 package com.hoomoomoo.fims.app.model.common;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -12,18 +13,12 @@ import lombok.Data;
 @Data
 public class LastType {
 
-    /**
-     * 收入类型
-     */
+    @ApiModelProperty(value="收入类型", required = false)
     private String incomeType;
 
-    /**
-     * 随礼类型
-     */
+    @ApiModelProperty(value="随礼类型", required = false)
     private String giftType;
 
-    /**
-     * 收入来源
-     */
+    @ApiModelProperty(value="收入来源", required = false)
     private String incomeCompany;
 }

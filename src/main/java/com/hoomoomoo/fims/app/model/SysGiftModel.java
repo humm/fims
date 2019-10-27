@@ -39,7 +39,7 @@ public class SysGiftModel extends BaseModel {
     private Date giftDate;
 
     @ApiModelProperty(value="随礼金额", required = false)
-    private Double giftAmount;
+    private String giftAmount;
 
     @ApiModelProperty(value="随礼备注", required = false)
     private String giftMemo;

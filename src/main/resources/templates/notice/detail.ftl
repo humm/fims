@@ -80,7 +80,7 @@
 
         var request = {
             noticeId: fims.getUrlParameter("noticeId"),
-            isTranslate: fims.getUrlParameter("isTranslate")
+            isTranslate: fims.getUrlParameter("isTranslate"),
         }
 
         // 请求url

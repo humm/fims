@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hoomoomoo.fims.app.dao.SysConsoleDao">
+
+    <select id="selectIncomeLast" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+        select income_amount consoleData
+        from sys_income
+        where income_id = (
+            select max(income_id)
+            from sys_income
+            <where>
+                <if test="userId != null">
+                    and user_id = #{userId}
+                </if>
+            </where>
+        )
+    </select>
+
+    <select id="selectIncomeMonth" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+        select sum(income_amount) consoleData
+        from sys_income
+        <where>
+            to_char(sysdate, 'yyyyMM') = to_char(income_date, 'yyyyMM')
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectIncomePreviousYearMonth" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+        select sum(income_amount) consoleData
+        from sys_income
+        <where>
+            to_char(add_months(sysdate, -12), 'yyyyMM') = to_char(income_date, 'yyyyMM')
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectIncomePreviousMonth" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+        select sum(income_amount) consoleData
+        from sys_income
+        <where>
+            to_char(add_months(sysdate, -1), 'yyyyMM') = to_char(income_date, 'yyyyMM')
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectIncomeYear" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+        select sum(income_amount) consoleData
+        from sys_income
+        <where>
+            to_char(income_date, 'yyyyMM')
+                between #{yearStartDate}
+                and to_char(add_months(to_date(#{yearStartDate}, 'yyyyMM'), 12), 'yyyyMM')
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectIncomeTotal" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+        select sum(income_amount) consoleData
+        from sys_income
+        <where>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectGiftSendLast" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+        select gift_amount consoleData
+        from sys_gift
+        where gift_id = (
+            select max(gift_id)
+            from sys_gift a, sys_user b
+            <where>
+                substr(a.gift_sender, instr(a.gift_sender, '-') + 1) = b.user_id
+                <if test="userId != null">
+                    and b.user_id = #{userId}
+                </if>
+            </where>
+        )
+    </select>
+
+    <select id="selectGiftSendYear" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+        select sum(gift_amount) consoleData
+        from sys_gift a, sys_user b
+        where substr(a.gift_sender, instr(a.gift_sender, '-') + 1) = b.user_id
+        and to_char(gift_date, 'yyyyMM')
+            between #{yearStartDate}
+            and to_char(add_months(to_date(#{yearStartDate}, 'yyyyMM'), 12), 'yyyyMM')
+        <if test="userId != null">
+            and b.user_id = #{userId}
+        </if>
+    </select>
+
+    <select id="selectGiftSendTotal" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+        select sum(gift_amount) consoleData
+        from sys_gift a, sys_user b
+        where substr(a.gift_sender, instr(a.gift_sender, '-') + 1) = b.user_id
+        <if test="userId != null">
+            and b.user_id = #{userId}
+        </if>
+    </select>
+
+    <select id="selectGiftReceiveLast" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+        select gift_amount consoleData
+        from sys_gift
+        where gift_id = (
+            select max(gift_id)
+            from sys_gift a, sys_user b
+            <where>
+                substr(a.gift_receiver, instr(a.gift_receiver, '-') + 1) = b.user_id
+                <if test="userId != null">
+                    and b.user_id = #{userId}
+                </if>
+            </where>
+        )
+    </select>
+
+    <select id="selectGiftReceiveYear" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+        select sum(gift_amount) consoleData
+        from sys_gift a, sys_user b
+        where substr(a.gift_receiver, instr(a.gift_receiver, '-') + 1) = b.user_id
+        and to_char(gift_date, 'yyyyMM')
+            between #{yearStartDate}
+            and to_char(add_months(to_date(#{yearStartDate}, 'yyyyMM'), 12), 'yyyyMM')
+        <if test="userId != null">
+            and b.user_id = #{userId}
+        </if>
+    </select>
+
+    <select id="selectGiftReceiveTotal" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+        select sum(gift_amount) consoleData
+        from sys_gift a, sys_user b
+        where substr(a.gift_receiver, instr(a.gift_receiver, '-') + 1) = b.user_id
+        <if test="userId != null">
+            and b.user_id = #{userId}
+        </if>
+    </select>
+
+    <select id="selectLoginLast" resultType="com.hoomoomoo.fims.app.model.SysLoginModel">
+        select to_char(login_date, 'yyyy-MM-dd hh24:mm:ss') consoleData
+        from sys_login_log
+        where log_id = (
+            select max(log_id)
+            from sys_login_log a, sys_user b
+            <where>
+                a.user_id = b.user_id
+                <if test="userId != null">
+                    and a.user_id = #{userId}
+                </if>
+            </where>
+            )
+    </select>
+
+    <select id="selectLoginMonthTime" resultType="com.hoomoomoo.fims.app.model.SysLoginModel">
+        select count(1) consoleData
+        from sys_login_log a, sys_user b
+        <where>
+            a.user_id = b.user_id
+            <if test="userId != null">
+                and a.user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectLoginYearTime" resultType="com.hoomoomoo.fims.app.model.SysLoginModel">
+        select count(1) consoleData
+        from sys_login_log a, sys_user b
+        <where>
+            a.user_id = b.user_id
+            and to_char(login_date, 'yyyyMM')
+                between #{yearStartDate}
+                and to_char(add_months(to_date(#{yearStartDate}, 'yyyyMM'), 12), 'yyyyMM')
+            <if test="userId != null">
+                and a.user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectLoginTotalTime" resultType="com.hoomoomoo.fims.app.model.SysLoginModel">
+        select count(1) consoleData
+        from sys_login_log a, sys_user b
+        <where>
+            a.user_id = b.user_id
+            <if test="userId != null">
+                and a.user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -238,6 +238,9 @@
         // 监听双击事件
         table.on("rowDouble(LAY-app-" + businessType + "-list)", function (obj) {
             detail(obj.data);
+            setTimeout(function () {
+                reloadData(fims.getValue("layui-form-item"));
+            }, 500);
         });
 
         // 重载列表数据

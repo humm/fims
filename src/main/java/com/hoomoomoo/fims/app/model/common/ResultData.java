@@ -1,5 +1,6 @@
 package com.hoomoomoo.fims.app.model.common;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import static com.hoomoomoo.fims.app.consts.CueConst.OPERATE_SUCCESS;
@@ -15,24 +16,16 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.STATUS_SUCCESS;
 @Data
 public class ResultData<T> {
 
-    /**
-     * 状态码：请求返回码 0正常返回 1异常返回
-     */
+    @ApiModelProperty(value="状态码：请求返回码 0正常返回 1异常返回", required = false)
     private String code;
 
-    /**
-     * 业务处理是否正常
-     */
+    @ApiModelProperty(value="业务处理是否正常", required = false)
     private Boolean bizResult;
 
-    /**
-     * 提示消息
-     */
+    @ApiModelProperty(value="提示消息", required = false)
     private String msg;
 
-    /**
-     * 结果集
-     */
+    @ApiModelProperty(value="结果集", required = false)
     private T data;
 
     /**

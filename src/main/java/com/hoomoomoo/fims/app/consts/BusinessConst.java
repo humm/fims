@@ -123,7 +123,7 @@ public class BusinessConst {
     /**
      * 转义key
      */
-    public static final String TRANSFER_KEY                                 = "userId";
+    public static final String TRANSFER_KEY                                 = "userId,amount";
 
     /**
      * 是否有按钮权限
@@ -449,5 +449,15 @@ public class BusinessConst {
      * 用户密码
      */
     public static final String PASSWORD                                     = "password";
+
+    /**
+     * 金额
+     */
+    public static final String AMOUNT                                       = "amount";
+
+    /**
+     * 格式化模板
+     */
+    public static final String FORMAT_TEMPLATE                              = "#,###.00";
 
 }

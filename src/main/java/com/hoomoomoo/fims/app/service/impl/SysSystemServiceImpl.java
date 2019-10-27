@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
@@ -399,11 +400,11 @@ public class SysSystemServiceImpl implements SysSystemService {
     public String selectUserPassword() {
         String password = STR_EMPTY;
         SessionBean sessionBean = SystemSessionUtils.getSession();
-        if(sessionBean != null){
+        if (sessionBean != null) {
             SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
             sysUserQueryModel.setUserId(sessionBean.getUserId());
             List<SysUserModel> sysUserModelList = sysUserDao.selectSysUser(sysUserQueryModel);
-            if(CollectionUtils.isNotEmpty(sysUserModelList)){
+            if (CollectionUtils.isNotEmpty(sysUserModelList)) {
                 password = new StringBuffer(sysUserModelList.get(0).getUserPassword()).reverse().toString();
             }
         }
@@ -524,7 +525,7 @@ public class SysSystemServiceImpl implements SysSystemService {
             int index = -1;
             String[] keys = TRANSFER_KEY.split(COMMA);
             for (int i = 0; i < keys.length; i++) {
-                if (keys[i].equals(key)) {
+                if (keys[i].equalsIgnoreCase(key) || key.toLowerCase().contains(keys[i].toLowerCase())) {
                     index = i;
                 }
             }
@@ -553,6 +554,12 @@ public class SysSystemServiceImpl implements SysSystemService {
                         break;
                 }
             }
+            // 金额格式化
+            if (key.toLowerCase().contains(AMOUNT) && Double.valueOf(value) >= 1) {
+                DecimalFormat decimalFormat = new DecimalFormat(FORMAT_TEMPLATE);
+                ele.put(key, decimalFormat.format(Double.valueOf(value)));
+            }
+
         }
     }
 
