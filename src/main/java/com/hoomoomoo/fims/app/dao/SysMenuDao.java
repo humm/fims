@@ -53,4 +53,12 @@ public interface SysMenuDao {
      * @return
      */
     List<SysMenuModel> selectAllMenu(SysMenuQueryModel sysMenuQueryModel);
+
+    /**
+     * 查询所有菜单
+     *
+     * @return
+     */
+    List<SysMenuModel> selectUrlMenu();
+
 }

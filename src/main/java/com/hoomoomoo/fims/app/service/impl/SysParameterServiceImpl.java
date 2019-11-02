@@ -1,5 +1,6 @@
 package com.hoomoomoo.fims.app.service.impl;
 
+import com.hoomoomoo.fims.app.config.WebSocketServerConfig;
 import com.hoomoomoo.fims.app.dao.SysDictionaryDao;
 import com.hoomoomoo.fims.app.dao.SysParameterDao;
 import com.hoomoomoo.fims.app.model.SysDictionaryModel;
@@ -68,7 +69,7 @@ public class SysParameterServiceImpl implements SysParameterService {
      */
     @Override
     public ResultData save(SysParameterModel sysParameterModel) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_UPDATE);
+        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_UPDATE);
         LogUtils.parameter(logger, sysParameterModel);
         if (PARAMETER_TYPE_SWITCH.equals(sysParameterModel.getParameterType())) {
             if (sysParameterModel.getParameterValue() != null) {
@@ -78,7 +79,8 @@ public class SysParameterServiceImpl implements SysParameterService {
             }
         }
         sysParameterDao.save(sysParameterModel);
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_UPDATE);
+        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_PARAMETER);
+        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_UPDATE);
         return new ResultData(true, UPDATE_SUCCESS, null);
     }
 

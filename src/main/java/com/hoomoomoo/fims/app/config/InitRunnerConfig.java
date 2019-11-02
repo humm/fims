@@ -1,6 +1,7 @@
 package com.hoomoomoo.fims.app.config;
 
 import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
+import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import static com.hoomoomoo.fims.app.consts.ParameterConst.*;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
@@ -31,9 +33,17 @@ public class InitRunnerConfig implements CommandLineRunner {
     @Autowired
     private SysSystemService sysSystemService;
 
+    @Autowired
+    private SysParameterService sysParameterService;
+
     @Override
     public void run(String... args) {
         // 系统初始化 todo
+
+        // 加载系统参数
+        RunDataConfig.LOG_REQUEST_TAG = sysParameterService.getParameterBoolean(CONSOLE_OUTPUT_LOG_REQUEST_TAG);
+        RunDataConfig.LOG_REQUEST_PARAMETER = sysParameterService.getParameterBoolean(CONSOLE_OUTPUT_LOG_REQUEST_PARAMETER);
+        RunDataConfig.MIND_FILL = sysParameterService.getParameterBoolean(MIND_FILL);
 
         // 输出系统配置参数至控制台
         sysSystemService.outputConfigParameter();

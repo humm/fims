@@ -35,7 +35,7 @@ public class ExceptionHandlerConfig {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResultData exceptionHandler(HttpServletRequest request, Exception e){
-        logger.error(request.getServletPath());
+        logger.error(request.getRequestURL().toString());
         e.printStackTrace();
         return new ResultData(STATUS_FAIL, ERROR);
     }

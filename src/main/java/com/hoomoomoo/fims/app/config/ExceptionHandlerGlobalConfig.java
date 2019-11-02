@@ -41,7 +41,7 @@ public class ExceptionHandlerGlobalConfig implements ErrorController {
 
     @RequestMapping(produces = {TEXT_HTML})
     public ModelAndView viewHandler(HttpServletRequest request){
-        logger.error(request.getServletPath());
+        logger.error(request.getRequestURL().toString());
         return new ModelAndView(PAGE_ERROR_404);
     }
 }

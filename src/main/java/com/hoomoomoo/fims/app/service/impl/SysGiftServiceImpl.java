@@ -2,6 +2,7 @@ package com.hoomoomoo.fims.app.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hoomoomoo.fims.app.config.WebSocketServerConfig;
 import com.hoomoomoo.fims.app.dao.SysGiftDao;
 import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.*;
@@ -113,7 +114,8 @@ public class SysGiftServiceImpl implements SysGiftService {
             sysGiftDao.delete(list);
         }
         LogUtils.parameter(logger, list);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_DELETE);
+        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, STR_EMPTY);
+        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_BUSINESS_TYPE_GIFT);
         return new ResultData(true, DELETE_SUCCESS, null);
     }
 
@@ -165,6 +167,7 @@ public class SysGiftServiceImpl implements SysGiftService {
         sysNoticeService.save(sysNoticeModel);
         LogUtils.parameter(logger, sysGiftModel);
         sysGiftDao.save(sysGiftModel);
+        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_GIFT);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, operateType);
         return new ResultData(true, tipMsg, null);
     }

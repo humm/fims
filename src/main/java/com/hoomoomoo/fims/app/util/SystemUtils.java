@@ -4,6 +4,7 @@ import com.hoomoomoo.fims.app.model.common.QueryBaseModel;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.model.common.BaseModel;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 /**
@@ -55,5 +56,17 @@ public class SystemUtils {
             queryBaseModel.setUserKey(sessionBean.getUserId());
             queryBaseModel.setIsAdminData(sessionBean.getIsAdminData());
         }
+    }
+
+    /**
+     * 获取连接url
+     *
+     * @param httpServletRequest
+     * @return
+     */
+    public static String getConnectUrl(HttpServletRequest httpServletRequest){
+        String url = httpServletRequest.getRequestURL().toString();
+        String uri = httpServletRequest.getRequestURI();
+        return url.substring(0, url.indexOf(uri));
     }
 }

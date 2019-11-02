@@ -115,6 +115,7 @@
         when matched then
             update
             <set>
+                user_memo = nvl(#{userMemo}, ''),
                 <if test="userCode != null" >
                     user_code = #{userCode},
                 </if>
@@ -123,9 +124,6 @@
                 </if>
                 <if test="userStatus != null" >
                     user_status = #{userStatus},
-                </if>
-                <if test="userMemo != null">
-                    user_memo = #{userMemo},
                 </if>
                 <if test="modifyDate != null">
                     modify_date = #{modifyDate},
@@ -158,7 +156,7 @@
                 #{modifyDate},
                 #{createUser},
                 #{modifyUser},
-                #{userMemo}
+                nvl(#{userMemo}, '')
             )
     </update>
 

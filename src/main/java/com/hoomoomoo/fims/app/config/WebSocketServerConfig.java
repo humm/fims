@@ -1,4 +1,4 @@
-package com.hoomoomoo.fims.demo.websocket;
+package com.hoomoomoo.fims.app.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,23 +13,19 @@ import java.util.concurrent.CopyOnWriteArraySet;
 /**
  * @author humm23693
  * @description WebSocket服务端
- * @package com.hoomoomoo.fims.test.webSocket
+ * @package com.hoomoomoo.fims.app.config
  * @date 2019/08/09
  */
 @Component
 @ServerEndpoint("/websocket/{sid}")
-public class WebSocketServer {
+public class WebSocketServerConfig {
 
-    private static final Logger log = LoggerFactory.getLogger(WebSocketServer.class);
+    private static final Logger log = LoggerFactory.getLogger(WebSocketServerConfig.class);
 
-    /**
-     * 在线人数
-     */
-    private static int onlineCount = 0;
     /**
      * WebSocket对象
      */
-    private static CopyOnWriteArraySet<WebSocketServer> webSocketSet = new CopyOnWriteArraySet<>();
+    private static CopyOnWriteArraySet<WebSocketServerConfig> webSocketSet = new CopyOnWriteArraySet<>();
 
     /**
      * 与某个客户端的连接会话，需要通过它来给客户端发送数据
@@ -39,22 +35,20 @@ public class WebSocketServer {
     /**
      * 接收sid
      */
-    private String sid = "";
+    private String sid;
 
     /**
      * 连接建立成功调用的方法
      */
     @OnOpen
     public void onOpen(Session session, @PathParam("sid") String sid) {
-        this.session = session;
         webSocketSet.add(this);
-        addOnlineCount();
-        log.info("用户上线：" + sid + " 当前在线人数为：" + getOnlineCount());
+        this.session = session;
         this.sid = sid;
         try {
-            sendMessage("系统推送：欢迎 " + sid);
+            sendMessage(String.format("websocket连接成功: %s", sid));
         } catch (IOException e) {
-            log.error("websocket IO异常");
+            e.printStackTrace();
         }
     }
 
@@ -64,8 +58,6 @@ public class WebSocketServer {
     @OnClose
     public void onClose() {
         webSocketSet.remove(this);
-        subOnlineCount();
-        log.info("用户下线 当前在线人数为：" + getOnlineCount());
     }
 
     /**
@@ -75,18 +67,7 @@ public class WebSocketServer {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        log.info("客户端" + sid + "：" + message);
-        // 群发消息
-        for (WebSocketServer item : webSocketSet) {
-            try {
-                if (item.sid.equals(sid)) {
-                    continue;
-                }
-                item.sendMessage("用户" + sid + "：" + message);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        log.info(String.format("客户端 %s: %s", sid, message));
     }
 
     /**
@@ -110,31 +91,17 @@ public class WebSocketServer {
     /**
      * 群发自定义消息
      */
-    public static void sendInfo(String message, @PathParam("sid") String sid) throws IOException {
-        log.info("推送消息：" + message);
-        for (WebSocketServer item : webSocketSet) {
+    public static void sendMessageInfo(@PathParam("sid") String sid, String message) {
+        for (WebSocketServerConfig item : webSocketSet) {
             try {
-                if (sid == null) {
-                    item.sendMessage(message);
-                } else if (item.sid.equals(sid)) {
+                if (item.sid.equals(sid)) {
+                    log.info(String.format("%s 推送消息: %s", sid, message));
                     item.sendMessage(message);
                     break;
                 }
             } catch (IOException e) {
-                continue;
+                e.printStackTrace();
             }
         }
-    }
-
-    public static synchronized int getOnlineCount() {
-        return onlineCount;
-    }
-
-    public static synchronized void addOnlineCount() {
-        WebSocketServer.onlineCount++;
-    }
-
-    public static synchronized void subOnlineCount() {
-        WebSocketServer.onlineCount--;
     }
 }

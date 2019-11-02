@@ -93,8 +93,9 @@ public class SysLoginServiceImpl implements SysLoginService {
             if (flag && inputPassword.equals(savePassword)) {
                 // 登录成功
                 HttpSession session = request.getSession();
-                session.setAttribute(SESSION_BEAN, setSessionBeanInfo(sysUser));
-                resultData = new ResultData(true, USER_LOGON_SUCCESS, USER_LOGON_SUCCESS);
+                SessionBean sessionBean = setSessionBeanInfo(sysUser);
+                session.setAttribute(SESSION_BEAN, sessionBean);
+                resultData = new ResultData(true, USER_LOGON_SUCCESS, sessionBean);
                 sysLoginLogModel.setLoginStatus(new StringBuffer(D002).append(MINUS).append(STR_1).toString());
                 sysLoginLogModel.setLoginMessage(USER_LOGON_SUCCESS);
             } else if (flag) {

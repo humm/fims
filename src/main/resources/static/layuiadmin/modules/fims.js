@@ -214,6 +214,30 @@
             }
             return data;
         },
+        webSocket: function webSocket(connectionUrl, topicName, callBack) {
+            connectionUrl = connectionUrl.replace("http", "ws");
+            var socket = new WebSocket(connectionUrl + "/websocket/" + topicName);
+
+            //打开事件
+            socket.onopen = function () {
+                console.log("webSocket已连接：" + topicName);
+            };
+
+            //获得消息事件
+            socket.onmessage = function (result) {
+                callBack(result.data);
+            };
+
+            //关闭事件
+            socket.onclose = function () {
+                console.log("webSocket已关闭：" + topicName);
+            };
+
+            // 发生错误触发
+            socket.onerror = function () {
+                console.log("webSocket发生错误：" + topicName);
+            }
+        },
         config: {
             index: "/index",
             adminCode: "admin"

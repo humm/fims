@@ -1,8 +1,6 @@
 package com.hoomoomoo.fims.app.dao;
 
-import com.hoomoomoo.fims.app.model.SysBusinessModel;
 import com.hoomoomoo.fims.app.model.SysConsoleQueryModel;
-import com.hoomoomoo.fims.app.model.SysLoginModel;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -21,7 +19,7 @@ public interface SysConsoleDao {
      * @param sysConsoleQueryModel
      * @return
      */
-    SysBusinessModel selectIncomeLast(SysConsoleQueryModel sysConsoleQueryModel);
+    String selectIncomeLast(SysConsoleQueryModel sysConsoleQueryModel);
 
     /**
      * 查询月度收入
@@ -29,7 +27,7 @@ public interface SysConsoleDao {
      * @param sysConsoleQueryModel
      * @return
      */
-    SysBusinessModel selectIncomeMonth(SysConsoleQueryModel sysConsoleQueryModel);
+    String selectIncomeMonth(SysConsoleQueryModel sysConsoleQueryModel);
 
     /**
      * 查询上年本月度收入
@@ -37,7 +35,7 @@ public interface SysConsoleDao {
      * @param sysConsoleQueryModel
      * @return
      */
-    SysBusinessModel selectIncomePreviousYearMonth(SysConsoleQueryModel sysConsoleQueryModel);
+    String selectIncomePreviousYearMonth(SysConsoleQueryModel sysConsoleQueryModel);
 
     /**
      * 查询本年上月度收入
@@ -45,7 +43,7 @@ public interface SysConsoleDao {
      * @param sysConsoleQueryModel
      * @return
      */
-    SysBusinessModel selectIncomePreviousMonth(SysConsoleQueryModel sysConsoleQueryModel);
+    String selectIncomePreviousMonth(SysConsoleQueryModel sysConsoleQueryModel);
 
     /**
      * 查询年度收入
@@ -53,7 +51,7 @@ public interface SysConsoleDao {
      * @param sysConsoleQueryModel
      * @return
      */
-    SysBusinessModel selectIncomeYear(SysConsoleQueryModel sysConsoleQueryModel);
+    String selectIncomeYear(SysConsoleQueryModel sysConsoleQueryModel);
 
     /**
      * 查询总收入
@@ -61,7 +59,7 @@ public interface SysConsoleDao {
      * @param sysConsoleQueryModel
      * @return
      */
-    SysBusinessModel selectIncomeTotal(SysConsoleQueryModel sysConsoleQueryModel);
+    String selectIncomeTotal(SysConsoleQueryModel sysConsoleQueryModel);
 
     /**
      * 查询最后一笔送礼
@@ -69,7 +67,7 @@ public interface SysConsoleDao {
      * @param sysConsoleQueryModel
      * @return
      */
-    SysBusinessModel selectGiftSendLast(SysConsoleQueryModel sysConsoleQueryModel);
+    String selectGiftSendLast(SysConsoleQueryModel sysConsoleQueryModel);
 
     /**
      * 查询年度送礼
@@ -77,7 +75,7 @@ public interface SysConsoleDao {
      * @param sysConsoleQueryModel
      * @return
      */
-    SysBusinessModel selectGiftSendYear(SysConsoleQueryModel sysConsoleQueryModel);
+    String selectGiftSendYear(SysConsoleQueryModel sysConsoleQueryModel);
 
     /**
      * 查询总送礼
@@ -85,7 +83,7 @@ public interface SysConsoleDao {
      * @param sysConsoleQueryModel
      * @return
      */
-    SysBusinessModel selectGiftSendTotal(SysConsoleQueryModel sysConsoleQueryModel);
+    String selectGiftSendTotal(SysConsoleQueryModel sysConsoleQueryModel);
 
     /**
      * 查询最后一笔收礼
@@ -93,7 +91,7 @@ public interface SysConsoleDao {
      * @param sysConsoleQueryModel
      * @return
      */
-    SysBusinessModel selectGiftReceiveLast(SysConsoleQueryModel sysConsoleQueryModel);
+    String selectGiftReceiveLast(SysConsoleQueryModel sysConsoleQueryModel);
 
     /**
      * 查询年度收礼
@@ -101,7 +99,7 @@ public interface SysConsoleDao {
      * @param sysConsoleQueryModel
      * @return
      */
-    SysBusinessModel selectGiftReceiveYear(SysConsoleQueryModel sysConsoleQueryModel);
+    String selectGiftReceiveYear(SysConsoleQueryModel sysConsoleQueryModel);
 
     /**
      * 查询总收礼
@@ -109,7 +107,7 @@ public interface SysConsoleDao {
      * @param sysConsoleQueryModel
      * @return
      */
-    SysBusinessModel selectGiftReceiveTotal(SysConsoleQueryModel sysConsoleQueryModel);
+    String selectGiftReceiveTotal(SysConsoleQueryModel sysConsoleQueryModel);
 
     /**
      * 查询最后一次登入日志
@@ -117,7 +115,7 @@ public interface SysConsoleDao {
      * @param sysConsoleQueryModel
      * @return
      */
-    SysLoginModel selectLoginLast(SysConsoleQueryModel sysConsoleQueryModel);
+    String selectLoginLast(SysConsoleQueryModel sysConsoleQueryModel);
 
     /**
      * 查询本月登入次数
@@ -125,7 +123,7 @@ public interface SysConsoleDao {
      * @param sysConsoleQueryModel
      * @return
      */
-    SysLoginModel selectLoginMonthTime(SysConsoleQueryModel sysConsoleQueryModel);
+    String selectLoginMonthTime(SysConsoleQueryModel sysConsoleQueryModel);
 
     /**
      * 查询本年登入次数
@@ -133,7 +131,7 @@ public interface SysConsoleDao {
      * @param sysConsoleQueryModel
      * @return
      */
-    SysLoginModel selectLoginYearTime(SysConsoleQueryModel sysConsoleQueryModel);
+    String selectLoginYearTime(SysConsoleQueryModel sysConsoleQueryModel);
 
     /**
      * 查询总登入次数
@@ -141,5 +139,5 @@ public interface SysConsoleDao {
      * @param sysConsoleQueryModel
      * @return
      */
-    SysLoginModel selectLoginTotalTime(SysConsoleQueryModel sysConsoleQueryModel);
+    String selectLoginTotalTime(SysConsoleQueryModel sysConsoleQueryModel);
 }

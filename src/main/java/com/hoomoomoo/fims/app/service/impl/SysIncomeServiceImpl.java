@@ -2,6 +2,7 @@ package com.hoomoomoo.fims.app.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hoomoomoo.fims.app.config.WebSocketServerConfig;
 import com.hoomoomoo.fims.app.dao.SysIncomeDao;
 import com.hoomoomoo.fims.app.model.SysIncomeModel;
 import com.hoomoomoo.fims.app.model.SysIncomeQueryModel;
@@ -116,6 +117,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
             sysIncomeDao.delete(list);
         }
         LogUtils.parameter(logger, list);
+        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_INCOME);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_DELETE);
         return new ResultData(true, DELETE_SUCCESS, null);
     }
@@ -167,6 +169,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         sysNoticeService.save(sysNoticeModel);
         LogUtils.parameter(logger, sysIncomeModel);
         sysIncomeDao.save(sysIncomeModel);
+        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_INCOME);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
         return new ResultData(true, tipMsg, null);
     }

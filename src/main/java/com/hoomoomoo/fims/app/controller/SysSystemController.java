@@ -1,9 +1,13 @@
 package com.hoomoomoo.fims.app.controller;
 
+import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import static com.hoomoomoo.fims.app.consts.BusinessConst.USER_NAME;
 
 
 /**
@@ -24,7 +28,9 @@ public class SysSystemController {
      */
     @ApiOperation("跳转首页")
     @RequestMapping(value = "index", method = RequestMethod.GET)
-    public String index() {
+    public String index(ModelMap modelMap) {
+        modelMap.addAttribute(USER_NAME, SystemSessionUtils.getSession().getUserName());
+
         return "index";
     }
 

@@ -96,6 +96,31 @@ public class FunctionTest {
 
     @Test
     public void test(){
-
+        List<String> fundInfoList = new ArrayList<>();
+        for (int i=1; i<=120012; i++){
+            fundInfoList.add("" + i);
+        }
+        int size = fundInfoList.size();
+        int batchNum = 500;
+        if (size <= batchNum) {
+            // 一次性插入
+        } else {
+            // 分批插入
+            int times = size / batchNum;
+            int surplus = size % batchNum;
+            if (surplus != 0) {
+                times++;
+            }
+            for (int i = 1; i <= times; i++) {
+                List<String> item = new ArrayList<>();
+                if (i == times && surplus != 0) {
+                    item = fundInfoList.subList((i - 1) * batchNum,
+                            ((i - 1) * batchNum) + surplus);
+                } else {
+                    item = fundInfoList.subList((i - 1) * batchNum, i * batchNum);
+                }
+                logger.info( "" + item.get(item.size()-1));
+            }
+        }
     }
 }

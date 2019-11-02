@@ -1,6 +1,7 @@
 package com.hoomoomoo.fims.app.controller;
 
 import com.hoomoomoo.fims.app.model.SysConsoleModel;
+import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysConsoleService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import io.swagger.annotations.ApiOperation;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
 
 import static com.hoomoomoo.fims.app.consts.TipConst.LOG_BUSINESS_TYPE_CONSOLE;
 import static com.hoomoomoo.fims.app.consts.TipConst.LOG_OPERATE_TYPE_SELECT;
@@ -34,10 +37,10 @@ public class SysConsoleController {
     @ApiOperation("查询首页信息")
     @RequestMapping(value = "selectConsoleData", method = RequestMethod.GET)
     @ResponseBody
-    public SysConsoleModel selectConsoleData() {
+    public ResultData selectConsoleData(HttpServletRequest httpServletRequest) {
         LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
-        SysConsoleModel sysConsoleModel = sysConsoleService.selectConsoleData();
+        ResultData resultData = sysConsoleService.selectConsoleData(httpServletRequest);
         LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
-        return sysConsoleModel;
+        return resultData;
     }
 }

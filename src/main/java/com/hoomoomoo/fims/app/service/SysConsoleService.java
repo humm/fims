@@ -1,6 +1,9 @@
 package com.hoomoomoo.fims.app.service;
 
 import com.hoomoomoo.fims.app.model.SysConsoleModel;
+import com.hoomoomoo.fims.app.model.common.ResultData;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author humm23693
@@ -15,5 +18,5 @@ public interface SysConsoleService {
      *
      * @return
      */
-    SysConsoleModel selectConsoleData();
+    ResultData selectConsoleData(HttpServletRequest httpServletRequest);
 }

@@ -3,6 +3,9 @@ package com.hoomoomoo.fims.app.model;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author humm23693
  * @description 业务数据实体类
@@ -13,49 +16,20 @@ import lombok.Data;
 @Data
 public class SysBusinessModel {
 
-    @ApiModelProperty(value="最近一笔收入", required = false)
-    private String incomeLast;
 
-    @ApiModelProperty(value="收入环比增长", required = false)
-    private String incomeChainRatio;
+    @ApiModelProperty(value="标题", required = false)
+    private String title;
 
-    @ApiModelProperty(value="收入同比增长", required = false)
-    private String incomeRatio;
+    @ApiModelProperty(value="收入数据", required = false)
+    private List<Item> income           = new ArrayList<>();
 
-    @ApiModelProperty(value="月度收入", required = false)
-    private String incomeMonth;
+    @ApiModelProperty(value="收入分析数据", required = false)
+    private List<Item> incomeAnalysis   = new ArrayList<>();
 
-    @ApiModelProperty(value="年度收入", required = false)
-    private String incomeYear;
+    @ApiModelProperty(value="送礼数据", required = false)
+    private List<Item> giftSend         = new ArrayList<>();
 
-    @ApiModelProperty(value="总收入", required = false)
-    private String incomeTotal;
-
-    @ApiModelProperty(value="统计开始时间", required = false)
-    private String yearStartDate;
-
-    @ApiModelProperty(value="最近一笔送礼", required = false)
-    private String giftSendLast;
-
-    @ApiModelProperty(value="年度送礼", required = false)
-    private String giftSendYear;
-
-    @ApiModelProperty(value="总送礼", required = false)
-    private String giftSendTotal;
-
-    @ApiModelProperty(value="最近一笔收礼", required = false)
-    private String giftReceiveLast;
-
-    @ApiModelProperty(value="年度收礼", required = false)
-    private String giftReceiveYear;
-
-    @ApiModelProperty(value="总收礼", required = false)
-    private String giftReceiveTotal;
-
-    @ApiModelProperty(value="结果数据", required = false)
-    private String consoleData;
-
-    @ApiModelProperty(value="用户名称", required = false)
-    private String userName;
+    @ApiModelProperty(value="收礼数据", required = false)
+    private List<Item> giftReceive      = new ArrayList<>();
 
 }

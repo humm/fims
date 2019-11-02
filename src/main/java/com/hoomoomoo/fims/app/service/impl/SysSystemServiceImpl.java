@@ -559,7 +559,6 @@ public class SysSystemServiceImpl implements SysSystemService {
                 DecimalFormat decimalFormat = new DecimalFormat(FORMAT_TEMPLATE);
                 ele.put(key, decimalFormat.format(Double.valueOf(value)));
             }
-
         }
     }
 

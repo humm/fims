@@ -40,7 +40,7 @@
     </div>
 
     <div class="layui-trans layadmin-user-login-footer">
-        <p>技术支持：10806623@qq.com</p>
+        <p>版本号：${version}</p>
     </div>
 </div>
 

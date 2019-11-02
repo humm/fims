@@ -128,7 +128,7 @@ public class TipConst {
     /**
      * 日志业务类型：数据初始化
      */
-    public static final String LOG_BUSINESS_TYPE_INIT                           = "数据初始化";
+    public static final String LOG_BUSINESS_TYPE_INIT                           = "应用数据";
 
     /**
      * 日志业务类型：登录过滤器

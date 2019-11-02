@@ -111,4 +111,17 @@
         order by a.menu_order
     </select>
 
+    <select id="selectUrlMenu" resultType="com.hoomoomoo.fims.app.model.SysMenuModel">
+        select
+            a.menu_id menuId,
+            a.parent_id parentId,
+            a.menu_title menuTitle,
+            a.menu_url || '?menuId=' || menu_id menuUrl,
+            a.menu_icon menuIcon
+        from sys_menu a
+        where a.menu_type in ('1')
+        and a.menu_url is not null
+        order by a.menu_order
+    </select>
+
 </mapper>

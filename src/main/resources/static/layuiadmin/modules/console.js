@@ -14,7 +14,8 @@
                 anim: a.data("anim")
             })
         }), a.render("progress")
-    }), layui.use(["carousel", "echarts"], function () {
+    }),
+    layui.use(["carousel", "echarts"], function () {
         var e = layui.$, t = layui.carousel, a = layui.echarts, i = [], l = [{
             title: {text: "今日流量趋势", x: "center", textStyle: {fontSize: 14}},
             tooltip: {trigger: "axis"},
@@ -74,7 +75,8 @@
                 layui.router().path.join("") || r(o)
             })
         }
-    }), layui.use("table", function () {
+    }),
+    layui.use("table", function () {
         var e = (layui.$, layui.table);
         e.render({
             elem: "#LAY-index-topSearch",

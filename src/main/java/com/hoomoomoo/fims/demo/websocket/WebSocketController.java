@@ -26,16 +26,4 @@ public class WebSocketController {
         return "/demo/webSocket";
     }
 
-    @RequestMapping(value = "sendMessage", method = RequestMethod.GET)
-    @ResponseBody
-    public String sendMessage(String sid){
-        try {
-            WebSocketServer.sendInfo(DateUtils.yyyyMMddHHmmss() + " 系统主动推送消息", sid);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "消息推送成功";
-    }
-
-
 }

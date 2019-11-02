@@ -120,6 +120,7 @@
         when matched then
             update
                 <set>
+                    income_memo = nvl(#{incomeMemo}, ''),
                     <if test="userId != null">
                         user_id = #{userId},
                     </if>
@@ -134,9 +135,6 @@
                     </if>
                     <if test="incomeAmount != null">
                         income_amount = #{incomeAmount},
-                    </if>
-                    <if test="incomeMemo != null">
-                        income_memo = #{incomeMemo},
                     </if>
                     <if test="modifyDate != null">
                         modify_date = #{modifyDate},
@@ -167,7 +165,7 @@
                 #{incomeDate},
                 #{incomeCompany},
                 #{incomeAmount},
-                #{incomeMemo},
+                nvl(#{incomeMemo}, ''),
                 #{createDate},
                 #{createUser},
                 #{modifyDate},

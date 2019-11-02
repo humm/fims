@@ -16,8 +16,8 @@ import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -292,7 +292,7 @@ public class SysUserServiceImpl implements SysUserService {
      */
     private String getPassword() {
         String password = sysParameterService.getParameterString(USER_DEFAULT_PASSWORD);
-        return new StringBuffer(Base64.encode(password.getBytes())).reverse().toString();
+        return new StringBuffer(Base64.encodeBase64String(password.getBytes())).reverse().toString();
     }
 
 }

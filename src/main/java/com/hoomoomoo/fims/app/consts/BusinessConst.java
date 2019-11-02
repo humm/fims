@@ -458,6 +458,152 @@ public class BusinessConst {
     /**
      * 格式化模板
      */
-    public static final String FORMAT_TEMPLATE                              = "#,###.00";
+    public static final String FORMAT_TEMPLATE                              = "#,###.##";
+
+    /**
+     * 家庭信息
+     */
+    public static final String CONSOLE_FAMILY                               = "家庭信息";
+
+    /**
+     * 最近一笔收入
+     */
+    public static final String CONSOLE_INCOME_LAST                          = "最近一笔收入";
+
+    /**
+     * 收入环比增长
+     */
+    public static final String CONSOLE_INCOME_CHAIN_RATIO                   = "月度收入环比增长";
+
+    /**
+     * 收入同比增长
+     */
+    public static final String CONSOLE_INCOME_RATIO                         = "月度收入同比增长";
+
+    /**
+     * 月度收入
+     */
+    public static final String CONSOLE_INCOME_MONTH                         = "月度收入";
+
+    /**
+     * 年度收入
+     */
+    public static final String CONSOLE_INCOME_YEAR                          = "年度收入(万元)";
+
+    /**
+     * 总收入
+     */
+    public static final String CONSOLE_INCOME_TOTAL                         = "总收入(万元)";
+
+    /**
+     * 统计开始时间
+     */
+    public static final String CONSOLE_YEAR_START_DATE                      = "统计开始时间";
+
+    /**
+     * 最近一笔送礼
+     */
+    public static final String CONSOLE_GIFT_SEND_LAST                       = "最近一笔送礼";
+
+    /**
+     * 年度送礼
+     */
+    public static final String CONSOLE_GIFT_SEND_YEAR                       = "年度送礼";
+
+    /**
+     * 总送礼
+     */
+    public static final String CONSOLE_GIFT_SEND_TOTAL                      = "总送礼";
+
+    /**
+     * 最近一笔收礼
+     */
+    public static final String CONSOLE_GIFT_RECEIVE_LAST                    = "最近一笔收礼";
+
+    /**
+     * 年度收礼
+     */
+    public static final String CONSOLE_GIFT_RECEIVE_YEAR                    = "年度收礼";
+
+    /**
+     * 总收礼
+     */
+    public static final String CONSOLE_GIFT_RECEIVE_TOTAL                   = "总收礼";
+
+    /**
+     * 菜单：收入信息
+     */
+    public static final String MENU_ID_INCOME                               = "20190000000001";
+
+    /**
+     * 菜单：随礼信息
+     */
+    public static final String MENU_ID_GIFT                                 = "20190000000004";
+
+    /**
+     * 菜单：修订信息 todo
+     */
+    public static final String MENU_ID_VERSION                              = "todo";
+
+    /**
+     * 最近一次登入时间
+     */
+    public static final String CONSOLE_LOGIN_LAST_DATE                      = "最近一次登入时间";
+
+     /**
+     * 本月登入次数
+     */
+    public static final String CONSOLE_LOGIN_MONTH_TIME                     = "本月登入次数";
+
+    /**
+     * 本年登入次数
+     */
+    public static final String CONSOLE_LOGIN_YEAR_TIME                      = "本年登入次数";
+
+    /**
+     * 登入总次数
+     */
+    public static final String CONSOLE_LOGIN_TOTAL_TIME                     = "登入总次数";
+
+    /**
+     * 登入信息
+     */
+    public static final String CONSOLE_LOGIN_TITLE                          = "登入信息";
+
+    /**
+     * 版本信息
+     */
+    public static final String CONSOLE_VERSION_TITLE                        = "版本信息";
+
+    /**
+     * 版本信息
+     */
+    public static final String CONSOLE_VERSION_CODE                         = "版本号";
+
+    /**
+     * 版本备注
+     */
+    public static final String CONSOLE_VERSION_MEMO                         = "版本说明";
+
+    /**
+     * 版本备注
+     */
+    public static final String CONSOLE_VERSION_MEMO_VALUE                   = "历时三年 | 倾力打造";
+
+    /**
+     * 用户名称
+     */
+    public static final String USER_NAME                                    = "userName";
+
+    /**
+     * websocket请求
+     */
+    public static final String WEBSOCKET_REQUEST                            = "websocket";
+
+    /**
+     * websocket主题：console
+     */
+    public static final String WEBSOCKET_TOPIC_NAME_CONSOLE                 = "console";
+
 
 }

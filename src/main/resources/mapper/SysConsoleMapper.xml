@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hoomoomoo.fims.app.dao.SysConsoleDao">
 
-    <select id="selectIncomeLast" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+    <select id="selectIncomeLast" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
+            resultType="java.lang.String">
         select income_amount consoleData
         from sys_income
         where income_id = (
@@ -16,7 +17,8 @@
         )
     </select>
 
-    <select id="selectIncomeMonth" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+    <select id="selectIncomeMonth" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
+            resultType="java.lang.String">
         select sum(income_amount) consoleData
         from sys_income
         <where>
@@ -27,7 +29,8 @@
         </where>
     </select>
 
-    <select id="selectIncomePreviousYearMonth" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+    <select id="selectIncomePreviousYearMonth" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
+            resultType="java.lang.String">
         select sum(income_amount) consoleData
         from sys_income
         <where>
@@ -38,7 +41,8 @@
         </where>
     </select>
 
-    <select id="selectIncomePreviousMonth" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+    <select id="selectIncomePreviousMonth" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
+            resultType="java.lang.String">
         select sum(income_amount) consoleData
         from sys_income
         <where>
@@ -49,8 +53,9 @@
         </where>
     </select>
 
-    <select id="selectIncomeYear" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
-        select sum(income_amount) consoleData
+    <select id="selectIncomeYear" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
+            resultType="java.lang.String">
+        select sum(income_amount)/10000 consoleData
         from sys_income
         <where>
             to_char(income_date, 'yyyyMM')
@@ -62,8 +67,9 @@
         </where>
     </select>
 
-    <select id="selectIncomeTotal" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
-        select sum(income_amount) consoleData
+    <select id="selectIncomeTotal" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
+            resultType="java.lang.String">
+        select sum(income_amount)/10000 consoleData
         from sys_income
         <where>
             <if test="userId != null">
@@ -72,7 +78,8 @@
         </where>
     </select>
 
-    <select id="selectGiftSendLast" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+    <select id="selectGiftSendLast" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
+            resultType="java.lang.String">
         select gift_amount consoleData
         from sys_gift
         where gift_id = (
@@ -87,7 +94,8 @@
         )
     </select>
 
-    <select id="selectGiftSendYear" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+    <select id="selectGiftSendYear" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
+            resultType="java.lang.String">
         select sum(gift_amount) consoleData
         from sys_gift a, sys_user b
         where substr(a.gift_sender, instr(a.gift_sender, '-') + 1) = b.user_id
@@ -99,7 +107,8 @@
         </if>
     </select>
 
-    <select id="selectGiftSendTotal" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+    <select id="selectGiftSendTotal" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
+            resultType="java.lang.String">
         select sum(gift_amount) consoleData
         from sys_gift a, sys_user b
         where substr(a.gift_sender, instr(a.gift_sender, '-') + 1) = b.user_id
@@ -108,7 +117,8 @@
         </if>
     </select>
 
-    <select id="selectGiftReceiveLast" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+    <select id="selectGiftReceiveLast" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
+            resultType="java.lang.String">
         select gift_amount consoleData
         from sys_gift
         where gift_id = (
@@ -123,7 +133,8 @@
         )
     </select>
 
-    <select id="selectGiftReceiveYear" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+    <select id="selectGiftReceiveYear" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
+            resultType="java.lang.String">
         select sum(gift_amount) consoleData
         from sys_gift a, sys_user b
         where substr(a.gift_receiver, instr(a.gift_receiver, '-') + 1) = b.user_id
@@ -135,7 +146,8 @@
         </if>
     </select>
 
-    <select id="selectGiftReceiveTotal" resultType="com.hoomoomoo.fims.app.model.SysBusinessModel">
+    <select id="selectGiftReceiveTotal" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
+            resultType="java.lang.String">
         select sum(gift_amount) consoleData
         from sys_gift a, sys_user b
         where substr(a.gift_receiver, instr(a.gift_receiver, '-') + 1) = b.user_id
@@ -144,7 +156,8 @@
         </if>
     </select>
 
-    <select id="selectLoginLast" resultType="com.hoomoomoo.fims.app.model.SysLoginModel">
+    <select id="selectLoginLast" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
+            resultType="java.lang.String">
         select to_char(login_date, 'yyyy-MM-dd hh24:mm:ss') consoleData
         from sys_login_log
         where log_id = (
@@ -159,32 +172,34 @@
             )
     </select>
 
-    <select id="selectLoginMonthTime" resultType="com.hoomoomoo.fims.app.model.SysLoginModel">
+    <select id="selectLoginMonthTime" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
+            resultType="java.lang.String">
         select count(1) consoleData
         from sys_login_log a, sys_user b
         <where>
             a.user_id = b.user_id
+            and to_char(login_date, 'yyyyMM') = to_char(sysdate, 'yyyyMM')
             <if test="userId != null">
                 and a.user_id = #{userId}
             </if>
         </where>
     </select>
 
-    <select id="selectLoginYearTime" resultType="com.hoomoomoo.fims.app.model.SysLoginModel">
+    <select id="selectLoginYearTime" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
+            resultType="java.lang.String">
         select count(1) consoleData
         from sys_login_log a, sys_user b
         <where>
             a.user_id = b.user_id
-            and to_char(login_date, 'yyyyMM')
-                between #{yearStartDate}
-                and to_char(add_months(to_date(#{yearStartDate}, 'yyyyMM'), 12), 'yyyyMM')
+            and to_char(login_date, 'yyyy') = to_char(sysdate, 'yyyy')
             <if test="userId != null">
                 and a.user_id = #{userId}
             </if>
         </where>
     </select>
 
-    <select id="selectLoginTotalTime" resultType="com.hoomoomoo.fims.app.model.SysLoginModel">
+    <select id="selectLoginTotalTime" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
+            resultType="java.lang.String">
         select count(1) consoleData
         from sys_login_log a, sys_user b
         <where>
