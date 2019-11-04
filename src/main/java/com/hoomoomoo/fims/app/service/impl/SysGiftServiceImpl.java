@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hoomoomoo.fims.app.config.WebSocketServerConfig;
 import com.hoomoomoo.fims.app.dao.SysGiftDao;
+import com.hoomoomoo.fims.app.dao.SysUserDao;
 import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.*;
 import com.hoomoomoo.fims.app.service.SysGiftService;
@@ -49,6 +50,9 @@ public class SysGiftServiceImpl implements SysGiftService {
     @Autowired
     private SysNoticeService sysNoticeService;
 
+    @Autowired
+    private SysUserDao sysUserDao;
+
     /**
      * 查询页面初始化相关数据
      *
@@ -65,7 +69,7 @@ public class SysGiftServiceImpl implements SysGiftService {
         SysGiftQueryModel sysGiftQueryModel = new SysGiftQueryModel();
         sysGiftQueryModel.setGiftSender(sysSystemService.getUserId());
         LastType lastType = sysGiftDao.selectLastType(sysGiftQueryModel);
-        if(lastType != null){
+        if (lastType != null) {
             viewData.setLastType(lastType);
         }
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_INIT);
@@ -101,9 +105,9 @@ public class SysGiftServiceImpl implements SysGiftService {
     public ResultData delete(String giftIds) {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_DELETE);
         List<SysGiftModel> list = new ArrayList<>();
-        if(StringUtils.isNotBlank(giftIds)){
+        if (StringUtils.isNotBlank(giftIds)) {
             String[] giftId = giftIds.split(COMMA);
-            for(String ele : giftId){
+            for (String ele : giftId) {
                 SysGiftModel sysGiftModel = new SysGiftModel();
                 sysGiftModel.setGiftId(ele);
                 SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysGiftModel);
@@ -133,7 +137,7 @@ public class SysGiftServiceImpl implements SysGiftService {
         sysGiftQueryModel.setGiftId(giftId);
         LogUtils.parameter(logger, sysGiftQueryModel);
         SysGiftModel sysGiftModel = sysGiftDao.selectOne(sysGiftQueryModel);
-        if(isTranslate){
+        if (isTranslate) {
             sysSystemService.transferData(sysGiftModel, SysGiftModel.class);
         }
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT);
@@ -152,18 +156,23 @@ public class SysGiftServiceImpl implements SysGiftService {
         String tipMsg = sysGiftModel.getGiftId() == null ? ADD_SUCCESS : UPDATE_SUCCESS;
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_GIFT, operateType);
         SystemUtils.setCreateUserInfo(sysGiftModel);
+        String msg = checkSenderAndReceiver(sysGiftModel);
+        if (StringUtils.isNotBlank(msg)) {
+            return new ResultData(false, msg, null);
+        }
         SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysGiftModel);
-        sysNoticeModel.setNoticeId(sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_NOTICE));
-        if(sysGiftModel.getGiftId() == null){
+        if (sysGiftModel.getGiftId() == null) {
             // 新增
             String giftId = sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_GIFT);
             sysGiftModel.setGiftId(giftId);
             sysNoticeModel.setBusinessId(giftId);
-        }else{
+        } else {
             // 修改
             sysNoticeModel.setBusinessId(sysGiftModel.getGiftId());
             sysNoticeService.update(sysNoticeModel);
         }
+        sysNoticeModel.setNoticeId(sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_NOTICE));
+        sysNoticeModel.setNoticeStatus(new StringBuffer(D007).append(MINUS).append(STR_1).toString());
         sysNoticeService.save(sysNoticeModel);
         LogUtils.parameter(logger, sysGiftModel);
         sysGiftDao.save(sysGiftModel);
@@ -178,9 +187,16 @@ public class SysGiftServiceImpl implements SysGiftService {
      * @param sysGiftModel
      * @return
      */
-    private SysNoticeModel setSysNoticeProperties(SysGiftModel sysGiftModel){
+    private SysNoticeModel setSysNoticeProperties(SysGiftModel sysGiftModel) {
         SysNoticeModel sysNoticeModel = new SysNoticeModel();
-        sysNoticeModel.setUserId(sysSystemService.getUserId());
+        SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
+        sysUserQueryModel.setUserId(changeUserId(sysGiftModel.getGiftSender()));
+        SysUserModel giftSender = sysUserDao.selectOne(sysUserQueryModel);
+        if (giftSender == null) {
+            sysNoticeModel.setUserId(changeUserId(sysGiftModel.getGiftReceiver()));
+        } else {
+            sysNoticeModel.setUserId(changeUserId(sysGiftModel.getGiftSender()));
+        }
         sysNoticeModel.setBusinessType(new StringBuffer(D011).append(MINUS).append(STR_2).toString());
         sysNoticeModel.setBusinessSubType(sysGiftModel.getGiftType());
         sysNoticeModel.setBusinessDate(sysGiftModel.getGiftDate());
@@ -188,5 +204,43 @@ public class SysGiftServiceImpl implements SysGiftService {
         sysNoticeModel.setNoticeType(new StringBuffer(D008).append(MINUS).append(STR_1).toString());
         sysNoticeModel.setReadStatus(new StringBuffer(D012).append(MINUS).append(STR_1).toString());
         return sysNoticeModel;
+    }
+
+    /**
+     * 校验送礼人和收礼人不能同时为系统用户
+     *
+     * @param sysGiftModel
+     * @return
+     */
+    private String checkSenderAndReceiver(SysGiftModel sysGiftModel) {
+        SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
+        sysUserQueryModel.setUserId(changeUserId(sysGiftModel.getGiftSender()));
+        SysUserModel giftSender = sysUserDao.selectOne(sysUserQueryModel);
+        sysUserQueryModel.setUserId(changeUserId(sysGiftModel.getGiftReceiver()));
+        SysUserModel giftReceiver = sysUserDao.selectOne(sysUserQueryModel);
+        if (giftSender == null && giftReceiver == null) {
+            return GIFT_SENDER_RECEIVER_NOT_EXIST;
+        }
+        if (giftSender != null && giftReceiver != null) {
+            return GIFT_SENDER_RECEIVER_EXIST;
+        }
+        return null;
+    }
+
+    /**
+     * 用户ID转换
+     *
+     * @param userId
+     * @return
+     */
+    private String changeUserId (String userId) {
+        if (userId != null && userId.contains(MINUS)) {
+            if (userId.split(MINUS).length == 2) {
+                return userId.split(MINUS)[1];
+            } else {
+                return userId.split(MINUS)[0];
+            }
+        }
+        return userId;
     }
 }

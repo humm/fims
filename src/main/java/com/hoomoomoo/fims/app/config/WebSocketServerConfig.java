@@ -1,14 +1,18 @@
 package com.hoomoomoo.fims.app.config;
 
+import com.hoomoomoo.fims.app.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
+
+import static com.hoomoomoo.fims.app.consts.TipConst.LOG_BUSINESS_TYPE_WEBSOCKET;
 
 /**
  * @author humm23693
@@ -20,7 +24,12 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @ServerEndpoint("/websocket/{sid}")
 public class WebSocketServerConfig {
 
-    private static final Logger log = LoggerFactory.getLogger(WebSocketServerConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(WebSocketServerConfig.class);
+
+    @PostConstruct
+    public void init(){
+        LogUtils.load(logger, LOG_BUSINESS_TYPE_WEBSOCKET);
+    }
 
     /**
      * WebSocket对象
@@ -67,7 +76,7 @@ public class WebSocketServerConfig {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        log.info(String.format("客户端 %s: %s", sid, message));
+        logger.info(String.format("客户端 %s: %s", sid, message));
     }
 
     /**
@@ -76,7 +85,7 @@ public class WebSocketServerConfig {
      */
     @OnError
     public void onError(Session session, Throwable error) {
-        log.error("发生错误");
+        logger.error("发生错误");
         error.printStackTrace();
     }
 
@@ -95,9 +104,8 @@ public class WebSocketServerConfig {
         for (WebSocketServerConfig item : webSocketSet) {
             try {
                 if (item.sid.equals(sid)) {
-                    log.info(String.format("%s 推送消息: %s", sid, message));
+                    logger.info(String.format("%s 推送消息: %s", sid, message));
                     item.sendMessage(message);
-                    break;
                 }
             } catch (IOException e) {
                 e.printStackTrace();

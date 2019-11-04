@@ -31,4 +31,7 @@ public class SysConsoleModel {
     @ApiModelProperty(value="websocket连接url", required = false)
     private String websocketUrl;
 
+    @ApiModelProperty(value="模块控制信息", required = false)
+    private SysConfigModel sysConfigModel;
+
 }

@@ -119,12 +119,12 @@
 
             $(".other").html('');
             // 初始化提示信息
-            var common = new Array();
+            var tips = new Array();
             if (!$.isEmptyObject(data.yearStartDate)) {
-                common.push(data.yearStartDate);
+                tips.push(data.yearStartDate);
             }
-            if (!$.isEmptyObject(common)) {
-                $(".other").append(initCommon(common));
+            if (!$.isEmptyObject(tips)) {
+                $(".other").append(initTips(tips));
             }
             // 初始化登入日志信息
             if (!$.isEmptyObject(data.loginModel)) {
@@ -239,7 +239,7 @@
             item += '               <div class="layui-card-body layui-text">';
             item += '                   <table class="layui-table">';
             item += '                       <colgroup>';
-            item += '                           <col width="100" />';
+            item += '                           <col width="50%" />';
             item += '                           <col />';
             item += '                       </colgroup>';
             item += '                       <colgroup>';
@@ -267,7 +267,7 @@
         }
 
         // 初始化提示信息
-        var initCommon = function (data) {
+        var initTips = function (data) {
             var item = '<div class="layui-card">';
             item += '       <div class="layui-card-header">提示信息</div>';
             item += '           <div class="layui-card-body layui-text">';
@@ -316,7 +316,7 @@
 
         initData();
 
-        // websocket连接
+        // websocket订阅首页主题
         fims.webSocket(url.websocketUrl, "console", function (data) {
             initData();
         });

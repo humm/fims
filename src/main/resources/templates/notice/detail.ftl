@@ -8,57 +8,25 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="${appName}/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="${appName}/layuiadmin/style/fims.css" media="all">
+    <link rel="stylesheet" href="${appName}/layuiadmin/style/admin.css" media="all">
 </head>
 <body>
 
-<div class="layui-form" style="padding: 20px 30px 0 0;">
-    <div class="layui-form-item">
-        <label class="layui-form-label">消息用户</label>
-        <div class="layui-input-inline">
-            <input type="text" name="userId" class="layui-input layui-detail" disabled="disabled" />
+<div class="layui-fluid" id="LAY-app-notice-detail">
+    <div class="layui-card layuiAdmin-msg-detail">
+        <div class="layui-card-header">
+            <h1 id="title"></h1>
+            <p>
+                <span id="date"></span>
+            </p>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">业务类型</label>
-        <div class="layui-input-inline">
-            <input type="text" name="businessType" class="layui-input layui-detail" disabled="disabled" />
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">业务子类型</label>
-        <div class="layui-input-inline">
-            <input type="text" name="businessSubType" class="layui-input layui-detail" disabled="disabled" />
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">业务时间</label>
-        <div class="layui-input-inline">
-            <input type="text" name="businessDate" class="layui-input layui-detail" disabled="disabled" />
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">业务金额</label>
-        <div class="layui-input-inline">
-            <input type="text" name="businessAmount" class="layui-input layui-detail" disabled="disabled" />
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">通知状态</label>
-        <div class="layui-input-inline">
-            <input type="text" name="noticeStatus" class="layui-input layui-detail" disabled="disabled" />
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">通知类型</label>
-        <div class="layui-input-inline">
-            <input type="text" name="noticeType" class="layui-input layui-detail" disabled="disabled" />
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">阅读状态</label>
-        <div class="layui-input-inline">
-            <input type="text" name="readStatus" class="layui-input layui-detail" disabled="disabled" />
+        <div class="layui-card-body layui-text">
+            <div class="layadmin-text" id="content"></div>
+
+            <div style="padding-top: 30px;">
+                <a href="javascript:;" layadmin-event="back"
+                   class="layui-btn layui-btn-primary layui-btn-sm">返回上级</a>
+            </div>
         </div>
     </div>
 </div>
@@ -93,14 +61,26 @@
             dataType: "json",
             done: function (response) {
                 if (response.bizResult) {
-                    fims.setValue("layui-form", response.data);
+                    var data = response.data;
+                    $("#title").html(data.userId + '&nbsp;&nbsp;&nbsp;' + data.businessType + '&nbsp;&nbsp;&nbsp;' + data.businessAmount);
+                    $("#date").html(data.modifyDate);
+                    var content = "<p>消息用户：" + data.userId + "</p>";
+                    content += "<p>业务类型：" + data.businessType + "</p>";
+                    content += "<p>业务子类型：" + data.businessSubType + "</p>";
+                    content += "<p>业务时间：" + data.businessDate + "</p>";
+                    content += "<p>业务金额：" + data.businessAmount + "</p>";
+                    content += "<p>通知状态：" + data.noticeStatus + "</p>";
+                    content += "<p>通知状态：" + data.noticeStatus + "</p>";
+                    content += "<p>通知类型：" + data.noticeType + "</p>";
+                    content += "<p>阅读状态：" + data.readStatus + "</p>";
+                    $("#content").html(content);
                 } else {
                     fims.msg(response.msg);
                 }
             }
         });
 
-    })
+    });
 </script>
 </body>
 </html>

@@ -65,10 +65,13 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
         SysConsoleModel sysConsoleModel = new SysConsoleModel();
         SessionBean sessionBean = SystemSessionUtils.getSession();
+        // 设置统计开始时间
         String yearStartDate = sysParameterService.getParameterString(YEAR_START_DATE);
         SysConsoleQueryModel sysConsoleQueryModel = new SysConsoleQueryModel();
         sysConsoleQueryModel.setYearStartDate(yearStartDate);
+        // 设置websocket链接
         sysConsoleModel.setWebsocketUrl(SystemUtils.getConnectUrl(httpServletRequest));
+        // 设置模块功能开关todo
         Map menu = getMenuInfo();
         if (sessionBean != null) {
             String loginUserId = sessionBean.getUserId();

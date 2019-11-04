@@ -163,7 +163,12 @@ public class TipConst {
     /**
      * 日志业务类型：FimsInterceptor配置
      */
-    public static final String LOG_BUSINESS_TYPE_FIMS_INTERCEPTOR              = "系统拦截器配置";
+    public static final String LOG_BUSINESS_TYPE_FIMS_INTERCEPTOR               = "系统拦截器配置";
+
+    /**
+     * 日志业务类型：websocket配置
+     */
+    public static final String LOG_BUSINESS_TYPE_WEBSOCKET                      = "websocket配置";
 
     /**
      * 日志业务类型：全局异常配置

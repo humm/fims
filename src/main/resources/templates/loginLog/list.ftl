@@ -163,7 +163,7 @@
             autoSort: false, // 禁用前端自动排序
             page: true,
             limit: 10,
-            limits: [10, 15, 20, 25, 30],
+            limits: [10, 30, 50, 100, 500],
             text: {
                 none: fims.tips.msg.emptyData
             }

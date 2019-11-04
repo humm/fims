@@ -155,7 +155,6 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
         SystemUtils.setCreateUserInfo(sysIncomeModel);
         SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysIncomeModel);
-        sysNoticeModel.setNoticeId(sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_NOTICE));
         if (sysIncomeModel.getIncomeId() == null) {
             // 新增
             String incomeId = sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_INCOME);
@@ -166,6 +165,8 @@ public class SysIncomeServiceImpl implements SysIncomeService {
             sysNoticeModel.setBusinessId(sysIncomeModel.getIncomeId());
             sysNoticeService.update(sysNoticeModel);
         }
+        sysNoticeModel.setNoticeStatus(new StringBuffer(D007).append(MINUS).append(STR_1).toString());
+        sysNoticeModel.setNoticeId(sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_NOTICE));
         sysNoticeService.save(sysNoticeModel);
         LogUtils.parameter(logger, sysIncomeModel);
         sysIncomeDao.save(sysIncomeModel);

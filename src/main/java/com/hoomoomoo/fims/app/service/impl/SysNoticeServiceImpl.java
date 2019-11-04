@@ -5,12 +5,15 @@ import com.github.pagehelper.PageInfo;
 import com.hoomoomoo.fims.app.dao.SysNoticeDao;
 import com.hoomoomoo.fims.app.model.SysNoticeModel;
 import com.hoomoomoo.fims.app.model.SysNoticeQueryModel;
+import com.hoomoomoo.fims.app.model.SysUserQueryModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
+import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.model.common.ViewData;
 import com.hoomoomoo.fims.app.service.SysNoticeService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -23,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
+import static com.hoomoomoo.fims.app.consts.CueConst.OPERATE_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.CueConst.SELECT_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D007;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D012;
@@ -137,10 +141,48 @@ public class SysNoticeServiceImpl implements SysNoticeService {
             sysSystemService.transferData(sysNoticeModel, SysNoticeModel.class);
         }
         sysNotice.setReadStatus(new StringBuffer(D012).append(MINUS).append(STR_2).toString());
+        SystemUtils.setModifyUserInfo(sysNoticeModel);
         // 修改阅读状态
-        update(sysNotice);
+        sysNoticeDao.update(sysNotice);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysNoticeModel);
+    }
+
+    /**
+     * 修改消息通知阅读信息
+     *
+     * @param isAll
+     * @param noticeIds
+     * @return
+     */
+    @Override
+    public ResultData updateReadStatus(String isAll, String noticeIds) {
+        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
+        SysNoticeModel sysNoticeModel = new SysNoticeModel();
+        sysNoticeModel.setReadStatus(new StringBuffer(D012).append(MINUS).append(STR_2).toString());
+        SystemUtils.setModifyUserInfo(sysNoticeModel);
+        if (STR_1.equals(isAll)){
+            // 更新全部信息为已读
+            SessionBean sessionBean = SystemSessionUtils.getSession();
+            if(sessionBean != null){
+                if(!ADMIN_CODE.equals(sessionBean.getUserCode())){
+                    sysNoticeModel.setUserId(sessionBean.getUserId());
+                }
+                sysNoticeDao.update(sysNoticeModel);
+                LogUtils.parameter(logger, sysNoticeModel);
+            }
+        } else {
+            if(StringUtils.isNotBlank(noticeIds)){
+                String[] noticeId = noticeIds.split(COMMA);
+                for (String id : noticeId){
+                    sysNoticeModel.setNoticeId(id);
+                    sysNoticeDao.update(sysNoticeModel);
+                    LogUtils.parameter(logger, sysNoticeModel);
+                }
+            }
+        }
+        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
+        return new ResultData(true, OPERATE_SUCCESS, null);
     }
 
 }

@@ -109,4 +109,22 @@ public class SysNoticeController {
         LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT);
         return resultData;
     }
+
+    /**
+     * 修改消息通知信息
+     *
+     * @param isAll
+     * @param noticeIds
+     * @return
+     */
+    @ApiOperation("修改消息通知信息")
+    @RequestMapping(value = "updateReadStatus", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultData selectOne(@ApiParam(value = "是否全部已读", required = false)String isAll,
+                                @ApiParam(value = "通知消息ID", required = false)String noticeIds){
+        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
+        ResultData resultData = sysNoticeService.updateReadStatus(isAll, noticeIds);
+        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
+        return resultData;
+    }
 }

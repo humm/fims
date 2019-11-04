@@ -118,4 +118,14 @@ public class CueConst {
      * 提示信息：登出成功
      */
     public static final String USER_LOGOUT_SUCCESS                   = "退出成功";
+
+    /**
+     * 提示信息：送礼人和收礼人都不为系统用户
+     */
+    public static final String GIFT_SENDER_RECEIVER_NOT_EXIST        = "送礼人和收礼人必须有一个为系统用户";
+
+    /**
+     * 提示信息：送礼人和收礼人不能同时为系统用户
+     */
+    public static final String GIFT_SENDER_RECEIVER_EXIST            = "送礼人和收礼人不能同时为系统用户";
 }

@@ -27,15 +27,15 @@ public class RunDataConfig {
     /**
      * 开始结束日志打印
      */
-    public static Boolean LOG_REQUEST_TAG                                   = true;
+    public static Boolean LOG_REQUEST_TAG                                   = false;
 
     /**
      * 服务请求入参打印
      */
-    public static Boolean LOG_REQUEST_PARAMETER                             = true;
+    public static Boolean LOG_REQUEST_PARAMETER                             = false;
 
     /**
      * 智能填充
      */
-    public static Boolean MIND_FILL                                         = true;
+    public static Boolean MIND_FILL                                         = false;
 }

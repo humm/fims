@@ -588,7 +588,7 @@ public class BusinessConst {
     /**
      * 版本备注
      */
-    public static final String CONSOLE_VERSION_MEMO_VALUE                   = "历时三年 | 倾力打造";
+    public static final String CONSOLE_VERSION_MEMO_VALUE                   = "3.0 | 重新出发";
 
     /**
      * 用户名称

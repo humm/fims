@@ -52,4 +52,13 @@ public interface SysNoticeService {
      */
     ResultData selectOne(String noticeId, Boolean isTranslate);
 
+    /**
+     * 修改消息通知阅读信息
+     *
+     * @param noticeIds
+     * @param isAll
+     * @return
+     */
+    ResultData updateReadStatus(String isAll, String noticeIds);
+
 }

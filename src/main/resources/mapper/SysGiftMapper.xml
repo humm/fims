@@ -113,7 +113,7 @@
         when matched then
         update
         <set>
-            gift_memo = nvl(#{giftMemo}, ''),
+            gift_memo = nvl(#{giftMemo}, ' '),
             <if test="giftSender != null">
                 gift_sender = #{giftSender},
             </if>
@@ -159,7 +159,7 @@
             #{giftReceiver},
             #{giftDate},
             #{giftAmount},
-            nvl(#{giftMemo}, ''),
+            nvl(#{giftMemo}, ' '),
             #{createDate},
             #{createUser},
             #{modifyDate},
