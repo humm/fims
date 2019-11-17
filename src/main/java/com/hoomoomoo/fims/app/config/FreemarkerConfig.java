@@ -1,6 +1,6 @@
 package com.hoomoomoo.fims.app.config;
 
-import com.hoomoomoo.fims.app.config.bean.CommonConfigBean;
+import com.hoomoomoo.fims.app.config.bean.SystemConfigBean;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import freemarker.template.TemplateException;
 import org.slf4j.Logger;
@@ -30,16 +30,16 @@ public class FreemarkerConfig {
     private static final Logger logger = LoggerFactory.getLogger(FreemarkerConfig.class);
 
     @Autowired
-    private CommonConfigBean commonConfigBean;
+    private SystemConfigBean systemConfigBean;
 
     @Bean
-    public FreeMarkerConfigurer freemarkerViewConfig() throws IOException, TemplateException {
+    public FreeMarkerConfigurer freemarkerViewConfig() {
         FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
-        configurer.setTemplateLoaderPath(commonConfigBean.getFreemarkerTemplateLoaderPath());
-        configurer.setDefaultEncoding(commonConfigBean.getFreemarkerCharset());
+        configurer.setTemplateLoaderPath(systemConfigBean.getFreemarkerTemplateLoaderPath());
+        configurer.setDefaultEncoding(systemConfigBean.getFreemarkerCharset());
         configurer.setPreferFileSystemAccess(false);
         Map<String, Object> freemarkerVariables = new HashMap<>(1);
-        freemarkerVariables.put(APP_NAME, commonConfigBean.getAppName());
+        freemarkerVariables.put(APP_NAME, systemConfigBean.getAppName());
         configurer.setFreemarkerVariables(freemarkerVariables);
         LogUtils.load(logger, LOG_BUSINESS_TYPE_FREEMARKER);
         return configurer;

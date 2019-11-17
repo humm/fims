@@ -81,7 +81,6 @@
         index: 'lib/index' //主入口模块
     }).use(['index', 'admin', 'carousel', 'echarts', 'fims'], function () {
         var $ = layui.$,
-            form = layui.form,
             admin = layui.admin,
             report = (layui.admin, layui.carousel),
             fims = layui.fims,
@@ -99,9 +98,40 @@
             reportValue: ""
         }
 
-        var reportList = [];
+        // 收入年度
+        var yearList = [];
+        // 收入来源
+        var sourceList = [];
+        // 收入类型
+        var typeList = [];
+        // 收入极值
+        var peakList = [];
 
-        // 收入年度分析
+        // 收入年度渲染
+        function loopYear(data) {
+            var years = JSON.parse(JSON.stringify(data.xaxisData)).reverse();
+            var options = "";
+            for (var i = 0; i < years.length; i++) {
+                options += "<div year='" + years[i].replace("年","") + "'></div>";
+            }
+            $("#LAY-index-income-year").append(options);
+
+            reportRender("layadmin-carousel-year");
+
+            var index = 0;
+            carousel.on("change(LAY-index-income-year)", function (e) {
+                initYearReport(index = e.index);
+            }), layui.admin.on("side", function () {
+                setTimeout(function () {
+                    initYearReport(index);
+                }, 500);
+            }), layui.admin.on("hash(tab)", function () {
+                layui.router().path.join("") || initYearReport(index);
+            });
+
+        }
+
+        // 收入年度
         var initYearReport = function (index, type) {
             var year = $("#LAY-index-income-year").children("div")[index];
             if (index == 0) {
@@ -122,9 +152,9 @@
                         if (type == "init") {
                             loopYear(response.data);
                         }
-                        reportList[index] = echarts.init(year, layui.echartsTheme);
-                        reportList[index].setOption(fims.getBarData(response.data));
-                        window.onresize = reportList[index].resize;
+                        yearList[index] = echarts.init(year, layui.echartsTheme);
+                        yearList[index].setOption(fims.getBarData(response.data));
+                        window.onresize = yearList[index].resize;
                         if($.isEmptyObject(response.data.legendData)){
                             fims.msg(fims.tips.msg.emptyData);
                         }
@@ -134,92 +164,180 @@
                 }
             });
         }
+
+        // 初始化收入年度
         initYearReport(0, "init");
 
-        // 收入来源分析
-        request.reportMode = "pie";
-        request.reportSubType = "source";
-        reportRender("layadmin-carousel-source");
-        admin.req({
-            url: url + $.param(JSON.parse(JSON.stringify(request))),
-            type: "get",
-            dataType: "json",
-            done: function (response) {
-                if (response.bizResult) {
-                    var source = $("#LAY-index-income-source").children("div")[0];
-                    var sourcePie = echarts.init(source, layui.echartsTheme);
-                    sourcePie.setOption(fims.getPieData(response.data));
-                    window.onresize = sourcePie.resize;
-                } else {
-                    fims.msg(response.msg);
+        // 收入来源渲染
+        function loopSource(data) {
+            if (!$.isEmptyObject(data.userList)) {
+                var options = "";
+                for (var i = 0; i < data.userList.length; i++) {
+                    options += "<div user='" + data.userList[i] + "'></div>";
                 }
+                $("#LAY-index-income-source").append(options);
             }
-        });
 
-        // 收入类型分析
-        request.reportMode = "pie";
-        request.reportSubType = "type";
-        reportRender("layadmin-carousel-type");
-        admin.req({
-            url: url + $.param(JSON.parse(JSON.stringify(request))),
-            type: "get",
-            dataType: "json",
-            done: function (response) {
-                if (response.bizResult) {
-                    var type = $("#LAY-index-income-type").children("div")[0];
-                    var typePie = echarts.init(type, layui.echartsTheme);
-                    typePie.setOption(fims.getPieData(response.data));
-                    window.onresize = typePie.resize;
-                } else {
-                    fims.msg(response.msg);
-                }
-            }
-        });
-
-        // 收入极值分析
-        request.reportMode = "pie";
-        request.reportSubType = "peak";
-        reportRender("layadmin-carousel-peak");
-        admin.req({
-            url: url + $.param(JSON.parse(JSON.stringify(request))),
-            type: "get",
-            dataType: "json",
-            done: function (response) {
-                if (response.bizResult) {
-                    var peak = $("#LAY-index-income-peak").children("div")[0];
-                    var peakPie = echarts.init(peak, layui.echartsTheme);
-                    peakPie.setOption(fims.getPieData(response.data));
-                    window.onresize = peakPie.resize;
-                } else {
-                    fims.msg(response.msg);
-                }
-            }
-        });
-
-        // 收入年度分析后续操作
-        function loopYear(data) {
-            var years = JSON.parse(JSON.stringify(data.xaxisData)).reverse();
-            var options = "";
-            for (var i = 0; i < years.length; i++) {
-                options += "<div year='" + years[i].replace("年","") + "'></div>";
-            }
-            $("#LAY-index-income-year").append(options);
-
-            reportRender("layadmin-carousel-year");
+            reportRender("layadmin-carousel-source");
 
             var index = 0;
-            carousel.on("change(LAY-index-income-year)", function (e) {
-                initYearReport(index = e.index);
+            carousel.on("change(LAY-index-income-source)", function (e) {
+                initSourceReport(index = e.index);
             }), layui.admin.on("side", function () {
                 setTimeout(function () {
-                    initYearReport(index);
+                    initSourceReport(index);
                 }, 500);
             }), layui.admin.on("hash(tab)", function () {
-                layui.router().path.join("") || initYearReport(index);
-                ;
+                layui.router().path.join("") || initSourceReport(index);
             });
 
         }
+
+        // 收入来源
+        var initSourceReport = function (index, type) {
+            var user = $("#LAY-index-income-source").children("div")[index];
+            request.reportMode = "pie";
+            request.reportSubType = "source";
+            if (index == 0) {
+                request.reportValue="";
+            } else {
+                var select = $(user).attr("user");
+                request.reportValue = select;
+            }
+            admin.req({
+                url: url + $.param(JSON.parse(JSON.stringify(request))),
+                type: "get",
+                dataType: "json",
+                done: function (response) {
+                    if (response.bizResult) {
+                        if (type == "init") {
+                            loopSource(response.data);
+                        }
+                        sourceList[index] = echarts.init(user, layui.echartsTheme);
+                        sourceList[index].setOption(fims.getPieData(response.data));
+                        window.onresize = sourceList[index].resize;
+                    } else {
+                        fims.msg(response.msg);
+                    }
+                }
+            });
+        }
+        // 初始化收入来源
+        initSourceReport(0, "init");
+
+        // 收入类型渲染
+        function loopType(data) {
+            if (!$.isEmptyObject(data.userList)) {
+                var options = "";
+                for (var i = 0; i < data.userList.length; i++) {
+                    options += "<div user='" + data.userList[i] + "'></div>";
+                }
+                $("#LAY-index-income-type").append(options);
+            }
+
+            reportRender("layadmin-carousel-type");
+
+            var index = 0;
+            carousel.on("change(LAY-index-income-type)", function (e) {
+                initTypeReport(index = e.index);
+            }), layui.admin.on("side", function () {
+                setTimeout(function () {
+                    initTypeReport(index);
+                }, 500);
+            }), layui.admin.on("hash(tab)", function () {
+                layui.router().path.join("") || initTypeReport(index);
+            });
+
+        }
+
+        // 收入类型
+        var initTypeReport = function (index, type) {
+            var user = $("#LAY-index-income-type").children("div")[index];
+            request.reportMode = "pie";
+            request.reportSubType = "type";
+            if (index == 0) {
+                request.reportValue="";
+            } else {
+                var select = $(user).attr("user");
+                request.reportValue = select;
+            }
+            admin.req({
+                url: url + $.param(JSON.parse(JSON.stringify(request))),
+                type: "get",
+                dataType: "json",
+                done: function (response) {
+                    if (response.bizResult) {
+                        if (type == "init") {
+                            loopType(response.data);
+                        }
+                        typeList[index] = echarts.init(user, layui.echartsTheme);
+                        typeList[index].setOption(fims.getPieData(response.data));
+                        window.onresize = typeList[index].resize;
+                    } else {
+                        fims.msg(response.msg);
+                    }
+                }
+            });
+        }
+        // 初始化收入类型
+        initTypeReport(0, "init");
+
+        // 收入极值渲染
+        function loopPeak(data) {
+            if (!$.isEmptyObject(data.userList)) {
+                var options = "";
+                for (var i = 0; i < data.userList.length; i++) {
+                    options += "<div user='" + data.userList[i] + "'></div>";
+                }
+                $("#LAY-index-income-peak").append(options);
+            }
+
+            reportRender("layadmin-carousel-peak");
+
+            var index = 0;
+            carousel.on("change(LAY-index-income-peak)", function (e) {
+                initPeakReport(index = e.index);
+            }), layui.admin.on("side", function () {
+                setTimeout(function () {
+                    initPeakReport(index);
+                }, 500);
+            }), layui.admin.on("hash(tab)", function () {
+                layui.router().path.join("") || initPeakReport(index);
+            });
+
+        }
+
+        // 收入极值
+        var initPeakReport = function (index, type) {
+            var user = $("#LAY-index-income-peak").children("div")[index];
+            request.reportMode = "pie";
+            request.reportSubType = "peak";
+            if (index == 0) {
+                request.reportValue="";
+            } else {
+                var select = $(user).attr("user");
+                request.reportValue = select;
+            }
+            admin.req({
+                url: url + $.param(JSON.parse(JSON.stringify(request))),
+                type: "get",
+                dataType: "json",
+                done: function (response) {
+                    if (response.bizResult) {
+                        if (type == "init") {
+                            loopPeak(response.data);
+                        }
+                        peakList[index] = echarts.init(user, layui.echartsTheme);
+                        peakList[index].setOption(fims.getPieData(response.data));
+                        window.onresize = peakList[index].resize;
+                    } else {
+                        fims.msg(response.msg);
+                    }
+                }
+            });
+        }
+        // 初始化收入极值
+        initPeakReport(0, "init");
 
         // 渲染报表
         function reportRender(className) {

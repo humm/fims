@@ -60,69 +60,117 @@
     <select id="selectIncomeSource" parameterType="com.hoomoomoo.fims.app.model.SysReportQueryModel"
             resultType="com.hoomoomoo.fims.app.model.SysReportModel">
         select
-            '收入来源' title,
+            <choose>
+                <when test="userId != null">
+                    u.user_name title,
+                </when>
+                <otherwise>
+                    '家庭' title,
+                </otherwise>
+            </choose>
             '单位：万元' subtitle,
             s.dictionary_caption reportName,
-            trunc(sum(t.income_amount) / 10000, 2) reportnum
-        from sys_income t, sys_dictionary s
+            trunc(sum(t.income_amount) / 10000, 2) reportNum
+        from sys_income t, sys_dictionary s, sys_user u
         where t.income_company = s.dictionary_code || '-' ||  s.dictionary_item
+        and t.user_id = u.user_id
         <if test="userId != null">
             and t.user_id = #{userId}
         </if>
         group by s.dictionary_caption
+        <if test="userId != null">
+            , u.user_name
+        </if>
         order by s.dictionary_caption
     </select>
 
     <select id="selectIncomeType" parameterType="com.hoomoomoo.fims.app.model.SysReportQueryModel"
             resultType="com.hoomoomoo.fims.app.model.SysReportModel">
         select
-            '收入类型' title,
+            <choose>
+                <when test="userId != null">
+                    b.user_name title,
+                </when>
+                <otherwise>
+                    '家庭' title,
+                </otherwise>
+            </choose>
             '单位：万元' subtitle,
             s.dictionary_caption reportName,
-            trunc(sum(t.income_amount) / 10000, 2) reportnum
-        from sys_income t, sys_dictionary s
+            trunc(sum(t.income_amount) / 10000, 2) reportNum
+        from sys_income t, sys_dictionary s, sys_user b
         where t.income_type = s.dictionary_code || '-' ||  s.dictionary_item
+        and t.user_id = b.user_id
         <if test="userId != null">
             and t.user_id = #{userId}
         </if>
         group by s.dictionary_caption
+        <if test="userId != null">
+            , b.user_name
+        </if>
         order by s.dictionary_caption
     </select>
 
     <select id="selectIncomePeak" parameterType="com.hoomoomoo.fims.app.model.SysReportQueryModel"
             resultType="com.hoomoomoo.fims.app.model.SysReportModel">
         select
-            '收入极值' title,
+            title,
             '单位：元' subtitle,
-            reportname,
-            reportnum
+            reportName,
+            reportNum
         from (select
-                    s.dictionary_caption reportname,
-                    max(t.income_amount) reportnum
-              from sys_income t, sys_dictionary s
+                    <choose>
+                        <when test="userId != null">
+                            b.user_name title,
+                        </when>
+                        <otherwise>
+                            '家庭' title,
+                        </otherwise>
+                    </choose>
+                    c.dictionary_caption || ' - ' || s.dictionary_caption reportName,
+                    max(t.income_amount) reportNum
+              from sys_income t, sys_dictionary s, sys_user b, sys_dictionary c
               where t.income_type = s.dictionary_code || '-' || s.dictionary_item
+              and t.income_company = c.dictionary_code || '-' || c.dictionary_item
+              and t.user_id = b.user_id
               <if test="userId != null">
                  and t.user_id = #{userId}
               </if>
-              group by s.dictionary_caption
+              group by s.dictionary_caption, c.dictionary_caption
+              <if test="userId != null">
+                , b.user_name
+              </if>
               order by max(t.income_amount) desc
         ) m
         where rownum = 1
         union all
         select
-            '收入极值' title,
+            title,
             '单位：元' subtitle,
-            reportname,
-            reportnum
+            reportName,
+            reportNum
         from (select
-                     s.dictionary_caption reportname,
-                     min(t.income_amount) reportnum
-              from sys_income t, sys_dictionary s
+                     <choose>
+                        <when test="userId != null">
+                            b.user_name title,
+                        </when>
+                        <otherwise>
+                            '家庭' title,
+                        </otherwise>
+                     </choose>
+                     c.dictionary_caption || ' - ' || s.dictionary_caption reportName,
+                     min(t.income_amount) reportNum
+              from sys_income t, sys_dictionary s, sys_user b, sys_dictionary c
               where t.income_type = s.dictionary_code || '-' || s.dictionary_item
+              and t.income_company = c.dictionary_code || '-' || c.dictionary_item
+              and t.user_id = b.user_id
               <if test="userId != null">
                  and t.user_id = #{userId}
               </if>
-              group by s.dictionary_caption
+              group by s.dictionary_caption, c.dictionary_caption
+              <if test="userId != null">
+                , b.user_name
+              </if>
               order by min(t.income_amount)
         ) s
         where rownum = 1
@@ -204,10 +252,17 @@
     <select id="selectGiftType" parameterType="com.hoomoomoo.fims.app.model.SysReportQueryModel"
             resultType="com.hoomoomoo.fims.app.model.SysReportModel">
         select
-            case when #{giftMode} = '0' then '送礼类型' else '收礼类型' end title,
+            <choose>
+                <when test="giftSender != null or giftReceiver != null">
+                    n.user_name title,
+                </when>
+                <otherwise>
+                    '家庭' title,
+                </otherwise>
+            </choose>
             '单位：元' subtitle,
             s.dictionary_caption reportName,
-            sum(t.gift_amount) reportnum
+            sum(t.gift_amount) reportNum
         from sys_gift t, sys_dictionary s, sys_user n
         where t.gift_type = s.dictionary_code || '-' ||  s.dictionary_item
         <if test='giftMode == "0"'>
@@ -223,27 +278,40 @@
             and substr(t.gift_receiver, instr(gift_receiver, '-') + 1) = #{giftReceiver}
         </if>
         group by s.dictionary_caption
+        <if test="giftSender != null or giftReceiver != null">
+            , n.user_name
+        </if>
         order by s.dictionary_caption
     </select>
 
     <select id="selectGiftPeak" parameterType="com.hoomoomoo.fims.app.model.SysReportQueryModel"
             resultType="com.hoomoomoo.fims.app.model.SysReportModel">
         select
-            case when #{giftMode} = '0' then '送礼极值' else '收礼极值' end title,
+            title,
             '单位：元' subtitle,
-            reportname,
-            reportnum
+            reportName,
+            reportNum
         from (
             select
-                s.dictionary_caption reportname,
-                max(t.gift_amount) reportnum
-            from sys_gift t, sys_dictionary s, sys_user n
+                <choose>
+                    <when test="giftSender != null or giftReceiver != null">
+                        n.user_name title,
+                    </when>
+                    <otherwise>
+                        '家庭' title,
+                    </otherwise>
+                </choose>
+                c.dictionary_caption || ' - ' || s.dictionary_caption reportName,
+                max(t.gift_amount) reportNum
+            from sys_gift t, sys_dictionary s, sys_user n, sys_dictionary c
             where t.gift_type = s.dictionary_code || '-' || s.dictionary_item
             <if test='giftMode == "0"'>
-                and  substr(t.gift_sender, instr(t.gift_sender, '-') + 1) = n.user_id
+                and substr(t.gift_sender, instr(t.gift_sender, '-') + 1) = n.user_id
+                and t.gift_receiver = c.dictionary_code || '-' || c.dictionary_item
             </if>
             <if test='giftMode == "1"'>
                 and substr(t.gift_receiver, instr(t.gift_receiver, '-') + 1) = n.user_id
+                and t.gift_sender = c.dictionary_code || '-' || c.dictionary_item
             </if>
             <if test="giftSender != null">
                 and substr(t.gift_sender, instr(gift_sender, '-') + 1) = #{giftSender}
@@ -251,27 +319,40 @@
             <if test="giftReceiver != null">
                 and substr(t.gift_receiver, instr(gift_receiver, '-') + 1) = #{giftReceiver}
             </if>
-            group by s.dictionary_caption
+            group by s.dictionary_caption, c.dictionary_caption
+            <if test="giftSender != null or giftReceiver != null">
+                , n.user_name
+            </if>
             order by max(t.gift_amount) desc
         ) m
         where rownum = 1
         union all
         select
-            case when #{giftMode} = '0' then '送礼极值' else '收礼极值' end title,
+            title,
             '单位：元' subtitle,
-            reportname,
-            reportnum
+            reportName,
+            reportNum
         from (
             select
-                s.dictionary_caption reportname,
-                min(t.gift_amount) reportnum
-            from sys_gift t, sys_dictionary s, sys_user n
+                <choose>
+                    <when test="giftSender != null or giftReceiver != null">
+                        n.user_name title,
+                    </when>
+                    <otherwise>
+                        '家庭' title,
+                    </otherwise>
+                </choose>
+                c.dictionary_caption || ' - ' || s.dictionary_caption reportName,
+                min(t.gift_amount) reportNum
+            from sys_gift t, sys_dictionary s, sys_user n, sys_dictionary c
             where t.gift_type = s.dictionary_code || '-' || s.dictionary_item
             <if test='giftMode == "0"'>
-                and  substr(t.gift_sender, instr(t.gift_sender, '-') + 1) = n.user_id
+                and substr(t.gift_sender, instr(t.gift_sender, '-') + 1) = n.user_id
+                and t.gift_receiver = c.dictionary_code || '-' || c.dictionary_item
             </if>
             <if test='giftMode == "1"'>
                 and substr(t.gift_receiver, instr(t.gift_receiver, '-') + 1) = n.user_id
+                and t.gift_sender = c.dictionary_code || '-' || c.dictionary_item
             </if>
             <if test="giftSender != null">
                 and substr(t.gift_sender, instr(gift_sender, '-') + 1) = #{giftSender}
@@ -279,7 +360,10 @@
             <if test="giftReceiver != null">
                 and substr(t.gift_receiver, instr(gift_receiver, '-') + 1) = #{giftReceiver}
             </if>
-            group by s.dictionary_caption
+            group by s.dictionary_caption, c.dictionary_caption
+            <if test="giftSender != null or giftReceiver != null">
+                , n.user_name
+            </if>
             order by min(t.gift_amount)
         ) s
         where rownum = 1
@@ -288,27 +372,43 @@
     <select id="selectGift" parameterType="com.hoomoomoo.fims.app.model.SysReportQueryModel"
             resultType="com.hoomoomoo.fims.app.model.SysReportModel">
         select
-            '随礼' title,
+            <choose>
+                <when test="giftSender != null">
+                    n.user_name title,
+                </when>
+                <otherwise>
+                    '家庭' title,
+                </otherwise>
+            </choose>
             '单位：元' subTitle,
-            '送礼' reportname,
-            sum(t.gift_amount) reportnum
+            '送礼' reportName,
+            sum(t.gift_amount) reportNum
         from sys_gift t, sys_dictionary s, sys_user n
         where t.gift_type = s.dictionary_code || '-' || s.dictionary_item
         and  substr(t.gift_sender, instr(t.gift_sender, '-') + 1) = n.user_id
         <if test="giftSender != null">
             and substr(t.gift_sender, instr(gift_sender, '-') + 1) = #{giftSender}
+            group by n.user_name
         </if>
         union all
         select
-            '随礼' title,
+            <choose>
+                <when test="giftReceiver != null">
+                    n.user_name title,
+                </when>
+                <otherwise>
+                    '家庭' title,
+                </otherwise>
+            </choose>
             '单位：元' subTitle,
-            '收礼' reportname,
-            sum(t.gift_amount) reportnum
+            '收礼' reportName,
+            sum(t.gift_amount) reportNum
         from sys_gift t, sys_dictionary s, sys_user n
         where t.gift_type = s.dictionary_code || '-' || s.dictionary_item
         and substr(t.gift_receiver, instr(t.gift_receiver, '-') + 1) = n.user_id
         <if test="giftReceiver != null">
             and substr(t.gift_receiver, instr(gift_receiver, '-') + 1) = #{giftReceiver}
+            group by n.user_name
         </if>
     </select>
 

@@ -3,21 +3,26 @@
 <mapper namespace="com.hoomoomoo.fims.app.dao.SysGiftDao">
 
     <sql id="Base_Column_List">
-        gift_id giftId, gift_type giftType,
-        gift_sender giftSender, gift_receiver giftReceiver,
-        gift_date giftDate, gift_amount giftAmount,
-        gift_memo giftMemo,
-        create_date createDate, modify_date modifyDate,
-        create_user createUser, modify_user modifyUser,
-        substr(gift_type, instr(gift_type, '-') + 1) giftTypeCode
+        a.gift_id giftId, a.gift_type giftType,
+        a.gift_sender giftSender, a.gift_receiver giftReceiver,
+        a.gift_date giftDate, a.gift_amount giftAmount,
+        a.gift_memo giftMemo,
+        a.create_date createDate, a.modify_date modifyDate,
+        a.create_user createUser, a.modify_user modifyUser,
+        substr(a.gift_type, instr(a.gift_type, '-') + 1) giftTypeCode
     </sql>
 
     <select id="selectPage" parameterType="com.hoomoomoo.fims.app.model.SysGiftQueryModel"
             resultType="com.hoomoomoo.fims.app.model.SysGiftModel">
         select
             <include refid="Base_Column_List"/>
-        from sys_gift
+        from sys_gift a, sys_user b
         <where>
+            (
+                substr(a.gift_sender, instr(a.gift_sender, '-') + 1) = b.user_id
+                or
+                substr(a.gift_receiver, instr(a.gift_receiver, '-') + 1) = b.user_id
+            )
             <if test="giftId != null">
                 and gift_id = #{giftId}
             </if>
@@ -46,13 +51,13 @@
         </where>
         order by
         <if test="sort != null and order != null">
-            ${sort} ${order}
+            a.${sort} ${order}
         </if>
         <if test="sort != null and order == null">
-            ${sort}
+            a.${sort}
         </if>
         <if test="sort == null">
-            modify_date desc
+            a.modify_date desc
         </if>
     </select>
 
@@ -70,7 +75,7 @@
             resultType="com.hoomoomoo.fims.app.model.SysGiftModel">
         select
             <include refid="Base_Column_List"/>
-        from sys_gift
+        from sys_gift a
         <where>
             <if test="giftId != null">
                 and gift_id = #{giftId}

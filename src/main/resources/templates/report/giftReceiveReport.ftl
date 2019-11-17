@@ -81,7 +81,6 @@
         index: 'lib/index' //主入口模块
     }).use(['index', 'admin', 'carousel', 'echarts', 'fims'], function () {
         var $ = layui.$,
-            form = layui.form,
             admin = layui.admin,
             report = (layui.admin, layui.carousel),
             fims = layui.fims,
@@ -99,9 +98,39 @@
             reportValue: ""
         }
 
+        // 收礼年度
         var reportList = [];
+        // 收礼类型
+        var typeList = [];
+        // 收礼极值
+        var peakList = [];
+        // 随礼
+        var giftList = [];
 
-        // 收礼年度分析
+        // 收礼年度渲染
+        function loopYear(data) {
+            var years = JSON.parse(JSON.stringify(data.xaxisData)).reverse();
+            var options = "";
+            for (var i = 0; i < years.length; i++) {
+                options += "<div year='" + years[i].replace("年","") + "'></div>";
+            }
+            $("#LAY-index-giftReceive-year").append(options);
+
+            reportRender("layadmin-carousel-year");
+
+            var index = 0;
+            carousel.on("change(LAY-index-giftReceive-year)", function (e) {
+                initYearReport(index = e.index);
+            }), layui.admin.on("side", function () {
+                setTimeout(function () {
+                    initYearReport(index);
+                }, 500);
+            }), layui.admin.on("hash(tab)", function () {
+                layui.router().path.join("") || initYearReport(index);
+            });
+        }
+
+        // 收礼年度
         var initYearReport = function (index, type) {
             var year = $("#LAY-index-giftReceive-year").children("div")[index];
             if (index == 0) {
@@ -136,90 +165,171 @@
         }
         initYearReport(0, "init");
 
-        // 收礼类型分析
-        request.reportMode = "pie";
-        request.reportSubType = "type";
-        reportRender("layadmin-carousel-type");
-        admin.req({
-            url: url + $.param(JSON.parse(JSON.stringify(request))),
-            type: "get",
-            dataType: "json",
-            done: function (response) {
-                if (response.bizResult) {
-                    var type = $("#LAY-index-giftReceive-type").children("div")[0];
-                    var typePie = echarts.init(type, layui.echartsTheme);
-                    typePie.setOption(fims.getPieData(response.data));
-                    window.onresize = typePie.resize;
-                } else {
-                    fims.msg(response.msg);
+
+        // 送礼类型渲染
+        function loopType(data) {
+            if (!$.isEmptyObject(data.userList)) {
+                var options = "";
+                for (var i = 0; i < data.userList.length; i++) {
+                    options += "<div user='" + data.userList[i] + "'></div>";
                 }
+                $("#LAY-index-giftReceive-type").append(options);
             }
-        });
 
-        // 收礼极值分析
-        request.reportMode = "pie";
-        request.reportSubType = "peak";
-        reportRender("layadmin-carousel-peak");
-        admin.req({
-            url: url + $.param(JSON.parse(JSON.stringify(request))),
-            type: "get",
-            dataType: "json",
-            done: function (response) {
-                if (response.bizResult) {
-                    var peak = $("#LAY-index-giftReceive-peak").children("div")[0];
-                    var peakPie = echarts.init(peak, layui.echartsTheme);
-                    peakPie.setOption(fims.getPieData(response.data));
-                    window.onresize = peakPie.resize;
-                } else {
-                    fims.msg(response.msg);
-                }
-            }
-        });
-
-        // 随礼分析
-        request.reportMode = "pie";
-        request.reportSubType = "gift";
-        reportRender("layadmin-carousel-gift");
-        admin.req({
-            url: url + $.param(JSON.parse(JSON.stringify(request))),
-            type: "get",
-            dataType: "json",
-            done: function (response) {
-                if (response.bizResult) {
-                    var gift = $("#LAY-index-giftReceive-gift").children("div")[0];
-                    var giftPie = echarts.init(gift, layui.echartsTheme);
-                    giftPie.setOption(fims.getPieData(response.data));
-                    window.onresize = giftPie.resize;
-                } else {
-                    fims.msg(response.msg);
-                }
-            }
-        });
-
-        // 收礼年度分析后续操作
-        function loopYear(data) {
-            var years = JSON.parse(JSON.stringify(data.xaxisData)).reverse();
-            var options = "";
-            for (var i = 0; i < years.length; i++) {
-                options += "<div year='" + years[i].replace("年","") + "'></div>";
-            }
-            $("#LAY-index-giftReceive-year").append(options);
-
-            reportRender("layadmin-carousel-year");
+            reportRender("layadmin-carousel-type");
 
             var index = 0;
-            carousel.on("change(LAY-index-giftReceive-year)", function (e) {
-                initYearReport(index = e.index);
+            carousel.on("change(LAY-index-giftReceive-type)", function (e) {
+                initTypeReport(index = e.index);
             }), layui.admin.on("side", function () {
                 setTimeout(function () {
-                    initYearReport(index);
+                    initTypeReport(index);
                 }, 500);
             }), layui.admin.on("hash(tab)", function () {
-                layui.router().path.join("") || initYearReport(index);
-                ;
+                layui.router().path.join("") || initTypeReport(index);
             });
-
         }
+
+        // 送礼类型
+        var initTypeReport = function (index, type) {
+            var user = $("#LAY-index-giftReceive-type").children("div")[index];
+            request.reportMode = "pie";
+            request.reportSubType = "type";
+            if (index == 0) {
+                request.reportValue = "";
+            } else {
+                var select = $(user).attr("user");
+                request.reportValue = select;
+            }
+            admin.req({
+                url: url + $.param(JSON.parse(JSON.stringify(request))),
+                type: "get",
+                dataType: "json",
+                done: function (response) {
+                    if (response.bizResult) {
+                        if (type == "init") {
+                            loopType(response.data);
+                        }
+                        typeList[index] = echarts.init(user, layui.echartsTheme);
+                        typeList[index].setOption(fims.getPieData(response.data));
+                        window.onresize = typeList[index].resize;
+                    } else {
+                        fims.msg(response.msg);
+                    }
+                }
+            });
+        }
+        initTypeReport(0, "init");
+
+        // 送礼极值渲染
+        function loopPeak(data) {
+            if (!$.isEmptyObject(data.userList)) {
+                var options = "";
+                for (var i = 0; i < data.userList.length; i++) {
+                    options += "<div user='" + data.userList[i] + "'></div>";
+                }
+                $("#LAY-index-giftReceive-peak").append(options);
+            }
+
+            reportRender("layadmin-carousel-peak");
+
+            var index = 0;
+            carousel.on("change(LAY-index-giftReceive-peak)", function (e) {
+                initPeakReport(index = e.index);
+            }), layui.admin.on("side", function () {
+                setTimeout(function () {
+                    initPeakReport(index);
+                }, 500);
+            }), layui.admin.on("hash(tab)", function () {
+                layui.router().path.join("") || initPeakReport(index);
+            });
+        }
+
+        // 送礼极值
+        var initPeakReport = function (index, type) {
+            var user = $("#LAY-index-giftReceive-peak").children("div")[index];
+            request.reportMode = "pie";
+            request.reportSubType = "peak";
+            if (index == 0) {
+                request.reportValue = "";
+            } else {
+                var select = $(user).attr("user");
+                request.reportValue = select;
+            }
+            admin.req({
+                url: url + $.param(JSON.parse(JSON.stringify(request))),
+                type: "get",
+                dataType: "json",
+                done: function (response) {
+                    if (response.bizResult) {
+                        if (type == "init") {
+                            loopPeak(response.data);
+                        }
+                        peakList[index] = echarts.init(user, layui.echartsTheme);
+                        peakList[index].setOption(fims.getPieData(response.data));
+                        window.onresize = peakList[index].resize;
+                    } else {
+                        fims.msg(response.msg);
+                    }
+                }
+            });
+        }
+        initPeakReport(0, "init");
+
+        // 随礼渲染
+        function loopGift(data) {
+            if (!$.isEmptyObject(data.userList)) {
+                var options = "";
+                for (var i = 0; i < data.userList.length; i++) {
+                    options += "<div user='" + data.userList[i] + "'></div>";
+                }
+                $("#LAY-index-giftReceive-gift").append(options);
+            }
+
+            reportRender("layadmin-carousel-gift");
+
+            var index = 0;
+            carousel.on("change(LAY-index-giftReceive-gift)", function (e) {
+                initGiftReport(index = e.index);
+            }), layui.admin.on("side", function () {
+                setTimeout(function () {
+                    initGiftReport(index);
+                }, 500);
+            }), layui.admin.on("hash(tab)", function () {
+                layui.router().path.join("") || initGiftReport(index);
+            });
+        }
+
+        // 随礼分析
+        var initGiftReport = function (index, type) {
+            var user = $("#LAY-index-giftReceive-gift").children("div")[index];
+            request.reportMode = "pie";
+            request.reportSubType = "gift";
+            if (index == 0) {
+                request.reportValue = "";
+            } else {
+                var select = $(user).attr("user");
+                request.reportValue = select;
+            }
+            admin.req({
+                url: url + $.param(JSON.parse(JSON.stringify(request))),
+                type: "get",
+                dataType: "json",
+                done: function (response) {
+                    if (response.bizResult) {
+                        if (type == "init") {
+                            loopGift(response.data);
+                        }
+                        giftList[index] = echarts.init(user, layui.echartsTheme);
+                        giftList[index].setOption(fims.getPieData(response.data));
+                        window.onresize = giftList[index].resize;
+                    } else {
+                        fims.msg(response.msg);
+                    }
+                }
+            });
+        }
+        initGiftReport(0, "init");
 
         // 渲染报表
         function reportRender(className) {

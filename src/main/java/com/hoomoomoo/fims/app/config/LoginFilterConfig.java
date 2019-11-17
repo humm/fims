@@ -82,7 +82,7 @@ public class LoginFilterConfig implements Filter {
             printWriter.println("window.open ('" + request.getContextPath() + PAGE_LOGIN + "','_top')");
             printWriter.println("</script></html>");
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtils.exception(logger, LOG_BUSINESS_TYPE_LOGIN_FILTER, e);
         } finally {
             printWriter.close();
         }

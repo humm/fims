@@ -26,10 +26,10 @@
                 <div class="layui-tab-item layui-show">
 
                     <div class="LAY-app-notice-btns" style="margin-bottom: 10px;">
-                        <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="read" data-events="ready">
-                            标记已读
-                        </button>
                         <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="read"
+                                data-events="ready">标记已读
+                        </button>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="isRead"
                                 data-events="readyAll">全部已读
                         </button>
                     </div>
@@ -69,7 +69,6 @@
                 isRead: {text: "已读", id: "LAY-app-notice_is_read"}
             }),
             detail = function (d) {
-            console.log( d.noticeId);
                 var url = "<a href='detail?noticeId=" + d.noticeId + "&isTranslate=1'>";
                     url += "<div>" + d.userId + '&nbsp;&nbsp;&nbsp;' + d.businessType + '&nbsp;&nbsp;&nbsp;' + d.businessAmount + "</div>";
                     url += "</a>";
@@ -82,15 +81,15 @@
         // 请求url
         var url = {
             page: appName + "/notice/selectPage",
-            update: appName + "/notice/updateReadStatus"
+            update: appName + "/notice/updateReadStatus",
+            websocketUrl: '${requestUrl}'
         }
 
         // 列表字段
         var tableColumn = [[
             {type: "checkbox", fixed: "left"},
             {field: "noticeId", title: "消息通知序列号", sort: false, hide: true},
-            {field: "businessData", title: "通知内容", minWidth: 300,
-                templet: detail},
+            {field: "businessData", title: "通知内容", minWidth: 300, templet: detail},
             {field: "noticeStatus", title: "通知状态", templet: "#noticeStatus"},
             {field: "modifyDate", title: "通知时间", width: 200, templet: "<div>{{ layui.util.timeAgo(d.modifyDate) }}</div>"}
 
@@ -152,7 +151,8 @@
                         }
                     }
                 });
-            }, readyAll: function (e, t) {
+            },
+            readyAll: function (e, t) {
                 var select = element[t], selectTable = table.checkStatus(select.id), data = selectTable.data;
                 admin.req({
                     url: url.update,
@@ -175,6 +175,13 @@
                 event = e.data("events"),
                 type = e.data("type");
             operate[event] && operate[event].call(this, e, type);
+        });
+
+        // websocket订阅消息通知主题
+        fims.webSocket(url.websocketUrl, "notice", function (data) {
+            if(!fims.isBlank(data)){
+                window.location.reload();
+            }
         });
     });
 </script>

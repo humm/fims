@@ -31,6 +31,13 @@ public interface SysNoticeDao {
     void update(SysNoticeModel sysNoticeModel);
 
     /**
+     * 批量更新消息通知
+     *
+     * @param sysNoticeModel
+     */
+    void updateBatch(SysNoticeModel sysNoticeModel);
+
+    /**
      * 分页查询消息通知信息
      *
      * @param sysNoticeQueryModel

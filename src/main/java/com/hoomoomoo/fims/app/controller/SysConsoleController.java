@@ -1,6 +1,5 @@
 package com.hoomoomoo.fims.app.controller;
 
-import com.hoomoomoo.fims.app.model.SysConsoleModel;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysConsoleService;
 import com.hoomoomoo.fims.app.util.LogUtils;

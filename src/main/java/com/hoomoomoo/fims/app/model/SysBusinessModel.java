@@ -23,9 +23,6 @@ public class SysBusinessModel {
     @ApiModelProperty(value="收入数据", required = false)
     private List<Item> income           = new ArrayList<>();
 
-    @ApiModelProperty(value="收入分析数据", required = false)
-    private List<Item> incomeAnalysis   = new ArrayList<>();
-
     @ApiModelProperty(value="送礼数据", required = false)
     private List<Item> giftSend         = new ArrayList<>();
 

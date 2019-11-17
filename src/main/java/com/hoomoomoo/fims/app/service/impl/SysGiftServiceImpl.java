@@ -108,8 +108,9 @@ public class SysGiftServiceImpl implements SysGiftService {
         if (StringUtils.isNotBlank(giftIds)) {
             String[] giftId = giftIds.split(COMMA);
             for (String ele : giftId) {
-                SysGiftModel sysGiftModel = new SysGiftModel();
-                sysGiftModel.setGiftId(ele);
+                SysGiftQueryModel sysGiftQueryModel = new SysGiftQueryModel();
+                sysGiftQueryModel.setGiftId(ele);
+                SysGiftModel sysGiftModel = sysGiftDao.selectOne(sysGiftQueryModel);
                 SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysGiftModel);
                 sysNoticeModel.setBusinessId(ele);
                 sysNoticeService.update(sysNoticeModel);
@@ -118,7 +119,7 @@ public class SysGiftServiceImpl implements SysGiftService {
             sysGiftDao.delete(list);
         }
         LogUtils.parameter(logger, list);
-        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, STR_EMPTY);
+        sendWebsocketInfo();
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_BUSINESS_TYPE_GIFT);
         return new ResultData(true, DELETE_SUCCESS, null);
     }
@@ -176,7 +177,7 @@ public class SysGiftServiceImpl implements SysGiftService {
         sysNoticeService.save(sysNoticeModel);
         LogUtils.parameter(logger, sysGiftModel);
         sysGiftDao.save(sysGiftModel);
-        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_GIFT);
+        sendWebsocketInfo();
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, operateType);
         return new ResultData(true, tipMsg, null);
     }
@@ -233,7 +234,7 @@ public class SysGiftServiceImpl implements SysGiftService {
      * @param userId
      * @return
      */
-    private String changeUserId (String userId) {
+    private String changeUserId(String userId) {
         if (userId != null && userId.contains(MINUS)) {
             if (userId.split(MINUS).length == 2) {
                 return userId.split(MINUS)[1];
@@ -242,5 +243,13 @@ public class SysGiftServiceImpl implements SysGiftService {
             }
         }
         return userId;
+    }
+
+    /**
+     * 发送websocket消息
+     */
+    private void sendWebsocketInfo() {
+        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_GIFT);
+        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_NOTICE, LOG_BUSINESS_TYPE_GIFT);
     }
 }

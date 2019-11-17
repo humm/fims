@@ -34,6 +34,8 @@ public class SysReportModel {
     @ApiModelProperty(value = "饼图数据", required = false)
     private List<SysReportPieModel> pieData;
 
+    @ApiModelProperty(value = "用户ID", required = false)
+    private List<String> userList;
 
     @ApiModelProperty(value = "报表数据", required = false)
     private Double reportNum;

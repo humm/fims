@@ -28,10 +28,10 @@ public class SysConsoleModel {
     @ApiModelProperty(value="统计开始时间", required = false)
     private Item yearStartDate;
 
-    @ApiModelProperty(value="websocket连接url", required = false)
-    private String websocketUrl;
-
     @ApiModelProperty(value="模块控制信息", required = false)
     private SysConfigModel sysConfigModel;
+
+    @ApiModelProperty(value="未读消息通知", required = false)
+    private String readNum;
 
 }

@@ -2,6 +2,7 @@ package com.hoomoomoo.fims.app.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hoomoomoo.fims.app.config.WebSocketServerConfig;
 import com.hoomoomoo.fims.app.dao.SysNoticeDao;
 import com.hoomoomoo.fims.app.model.SysNoticeModel;
 import com.hoomoomoo.fims.app.model.SysNoticeQueryModel;
@@ -144,6 +145,7 @@ public class SysNoticeServiceImpl implements SysNoticeService {
         SystemUtils.setModifyUserInfo(sysNoticeModel);
         // 修改阅读状态
         sysNoticeDao.update(sysNotice);
+        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_NOTICE);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysNoticeModel);
     }
@@ -168,7 +170,7 @@ public class SysNoticeServiceImpl implements SysNoticeService {
                 if(!ADMIN_CODE.equals(sessionBean.getUserCode())){
                     sysNoticeModel.setUserId(sessionBean.getUserId());
                 }
-                sysNoticeDao.update(sysNoticeModel);
+                sysNoticeDao.updateBatch(sysNoticeModel);
                 LogUtils.parameter(logger, sysNoticeModel);
             }
         } else {
@@ -181,6 +183,7 @@ public class SysNoticeServiceImpl implements SysNoticeService {
                 }
             }
         }
+        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_NOTICE);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
         return new ResultData(true, OPERATE_SUCCESS, null);
     }

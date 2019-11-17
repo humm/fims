@@ -293,7 +293,7 @@ public class BusinessConst {
     /**
      * 报表：汇总title
      */
-    public static final String REPORT_COLLECT_TITLE                        = "合计";
+    public static final String REPORT_COLLECT_TITLE                        = "家庭";
 
     /**
      * 报表类型：收入报表
@@ -463,7 +463,7 @@ public class BusinessConst {
     /**
      * 家庭信息
      */
-    public static final String CONSOLE_FAMILY                               = "家庭信息";
+    public static final String CONSOLE_FAMILY                               = "家庭";
 
     /**
      * 最近一笔收入
@@ -581,29 +581,24 @@ public class BusinessConst {
     public static final String CONSOLE_VERSION_CODE                         = "版本号";
 
     /**
-     * 版本备注
-     */
-    public static final String CONSOLE_VERSION_MEMO                         = "版本说明";
-
-    /**
-     * 版本备注
-     */
-    public static final String CONSOLE_VERSION_MEMO_VALUE                   = "3.0 | 重新出发";
-
-    /**
      * 用户名称
      */
     public static final String USER_NAME                                    = "userName";
 
     /**
-     * websocket请求
+     * 请求url
      */
-    public static final String WEBSOCKET_REQUEST                            = "websocket";
+    public static final String REQUEST_URL                                  = "requestUrl";
 
     /**
      * websocket主题：console
      */
     public static final String WEBSOCKET_TOPIC_NAME_CONSOLE                 = "console";
+
+    /**
+     * websocket主题：notice
+     */
+    public static final String WEBSOCKET_TOPIC_NAME_NOTICE                  = "notice";
 
 
 }

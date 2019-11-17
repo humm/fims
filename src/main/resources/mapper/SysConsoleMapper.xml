@@ -5,13 +5,14 @@
     <select id="selectIncomeLast" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
             resultType="java.lang.String">
         select income_amount consoleData
-        from sys_income
-        where income_id = (
+        from sys_income a, sys_user b
+        where a.user_id = b.user_id
+        and income_id = (
             select max(income_id)
             from sys_income
             <where>
                 <if test="userId != null">
-                    and user_id = #{userId}
+                    and a.user_id = #{userId}
                 </if>
             </where>
         )
@@ -20,11 +21,12 @@
     <select id="selectIncomeMonth" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
             resultType="java.lang.String">
         select sum(income_amount) consoleData
-        from sys_income
+        from sys_income a, sys_user b
         <where>
-            to_char(sysdate, 'yyyyMM') = to_char(income_date, 'yyyyMM')
+            a.user_id = b.user_id
+            and to_char(sysdate, 'yyyyMM') = to_char(income_date, 'yyyyMM')
             <if test="userId != null">
-                and user_id = #{userId}
+                and a.user_id = #{userId}
             </if>
         </where>
     </select>
@@ -32,11 +34,12 @@
     <select id="selectIncomePreviousYearMonth" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
             resultType="java.lang.String">
         select sum(income_amount) consoleData
-        from sys_income
+        from sys_income a, sys_user b
         <where>
-            to_char(add_months(sysdate, -12), 'yyyyMM') = to_char(income_date, 'yyyyMM')
+            a.user_id = b.user_id
+            and to_char(add_months(sysdate, -12), 'yyyyMM') = to_char(income_date, 'yyyyMM')
             <if test="userId != null">
-                and user_id = #{userId}
+                and a.user_id = #{userId}
             </if>
         </where>
     </select>
@@ -44,11 +47,12 @@
     <select id="selectIncomePreviousMonth" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
             resultType="java.lang.String">
         select sum(income_amount) consoleData
-        from sys_income
+        from sys_income a, sys_user b
         <where>
-            to_char(add_months(sysdate, -1), 'yyyyMM') = to_char(income_date, 'yyyyMM')
+            a.user_id = b.user_id
+            and to_char(add_months(sysdate, -1), 'yyyyMM') = to_char(income_date, 'yyyyMM')
             <if test="userId != null">
-                and user_id = #{userId}
+                and a.user_id = #{userId}
             </if>
         </where>
     </select>
@@ -56,13 +60,14 @@
     <select id="selectIncomeYear" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
             resultType="java.lang.String">
         select sum(income_amount)/10000 consoleData
-        from sys_income
+        from sys_income a, sys_user b
         <where>
-            to_char(income_date, 'yyyyMM')
+            a.user_id = b.user_id
+            and to_char(income_date, 'yyyyMM')
                 between #{yearStartDate}
                 and to_char(add_months(to_date(#{yearStartDate}, 'yyyyMM'), 12), 'yyyyMM')
             <if test="userId != null">
-                and user_id = #{userId}
+                and a.user_id = #{userId}
             </if>
         </where>
     </select>
@@ -70,10 +75,11 @@
     <select id="selectIncomeTotal" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
             resultType="java.lang.String">
         select sum(income_amount)/10000 consoleData
-        from sys_income
+        from sys_income a, sys_user b
         <where>
+            a.user_id = b.user_id
             <if test="userId != null">
-                and user_id = #{userId}
+                and a.user_id = #{userId}
             </if>
         </where>
     </select>
@@ -81,8 +87,14 @@
     <select id="selectGiftSendLast" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
             resultType="java.lang.String">
         select gift_amount consoleData
-        from sys_gift
-        where gift_id = (
+        from sys_gift a, sys_user b
+        where
+        (
+            substr(a.gift_sender, instr(a.gift_sender, '-') + 1) = b.user_id
+            or
+            substr(a.gift_receiver, instr(a.gift_receiver, '-') + 1) = b.user_id
+        )
+        and gift_id = (
             select max(gift_id)
             from sys_gift a, sys_user b
             <where>
@@ -120,8 +132,14 @@
     <select id="selectGiftReceiveLast" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
             resultType="java.lang.String">
         select gift_amount consoleData
-        from sys_gift
-        where gift_id = (
+        from sys_gift a, sys_user b
+        where
+        (
+            substr(a.gift_sender, instr(a.gift_sender, '-') + 1) = b.user_id
+            or
+            substr(a.gift_receiver, instr(a.gift_receiver, '-') + 1) = b.user_id
+        )
+        and gift_id = (
             select max(gift_id)
             from sys_gift a, sys_user b
             <where>

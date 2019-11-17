@@ -36,7 +36,7 @@ public class ExceptionHandlerConfig {
     @ResponseBody
     public ResultData exceptionHandler(HttpServletRequest request, Exception e){
         logger.error(request.getRequestURL().toString());
-        e.printStackTrace();
+        LogUtils.exception(logger, LOG_BUSINESS_TYPE_EXCEPTION, e);
         return new ResultData(STATUS_FAIL, ERROR);
     }
 }

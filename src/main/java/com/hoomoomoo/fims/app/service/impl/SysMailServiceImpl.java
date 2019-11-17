@@ -1,6 +1,7 @@
 package com.hoomoomoo.fims.app.service.impl;
 
 import com.hoomoomoo.fims.app.config.bean.MailConfigBean;
+import com.hoomoomoo.fims.app.model.MailMessageModel;
 import com.hoomoomoo.fims.app.model.MailModel;
 import com.hoomoomoo.fims.app.service.SysMailService;
 import com.hoomoomoo.fims.app.util.LogUtils;
@@ -76,12 +77,12 @@ public class SysMailServiceImpl implements SysMailService {
      * @return
      */
     @Override
-    public List<Map<String, Message>> receiveMail(MailModel mailModel) {
+    public List<MailMessageModel> receiveMail(MailModel mailModel) {
         LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
         Properties properties = new Properties();
         Session session = Session.getDefaultInstance(properties);
         session.setDebug(mailConfigBean.getDebug());
-        List<Map<String, Message>> subjectMessage = new ArrayList<>();
+        List<MailMessageModel> subjectMessage = new ArrayList<>();
         try {
             Store store = session.getStore(mailConfigBean.getReceiveProtocol());
             store.connect(mailConfigBean.getReceiveHost(), mailConfigBean.getReceiveUsername(), mailConfigBean.getReceivePassword());
@@ -91,10 +92,10 @@ public class SysMailServiceImpl implements SysMailService {
             Message[] messages = folder.getMessages();
             for (Message message : messages) {
                 if (StringUtils.isBlank(mailModel.getSubject()) || mailModel.getSubject().equals(message.getSubject())) {
-                    Map msg = new HashMap(1);
-                    String mailId = mailConfigBean.getReceiveHost() + MINUS + ((IMAPFolder) folder).getUID(message);
-                    msg.put(mailId, message);
-                    subjectMessage.add(msg);
+                    MailMessageModel mailMessageModel = new MailMessageModel();
+                    mailMessageModel.setMailId(mailConfigBean.getReceiveHost() + MINUS + ((IMAPFolder) folder).getUID(message));
+                    mailMessageModel.setMessage(message);
+                    subjectMessage.add(mailMessageModel);
                     // 邮件状态置为已读
                     message.setFlag(Flags.Flag.SEEN, true);
                 }
@@ -113,23 +114,23 @@ public class SysMailServiceImpl implements SysMailService {
      * @param messages
      */
     @Override
-    public List<MailModel> handleMailData(List<Map<String, Message>> messages) {
+    public List<MailModel> handleMailData(List<MailMessageModel> messages) {
         LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE);
         List<MailModel> mailDtoList = new ArrayList<>();
-        for (Map<String, Message> messageMap : messages) {
-            Iterator<String> iterator = messageMap.keySet().iterator();
-            String mailId = STR_0;
-            Message message = null;
-            while (iterator.hasNext()) {
-                mailId = iterator.next();
-                message = messageMap.get(mailId);
-                break;
-            }
+        for (MailMessageModel mailMessageModel : messages) {
+            String mailId = mailMessageModel.getMailId();
+            Message message = mailMessageModel.getMessage();
             MimeMessage mimeMessage = (MimeMessage) message;
             try {
                 Object content = mimeMessage.getContent();
+                Address address = mimeMessage.getSender();
+                // 获取发件人信息
                 if (content instanceof String) {
-                    mailDtoList.add(new MailModel(mimeMessage.getSubject(), String.valueOf(content), mailId));
+                    MailModel mailModel = new MailModel();
+                    mailModel.setSubject(mimeMessage.getSubject());
+                    mailModel.setText(String.valueOf(content));
+                    mailModel.setMailId(mailId);
+                    mailDtoList.add(mailModel);
                 } else if (content instanceof MimeMultipart) {
                     MimeMultipart mimeMultipart = (MimeMultipart) mimeMessage.getContent();
                     inner:
@@ -137,8 +138,12 @@ public class SysMailServiceImpl implements SysMailService {
                         BodyPart bodyPart = mimeMultipart.getBodyPart(i);
                         if (bodyPart.isMimeType(TEXT_PLAIN)) {
                             // 文本内容
-                            mailDtoList.add(new MailModel(mimeMessage.getSubject(),
-                                    String.valueOf(bodyPart.getContent()), mailId));
+                            MailModel mailModel = new MailModel();
+                            mailModel.setSubject(mimeMessage.getSubject());
+                            mailModel.setText(String.valueOf(content));
+                            mailModel.setMailId(mailId);
+                            // 设置发件人信息
+                            mailDtoList.add(mailModel);
                             break inner;
                         } else if (bodyPart.isMimeType(TEXT_HTML)) {
                             // 超文本内容

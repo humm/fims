@@ -129,7 +129,42 @@
                 notice_status = #{noticeStatus},
             </if>
             <if test="modifyDate != null">
-                modify_date = #{modify_date},
+                modify_date = #{modifyDate},
+            </if>
+            <if test="modifyUser != null">
+                modify_user = #{modifyUser}
+            </if>
+        </set>
+        where notice_id = (
+            select max(notice_id) from sys_notice
+            <where>
+                <if test="businessId != null">
+                    and business_id = #{businessId}
+                </if>
+                <if test="businessType != null">
+                    and business_type = #{businessType}
+                </if>
+                <if test="noticeId != null">
+                    and notice_id = #{noticeId}
+                </if>
+                <if test="userId != null">
+                    and user_id = #{userId}
+                </if>
+            </where>
+        )
+    </update>
+
+    <update id="updateBatch" parameterType="com.hoomoomoo.fims.app.model.SysNoticeModel">
+        update sys_notice
+        <set>
+            <if test="readStatus != null">
+                read_status = #{readStatus},
+            </if>
+            <if test="noticeStatus != null">
+                notice_status = #{noticeStatus},
+            </if>
+            <if test="modifyDate != null">
+                modify_date = #{modifyDate},
             </if>
             <if test="modifyUser != null">
                 modify_user = #{modifyUser}

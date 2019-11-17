@@ -64,9 +64,9 @@ public class SystemUtils {
      * @param httpServletRequest
      * @return
      */
-    public static String getConnectUrl(HttpServletRequest httpServletRequest){
+    public static String getConnectUrl(HttpServletRequest httpServletRequest, String appName){
         String url = httpServletRequest.getRequestURL().toString();
         String uri = httpServletRequest.getRequestURI();
-        return url.substring(0, url.indexOf(uri));
+        return new StringBuffer(url.substring(0, url.indexOf(uri))).append(appName).toString();
     }
 }

@@ -66,7 +66,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         SysIncomeQueryModel sysIncomeQueryModel = new SysIncomeQueryModel();
         sysIncomeQueryModel.setUserId(sysSystemService.getUserId());
         LastType lastType = sysIncomeDao.selectLastType(sysIncomeQueryModel);
-        if(lastType != null){
+        if (lastType != null) {
             viewData.setLastType(lastType);
             LastType incomeCompany = sysIncomeDao.selectLastTypeIncomeCompany(sysIncomeQueryModel);
             viewData.getLastType().setIncomeCompany(incomeCompany.getIncomeCompany());
@@ -117,7 +117,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
             sysIncomeDao.delete(list);
         }
         LogUtils.parameter(logger, list);
-        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_INCOME);
+        sendWebsocketInfo();
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_DELETE);
         return new ResultData(true, DELETE_SUCCESS, null);
     }
@@ -170,7 +170,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         sysNoticeService.save(sysNoticeModel);
         LogUtils.parameter(logger, sysIncomeModel);
         sysIncomeDao.save(sysIncomeModel);
-        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_INCOME);
+        sendWebsocketInfo();
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
         return new ResultData(true, tipMsg, null);
     }
@@ -191,5 +191,13 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         sysNoticeModel.setNoticeType(new StringBuffer(D008).append(MINUS).append(STR_1).toString());
         sysNoticeModel.setReadStatus(new StringBuffer(D012).append(MINUS).append(STR_1).toString());
         return sysNoticeModel;
+    }
+
+    /**
+     * 发送websocket消息
+     */
+    private void sendWebsocketInfo() {
+        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_INCOME);
+        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_NOTICE, LOG_BUSINESS_TYPE_INCOME);
     }
 }

@@ -3,9 +3,11 @@ package com.hoomoomoo.fims.app.service.impl;
 import com.hoomoomoo.fims.app.dao.SysConsoleDao;
 import com.hoomoomoo.fims.app.dao.SysMenuDao;
 import com.hoomoomoo.fims.app.model.*;
+import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysConsoleService;
+import com.hoomoomoo.fims.app.service.SysNoticeService;
 import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.util.LogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
@@ -29,6 +31,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.CONSOLE_GIFT_RECEIVE_YEAR;
 import static com.hoomoomoo.fims.app.consts.CueConst.SELECT_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D000;
+import static com.hoomoomoo.fims.app.consts.DictionaryConst.D012;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.VERSION;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.YEAR_START_DATE;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
@@ -55,6 +58,9 @@ public class SysConsoleServiceImpl implements SysConsoleService {
     @Autowired
     private SysMenuDao sysMenuDao;
 
+    @Autowired
+    private SysNoticeService sysNoticeService;
+
     /**
      * 查询首页信息
      *
@@ -69,8 +75,8 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         String yearStartDate = sysParameterService.getParameterString(YEAR_START_DATE);
         SysConsoleQueryModel sysConsoleQueryModel = new SysConsoleQueryModel();
         sysConsoleQueryModel.setYearStartDate(yearStartDate);
-        // 设置websocket链接
-        sysConsoleModel.setWebsocketUrl(SystemUtils.getConnectUrl(httpServletRequest));
+        // 查询未读消息通知
+        sysConsoleModel.setReadNum(selectReadNoticeNum());
         // 设置模块功能开关todo
         Map menu = getMenuInfo();
         if (sessionBean != null) {
@@ -105,6 +111,12 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         setVersionInfo(sysConsoleModel, menu);
         // 查询年度开始时间
         sysConsoleModel.setYearStartDate(new Item(CONSOLE_YEAR_START_DATE, sysConsoleQueryModel.getYearStartDate(), null));
+
+        // 首页用户数据处理
+        if (sysConsoleModel.getBusinessModel() != null && sysConsoleModel.getBusinessModel().size() == 2) {
+            // 系统当前只有一个用户
+            sysConsoleModel.getBusinessModel().remove(0);
+        }
         LogUtils.parameter(logger, sessionBean == null ? new SessionBean() : sessionBean);
         LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysConsoleModel);
@@ -116,12 +128,10 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      * @param sysConsoleModel
      * @param menu
      */
-    private void setVersionInfo(SysConsoleModel sysConsoleModel, Map<String, String> menu){
+    private void setVersionInfo(SysConsoleModel sysConsoleModel, Map<String, String> menu) {
         setVersionValue(sysConsoleModel, CONSOLE_VERSION_TITLE, CONSOLE_VERSION_TITLE, null);
         setVersionValue(sysConsoleModel, CONSOLE_VERSION_CODE, sysParameterService.getParameterString(VERSION),
                 menu.get(MENU_ID_VERSION));
-        setVersionValue(sysConsoleModel, CONSOLE_VERSION_MEMO, CONSOLE_VERSION_MEMO_VALUE, null);
-
     }
 
     /**
@@ -167,17 +177,16 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         console = sysConsoleDao.selectIncomeMonth(sysConsoleQueryModel);
         incomeMonth = formatValue(console, true, false);
         setIncomeBusinessValue(sysBusinessModel, CONSOLE_INCOME_MONTH, console, menu.get(MENU_ID_INCOME));
-        setIncomeAnalysisBusinessValue(sysBusinessModel, CONSOLE_INCOME_MONTH, console, menu.get(MENU_ID_INCOME));
         // 设置同比收入
         console = sysConsoleDao.selectIncomePreviousYearMonth(sysConsoleQueryModel);
         double incomeRatio =
                 Double.valueOf(incomeMonth) - Double.valueOf(formatValue(console, true, false));
-        setIncomeAnalysisBusinessValue(sysBusinessModel, CONSOLE_INCOME_RATIO, String.valueOf(incomeRatio), menu.get(MENU_ID_INCOME));
+        setIncomeBusinessValue(sysBusinessModel, CONSOLE_INCOME_RATIO, String.valueOf(incomeRatio), menu.get(MENU_ID_INCOME));
         // 设置环比收入
         console = sysConsoleDao.selectIncomePreviousMonth(sysConsoleQueryModel);
         double incomeChainRatio =
                 Double.valueOf(incomeMonth) - Double.valueOf(formatValue(console, true, false));
-        setIncomeAnalysisBusinessValue(sysBusinessModel, CONSOLE_INCOME_CHAIN_RATIO, String.valueOf(incomeChainRatio), menu.get(MENU_ID_INCOME));
+        setIncomeBusinessValue(sysBusinessModel, CONSOLE_INCOME_CHAIN_RATIO, String.valueOf(incomeChainRatio), menu.get(MENU_ID_INCOME));
         // 查询年度收入
         console = sysConsoleDao.selectIncomeYear(sysConsoleQueryModel);
         setIncomeBusinessValue(sysBusinessModel, CONSOLE_INCOME_YEAR, console, menu.get(MENU_ID_INCOME));
@@ -233,19 +242,6 @@ public class SysConsoleServiceImpl implements SysConsoleService {
     }
 
     /**
-     * 设置收入分析信息值
-     *
-     * @param sysBusinessModel
-     * @param title
-     * @param value
-     * @param url
-     */
-    private void setIncomeAnalysisBusinessValue(SysBusinessModel sysBusinessModel, String title, String value,
-                                                String url) {
-        sysBusinessModel.getIncomeAnalysis().add(new Item(title, formatValue(value, true, true), url));
-    }
-
-    /**
      * 设置送礼信息值
      *
      * @param sysBusinessModel
@@ -254,7 +250,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      * @param url
      */
     private void setGiftSendBusinessValue(SysBusinessModel sysBusinessModel, String title, String value,
-                                                String url) {
+                                          String url) {
         sysBusinessModel.getGiftSend().add(new Item(title, formatValue(value, true, true), url));
     }
 
@@ -267,7 +263,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      * @param url
      */
     private void setGiftReceiveBusinessValue(SysBusinessModel sysBusinessModel, String title, String value,
-                                                String url) {
+                                             String url) {
         sysBusinessModel.getGiftReceive().add(new Item(title, formatValue(value, true, true), url));
     }
 
@@ -304,8 +300,8 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      * @param isZero
      * @return
      */
-    private String formatValue(String value, boolean isZero, boolean isFormat){
-        if(StringUtils.isBlank(value)){
+    private String formatValue(String value, boolean isZero, boolean isFormat) {
+        if (StringUtils.isBlank(value)) {
             return isZero ? STR_0 : STR_EMPTY;
         }
         // 金额格式化
@@ -314,5 +310,19 @@ public class SysConsoleServiceImpl implements SysConsoleService {
             return decimalFormat.format(Double.valueOf(value));
         }
         return value;
+    }
+
+    /**
+     * 查询未读通知消息
+     *
+     * @return
+     */
+    private String selectReadNoticeNum() {
+        SysNoticeQueryModel sysNoticeQueryModel = new SysNoticeQueryModel();
+        sysNoticeQueryModel.setPage(1);
+        sysNoticeQueryModel.setLimit(10);
+        sysNoticeQueryModel.setReadStatus(new StringBuffer(D012).append(MINUS).append(STR_1).toString());
+        FimsPage fimsPage = sysNoticeService.selectPage(sysNoticeQueryModel);
+        return String.valueOf(fimsPage.getCount());
     }
 }

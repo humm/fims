@@ -87,9 +87,9 @@ public class SysSystemServiceImpl implements SysSystemService {
                     FimsApplication.class.getClassLoader().getResourceAsStream(APPLICATION_PROPERTIES.split(COLON)[1]);
             properties.load(inputStream);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LogUtils.exception(logger, LOG_BUSINESS_TYPE_PARAMETER_CONFIG, e);
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtils.exception(logger, LOG_BUSINESS_TYPE_PARAMETER_CONFIG, e);
         }
         Iterator iterator = properties.stringPropertyNames().iterator();
         while (iterator.hasNext()) {

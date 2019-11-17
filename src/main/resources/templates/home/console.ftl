@@ -106,11 +106,21 @@
 
         var url = {
             init: appName + "/console/selectConsoleData",
-            websocketUrl: ""
+            websocketUrl: '${requestUrl}'
         }
 
         var init = function (data) {
 // todo 模块功能控制
+
+            // 初始化未读消息通知
+            if (parseInt(data.readNum) > 0) {
+                $("#readNum", parent.document).show();
+                $("#readNum", parent.document).addClass("layui-badge");
+                $("#readNum", parent.document).text(data.readNum);
+            } else {
+                $("#readNum", parent.document).hide();
+            }
+
             $(".business").html('');
             // 初始化业务数据
             if (!$.isEmptyObject(data.businessModel)) {
@@ -139,20 +149,16 @@
         // 初始化业务数据
         var initBusiness = function (data) {
             var item = '';
-            var size = data.length % 2;
             for (var i = 0; i < data.length; i++) {
                 var business = data[i];
-                var mode = size == 1 && i == 0 ? 12 : 6;
-                item += '<div class="layui-col-md' + mode + '">';
+                item += '<div class="layui-col-md12">';
                 item += '   <div class="layui-card">';
                 item += '       <div class="layui-card-header">' + business.title + '</div>';
                 item += '           <div class="layui-card-body">';
                 item += '               <div class="layui-carousel layadmin-carousel layadmin-backlog">';
                 item += '                   <div carousel-item>';
-                item += initBusinessItem(business.income);
-                item += initBusinessItem(business.incomeAnalysis);
-                item += initBusinessItem(business.giftSend);
-                item += initBusinessItem(business.giftReceive);
+                item += initBusinessItem(business.income, '3');
+                item += initBusinessItem(business.giftSend.concat(business.giftReceive), '4');
                 item += '                   </div>';
                 item += '               </div>';
                 item += '           </div>';
@@ -162,6 +168,7 @@
             }
             $(".business").append(item);
 
+            // 绑定悬浮事件
             $(".layadmin-carousel").each(function () {
                 var that = $(this);
                 carousel.render({
@@ -175,11 +182,12 @@
                 });
             }), element.render("progress");
         }
+
         // 初始化业务数据
-        var initBusinessItem = function (data) {
+        var initBusinessItem = function (data, mode) {
             var item = '<ul class="layui-row layui-col-space10">';
             for (var j = 0; j < data.length; j++) {
-                item += '<li class="layui-col-xs6">';
+                item += '<li class="layui-col-xs' + mode + '">';
                 item += '   <a lay-href="' + data[j].href + '" ' + 'class="layadmin-backlog-body">';
                 item += '       <h3>' + data[j].title + '</h3>';
                 item += '       <p>' + setValue(data[j].value) + '</p>';
@@ -305,7 +313,6 @@
                 dataType: "json",
                 done: function (response) {
                     if (response.bizResult) {
-                        url.websocketUrl = response.data.websocketUrl + appName;
                         init(response.data);
                     } else {
                         fims.msg(response.msg);

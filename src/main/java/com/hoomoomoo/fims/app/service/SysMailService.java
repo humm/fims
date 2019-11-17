@@ -1,5 +1,6 @@
 package com.hoomoomoo.fims.app.service;
 
+import com.hoomoomoo.fims.app.model.MailMessageModel;
 import com.hoomoomoo.fims.app.model.MailModel;
 
 import javax.mail.Message;
@@ -28,12 +29,12 @@ public interface SysMailService {
      * @param mailModel
      * @return
      */
-    List<Map<String, Message>> receiveMail(MailModel mailModel);
+    List<MailMessageModel> receiveMail(MailModel mailModel);
 
     /**
      * 处理邮件内容
      *
      * @param messages
      */
-    List<MailModel> handleMailData(List<Map<String, Message>> messages);
+    List<MailModel> handleMailData(List<MailMessageModel> messages);
 }

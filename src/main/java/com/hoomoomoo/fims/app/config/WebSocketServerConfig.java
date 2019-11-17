@@ -54,11 +54,6 @@ public class WebSocketServerConfig {
         webSocketSet.add(this);
         this.session = session;
         this.sid = sid;
-        try {
-            sendMessage(String.format("websocket连接成功: %s", sid));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -76,7 +71,7 @@ public class WebSocketServerConfig {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        logger.info(String.format("客户端 %s: %s", sid, message));
+        logger.info(String.format("websocket client %s: %s", sid, message));
     }
 
     /**
@@ -85,7 +80,7 @@ public class WebSocketServerConfig {
      */
     @OnError
     public void onError(Session session, Throwable error) {
-        logger.error("发生错误");
+        logger.error("error");
         error.printStackTrace();
     }
 
@@ -104,11 +99,11 @@ public class WebSocketServerConfig {
         for (WebSocketServerConfig item : webSocketSet) {
             try {
                 if (item.sid.equals(sid)) {
-                    logger.info(String.format("%s 推送消息: %s", sid, message));
+                    logger.info(String.format("%s send message: %s", sid, message));
                     item.sendMessage(message);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                LogUtils.exception(logger, LOG_BUSINESS_TYPE_WEBSOCKET, e);
             }
         }
     }

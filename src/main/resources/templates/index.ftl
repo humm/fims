@@ -26,15 +26,8 @@
             <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right" style="margin-right: 10px;">
 
                 <li class="layui-nav-item" lay-unselect>
-                    <a lay-href="app/message/index.html" layadmin-event="message" lay-text="消息中心">
-                        <i class="layui-icon layui-icon-notice"></i>
-                        <!-- 如果有新消息，则显示小圆点 -->
-                        <span class="layui-badge-dot"></span>
-                    </a>
-                </li>
-                <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" layadmin-event="fullscreen">
-                        <i class="layui-icon layui-icon-screen-full"></i>
+                    <a lay-href="notice/view/list" style="margin-right: 30px;" layadmin-event="message" lay-text="通知中心">
+                        <span class="" id="readNum"></span>
                     </a>
                 </li>
                 <li class="layui-nav-item" lay-unselect>

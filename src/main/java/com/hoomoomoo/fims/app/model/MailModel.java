@@ -22,22 +22,7 @@ public class MailModel {
     @ApiModelProperty(value="邮件ID", required = false)
     private String mailId;
 
+    @ApiModelProperty(value="发件人", required = false)
+    private String sender;
 
-    public MailModel() {
-    }
-
-    public MailModel(String subject) {
-        this.subject = subject;
-    }
-
-    public MailModel(String subject, String text) {
-        this.subject = subject;
-        this.text = text;
-    }
-
-    public MailModel(String subject, String text, String mailId) {
-        this.subject = subject;
-        this.text = text;
-        this.mailId = mailId;
-    }
 }

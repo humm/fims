@@ -44,8 +44,7 @@ public class SysLoginLogController {
      */
     @ApiOperation("跳转列表页面")
     @RequestMapping(value = "view/list", method = RequestMethod.GET)
-    public String viewList(@ApiParam(value = "菜单ID", required = true)
-                           @RequestParam String menuId) {
+    public String viewList() {
         return "loginLog/list";
     }
 

@@ -203,10 +203,27 @@ public class SysReportServiceImpl implements SysReportService {
             String loginUserId = sessionBean.getUserId();
             if (!sessionBean.getIsAdminData()) {
                 sysReportQueryModel.setUserId(loginUserId);
+            } else {
+                if (StringUtils.isNotBlank(sysReportQueryModel.getReportValue())) {
+                    sysReportQueryModel.setUserId(sysReportQueryModel.getReportValue());
+                }
             }
             List<SysReportModel> sysReportModelList = getSysReportData(sysReportQueryModel);
             setSysReportCommonProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean);
             setSysReportProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean, null);
+            // 查询用户信息
+            List<SysDictionaryModel> userList = DICTIONARY_CONDITION.get(loginUserId).get(D000);
+            if (CollectionUtils.isNotEmpty(userList)) {
+                if (userList.size() > 1) {
+                    List<String> user = new ArrayList<>();
+                    for (SysDictionaryModel sysDictionaryModel : userList) {
+                        user.add(sysDictionaryModel.getDictionaryItem());
+                    }
+                    sysReportModel.setUserList(user);
+                } else {
+                    sysReportModel.setTitle(userList.get(0).getDictionaryCaption());
+                }
+            }
         }
         return sysReportModel;
     }
@@ -230,7 +247,7 @@ public class SysReportServiceImpl implements SysReportService {
                 setSysReportProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean, 0);
                 // 获取用户信息
                 List<SysDictionaryModel> userList = DICTIONARY_CONDITION.get(loginUserId).get(D000);
-                if(CollectionUtils.isNotEmpty(userList)){
+                if (CollectionUtils.isNotEmpty(userList)) {
                     for (int i = 0; i < userList.size(); i++) {
                         sysReportQueryModel.setUserId(userList.get(i).getDictionaryItem());
                         sysReportQueryModel.setUserName(userList.get(i).getDictionaryCaption());
@@ -245,6 +262,13 @@ public class SysReportServiceImpl implements SysReportService {
                 setSysReportCommonProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean);
                 setSysReportProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean, 0);
             }
+        }
+
+        // 首页用户数据处理
+        if (sysReportModel.getYAxisData() != null && sysReportModel.getYAxisData().size() == 2) {
+            // 系统当前只有一个用户
+            sysReportModel.getYAxisData().remove(0);
+            sysReportModel.setLegendData(new String[]{sysReportModel.getLegendData()[1]});
         }
         return sysReportModel;
     }

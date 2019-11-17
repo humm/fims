@@ -1,6 +1,7 @@
 package com.hoomoomoo.fims.test;
 
 import com.hoomoomoo.fims.FimsApplication;
+import com.hoomoomoo.fims.app.model.MailMessageModel;
 import com.hoomoomoo.fims.app.model.MailModel;
 import com.hoomoomoo.fims.app.service.SysMailService;
 import org.junit.Test;
@@ -40,7 +41,9 @@ public class MailConfigTest {
 
     @Test
     public void receive() {
-        List<Map<String,Message>> messageList = sysMailService.receiveMail(new MailModel("测试邮件主题"));
+        MailModel mailModel = new MailModel();
+        mailModel.setSubject("汇丰银行信用卡用卡指南");
+        List<MailMessageModel> messageList = sysMailService.receiveMail(mailModel);
         List<MailModel> mailTDtos = sysMailService.handleMailData(messageList);
         for(MailModel dto : mailTDtos){
             logger.info(dto.toString());
