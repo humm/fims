@@ -91,9 +91,24 @@ public class BusinessConst {
     public static final String WELL                                         = "#";
 
     /**
+     * 小于号
+     */
+    public static final String LESS_THAN                                    = "<";
+
+    /**
+     * 小于号
+     */
+    public static final String GREATER_THAN                                 = ">";
+
+    /**
      * 六个*
      */
     public static final String ASTERISK_SIX                                 = "******";
+
+    /**
+     * *
+     */
+    public static final String ASTERISK                                     = "*";
 
     /**
      * text/plain

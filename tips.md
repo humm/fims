@@ -9,6 +9,7 @@ SpringBoot
     05. @Component  @Configuration
         @Configuration会生成代理类 可以返回Bean
         @Component不会生成代理类  webSocket需要用这个 有代理类会导致应用启动失败
+        
 fims
     01. 菜单配置 sys_menu
         01. 字段menu_type

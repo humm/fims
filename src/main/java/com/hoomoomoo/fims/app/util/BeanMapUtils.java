@@ -1,6 +1,7 @@
 package com.hoomoomoo.fims.app.util;
 
 import net.sf.cglib.beans.BeanMap;
+import org.apache.commons.beanutils.BeanUtils;
 
 import java.util.*;
 

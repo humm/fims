@@ -1,7 +1,6 @@
 package com.hoomoomoo.fims.test;
 
 import com.hoomoomoo.fims.FimsApplication;
-import com.hoomoomoo.fims.app.model.MailMessageModel;
 import com.hoomoomoo.fims.app.model.MailModel;
 import com.hoomoomoo.fims.app.service.SysMailService;
 import org.junit.Test;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.mail.*;
 import java.util.*;
 
 /**
@@ -34,17 +32,17 @@ public class MailConfigTest {
     @Test
     public void send() {
         MailModel mailModel = new MailModel();
+        mailModel.setTo("10806623@qq.com");
         mailModel.setSubject("测试邮件主题");
-        mailModel.setText("测试邮件内容");
+        mailModel.setContent("测试邮件内容");
         sysMailService.sendMail(mailModel);
     }
 
     @Test
     public void receive() {
         MailModel mailModel = new MailModel();
-        mailModel.setSubject("汇丰银行信用卡用卡指南");
-        List<MailMessageModel> messageList = sysMailService.receiveMail(mailModel);
-        List<MailModel> mailTDtos = sysMailService.handleMailData(messageList);
+        mailModel.setSubject("*");
+        List<MailModel> mailTDtos = sysMailService.receiveMail(mailModel);
         for(MailModel dto : mailTDtos){
             logger.info(dto.toString());
         }

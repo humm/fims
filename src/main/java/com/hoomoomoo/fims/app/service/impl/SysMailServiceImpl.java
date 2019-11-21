@@ -1,7 +1,6 @@
 package com.hoomoomoo.fims.app.service.impl;
 
 import com.hoomoomoo.fims.app.config.bean.MailConfigBean;
-import com.hoomoomoo.fims.app.model.MailMessageModel;
 import com.hoomoomoo.fims.app.model.MailModel;
 import com.hoomoomoo.fims.app.service.SysMailService;
 import com.hoomoomoo.fims.app.util.LogUtils;
@@ -56,10 +55,10 @@ public class SysMailServiceImpl implements SysMailService {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
         try {
-            mimeMessageHelper.setTo(mailConfigBean.getTo());
+            mimeMessageHelper.setTo(mailModel.getTo());
             mimeMessageHelper.setFrom(mailConfigBean.getFrom());
             mimeMessage.setSubject(mailModel.getSubject());
-            mimeMessageHelper.setText(mailModel.getText(), true);
+            mimeMessageHelper.setText(mailModel.getContent(), true);
             javaMailSender.send(mimeMessage);
             LogUtils.success(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
         } catch (MessagingException e) {
@@ -77,12 +76,12 @@ public class SysMailServiceImpl implements SysMailService {
      * @return
      */
     @Override
-    public List<MailMessageModel> receiveMail(MailModel mailModel) {
+    public List<MailModel> receiveMail(MailModel mailModel) {
         LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
+        List<MailModel> mailModelList = new ArrayList<>();
         Properties properties = new Properties();
         Session session = Session.getDefaultInstance(properties);
         session.setDebug(mailConfigBean.getDebug());
-        List<MailMessageModel> subjectMessage = new ArrayList<>();
         try {
             Store store = session.getStore(mailConfigBean.getReceiveProtocol());
             store.connect(mailConfigBean.getReceiveHost(), mailConfigBean.getReceiveUsername(), mailConfigBean.getReceivePassword());
@@ -91,13 +90,14 @@ public class SysMailServiceImpl implements SysMailService {
             folder.open(Folder.READ_WRITE);
             Message[] messages = folder.getMessages();
             for (Message message : messages) {
-                if (StringUtils.isBlank(mailModel.getSubject()) || mailModel.getSubject().equals(message.getSubject())) {
-                    MailMessageModel mailMessageModel = new MailMessageModel();
-                    mailMessageModel.setMailId(mailConfigBean.getReceiveHost() + MINUS + ((IMAPFolder) folder).getUID(message));
-                    mailMessageModel.setMessage(message);
-                    subjectMessage.add(mailMessageModel);
+                if (ASTERISK.equals(mailModel.getSubject()) || mailModel.getSubject().equals(message.getSubject())) {
                     // 邮件状态置为已读
                     message.setFlag(Flags.Flag.SEEN, true);
+                    // 处理邮件内容
+                    Long uuid = ((IMAPFolder) folder).getUID(message);
+                    // todo 邮件ID判断 大于配置邮件ID数据返回
+                    String mailId = mailConfigBean.getReceiveHost() + MINUS + uuid;
+                    mailModelList.add(handleMailData(mailId, message));
                 }
             }
             LogUtils.success(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
@@ -105,61 +105,60 @@ public class SysMailServiceImpl implements SysMailService {
             LogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE, e);
         }
         LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
-        return subjectMessage;
+        return mailModelList;
     }
 
     /**
      * 处理邮件内容
      *
-     * @param messages
+     * @param mailId
+     * @param message
      */
-    @Override
-    public List<MailModel> handleMailData(List<MailMessageModel> messages) {
+    private MailModel handleMailData(String mailId, Message message) {
         LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE);
-        List<MailModel> mailDtoList = new ArrayList<>();
-        for (MailMessageModel mailMessageModel : messages) {
-            String mailId = mailMessageModel.getMailId();
-            Message message = mailMessageModel.getMessage();
-            MimeMessage mimeMessage = (MimeMessage) message;
-            try {
-                Object content = mimeMessage.getContent();
-                Address address = mimeMessage.getSender();
-                // 获取发件人信息
-                if (content instanceof String) {
-                    MailModel mailModel = new MailModel();
-                    mailModel.setSubject(mimeMessage.getSubject());
-                    mailModel.setText(String.valueOf(content));
-                    mailModel.setMailId(mailId);
-                    mailDtoList.add(mailModel);
-                } else if (content instanceof MimeMultipart) {
-                    MimeMultipart mimeMultipart = (MimeMultipart) mimeMessage.getContent();
-                    inner:
-                    for (int i = 0; i < mimeMultipart.getCount(); i++) {
-                        BodyPart bodyPart = mimeMultipart.getBodyPart(i);
-                        if (bodyPart.isMimeType(TEXT_PLAIN)) {
-                            // 文本内容
-                            MailModel mailModel = new MailModel();
-                            mailModel.setSubject(mimeMessage.getSubject());
-                            mailModel.setText(String.valueOf(content));
-                            mailModel.setMailId(mailId);
-                            // 设置发件人信息
-                            mailDtoList.add(mailModel);
-                            break inner;
-                        } else if (bodyPart.isMimeType(TEXT_HTML)) {
-                            // 超文本内容
-                        } else if (bodyPart.isMimeType(MULTIPART)) {
-                            // 附件
-                        }
-                    }
-                } else {
-                    LogUtils.fail(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE, MAIL_CONTENT_NOT_SUPPORT);
+        MimeMessage mimeMessage = (MimeMessage) message;
+        MailModel mailModel = new MailModel();
+        try {
+            // 获取发件人地址
+            String address = mimeMessage.getSender().toString();
+            if (StringUtils.isNotBlank(address)) {
+                int indexStart = address.lastIndexOf(LESS_THAN);
+                int indexEnd = address.lastIndexOf(GREATER_THAN);
+                if (indexEnd >= indexStart) {
+                    mailModel.setTo(address.substring(indexStart + 1, indexEnd));
                 }
-            } catch (Exception e) {
-                LogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE, e);
             }
+            // 获取邮件内容
+            Object content = mimeMessage.getContent();
+            if (content instanceof String) {
+                mailModel.setSubject(mimeMessage.getSubject());
+                mailModel.setContent(String.valueOf(content));
+                mailModel.setMailId(mailId);
+            } else if (content instanceof MimeMultipart) {
+                MimeMultipart mimeMultipart = (MimeMultipart) mimeMessage.getContent();
+                inner:
+                for (int i = 0; i < mimeMultipart.getCount(); i++) {
+                    BodyPart bodyPart = mimeMultipart.getBodyPart(i);
+                    if (bodyPart.isMimeType(TEXT_PLAIN)) {
+                        // 文本内容
+                        mailModel.setSubject(mimeMessage.getSubject());
+                        mailModel.setContent(String.valueOf(content));
+                        mailModel.setMailId(mailId);
+                        break inner;
+                    } else if (bodyPart.isMimeType(TEXT_HTML)) {
+                        // 超文本内容
+                    } else if (bodyPart.isMimeType(MULTIPART)) {
+                        // 附件
+                    }
+                }
+            } else {
+                LogUtils.fail(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE, MAIL_CONTENT_NOT_SUPPORT);
+            }
+        } catch (Exception e) {
+            LogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE, e);
         }
         LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE);
-        return mailDtoList;
+        return mailModel;
     }
 
 }

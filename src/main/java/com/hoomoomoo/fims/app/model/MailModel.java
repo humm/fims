@@ -17,12 +17,12 @@ public class MailModel {
     private String subject;
 
     @ApiModelProperty(value="邮件内容", required = false)
-    private String text;
+    private String content;
 
     @ApiModelProperty(value="邮件ID", required = false)
     private String mailId;
 
-    @ApiModelProperty(value="发件人", required = false)
-    private String sender;
+    @ApiModelProperty(value="收件人", required = false)
+    private String to;
 
 }

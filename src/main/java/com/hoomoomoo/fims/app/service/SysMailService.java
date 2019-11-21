@@ -1,11 +1,8 @@
 package com.hoomoomoo.fims.app.service;
 
-import com.hoomoomoo.fims.app.model.MailMessageModel;
 import com.hoomoomoo.fims.app.model.MailModel;
 
-import javax.mail.Message;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author humm23693
@@ -29,12 +26,6 @@ public interface SysMailService {
      * @param mailModel
      * @return
      */
-    List<MailMessageModel> receiveMail(MailModel mailModel);
+    List<MailModel> receiveMail(MailModel mailModel);
 
-    /**
-     * 处理邮件内容
-     *
-     * @param messages
-     */
-    List<MailModel> handleMailData(List<MailMessageModel> messages);
 }

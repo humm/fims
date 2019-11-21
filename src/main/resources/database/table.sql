@@ -379,15 +379,18 @@ comment on column sys_login_log.login_message
 
 -- 初始化数据 开始
 -- 用户信息
-delete from sys_user;
+truncate table sys_user;
 insert into sys_user (USER_ID, USER_CODE, USER_NAME, USER_PASSWORD, USER_STATUS, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER, USER_MEMO)
 values (20190000000001, 'admin', '管理员', '123456', 'D001-1', sysdate, sysdate, '20190000000001', '20190000000001', '系统管理员，不能删除');
 
 -- 菜单信息
-delete from sys_menu;
+truncate table sys_menu;
 
 -- 字典信息
-delete from sys_dictionary;
+truncate table sys_dictionary;
+
+-- 系统参数
+truncate table sys_parameter;
 
 commit;
 -- 初始化数据 结束
