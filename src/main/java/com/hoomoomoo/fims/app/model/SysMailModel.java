@@ -11,7 +11,7 @@ import lombok.Data;
  */
 
 @Data
-public class MailModel {
+public class SysMailModel {
 
     @ApiModelProperty(value="邮件主题", required = false)
     private String subject;

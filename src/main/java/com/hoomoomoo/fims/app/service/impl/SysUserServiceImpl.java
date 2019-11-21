@@ -13,7 +13,7 @@ import com.hoomoomoo.fims.app.model.common.ViewData;
 import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysUserService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -69,11 +69,11 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public List<SysUserModel> selectSysUser(SysUserQueryModel sysUserQueryModel) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
         SystemUtils.setSessionInfo(sysUserQueryModel);
-        LogUtils.parameter(logger, sysUserQueryModel);
+        SysLogUtils.parameter(logger, sysUserQueryModel);
         List<SysUserModel> sysUserList = sysUserDao.selectSysUser(sysUserQueryModel);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
         return sysUserList;
     }
 
@@ -84,7 +84,7 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public ResultData selectInitData() {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_INIT);
         ViewData viewData = new ViewData();
         // 设置查询条件
         viewData.setViewType(BUSINESS_TYPE_USER);
@@ -92,7 +92,7 @@ public class SysUserServiceImpl implements SysUserService {
         // 获取角色信息
         List<SysRoleModel> roleModelList = sysRoleDao.selectSysRole(null);
         viewData.setRoleList(roleModelList);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_INIT);
         return new ResultData(true, SELECT_SUCCESS, viewData);
     }
 
@@ -104,13 +104,13 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public FimsPage<SysUserModel> selectPage(SysUserQueryModel sysUserQueryModel) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_PAGE);
-        LogUtils.parameter(logger, sysUserQueryModel);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.parameter(logger, sysUserQueryModel);
         PageHelper.startPage(sysUserQueryModel.getPage(), sysUserQueryModel.getLimit());
         List<SysUserModel> sysUserModelList = sysUserDao.selectPage(sysUserQueryModel);
         // 创建PageInfo对象前 不能处理数据否则getTotal数据不正确
         PageInfo<SysUserModel> pageInfo = new PageInfo<>(sysUserModelList);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_PAGE);
         return new FimsPage(pageInfo.getTotal(), sysSystemService.transferData(pageInfo.getList(), SysUserModel.class));
     }
 
@@ -122,7 +122,7 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public ResultData delete(String userIds) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_DELETE);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_DELETE);
         List<SysUserModel> list = new ArrayList<>();
         if (StringUtils.isNotBlank(userIds)) {
             String[] userId = userIds.split(COMMA);
@@ -140,8 +140,8 @@ public class SysUserServiceImpl implements SysUserService {
         }
         // 加载字典项
         sysSystemService.loadSysDictionaryCondition();
-        LogUtils.parameter(logger, list);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_DELETE);
+        SysLogUtils.parameter(logger, list);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_DELETE);
         return new ResultData(true, DELETE_SUCCESS, null);
     }
 
@@ -154,10 +154,10 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public ResultData selectOne(String userId, Boolean isTranslate) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
         SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
         sysUserQueryModel.setUserId(userId);
-        LogUtils.parameter(logger, sysUserQueryModel);
+        SysLogUtils.parameter(logger, sysUserQueryModel);
         SysUserModel sysUserModel = sysUserDao.selectOne(sysUserQueryModel);
         if (isTranslate) {
             sysSystemService.transferData(sysUserModel, SysUserModel.class);
@@ -169,7 +169,7 @@ public class SysUserServiceImpl implements SysUserService {
             roles[i] = sysUserRoleModelList.get(i).getRoleId();
         }
         sysUserModel.setRoleId(StringUtils.join(roles, COMMA));
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysUserModel);
     }
 
@@ -183,7 +183,7 @@ public class SysUserServiceImpl implements SysUserService {
     public ResultData save(SysUserModel sysUserModel) {
         String operateType = sysUserModel.getUserId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
         String tipMsg = sysUserModel.getUserId() == null ? ADD_SUCCESS : UPDATE_SUCCESS;
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, operateType);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, operateType);
         SystemUtils.setCreateUserInfo(sysUserModel);
         SysDictionaryModel sysDictionaryModel = new SysDictionaryModel();
         sysDictionaryModel.setDictionaryCode(D009);
@@ -204,7 +204,7 @@ public class SysUserServiceImpl implements SysUserService {
             sysDictionaryModel.setDictionaryItem(sysUserModel.getUserId());
             sysDictionaryDao.update(sysDictionaryModel);
         }
-        LogUtils.parameter(logger, sysUserModel);
+        SysLogUtils.parameter(logger, sysUserModel);
         sysUserDao.save(sysUserModel);
         // 加载字典项
         sysSystemService.loadSysDictionaryCondition();
@@ -221,7 +221,7 @@ public class SysUserServiceImpl implements SysUserService {
                 sysUserDao.saveUserRole(sysUserRoleModel);
             }
         }
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, operateType);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, operateType);
         return new ResultData(true, tipMsg, null);
     }
 
@@ -233,9 +233,9 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public ResultData checkUserCode(SysUserQueryModel sysUserQueryModel) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_CHECK);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_CHECK);
         Boolean isExist = sysUserDao.checkUserCode(sysUserQueryModel);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_CHECK);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_CHECK);
         return new ResultData(true, SELECT_SUCCESS, isExist);
     }
 
@@ -247,7 +247,7 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public ResultData reset(String userIds) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_RESET_PASSWORD);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_RESET_PASSWORD);
         List<SysUserModel> list = new ArrayList<>();
         if (StringUtils.isNotBlank(userIds)) {
 
@@ -259,8 +259,8 @@ public class SysUserServiceImpl implements SysUserService {
             }
             sysUserDao.reset(getPassword(), list);
         }
-        LogUtils.parameter(logger, list);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_RESET_PASSWORD);
+        SysLogUtils.parameter(logger, list);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_RESET_PASSWORD);
         return new ResultData(true, RESET_PASSWORD_SUCCESS, null);
     }
 
@@ -272,16 +272,16 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public ResultData changPassword(String password) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_UPDATE_PASSWORD);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_UPDATE_PASSWORD);
         SessionBean sessionBean = SystemSessionUtils.getSession();
         if(sessionBean != null){
             SysUserModel sysUserModel = new SysUserModel();
             sysUserModel.setUserId(sessionBean.getUserId());
             sysUserModel.setUserPassword(new StringBuffer(password).reverse().toString());
             sysUserDao.changPassword(sysUserModel);
-            LogUtils.parameter(logger, sysUserModel);
+            SysLogUtils.parameter(logger, sysUserModel);
         }
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_UPDATE_PASSWORD);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_UPDATE_PASSWORD);
         return new ResultData(true, UPDATE_PASSWORD_SUCCESS, null);
     }
 

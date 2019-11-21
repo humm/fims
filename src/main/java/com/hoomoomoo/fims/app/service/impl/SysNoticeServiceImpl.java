@@ -6,14 +6,13 @@ import com.hoomoomoo.fims.app.config.WebSocketServerConfig;
 import com.hoomoomoo.fims.app.dao.SysNoticeDao;
 import com.hoomoomoo.fims.app.model.SysNoticeModel;
 import com.hoomoomoo.fims.app.model.SysNoticeQueryModel;
-import com.hoomoomoo.fims.app.model.SysUserQueryModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.model.common.ViewData;
 import com.hoomoomoo.fims.app.service.SysNoticeService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.apache.commons.lang.StringUtils;
@@ -59,14 +58,14 @@ public class SysNoticeServiceImpl implements SysNoticeService {
      */
     @Override
     public void save(SysNoticeModel sysNoticeModel) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_ADD);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_ADD);
         SystemUtils.setCreateUserInfo(sysNoticeModel);
         if (StringUtils.isBlank(sysNoticeModel.getNoticeStatus())) {
             sysNoticeModel.setNoticeStatus(new StringBuffer(D007).append(MINUS).append(STR_1).toString());
         }
-        LogUtils.parameter(logger, sysNoticeModel);
+        SysLogUtils.parameter(logger, sysNoticeModel);
         sysNoticeDao.save(sysNoticeModel);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_ADD);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_ADD);
 
     }
 
@@ -77,14 +76,14 @@ public class SysNoticeServiceImpl implements SysNoticeService {
      */
     @Override
     public void update(SysNoticeModel sysNoticeModel) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
         SystemUtils.setCreateUserInfo(sysNoticeModel);
         if (StringUtils.isBlank(sysNoticeModel.getNoticeStatus())) {
             sysNoticeModel.setNoticeStatus(new StringBuffer(D007).append(MINUS).append(STR_2).toString());
         }
-        LogUtils.parameter(logger, sysNoticeModel);
+        SysLogUtils.parameter(logger, sysNoticeModel);
         sysNoticeDao.update(sysNoticeModel);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
     }
 
     /**
@@ -94,12 +93,12 @@ public class SysNoticeServiceImpl implements SysNoticeService {
      */
     @Override
     public ResultData selectInitData() {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT_INIT);
         ViewData viewData = new ViewData();
         // 设置查询条件
         viewData.setViewType(BUSINESS_TYPE_NOTICE);
         sysSystemService.setCondition(viewData);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT_INIT);
         return new ResultData(true, SELECT_SUCCESS, viewData);
     }
 
@@ -111,14 +110,14 @@ public class SysNoticeServiceImpl implements SysNoticeService {
      */
     @Override
     public FimsPage<SysNoticeModel> selectPage(SysNoticeQueryModel sysNoticeQueryModel) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT_PAGE);
         SystemUtils.setSessionInfo(sysNoticeQueryModel);
-        LogUtils.parameter(logger, sysNoticeQueryModel);
+        SysLogUtils.parameter(logger, sysNoticeQueryModel);
         PageHelper.startPage(sysNoticeQueryModel.getPage(), sysNoticeQueryModel.getLimit());
         List<SysNoticeModel> sysNoticeModelList = sysNoticeDao.selectPage(sysNoticeQueryModel);
         // 创建PageInfo对象前 不能处理数据否则getTotal数据不正确
         PageInfo<SysNoticeModel> pageInfo = new PageInfo<>(sysNoticeModelList);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT_PAGE);
         return new FimsPage(pageInfo.getTotal(), sysSystemService.transferData(pageInfo.getList(), SysNoticeModel.class));
     }
 
@@ -131,10 +130,10 @@ public class SysNoticeServiceImpl implements SysNoticeService {
      */
     @Override
     public ResultData selectOne(String noticeId, Boolean isTranslate) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT);
         SysNoticeQueryModel sysNoticeQueryModel = new SysNoticeQueryModel();
         sysNoticeQueryModel.setNoticeId(noticeId);
-        LogUtils.parameter(logger, sysNoticeQueryModel);
+        SysLogUtils.parameter(logger, sysNoticeQueryModel);
         SysNoticeModel sysNoticeModel = sysNoticeDao.selectOne(sysNoticeQueryModel);
         SysNoticeModel sysNotice = new SysNoticeModel();
         BeanUtils.copyProperties(sysNoticeModel, sysNotice);
@@ -146,7 +145,7 @@ public class SysNoticeServiceImpl implements SysNoticeService {
         // 修改阅读状态
         sysNoticeDao.update(sysNotice);
         WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_NOTICE);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysNoticeModel);
     }
 
@@ -159,7 +158,7 @@ public class SysNoticeServiceImpl implements SysNoticeService {
      */
     @Override
     public ResultData updateReadStatus(String isAll, String noticeIds) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
         SysNoticeModel sysNoticeModel = new SysNoticeModel();
         sysNoticeModel.setReadStatus(new StringBuffer(D012).append(MINUS).append(STR_2).toString());
         SystemUtils.setModifyUserInfo(sysNoticeModel);
@@ -171,7 +170,7 @@ public class SysNoticeServiceImpl implements SysNoticeService {
                     sysNoticeModel.setUserId(sessionBean.getUserId());
                 }
                 sysNoticeDao.updateBatch(sysNoticeModel);
-                LogUtils.parameter(logger, sysNoticeModel);
+                SysLogUtils.parameter(logger, sysNoticeModel);
             }
         } else {
             if(StringUtils.isNotBlank(noticeIds)){
@@ -179,12 +178,12 @@ public class SysNoticeServiceImpl implements SysNoticeService {
                 for (String id : noticeId){
                     sysNoticeModel.setNoticeId(id);
                     sysNoticeDao.update(sysNoticeModel);
-                    LogUtils.parameter(logger, sysNoticeModel);
+                    SysLogUtils.parameter(logger, sysNoticeModel);
                 }
             }
         }
         WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_NOTICE);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
         return new ResultData(true, OPERATE_SUCCESS, null);
     }
 

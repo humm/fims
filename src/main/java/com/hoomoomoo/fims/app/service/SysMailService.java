@@ -1,6 +1,6 @@
 package com.hoomoomoo.fims.app.service;
 
-import com.hoomoomoo.fims.app.model.MailModel;
+import com.hoomoomoo.fims.app.model.SysMailModel;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface SysMailService {
      * @param mailModel
      * @return
      */
-    Boolean sendMail(MailModel mailModel);
+    Boolean sendMail(SysMailModel mailModel);
 
     /**
      * 接收指定主题邮件
@@ -26,6 +26,6 @@ public interface SysMailService {
      * @param mailModel
      * @return
      */
-    List<MailModel> receiveMail(MailModel mailModel);
+    List<SysMailModel> receiveMail(SysMailModel mailModel);
 
 }

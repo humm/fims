@@ -3,7 +3,7 @@ package com.hoomoomoo.fims.app.config;
 import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
 import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +54,6 @@ public class InitRunnerConfig implements CommandLineRunner {
         // 加载查询数据字典
         sysSystemService.loadSysDictionaryCondition();
 
-        LogUtils.load(logger, LOG_BUSINESS_TYPE_INIT);
+        SysLogUtils.load(logger, LOG_BUSINESS_TYPE_INIT);
     }
 }

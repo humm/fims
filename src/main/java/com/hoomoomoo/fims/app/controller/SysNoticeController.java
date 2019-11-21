@@ -6,7 +6,7 @@ import com.hoomoomoo.fims.app.model.SysNoticeQueryModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysNoticeService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -77,9 +77,9 @@ public class SysNoticeController {
     @RequestMapping(value = "selectInitData", method = RequestMethod.GET)
     @ResponseBody
     public ResultData selectInitData() {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT_INIT);
         ResultData resultData = sysNoticeService.selectInitData();
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT_INIT);
         return resultData;
     }
 
@@ -93,9 +93,9 @@ public class SysNoticeController {
     @RequestMapping(value = "selectPage", method = RequestMethod.GET)
     @ResponseBody
     public FimsPage<SysNoticeModel> selectPage(SysNoticeQueryModel sysNoticeQueryModel) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT_PAGE);
         FimsPage fimsPage = sysNoticeService.selectPage(sysNoticeQueryModel);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT_PAGE);
         return fimsPage;
     }
 
@@ -113,9 +113,9 @@ public class SysNoticeController {
             @RequestParam String noticeId,
             @ApiParam(value = "是否翻译", required = true)
             @RequestParam Boolean isTranslate) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT);
         ResultData resultData = sysNoticeService.selectOne(noticeId, isTranslate);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_SELECT);
         return resultData;
     }
 
@@ -131,9 +131,9 @@ public class SysNoticeController {
     @ResponseBody
     public ResultData selectOne(@ApiParam(value = "是否全部已读", required = false)String isAll,
                                 @ApiParam(value = "通知消息ID", required = false)String noticeIds){
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
         ResultData resultData = sysNoticeService.updateReadStatus(isAll, noticeIds);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_NOTICE, LOG_OPERATE_TYPE_UPDATE);
         return resultData;
     }
 }

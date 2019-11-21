@@ -1,12 +1,10 @@
 package com.hoomoomoo.fims.app.config;
 
-import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
 import com.hoomoomoo.fims.app.model.SysLoginLogModel;
-import com.hoomoomoo.fims.app.model.SysUserModel;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysLoginLogService;
 import com.hoomoomoo.fims.app.service.SysParameterService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-import javax.xml.ws.soap.Addressing;
 
 import java.util.Date;
 
@@ -44,7 +41,7 @@ public class SessionConfig implements HttpSessionListener {
 
     @PostConstruct
     public void init() {
-        LogUtils.load(logger, LOG_BUSINESS_TYPE_SESSION);
+        SysLogUtils.load(logger, LOG_BUSINESS_TYPE_SESSION);
     }
 
     /**

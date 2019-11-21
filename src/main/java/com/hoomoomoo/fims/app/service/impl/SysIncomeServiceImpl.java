@@ -11,7 +11,7 @@ import com.hoomoomoo.fims.app.model.common.*;
 import com.hoomoomoo.fims.app.service.SysIncomeService;
 import com.hoomoomoo.fims.app.service.SysNoticeService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -57,7 +57,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
      */
     @Override
     public ResultData selectInitData() {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_INIT);
         ViewData viewData = new ViewData();
         // 设置查询条件
         viewData.setViewType(BUSINESS_TYPE_INCOME);
@@ -71,7 +71,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
             LastType incomeCompany = sysIncomeDao.selectLastTypeIncomeCompany(sysIncomeQueryModel);
             viewData.getLastType().setIncomeCompany(incomeCompany.getIncomeCompany());
         }
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_INIT);
         return new ResultData(true, SELECT_SUCCESS, viewData);
     }
 
@@ -83,14 +83,14 @@ public class SysIncomeServiceImpl implements SysIncomeService {
      */
     @Override
     public FimsPage<SysIncomeModel> selectPage(SysIncomeQueryModel sysIncomeQueryModel) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_PAGE);
         SystemUtils.setSessionInfo(sysIncomeQueryModel);
-        LogUtils.parameter(logger, sysIncomeQueryModel);
+        SysLogUtils.parameter(logger, sysIncomeQueryModel);
         PageHelper.startPage(sysIncomeQueryModel.getPage(), sysIncomeQueryModel.getLimit());
         List<SysIncomeModel> sysIncomeModelList = sysIncomeDao.selectPage(sysIncomeQueryModel);
         // 创建PageInfo对象前 不能处理数据否则getTotal数据不正确
         PageInfo<SysIncomeModel> pageInfo = new PageInfo<>(sysIncomeModelList);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_PAGE);
         return new FimsPage(pageInfo.getTotal(), sysSystemService.transferData(pageInfo.getList(), SysIncomeModel.class));
     }
 
@@ -102,7 +102,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
      */
     @Override
     public ResultData delete(String incomeIds) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_DELETE);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_DELETE);
         List<SysIncomeModel> list = new ArrayList<>();
         if (StringUtils.isNotBlank(incomeIds)) {
             String[] incomeId = incomeIds.split(COMMA);
@@ -116,9 +116,9 @@ public class SysIncomeServiceImpl implements SysIncomeService {
             }
             sysIncomeDao.delete(list);
         }
-        LogUtils.parameter(logger, list);
+        SysLogUtils.parameter(logger, list);
         sendWebsocketInfo();
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_DELETE);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_DELETE);
         return new ResultData(true, DELETE_SUCCESS, null);
     }
 
@@ -130,15 +130,15 @@ public class SysIncomeServiceImpl implements SysIncomeService {
      */
     @Override
     public ResultData selectOne(String incomeId, Boolean isTranslate) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT);
         SysIncomeQueryModel sysIncomeQueryModel = new SysIncomeQueryModel();
         sysIncomeQueryModel.setIncomeId(incomeId);
-        LogUtils.parameter(logger, sysIncomeQueryModel);
+        SysLogUtils.parameter(logger, sysIncomeQueryModel);
         SysIncomeModel sysIncomeModel = sysIncomeDao.selectOne(sysIncomeQueryModel);
         if (isTranslate) {
             sysSystemService.transferData(sysIncomeModel, SysIncomeModel.class);
         }
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysIncomeModel);
     }
 
@@ -152,7 +152,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
     public ResultData save(SysIncomeModel sysIncomeModel) {
         String operateType = sysIncomeModel.getIncomeId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
         String tipMsg = sysIncomeModel.getIncomeId() == null ? ADD_SUCCESS : UPDATE_SUCCESS;
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
         SystemUtils.setCreateUserInfo(sysIncomeModel);
         SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysIncomeModel);
         if (sysIncomeModel.getIncomeId() == null) {
@@ -168,10 +168,10 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         sysNoticeModel.setNoticeStatus(new StringBuffer(D007).append(MINUS).append(STR_1).toString());
         sysNoticeModel.setNoticeId(sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_NOTICE));
         sysNoticeService.save(sysNoticeModel);
-        LogUtils.parameter(logger, sysIncomeModel);
+        SysLogUtils.parameter(logger, sysIncomeModel);
         sysIncomeDao.save(sysIncomeModel);
         sendWebsocketInfo();
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
         return new ResultData(true, tipMsg, null);
     }
 

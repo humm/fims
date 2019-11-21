@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.config;
 
 import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class SwaggerConfig {
 
     @Bean
     public Docket init() {
-        LogUtils.load(logger, LOG_BUSINESS_TYPE_SWAGGER);
+        SysLogUtils.load(logger, LOG_BUSINESS_TYPE_SWAGGER);
         return new Docket(DocumentationType.SWAGGER_2)
                 .enable(fimsConfigBean.getSwagger())
                 .apiInfo(apiInfo())

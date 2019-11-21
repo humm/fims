@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.config;
 
 import com.hoomoomoo.fims.app.model.common.ResultData;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -29,14 +29,14 @@ public class ExceptionHandlerConfig {
 
     @PostConstruct
     public void init(){
-        LogUtils.load(logger, LOG_BUSINESS_TYPE_EXCEPTION);
+        SysLogUtils.load(logger, LOG_BUSINESS_TYPE_EXCEPTION);
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResultData exceptionHandler(HttpServletRequest request, Exception e){
         logger.error(request.getRequestURL().toString());
-        LogUtils.exception(logger, LOG_BUSINESS_TYPE_EXCEPTION, e);
+        SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_EXCEPTION, e);
         return new ResultData(STATUS_FAIL, ERROR);
     }
 }

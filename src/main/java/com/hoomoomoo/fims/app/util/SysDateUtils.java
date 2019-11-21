@@ -11,7 +11,7 @@ import java.util.Date;
  * @date 2019/08/08
  */
 
-public class DateUtils {
+public class SysDateUtils {
 
     /**
      * 时间格式化类型

@@ -1,8 +1,7 @@
 package com.hoomoomoo.fims.app.config;
 
 import com.hoomoomoo.fims.app.config.bean.SystemConfigBean;
-import com.hoomoomoo.fims.app.util.LogUtils;
-import freemarker.template.TemplateException;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +39,7 @@ public class FreemarkerConfig {
         Map<String, Object> freemarkerVariables = new HashMap<>(1);
         freemarkerVariables.put(APP_NAME, systemConfigBean.getAppName());
         configurer.setFreemarkerVariables(freemarkerVariables);
-        LogUtils.load(logger, LOG_BUSINESS_TYPE_FREEMARKER);
+        SysLogUtils.load(logger, LOG_BUSINESS_TYPE_FREEMARKER);
         return configurer;
     }
 }

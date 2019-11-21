@@ -1,6 +1,6 @@
 package com.hoomoomoo.fims.app.config;
 
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -31,7 +31,7 @@ public class ExceptionHandlerGlobalConfig implements ErrorController {
 
     @PostConstruct
     public void init(){
-        LogUtils.load(logger, LOG_BUSINESS_TYPE_EXCEPTION);
+        SysLogUtils.load(logger, LOG_BUSINESS_TYPE_EXCEPTION);
     }
 
     @Override

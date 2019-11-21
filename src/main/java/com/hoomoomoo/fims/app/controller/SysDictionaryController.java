@@ -4,23 +4,19 @@ import com.hoomoomoo.fims.app.model.SysDictionaryModel;
 import com.hoomoomoo.fims.app.model.SysDictionaryQueryModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
-import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysDictionaryService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
-import com.hoomoomoo.fims.app.util.LogUtils;
-import com.hoomoomoo.fims.app.util.SystemSessionUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.hoomoomoo.fims.app.consts.BusinessConst.HAS_BUTTON;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
@@ -85,9 +81,9 @@ public class SysDictionaryController {
     @RequestMapping(value = "selectPage", method = RequestMethod.GET)
     @ResponseBody
     public FimsPage<SysDictionaryModel> selectPage(SysDictionaryQueryModel sysDictionaryQueryModel) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT_PAGE);
         FimsPage<SysDictionaryModel> page = sysDictionaryService.selectPage(sysDictionaryQueryModel);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT_PAGE);
         return page;
     }
 
@@ -105,9 +101,9 @@ public class SysDictionaryController {
             @RequestParam String dictionaryCode,
             @ApiParam(value = "是否翻译", required = true)
             @RequestParam Boolean isTranslate) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
         ResultData resultData = sysDictionaryService.selectOne(dictionaryCode, isTranslate);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
         return resultData;
     }
 
@@ -121,9 +117,9 @@ public class SysDictionaryController {
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
     public ResultData save(@RequestBody List<SysDictionaryModel> sysDictionaryModelList) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_UPDATE);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_UPDATE);
         ResultData resultData = sysDictionaryService.save(sysDictionaryModelList);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_UPDATE);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_UPDATE);
         return resultData;
     }
 

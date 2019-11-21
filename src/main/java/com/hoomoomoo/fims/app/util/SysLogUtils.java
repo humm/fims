@@ -18,7 +18,7 @@ import static com.hoomoomoo.fims.app.consts.TipConst.*;
  * @date 2019/08/12
  */
 
-public class LogUtils {
+public class SysLogUtils {
 
     /**
      * 控制层日志开始
@@ -188,9 +188,9 @@ public class LogUtils {
     public static void parameter(Logger logger, Object obj) {
         if (LOG_REQUEST_PARAMETER) {
             if (obj instanceof List) {
-                logger.info(LOG_BUSINESS_PARAMETER, clearBlank(BeanMapUtils.beanToMap((List)obj)));
+                logger.info(LOG_BUSINESS_PARAMETER, clearBlank(SysBeanUtils.beanToMap((List)obj)));
             } else {
-                logger.info(LOG_BUSINESS_PARAMETER, clearBlank(BeanMapUtils.beanToMap(obj)));
+                logger.info(LOG_BUSINESS_PARAMETER, clearBlank(SysBeanUtils.beanToMap(obj)));
             }
         }
     }

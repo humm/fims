@@ -5,7 +5,7 @@ import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysReportService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -52,14 +52,14 @@ public class SysReportServiceImpl implements SysReportService {
      */
     @Override
     public ResultData initData(String reportMode, String reportType, String reportSubType, String reportValue) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_REPORT, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_REPORT, LOG_OPERATE_TYPE_SELECT);
         SysReportQueryModel sysReportQueryModel = new SysReportQueryModel();
         sysReportQueryModel.setReportMode(reportMode);
         sysReportQueryModel.setReportType(reportType);
         sysReportQueryModel.setReportSubType(reportSubType);
         sysReportQueryModel.setReportValue(reportValue);
         SysReportModel sysReportModel = null;
-        LogUtils.parameter(logger, sysReportQueryModel);
+        SysLogUtils.parameter(logger, sysReportQueryModel);
         switch (reportMode) {
             case REPORT_MODE_BAR:
                 sysReportModel = initBarData(sysReportQueryModel);
@@ -70,7 +70,7 @@ public class SysReportServiceImpl implements SysReportService {
             default:
                 break;
         }
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_REPORT, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_REPORT, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysReportModel);
     }
 

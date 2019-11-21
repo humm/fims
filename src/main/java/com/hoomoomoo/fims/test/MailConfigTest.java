@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.test;
 
 import com.hoomoomoo.fims.FimsApplication;
-import com.hoomoomoo.fims.app.model.MailModel;
+import com.hoomoomoo.fims.app.model.SysMailModel;
 import com.hoomoomoo.fims.app.service.SysMailService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +31,7 @@ public class MailConfigTest {
 
     @Test
     public void send() {
-        MailModel mailModel = new MailModel();
+        SysMailModel mailModel = new SysMailModel();
         mailModel.setTo("10806623@qq.com");
         mailModel.setSubject("测试邮件主题");
         mailModel.setContent("测试邮件内容");
@@ -40,10 +40,10 @@ public class MailConfigTest {
 
     @Test
     public void receive() {
-        MailModel mailModel = new MailModel();
+        SysMailModel mailModel = new SysMailModel();
         mailModel.setSubject("*");
-        List<MailModel> mailTDtos = sysMailService.receiveMail(mailModel);
-        for(MailModel dto : mailTDtos){
+        List<SysMailModel> mailTDtos = sysMailService.receiveMail(mailModel);
+        for(SysMailModel dto : mailTDtos){
             logger.info(dto.toString());
         }
     }

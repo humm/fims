@@ -11,9 +11,9 @@ import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.model.common.ViewData;
 import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
-import com.hoomoomoo.fims.app.util.BeanMapUtils;
-import com.hoomoomoo.fims.app.util.DateUtils;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysBeanUtils;
+import com.hoomoomoo.fims.app.util.SysDateUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -81,15 +81,15 @@ public class SysSystemServiceImpl implements SysSystemService {
             return;
         }
         Properties properties = new OrderedProperties();
-        LogUtils.configStart(logger, LOG_BUSINESS_TYPE_PARAMETER_CONFIG);
+        SysLogUtils.configStart(logger, LOG_BUSINESS_TYPE_PARAMETER_CONFIG);
         try {
             InputStream inputStream =
                     FimsApplication.class.getClassLoader().getResourceAsStream(APPLICATION_PROPERTIES.split(COLON)[1]);
             properties.load(inputStream);
         } catch (FileNotFoundException e) {
-            LogUtils.exception(logger, LOG_BUSINESS_TYPE_PARAMETER_CONFIG, e);
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_PARAMETER_CONFIG, e);
         } catch (IOException e) {
-            LogUtils.exception(logger, LOG_BUSINESS_TYPE_PARAMETER_CONFIG, e);
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_PARAMETER_CONFIG, e);
         }
         Iterator iterator = properties.stringPropertyNames().iterator();
         while (iterator.hasNext()) {
@@ -108,10 +108,10 @@ public class SysSystemServiceImpl implements SysSystemService {
                 }
             }
             if (!isIgnore) {
-                LogUtils.info(logger, singleProperty);
+                SysLogUtils.info(logger, singleProperty);
             }
         }
-        LogUtils.configEnd(logger, LOG_BUSINESS_TYPE_PARAMETER_CONFIG);
+        SysLogUtils.configEnd(logger, LOG_BUSINESS_TYPE_PARAMETER_CONFIG);
     }
 
     /**
@@ -121,7 +121,7 @@ public class SysSystemServiceImpl implements SysSystemService {
      */
     @Override
     public void loadBusinessId() {
-        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_LOAD);
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_LOAD);
         List<String> businessIdList = sysSystemDao.loadBusinessId();
         if (CollectionUtils.isNotEmpty(businessIdList)) {
             for (String businessId : businessIdList) {
@@ -133,7 +133,7 @@ public class SysSystemServiceImpl implements SysSystemService {
                 BUSINESS_SERIAL_NO.put(businessKey, businessValue);
             }
         }
-        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_LOAD);
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_LOAD);
     }
 
     /**
@@ -144,10 +144,10 @@ public class SysSystemServiceImpl implements SysSystemService {
      */
     @Override
     public String getBusinessSerialNo(String businessType) {
-        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET);
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET);
         if (StringUtils.isBlank(businessType)) {
-            LogUtils.fail(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET, BUSINESS_TYPE_NOT_EMPTY);
-            LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET);
+            SysLogUtils.fail(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET, BUSINESS_TYPE_NOT_EMPTY);
+            SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET);
             return null;
         }
         String businessId = null;
@@ -157,13 +157,13 @@ public class SysSystemServiceImpl implements SysSystemService {
             businessId = BUSINESS_SERIAL_NO.get(businessType);
             // 业务ID不存在 设置默认值
             if (StringUtils.isBlank(businessId)) {
-                businessId = DateUtils.yyyy() + BUSINESS_ID_DEFAULT;
+                businessId = SysDateUtils.yyyy() + BUSINESS_ID_DEFAULT;
             } else {
                 String businessYear = businessId.substring(0, 4);
                 String businessNo = businessId.substring(4);
                 // 业务ID时间不是当前时间 设置默认值
-                if (!DateUtils.yyyy().equals(businessYear)) {
-                    businessId = DateUtils.yyyy() + BUSINESS_ID_DEFAULT;
+                if (!SysDateUtils.yyyy().equals(businessYear)) {
+                    businessId = SysDateUtils.yyyy() + BUSINESS_ID_DEFAULT;
                 } else {
                     // 去除多去的0 获取序列号
                     while (businessNo.startsWith(STR_0)) {
@@ -180,13 +180,13 @@ public class SysSystemServiceImpl implements SysSystemService {
             }
             // 更新内存数据序列号值
             BUSINESS_SERIAL_NO.put(businessType, businessId);
-            LogUtils.success(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET, businessType + MINUS + businessId);
+            SysLogUtils.success(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET, businessType + MINUS + businessId);
         } catch (Exception e) {
-            LogUtils.exception(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET, e);
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET, e);
         } finally {
             lock.unlock();
         }
-        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET);
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET);
         return businessId;
     }
 
@@ -199,22 +199,17 @@ public class SysSystemServiceImpl implements SysSystemService {
      */
     @Override
     public List transferData(List list, Class clazz) {
-        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
+        List<BaseModel> baseModelList = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(list)) {
             // 本次查询缓存数据
             Map dictionaryCache = new HashMap(16);
-            List<Map<String, Object>> mapList = BeanMapUtils.beanToMap(list);
-            for (Map<String, Object> ele : mapList) {
-                transfer(dictionaryCache, ele, clazz);
-            }
-            try {
-                list = BeanMapUtils.mapToBean(mapList, clazz);
-            } catch (Exception e) {
-                LogUtils.exception(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER, e);
+            for (Object obj : list) {
+                baseModelList.add(transfer(dictionaryCache, SysBeanUtils.beanToMap(obj), clazz));
             }
         }
-        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
-        return list;
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
+        return baseModelList;
     }
 
     /**
@@ -225,14 +220,12 @@ public class SysSystemServiceImpl implements SysSystemService {
      */
     @Override
     public void transferData(BaseModel baseModel, Class clazz) {
-        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
         if (baseModel != null) {
-            Map dictionaryCache = new HashMap(16);
-            Map ele = BeanMapUtils.beanToMap(baseModel);
-            transfer(dictionaryCache, ele, clazz);
-            BeanMapUtils.mapToBean(ele, baseModel);
+            BaseModel baseModelTransfer = transfer(new HashMap(16), SysBeanUtils.beanToMap(baseModel), clazz);
+            BeanUtils.copyProperties(baseModelTransfer, baseModel);
         }
-        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
     }
 
     /**
@@ -243,7 +236,7 @@ public class SysSystemServiceImpl implements SysSystemService {
     @Override
     public void loadSysDictionaryCondition() {
         Map<String, Boolean> userDataAuthority = new HashMap(16);
-        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_DICTIONARY_LOAD);
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_DICTIONARY_LOAD);
         DICTIONARY_CONDITION.clear();
         // 查询用户信息
         List<SysUserModel> sysUserList = sysUserDao.selectSysUser(null);
@@ -273,7 +266,7 @@ public class SysSystemServiceImpl implements SysSystemService {
                 }
             }
         }
-        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY_LOAD);
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY_LOAD);
     }
 
     /**
@@ -283,7 +276,7 @@ public class SysSystemServiceImpl implements SysSystemService {
      */
     @Override
     public String getUserId() {
-        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_USER_ID_SELECT);
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_USER_ID_SELECT);
         String userId = STR_EMPTY;
         SessionBean sessionBean = SystemSessionUtils.getSession();
         if (sessionBean != null) {
@@ -299,7 +292,7 @@ public class SysSystemServiceImpl implements SysSystemService {
                 }
             }
         }
-        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_USER_ID_SELECT);
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_USER_ID_SELECT);
         return userId;
     }
 
@@ -310,7 +303,7 @@ public class SysSystemServiceImpl implements SysSystemService {
      */
     @Override
     public void setCondition(ViewData viewData) {
-        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_CONDITION_SET);
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_CONDITION_SET);
         // 智能填充
         viewData.setMindFill(MIND_FILL);
         // 设置登录用户信息
@@ -362,7 +355,7 @@ public class SysSystemServiceImpl implements SysSystemService {
             default:
                 break;
         }
-        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_CONDITION_SET);
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_CONDITION_SET);
     }
 
     /**
@@ -374,7 +367,7 @@ public class SysSystemServiceImpl implements SysSystemService {
     @Override
     public Boolean selectButtonAuthority(String menuId) {
         Boolean hasAuthority = false;
-        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BUTTON_AUTHORITY_SELECT);
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BUTTON_AUTHORITY_SELECT);
         SessionBean sessionBean = SystemSessionUtils.getSession();
         if (sessionBean != null) {
             if (ADMIN_CODE.equals(sessionBean.getUserCode())) {
@@ -387,7 +380,7 @@ public class SysSystemServiceImpl implements SysSystemService {
                 hasAuthority = sysSystemDao.selectButtonAuthority(sysSystemQueryModel);
             }
         }
-        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BUTTON_AUTHORITY_SELECT);
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BUTTON_AUTHORITY_SELECT);
         return hasAuthority;
     }
 
@@ -493,7 +486,7 @@ public class SysSystemServiceImpl implements SysSystemService {
      * @param dictionaryCache
      * @param ele
      */
-    private void transfer(Map dictionaryCache, Map ele, Class clazz) {
+    private BaseModel transfer(Map dictionaryCache, Map ele, Class clazz) {
         Iterator<String> iterator = ele.keySet().iterator();
         while (iterator.hasNext()) {
             String key = iterator.next();
@@ -538,17 +531,17 @@ public class SysSystemServiceImpl implements SysSystemService {
                 switch (index) {
                     case 0:
                         // 用户信息userId不转义
-                        if (clazz.equals(SysUserModel.class)) {
-                            return;
+                        if (!clazz.equals(SysUserModel.class)) {
+                            // 转义 userId
+                            SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
+                            sysUserQueryModel.setUserId(value);
+                            List<SysUserModel> sysUserList = sysUserDao.selectSysUser(sysUserQueryModel);
+                            if (CollectionUtils.isNotEmpty(sysUserList)) {
+                                ele.put(key, sysUserList.get(0).getUserName());
+                                dictionaryCache.put(value, sysUserList.get(0).getUserName());
+                            }
                         }
-                        // 转义 userId
-                        SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
-                        sysUserQueryModel.setUserId(value);
-                        List<SysUserModel> sysUserList = sysUserDao.selectSysUser(sysUserQueryModel);
-                        if (CollectionUtils.isNotEmpty(sysUserList)) {
-                            ele.put(key, sysUserList.get(0).getUserName());
-                            dictionaryCache.put(value, sysUserList.get(0).getUserName());
-                        }
+
                         break;
                     default:
                         break;
@@ -560,6 +553,7 @@ public class SysSystemServiceImpl implements SysSystemService {
                 ele.put(key, decimalFormat.format(Double.valueOf(value)));
             }
         }
+        return SysBeanUtils.mapToBean(clazz, ele);
     }
 
     /**

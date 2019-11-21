@@ -1,9 +1,8 @@
 package com.hoomoomoo.fims.app.config;
 
 
-import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +33,7 @@ public class LoginFilterConfig implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        LogUtils.load(logger, LOG_BUSINESS_TYPE_LOGIN_FILTER);
+        SysLogUtils.load(logger, LOG_BUSINESS_TYPE_LOGIN_FILTER);
     }
 
     @Override
@@ -82,7 +81,7 @@ public class LoginFilterConfig implements Filter {
             printWriter.println("window.open ('" + request.getContextPath() + PAGE_LOGIN + "','_top')");
             printWriter.println("</script></html>");
         } catch (IOException e) {
-            LogUtils.exception(logger, LOG_BUSINESS_TYPE_LOGIN_FILTER, e);
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_LOGIN_FILTER, e);
         } finally {
             printWriter.close();
         }

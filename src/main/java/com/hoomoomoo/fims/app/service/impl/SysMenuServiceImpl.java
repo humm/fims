@@ -8,7 +8,7 @@ import com.hoomoomoo.fims.app.model.SysMenuTreeQueryModel;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysMenuService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,19 +46,19 @@ public class SysMenuServiceImpl implements SysMenuService {
      */
     @Override
     public List<SysMenuTreeModel> selectMenuTree(String disabled, String roleId) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_MENU, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_MENU, LOG_OPERATE_TYPE_SELECT);
         SysMenuTreeQueryModel sysMenuTreeQueryModel = new SysMenuTreeQueryModel();
         sysMenuTreeQueryModel.setIsParentId(true);
         sysMenuTreeQueryModel.setDisabled(disabled);
         sysMenuTreeQueryModel.setRoleId(roleId);
-        LogUtils.parameter(logger, sysMenuTreeQueryModel);
+        SysLogUtils.parameter(logger, sysMenuTreeQueryModel);
         // 获取父级菜单
         List<SysMenuTreeModel> sysMenuTreeModelList = sysMenuDao.selectMenuTree(sysMenuTreeQueryModel);
         // 获取子级菜单
         for(SysMenuTreeModel sysMenuTreeModel : sysMenuTreeModelList){
             getChildMenuTree(sysMenuTreeModel, sysMenuTreeQueryModel);
         }
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_MENU, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_MENU, LOG_OPERATE_TYPE_SELECT);
         return sysMenuTreeModelList;
     }
 
@@ -70,12 +70,12 @@ public class SysMenuServiceImpl implements SysMenuService {
      */
     @Override
     public String selectDataAuthority(String roleId) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DATA_AUTHORITY, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DATA_AUTHORITY, LOG_OPERATE_TYPE_SELECT);
         SysMenuTreeQueryModel sysMenuTreeQueryModel = new SysMenuTreeQueryModel();
         sysMenuTreeQueryModel.setRoleId(roleId);
-        LogUtils.parameter(logger, sysMenuTreeQueryModel);
+        SysLogUtils.parameter(logger, sysMenuTreeQueryModel);
         String result = sysMenuDao.selectDataAuthority(sysMenuTreeQueryModel);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DATA_AUTHORITY, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DATA_AUTHORITY, LOG_OPERATE_TYPE_SELECT);
         return result;
     }
 
@@ -87,12 +87,12 @@ public class SysMenuServiceImpl implements SysMenuService {
      */
     @Override
     public Boolean selectDataAuthorityByUserId(String userId) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DATA_AUTHORITY, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DATA_AUTHORITY, LOG_OPERATE_TYPE_SELECT);
         SysMenuTreeQueryModel sysMenuTreeQueryModel = new SysMenuTreeQueryModel();
         sysMenuTreeQueryModel.setUserId(userId);
-        LogUtils.parameter(logger, sysMenuTreeQueryModel);
+        SysLogUtils.parameter(logger, sysMenuTreeQueryModel);
         Boolean result = sysMenuDao.selectDataAuthorityByUserId(sysMenuTreeQueryModel);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DATA_AUTHORITY, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DATA_AUTHORITY, LOG_OPERATE_TYPE_SELECT);
         return result;
     }
 
@@ -121,7 +121,7 @@ public class SysMenuServiceImpl implements SysMenuService {
      */
     @Override
     public ResultData selectMenu() {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_MENU, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_MENU, LOG_OPERATE_TYPE_SELECT);
         SysMenuQueryModel sysMenuQueryModel = new SysMenuQueryModel();
         sysMenuQueryModel.setIsParentId(true);
         SessionBean sessionBean = SystemSessionUtils.getSession();
@@ -129,7 +129,7 @@ public class SysMenuServiceImpl implements SysMenuService {
             sysMenuQueryModel.setUserId(sessionBean.getUserId());
             sysMenuQueryModel.setUserCode(sessionBean.getUserCode());
         }
-        LogUtils.parameter(logger, sysMenuQueryModel);
+        SysLogUtils.parameter(logger, sysMenuQueryModel);
         // 获取父级菜单
         List<SysMenuModel> sysMenuModelList = null;
         if(ADMIN_CODE.equals(sysMenuQueryModel.getUserCode())){
@@ -141,7 +141,7 @@ public class SysMenuServiceImpl implements SysMenuService {
         for(SysMenuModel sysMenuModel : sysMenuModelList){
             getChildMenu(sysMenuModel, sysMenuQueryModel);
         }
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_MENU, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_MENU, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysMenuModelList);
     }
 

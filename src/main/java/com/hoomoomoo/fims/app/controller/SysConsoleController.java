@@ -2,7 +2,7 @@ package com.hoomoomoo.fims.app.controller;
 
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysConsoleService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,9 +37,9 @@ public class SysConsoleController {
     @RequestMapping(value = "selectConsoleData", method = RequestMethod.GET)
     @ResponseBody
     public ResultData selectConsoleData(HttpServletRequest httpServletRequest) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
         ResultData resultData = sysConsoleService.selectConsoleData(httpServletRequest);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
         return resultData;
     }
 }

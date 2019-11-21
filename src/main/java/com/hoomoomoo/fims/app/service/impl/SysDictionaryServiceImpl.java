@@ -11,7 +11,7 @@ import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysDictionaryService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -72,13 +72,13 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
      */
     @Override
     public FimsPage<SysDictionaryModel> selectPage(SysDictionaryQueryModel sysDictionaryQueryModel) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT_PAGE);
-        LogUtils.parameter(logger, sysDictionaryQueryModel);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.parameter(logger, sysDictionaryQueryModel);
         PageHelper.startPage(sysDictionaryQueryModel.getPage(), sysDictionaryQueryModel.getLimit());
         // 创建PageInfo对象前 不能处理数据否则getTotal数据不正确
         List<SysDictionaryModel> sysDictionaryModelList = sysDictionaryDao.selectPage(sysDictionaryQueryModel);
         PageInfo<SysDictionaryModel> pageInfo = new PageInfo<>(sysDictionaryModelList);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT_PAGE);
         return new FimsPage(pageInfo.getTotal(), sysSystemService.transferData(pageInfo.getList(), SysDictionaryModel.class));
     }
 
@@ -90,11 +90,11 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
      */
     @Override
     public List<SysDictionaryModel> selectSysDictionary(SysDictionaryQueryModel sysDictionaryQueryModel) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
         SystemUtils.setSessionInfo(sysDictionaryQueryModel);
-        LogUtils.parameter(logger, sysDictionaryQueryModel);
+        SysLogUtils.parameter(logger, sysDictionaryQueryModel);
         List<SysDictionaryModel> sysDictionaryList = sysDictionaryDao.selectSysDictionary(sysDictionaryQueryModel);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
         return sysDictionaryList;
     }
 
@@ -107,10 +107,10 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
      */
     @Override
     public ResultData selectOne(String dictionaryCode, Boolean isTranslate) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
         SysDictionaryQueryModel sysDictionaryQueryModel = new SysDictionaryQueryModel();
         sysDictionaryQueryModel.setDictionaryCode(dictionaryCode);
-        LogUtils.parameter(logger, sysDictionaryQueryModel);
+        SysLogUtils.parameter(logger, sysDictionaryQueryModel);
         List<SysDictionaryModel> sysDictionaryModelList = sysDictionaryDao.selectSysDictionary(sysDictionaryQueryModel);
         Iterator<SysDictionaryModel> iterator = sysDictionaryModelList.iterator();
         while (iterator.hasNext()) {
@@ -128,7 +128,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
         data.put(BUSINESS_TYPE_USER, sysUserModelList);
         data.put(BUSINESS_TYPE_DICTIONARY, sysDictionaryModelList);
         data.put(SESSION_BEAN, SystemSessionUtils.getSession());
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, data);
     }
 
@@ -140,8 +140,8 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
      */
     @Override
     public ResultData save(List<SysDictionaryModel> sysDictionaryModelList) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_UPDATE);
-        LogUtils.parameter(logger, sysDictionaryModelList);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_UPDATE);
+        SysLogUtils.parameter(logger, sysDictionaryModelList);
         // 判断是否开放状态 开放状态先删除后插入 未开放状态更新
         if (CollectionUtils.isNotEmpty(sysDictionaryModelList)) {
             SysDictionaryModel sysDictionaryModel = sysDictionaryModelList.get(0);
@@ -167,7 +167,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
         }
         // 加载字典项
         sysSystemService.loadSysDictionaryCondition();
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_UPDATE);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_UPDATE);
         return new ResultData(true, UPDATE_SUCCESS, null);
     }
 

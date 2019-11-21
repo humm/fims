@@ -1,6 +1,6 @@
 package com.hoomoomoo.fims;
 
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -25,6 +25,6 @@ public class FimsApplication {
 
     public static void main(String[] args){
         SpringApplication.run(FimsApplication.class, args);
-        LogUtils.configSuccess(logger, LOG_BUSINESS_TYPE_APP_START);
+        SysLogUtils.configSuccess(logger, LOG_BUSINESS_TYPE_APP_START);
     }
 }

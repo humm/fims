@@ -10,7 +10,7 @@ import com.hoomoomoo.fims.app.model.common.*;
 import com.hoomoomoo.fims.app.service.SysGiftService;
 import com.hoomoomoo.fims.app.service.SysNoticeService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -60,7 +60,7 @@ public class SysGiftServiceImpl implements SysGiftService {
      */
     @Override
     public ResultData selectInitData() {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_INIT);
         ViewData viewData = new ViewData();
         // 设置查询条件
         viewData.setViewType(BUSINESS_TYPE_GIFT);
@@ -72,7 +72,7 @@ public class SysGiftServiceImpl implements SysGiftService {
         if (lastType != null) {
             viewData.setLastType(lastType);
         }
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_INIT);
         return new ResultData(true, SELECT_SUCCESS, viewData);
     }
 
@@ -84,14 +84,14 @@ public class SysGiftServiceImpl implements SysGiftService {
      */
     @Override
     public FimsPage<SysGiftModel> selectPage(SysGiftQueryModel sysGiftQueryModel) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_PAGE);
         SystemUtils.setSessionInfo(sysGiftQueryModel);
-        LogUtils.parameter(logger, sysGiftQueryModel);
+        SysLogUtils.parameter(logger, sysGiftQueryModel);
         PageHelper.startPage(sysGiftQueryModel.getPage(), sysGiftQueryModel.getLimit());
         List<SysGiftModel> sysGiftModelList = sysGiftDao.selectPage(sysGiftQueryModel);
         // 创建PageInfo对象前 不能处理数据否则getTotal数据不正确
         PageInfo<SysGiftModel> pageInfo = new PageInfo<>(sysGiftModelList);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_PAGE);
         return new FimsPage(pageInfo.getTotal(), sysSystemService.transferData(pageInfo.getList(), SysGiftModel.class));
     }
 
@@ -103,7 +103,7 @@ public class SysGiftServiceImpl implements SysGiftService {
      */
     @Override
     public ResultData delete(String giftIds) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_DELETE);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_DELETE);
         List<SysGiftModel> list = new ArrayList<>();
         if (StringUtils.isNotBlank(giftIds)) {
             String[] giftId = giftIds.split(COMMA);
@@ -118,9 +118,9 @@ public class SysGiftServiceImpl implements SysGiftService {
             }
             sysGiftDao.delete(list);
         }
-        LogUtils.parameter(logger, list);
+        SysLogUtils.parameter(logger, list);
         sendWebsocketInfo();
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_BUSINESS_TYPE_GIFT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_BUSINESS_TYPE_GIFT);
         return new ResultData(true, DELETE_SUCCESS, null);
     }
 
@@ -133,15 +133,15 @@ public class SysGiftServiceImpl implements SysGiftService {
      */
     @Override
     public ResultData selectOne(String giftId, Boolean isTranslate) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT);
         SysGiftQueryModel sysGiftQueryModel = new SysGiftQueryModel();
         sysGiftQueryModel.setGiftId(giftId);
-        LogUtils.parameter(logger, sysGiftQueryModel);
+        SysLogUtils.parameter(logger, sysGiftQueryModel);
         SysGiftModel sysGiftModel = sysGiftDao.selectOne(sysGiftQueryModel);
         if (isTranslate) {
             sysSystemService.transferData(sysGiftModel, SysGiftModel.class);
         }
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysGiftModel);
     }
 
@@ -155,7 +155,7 @@ public class SysGiftServiceImpl implements SysGiftService {
     public ResultData save(SysGiftModel sysGiftModel) {
         String operateType = sysGiftModel.getGiftId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
         String tipMsg = sysGiftModel.getGiftId() == null ? ADD_SUCCESS : UPDATE_SUCCESS;
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_GIFT, operateType);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_GIFT, operateType);
         SystemUtils.setCreateUserInfo(sysGiftModel);
         String msg = checkSenderAndReceiver(sysGiftModel);
         if (StringUtils.isNotBlank(msg)) {
@@ -175,10 +175,10 @@ public class SysGiftServiceImpl implements SysGiftService {
         sysNoticeModel.setNoticeId(sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_NOTICE));
         sysNoticeModel.setNoticeStatus(new StringBuffer(D007).append(MINUS).append(STR_1).toString());
         sysNoticeService.save(sysNoticeModel);
-        LogUtils.parameter(logger, sysGiftModel);
+        SysLogUtils.parameter(logger, sysGiftModel);
         sysGiftDao.save(sysGiftModel);
         sendWebsocketInfo();
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, operateType);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_GIFT, operateType);
         return new ResultData(true, tipMsg, null);
     }
 

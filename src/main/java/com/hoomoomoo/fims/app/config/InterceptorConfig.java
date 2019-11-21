@@ -1,6 +1,6 @@
 package com.hoomoomoo.fims.app.config;
 
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
         // .addPathPatterns("/**"); 所有请求
         // .addPathPatterns("/interface/**"); 指定请求
         // .excludePathPatterns("/static"); 不拦截请求
-        LogUtils.load(logger, LOG_BUSINESS_TYPE_INTERCEPTOR);
+        SysLogUtils.load(logger, LOG_BUSINESS_TYPE_INTERCEPTOR);
     }
 
 }

@@ -9,9 +9,8 @@ import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysConsoleService;
 import com.hoomoomoo.fims.app.service.SysNoticeService;
 import com.hoomoomoo.fims.app.service.SysParameterService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
-import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -68,7 +67,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      */
     @Override
     public ResultData selectConsoleData(HttpServletRequest httpServletRequest) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
         SysConsoleModel sysConsoleModel = new SysConsoleModel();
         SessionBean sessionBean = SystemSessionUtils.getSession();
         // 设置统计开始时间
@@ -110,15 +109,15 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         // 设置版本信息
         setVersionInfo(sysConsoleModel, menu);
         // 查询年度开始时间
-        sysConsoleModel.setYearStartDate(new Item(CONSOLE_YEAR_START_DATE, sysConsoleQueryModel.getYearStartDate(), null));
+        sysConsoleModel.setYearStartDate(new SysItem(CONSOLE_YEAR_START_DATE, sysConsoleQueryModel.getYearStartDate(), null));
 
         // 首页用户数据处理
         if (sysConsoleModel.getBusinessModel() != null && sysConsoleModel.getBusinessModel().size() == 2) {
             // 系统当前只有一个用户
             sysConsoleModel.getBusinessModel().remove(0);
         }
-        LogUtils.parameter(logger, sessionBean == null ? new SessionBean() : sessionBean);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.parameter(logger, sessionBean == null ? new SessionBean() : sessionBean);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysConsoleModel);
     }
 
@@ -238,7 +237,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      * @param url
      */
     private void setIncomeBusinessValue(SysBusinessModel sysBusinessModel, String title, String value, String url) {
-        sysBusinessModel.getIncome().add(new Item(title, formatValue(value, true, true), url));
+        sysBusinessModel.getIncome().add(new SysItem(title, formatValue(value, true, true), url));
     }
 
     /**
@@ -251,7 +250,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      */
     private void setGiftSendBusinessValue(SysBusinessModel sysBusinessModel, String title, String value,
                                           String url) {
-        sysBusinessModel.getGiftSend().add(new Item(title, formatValue(value, true, true), url));
+        sysBusinessModel.getGiftSend().add(new SysItem(title, formatValue(value, true, true), url));
     }
 
     /**
@@ -264,7 +263,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      */
     private void setGiftReceiveBusinessValue(SysBusinessModel sysBusinessModel, String title, String value,
                                              String url) {
-        sysBusinessModel.getGiftReceive().add(new Item(title, formatValue(value, true, true), url));
+        sysBusinessModel.getGiftReceive().add(new SysItem(title, formatValue(value, true, true), url));
     }
 
     /**
@@ -278,7 +277,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      */
     private void setLoginLogValue(SysConsoleModel sysConsoleModel, String title, String value, String url,
                                   boolean isZero) {
-        sysConsoleModel.getLoginModel().add(new Item(title, formatValue(value, isZero, false), url));
+        sysConsoleModel.getLoginModel().add(new SysItem(title, formatValue(value, isZero, false), url));
     }
 
     /**
@@ -290,7 +289,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      * @param url
      */
     private void setVersionValue(SysConsoleModel sysConsoleModel, String title, String value, String url) {
-        sysConsoleModel.getVersionModel().add(new Item(title, formatValue(value, false, false), url));
+        sysConsoleModel.getVersionModel().add(new SysItem(title, formatValue(value, false, false), url));
     }
 
     /**

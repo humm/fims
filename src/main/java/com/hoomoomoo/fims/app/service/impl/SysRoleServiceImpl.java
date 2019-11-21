@@ -10,7 +10,7 @@ import com.hoomoomoo.fims.app.model.common.ViewData;
 import com.hoomoomoo.fims.app.service.SysMenuService;
 import com.hoomoomoo.fims.app.service.SysRoleService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -54,11 +54,11 @@ public class SysRoleServiceImpl implements SysRoleService {
      */
     @Override
     public List<SysRoleModel> selectSysRole(SysRoleQueryModel sysRoleQueryModel) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT);
         SystemUtils.setSessionInfo(sysRoleQueryModel);
-        LogUtils.parameter(logger, sysRoleQueryModel);
+        SysLogUtils.parameter(logger, sysRoleQueryModel);
         List<SysRoleModel> sysRoleModelList = sysRoleDao.selectSysRole(sysRoleQueryModel);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT);
         return sysRoleModelList;
     }
 
@@ -71,7 +71,7 @@ public class SysRoleServiceImpl implements SysRoleService {
      */
     @Override
     public ResultData selectInitData(String disabled, String roleId) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_INIT);
         ViewData viewData = new ViewData();
         // 设置查询条件
         viewData.setViewType(BUSINESS_TYPE_ROLE);
@@ -80,7 +80,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         viewData.setMenuList(sysMenuService.selectMenuTree(disabled, roleId));
         // 设置数据权限信息
         viewData.setDataAuthority(sysMenuService.selectDataAuthority(roleId));
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_INIT);
         return new ResultData(true, SELECT_SUCCESS, viewData);
     }
 
@@ -92,13 +92,13 @@ public class SysRoleServiceImpl implements SysRoleService {
      */
     @Override
     public FimsPage<SysRoleModel> selectPage(SysRoleQueryModel sysRoleQueryModel) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_PAGE);
-        LogUtils.parameter(logger, sysRoleQueryModel);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.parameter(logger, sysRoleQueryModel);
         PageHelper.startPage(sysRoleQueryModel.getPage(), sysRoleQueryModel.getLimit());
         List<SysRoleModel> sysRoleModelList = sysRoleDao.selectPage(sysRoleQueryModel);
         // 创建PageInfo对象前 不能处理数据否则getTotal数据不正确
         PageInfo<SysRoleModel> pageInfo = new PageInfo<>(sysRoleModelList);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_PAGE);
         return new FimsPage(pageInfo.getTotal(), sysSystemService.transferData(pageInfo.getList(), SysRoleModel.class));
 
     }
@@ -111,7 +111,7 @@ public class SysRoleServiceImpl implements SysRoleService {
      */
     @Override
     public ResultData delete(String roleIds) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_DELETE);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_DELETE);
         List<SysRoleModel> list = new ArrayList<>();
         if (StringUtils.isNotBlank(roleIds)) {
             String[] roleId = roleIds.split(COMMA);
@@ -122,8 +122,8 @@ public class SysRoleServiceImpl implements SysRoleService {
             }
             sysRoleDao.delete(list);
         }
-        LogUtils.parameter(logger, list);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_DELETE);
+        SysLogUtils.parameter(logger, list);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_DELETE);
         return new ResultData(true, DELETE_SUCCESS, null);
     }
 
@@ -136,15 +136,15 @@ public class SysRoleServiceImpl implements SysRoleService {
      */
     @Override
     public ResultData selectOne(String roleId, Boolean isTranslate) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT);
         SysRoleQueryModel sysRoleQueryModel = new SysRoleQueryModel();
         sysRoleQueryModel.setRoleId(roleId);
-        LogUtils.parameter(logger, sysRoleQueryModel);
+        SysLogUtils.parameter(logger, sysRoleQueryModel);
         SysRoleModel sysRoleModel = sysRoleDao.selectOne(sysRoleQueryModel);
         if (isTranslate) {
             sysSystemService.transferData(sysRoleModel, SysRoleModel.class);
         }
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysRoleModel);
     }
 
@@ -158,7 +158,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     public ResultData save(SysRoleModel sysRoleModel) {
         String operateType = sysRoleModel.getRoleId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
         String tipMsg = sysRoleModel.getRoleId() == null ? ADD_SUCCESS : UPDATE_SUCCESS;
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, operateType);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, operateType);
         SystemUtils.setCreateUserInfo(sysRoleModel);
         if (sysRoleModel.getRoleId() == null) {
             // 新增
@@ -185,11 +185,11 @@ public class SysRoleServiceImpl implements SysRoleService {
             sysRoleMenuModel.setRoleMenuId(sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_ROLE_MENU));
             sysRoleDao.saveRoleMenu(sysRoleMenuModel);
         }
-        LogUtils.parameter(logger, sysRoleModel);
+        SysLogUtils.parameter(logger, sysRoleModel);
         sysRoleDao.save(sysRoleModel);
         // 加载字典项
         sysSystemService.loadSysDictionaryCondition();
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, operateType);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, operateType);
         return new ResultData(true, tipMsg, null);
     }
 
@@ -201,9 +201,9 @@ public class SysRoleServiceImpl implements SysRoleService {
      */
     @Override
     public ResultData checkRoleCode(SysRoleQueryModel sysRoleQueryModel) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_CHECK);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_CHECK);
         Boolean isExist = sysRoleDao.checkRoleCode(sysRoleQueryModel);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_CHECK);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_CHECK);
         return new ResultData(true, SELECT_SUCCESS, isExist);
     }
 

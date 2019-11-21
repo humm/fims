@@ -4,11 +4,9 @@ import com.hoomoomoo.fims.app.model.SysGiftModel;
 import com.hoomoomoo.fims.app.model.SysGiftQueryModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
-import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysGiftService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
-import com.hoomoomoo.fims.app.util.LogUtils;
-import com.hoomoomoo.fims.app.util.SystemSessionUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -101,9 +99,9 @@ public class SysGiftController {
     @RequestMapping(value = "selectPage", method = RequestMethod.GET)
     @ResponseBody
     public FimsPage<SysGiftModel> selectPage(SysGiftQueryModel sysGiftQueryModel) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_PAGE);
         FimsPage<SysGiftModel> sysGiftModelFimsPage = sysGiftService.selectPage(sysGiftQueryModel);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_PAGE);
         return sysGiftModelFimsPage;
     }
 
@@ -116,9 +114,9 @@ public class SysGiftController {
     @RequestMapping(value = "selectInitData", method = RequestMethod.GET)
     @ResponseBody
     public ResultData selectInitData() {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_INIT);
         ResultData resultData = sysGiftService.selectInitData();
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_INIT);
         return resultData;
     }
 
@@ -134,9 +132,9 @@ public class SysGiftController {
     public ResultData delete(
             @ApiParam(value = "随礼信息ID", required = true)
             @RequestParam String giftIds) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_DELETE);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_DELETE);
         ResultData resultData = sysGiftService.delete(giftIds);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_DELETE);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_DELETE);
         return resultData;
     }
 
@@ -154,9 +152,9 @@ public class SysGiftController {
             @RequestParam String giftId,
             @ApiParam(value = "是否翻译", required = true)
             @RequestParam Boolean isTranslate) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT);
         ResultData resultData = sysGiftService.selectOne(giftId, isTranslate);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT);
         return resultData;
     }
 
@@ -171,9 +169,9 @@ public class SysGiftController {
     @ResponseBody
     public ResultData save(SysGiftModel sysIncomeModel) {
         String operateType = sysIncomeModel.getGiftId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
         ResultData resultData = sysGiftService.save(sysIncomeModel);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
         return resultData;
     }
 }

@@ -5,7 +5,7 @@ import com.hoomoomoo.fims.app.model.SysLoginLogQueryModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysLoginLogService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -69,9 +69,9 @@ public class SysLoginLogController {
     @RequestMapping(value = "selectInitData", method = RequestMethod.GET)
     @ResponseBody
     public ResultData selectInitData() {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_INIT);
         ResultData resultData = sysLoginLogService.selectInitData();
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_INIT);
         return resultData;
     }
 
@@ -85,9 +85,9 @@ public class SysLoginLogController {
     @RequestMapping(value = "selectPage", method = RequestMethod.GET)
     @ResponseBody
     public FimsPage<SysIncomeModel> selectPage(SysLoginLogQueryModel sysLoginLogQueryModel) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_PAGE);
         FimsPage fimsPage = sysLoginLogService.selectPage(sysLoginLogQueryModel);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_PAGE);
         return fimsPage;
     }
 
@@ -105,9 +105,9 @@ public class SysLoginLogController {
             @RequestParam String logId,
             @ApiParam(value = "是否翻译", required = true)
             @RequestParam Boolean isTranslate) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT);
         ResultData resultData = sysLoginLogService.selectOne(logId, isTranslate);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT);
         return resultData;
     }
 }

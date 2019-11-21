@@ -1,9 +1,9 @@
 package com.hoomoomoo.fims.app.service.impl;
 
 import com.hoomoomoo.fims.app.config.bean.MailConfigBean;
-import com.hoomoomoo.fims.app.model.MailModel;
+import com.hoomoomoo.fims.app.model.SysMailModel;
 import com.hoomoomoo.fims.app.service.SysMailService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.sun.mail.imap.IMAPFolder;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -49,8 +49,8 @@ public class SysMailServiceImpl implements SysMailService {
      * @return
      */
     @Override
-    public Boolean sendMail(MailModel mailModel) {
-        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
+    public Boolean sendMail(SysMailModel mailModel) {
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
         boolean isSend = true;
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
@@ -60,12 +60,12 @@ public class SysMailServiceImpl implements SysMailService {
             mimeMessage.setSubject(mailModel.getSubject());
             mimeMessageHelper.setText(mailModel.getContent(), true);
             javaMailSender.send(mimeMessage);
-            LogUtils.success(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
+            SysLogUtils.success(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
         } catch (MessagingException e) {
             isSend = false;
-            LogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL_SEND, e);
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL_SEND, e);
         }
-        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
         return isSend;
     }
 
@@ -76,9 +76,9 @@ public class SysMailServiceImpl implements SysMailService {
      * @return
      */
     @Override
-    public List<MailModel> receiveMail(MailModel mailModel) {
-        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
-        List<MailModel> mailModelList = new ArrayList<>();
+    public List<SysMailModel> receiveMail(SysMailModel mailModel) {
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
+        List<SysMailModel> mailModelList = new ArrayList<>();
         Properties properties = new Properties();
         Session session = Session.getDefaultInstance(properties);
         session.setDebug(mailConfigBean.getDebug());
@@ -100,11 +100,11 @@ public class SysMailServiceImpl implements SysMailService {
                     mailModelList.add(handleMailData(mailId, message));
                 }
             }
-            LogUtils.success(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
+            SysLogUtils.success(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
         } catch (Exception e) {
-            LogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE, e);
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE, e);
         }
-        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
         return mailModelList;
     }
 
@@ -114,10 +114,10 @@ public class SysMailServiceImpl implements SysMailService {
      * @param mailId
      * @param message
      */
-    private MailModel handleMailData(String mailId, Message message) {
-        LogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE);
+    private SysMailModel handleMailData(String mailId, Message message) {
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE);
         MimeMessage mimeMessage = (MimeMessage) message;
-        MailModel mailModel = new MailModel();
+        SysMailModel mailModel = new SysMailModel();
         try {
             // 获取发件人地址
             String address = mimeMessage.getSender().toString();
@@ -152,12 +152,12 @@ public class SysMailServiceImpl implements SysMailService {
                     }
                 }
             } else {
-                LogUtils.fail(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE, MAIL_CONTENT_NOT_SUPPORT);
+                SysLogUtils.fail(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE, MAIL_CONTENT_NOT_SUPPORT);
             }
         } catch (Exception e) {
-            LogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE, e);
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE, e);
         }
-        LogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE);
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE);
         return mailModel;
     }
 

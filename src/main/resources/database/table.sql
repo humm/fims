@@ -385,12 +385,202 @@ values (20190000000001, 'admin', '管理员', '123456', 'D001-1', sysdate, sysda
 
 -- 菜单信息
 truncate table sys_menu;
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000000, '数据权限', null, null, null, 0.00, '1', '4', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000001, '收入信息', 'layui-icon-rmb', 'income/view/list', null, 10.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000002, '查询权限', null, null, 20190000000001, 15.00, '1', '2', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000003, '设置权限', null, null, 20190000000001, 20.00, '1', '3', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000004, '随礼信息', 'layui-icon-cart', 'gift/view/list', null, 25.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000005, '查询权限', null, null, 20190000000004, 30.00, '1', '2', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000006, '设置权限', null, null, 20190000000004, 35.00, '1', '3', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000007, '统计分析', 'layui-icon-chart', '#', null, 60.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000008, '收入分析', null, 'report/view/income', 20190000000007, 65.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000009, '送礼分析', null, 'report/view/giftSend', 20190000000007, 70.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000010, '收礼分析', null, 'report/view/giftReceive', 20190000000007, 75.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000011, '系统设置', 'layui-icon-set-sm', '#', null, 80.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000012, '用户信息', null, 'user/view/list', 20190000000011, 85.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000013, '角色信息', null, 'role/view/list', 20190000000011, 90.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000014, '字典信息', null, 'dictionary/view/list', 20190000000011, 100.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000015, '图标信息', null, 'icon/view/list', 20190000000011, 999999.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000016, '参数信息', null, 'parameter/view/list', 20190000000011, 95.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000017, '消息通知', 'layui-icon-notice', 'notice/view/list', null, 61.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000018, '查询权限', null, null, 20190000000017, 45.00, '1', '2', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000019, '登录日志', 'layui-icon-form', 'loginLog/view/list', null, 62.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000020, '查询权限', null, null, 20190000000019, 55.00, '1', '2', sysdate, sysdate, '20190000000001', '20190000000001');
 
 -- 字典信息
 truncate table sys_dictionary;
 
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D001', '#', '用户状态', null, 1, 20190000000001, '0', '1');
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D001', '1', '正常', 1, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D001', '2', '冻结', 2, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D002', '#', '状态标识', null, 2, 20190000000001, '0', '1');
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D002', '1', '成功', 1, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D002', '2', '失败', 2, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D003', '#', '收入类型', null, 3, 20190000000001, '1', '1');
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D003', '1', '工资', 1, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D003', '2', '年终奖', 2, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D003', '3', '公积金', 3, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D004', '#', '随礼类型', null, 4, 20190000000001, '1', '1');
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D004', '1', '结婚', 1, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D004', '2', '生娃', 2, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D005', '#', '收入来源', null, 5, 20190000000001, '1', '1');
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D006', '#', '大额支出类型', null, 6, 20190000000001, '1', '1');
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D007', '#', '消息通知状态', null, 7, 20190000000001, '0', '1');
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D007', '1', '正常', 1, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D007', '2', '撤销', 2, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D008', '#', '消息通知类型', null, 8, 20190000000001, '0', '1');
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D008', '1', '自录', 1, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D008', '2', '邮件', 2, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '#', '随礼人', null, 9, 20190000000001, '1', '1');
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D010', '#', '参数状态类型', null, 10, 20190000000001, '0', '1');
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D010', '1', '开启', 1, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D010', '2', '关闭', 2, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D011', '#', '业务类型', null, 11, 20190000000001, '0', '1');
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D011', '1', '收入', 1, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D011', '2', '随礼', 2, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D012', '#', '阅读状态', null, 12, 20190000000001, '0', '1');
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D012', '1', '未读', 1, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D012', '2', '已读', 2, null, 20190000000001, null, null);
+
 -- 系统参数
 truncate table sys_parameter;
+insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
+values ('uploadLocation', '文件上传路径', '#', 'text', null, '1', '1', 5);
 
+insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
+values ('backupLocation', '系统备份路径', '#', 'text', null, '1', '1', 10);
+
+insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
+values ('mindFill', '智能填充', '1', 'switch', null, '1', '1', 15);
+
+insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
+values ('startConsoleOutput', '系统启动输出配置参数', '1', 'switch', null, '1', '1', 20);
+
+insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
+values ('consoleOutputLogRequestTag', '控制台输出请求标记', '1', 'switch', null, '1', '1', 25);
+
+insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
+values ('consoleOutputLogRequestParameter', '控制台输出请求入参', '1', 'switch', null, '1', '1', 30);
+
+insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
+values ('startBackup', '系统启动备份数据库', '0', 'switch', null, '1', '1', 35);
+
+insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
+values ('startMail', '系统启动读取邮件', '0', 'switch', null, '1', '1', 40);
+
+insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
+values ('yearStartDate', '年度开始时间(yyyymm)', '201901', 'date', '6', '1', '1', 45);
+
+insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
+values ('sessionTimeout', 'session超时时间(秒)', '60', 'number', '5', '1', '1', 45);
+
+insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
+values ('userDefaultPassword', '用户默认密码', '123456', 'text', null, '1', '1', 50);
+
+insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
+values ('version', '系统版本号', '#', 'text', null, '1', '0', 55);
+-- todo 填充系统版本号
 commit;
 -- 初始化数据 结束

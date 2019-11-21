@@ -10,7 +10,7 @@ import com.hoomoomoo.fims.app.service.SysLoginLogService;
 import com.hoomoomoo.fims.app.service.SysLoginService;
 import com.hoomoomoo.fims.app.service.SysMenuService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,8 +63,8 @@ public class SysLoginServiceImpl implements SysLoginService {
     @Override
     public ResultData login(HttpServletRequest request, SysUserModel sysUserModel) {
         ResultData resultData = null;
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
-        LogUtils.parameter(logger, sysUserModel);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.parameter(logger, sysUserModel);
         SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
         SysLoginLogModel sysLoginLogModel= new SysLoginLogModel();
         sysLoginLogModel.setLogId(sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_LOGIN_LOG));
@@ -106,7 +106,7 @@ public class SysLoginServiceImpl implements SysLoginService {
             }
         }
         sysLoginLogService.save(sysLoginLogModel);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
         return resultData;
     }
 

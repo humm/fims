@@ -4,9 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.hoomoomoo.fims.FimsApplication;
 import com.hoomoomoo.fims.app.model.SysIncomeModel;
+import com.hoomoomoo.fims.app.model.SysMailModel;
 import com.hoomoomoo.fims.app.service.SysDictionaryService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
+import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -15,11 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.UNDERLINE;
 
@@ -50,7 +52,7 @@ public class FunctionTest {
 
     @Test
     public void log(){
-        LogUtils.controllerStart(logger, null, null);
+        SysLogUtils.controllerStart(logger, null, null);
     }
 
     @Test
@@ -95,7 +97,7 @@ public class FunctionTest {
 
 
     @Test
-    public void test(){
+    public void batch(){
         List<String> fundInfoList = new ArrayList<>();
         for (int i=1; i<=120012; i++){
             fundInfoList.add("" + i);
@@ -122,5 +124,32 @@ public class FunctionTest {
                 logger.info( "" + item.get(item.size()-1));
             }
         }
+    }
+
+    @Test
+    public void bean(){
+        Map map = new HashMap();
+        map.put("subject", "1234");
+        map.put("content", "7890");
+        SysMailModel sysMailModel = new SysMailModel();
+//        sysMailModel.setSubject("1234---");
+//        sysMailModel.setContent("7890---");
+        try {
+            BeanUtils.populate(sysMailModel, map);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        logger.info(sysMailModel.toString());
+      /*  try {
+//            logger.info(BeanUtils.describe(sysMailModel));
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }*/
     }
 }

@@ -2,20 +2,16 @@ package com.hoomoomoo.fims.app.controller;
 
 import com.hoomoomoo.fims.app.model.SysParameterModel;
 import com.hoomoomoo.fims.app.model.SysParameterQueryModel;
-import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysParameterService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
@@ -69,9 +65,9 @@ public class SysParameterController {
     @RequestMapping(value = "selectList", method = RequestMethod.GET)
     @ResponseBody
     public ResultData selectList(SysParameterQueryModel sysParameterQueryModel) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_SELECT);
         ResultData resultData = sysParameterService.selectList(sysParameterQueryModel);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_SELECT);
         return resultData;
     }
 
@@ -85,9 +81,9 @@ public class SysParameterController {
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
     public ResultData save(SysParameterModel sysParameterModel) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_UPDATE);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_UPDATE);
         ResultData resultData = sysParameterService.save(sysParameterModel);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_UPDATE);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_UPDATE);
         return resultData;
     }
 

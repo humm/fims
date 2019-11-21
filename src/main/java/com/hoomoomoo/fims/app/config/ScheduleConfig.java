@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.config;
 
 import com.hoomoomoo.fims.app.config.bean.ScheduleConfigBean;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
@@ -41,7 +41,7 @@ public class ScheduleConfig implements SchedulingConfigurer, AsyncConfigurer {
 
     @PostConstruct
     public void init(){
-        LogUtils.load(logger, LOG_BUSINESS_TYPE_SCHEDULE);
+        SysLogUtils.load(logger, LOG_BUSINESS_TYPE_SCHEDULE);
     }
 
     /**

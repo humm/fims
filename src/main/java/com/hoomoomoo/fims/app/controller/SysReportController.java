@@ -2,7 +2,7 @@ package com.hoomoomoo.fims.app.controller;
 
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysReportService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -82,9 +82,9 @@ public class SysReportController {
             @RequestParam String reportSubType,
             @ApiParam(value = "报表选值", required = false)
             @RequestParam(required = false) String reportValue) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_REPORT, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_REPORT, LOG_OPERATE_TYPE_SELECT);
         ResultData resultData = sysReportService.initData(reportMode, reportType, reportSubType, reportValue);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_REPORT, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_REPORT, LOG_OPERATE_TYPE_SELECT);
         return resultData;
     }
 }

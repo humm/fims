@@ -10,7 +10,7 @@ import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.ViewData;
 import com.hoomoomoo.fims.app.service.SysLoginLogService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,12 +71,12 @@ public class SysLoginLogServiceImpl implements SysLoginLogService {
      */
     @Override
     public ResultData selectInitData() {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_INIT);
         ViewData viewData = new ViewData();
         // 设置查询条件
         viewData.setViewType(BUSINESS_TYPE_LOGIN_LOG);
         sysSystemService.setCondition(viewData);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_INIT);
         return new ResultData(true, SELECT_SUCCESS, viewData);
     }
 
@@ -88,14 +88,14 @@ public class SysLoginLogServiceImpl implements SysLoginLogService {
      */
     @Override
     public FimsPage<SysLoginLogModel> selectPage(SysLoginLogQueryModel sysLoginLogQueryModel) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_PAGE);
         SystemUtils.setSessionInfo(sysLoginLogQueryModel);
-        LogUtils.parameter(logger, sysLoginLogQueryModel);
+        SysLogUtils.parameter(logger, sysLoginLogQueryModel);
         PageHelper.startPage(sysLoginLogQueryModel.getPage(), sysLoginLogQueryModel.getLimit());
         List<SysLoginLogModel> sysLoginLogModelList = sysLoginLogDao.selectPage(sysLoginLogQueryModel);
         // 创建PageInfo对象前 不能处理数据否则getTotal数据不正确
         PageInfo<SysLoginLogModel> pageInfo = new PageInfo<>(sysLoginLogModelList);
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_PAGE);
         return new FimsPage(pageInfo.getTotal(), sysSystemService.transferData(pageInfo.getList(), SysLoginLogModel.class));
     }
 
@@ -108,15 +108,15 @@ public class SysLoginLogServiceImpl implements SysLoginLogService {
      */
     @Override
     public ResultData selectOne(String logId, Boolean isTranslate) {
-        LogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT);
         SysLoginLogQueryModel sysLoginLogQueryModel = new SysLoginLogQueryModel();
         sysLoginLogQueryModel.setLogId(logId);
-        LogUtils.parameter(logger, sysLoginLogQueryModel);
+        SysLogUtils.parameter(logger, sysLoginLogQueryModel);
         SysLoginLogModel sysLoginLogModel = sysLoginLogDao.selectOne(sysLoginLogQueryModel);
         if (isTranslate) {
             sysSystemService.transferData(sysLoginLogModel, SysLoginLogModel.class);
         }
-        LogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysLoginLogModel);
     }
 }

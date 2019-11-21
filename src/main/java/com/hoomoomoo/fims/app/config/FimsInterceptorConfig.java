@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.config;
 
 import com.hoomoomoo.fims.app.service.SysParameterService;
-import com.hoomoomoo.fims.app.util.LogUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class FimsInterceptorConfig implements HandlerInterceptor {
 
     @PostConstruct
     public void init(){
-        LogUtils.load(logger, LOG_BUSINESS_TYPE_FIMS_INTERCEPTOR);
+        SysLogUtils.load(logger, LOG_BUSINESS_TYPE_FIMS_INTERCEPTOR);
     }
 
     /**

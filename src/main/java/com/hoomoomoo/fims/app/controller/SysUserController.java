@@ -4,11 +4,9 @@ import com.hoomoomoo.fims.app.model.SysUserModel;
 import com.hoomoomoo.fims.app.model.SysUserQueryModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
-import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysUserService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
-import com.hoomoomoo.fims.app.util.LogUtils;
-import com.hoomoomoo.fims.app.util.SystemSessionUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import static com.hoomoomoo.fims.app.consts.BusinessConst.HAS_BUTTON;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.PASSWORD;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 import static com.hoomoomoo.fims.app.consts.TipConst.LOG_BUSINESS_TYPE_USER;
@@ -113,9 +110,9 @@ public class SysUserController {
     @RequestMapping(value = "selectPage", method = RequestMethod.GET)
     @ResponseBody
     public FimsPage<SysUserModel> selectPage(SysUserQueryModel sysUserQueryModel) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_PAGE);
         FimsPage<SysUserModel> page = sysUserService.selectPage(sysUserQueryModel);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_PAGE);
         return page;
     }
 
@@ -128,9 +125,9 @@ public class SysUserController {
     @RequestMapping(value = "selectInitData", method = RequestMethod.GET)
     @ResponseBody
     public ResultData selectInitData() {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_INIT);
         ResultData resultData = sysUserService.selectInitData();
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT_INIT);
         return resultData;
     }
 
@@ -146,9 +143,9 @@ public class SysUserController {
     public ResultData delete(
             @ApiParam(value = "用户信息ID", required = true)
             @RequestParam String userIds) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_DELETE);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_DELETE);
         ResultData resultData = sysUserService.delete(userIds);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_DELETE);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_DELETE);
         return resultData;
     }
 
@@ -167,9 +164,9 @@ public class SysUserController {
             @RequestParam String userId,
             @ApiParam(value = "是否翻译", required = true)
             @RequestParam Boolean isTranslate) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
         ResultData resultData = sysUserService.selectOne(userId, isTranslate);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
         return resultData;
     }
 
@@ -184,9 +181,9 @@ public class SysUserController {
     @ResponseBody
     public ResultData save(SysUserModel sysUserModel) {
         String operateType = sysUserModel.getUserId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, operateType);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, operateType);
         ResultData resultData = sysUserService.save(sysUserModel);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, operateType);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, operateType);
         return resultData;
     }
 
@@ -200,9 +197,9 @@ public class SysUserController {
     @RequestMapping(value = "checkUserCode", method = RequestMethod.GET)
     @ResponseBody
     public ResultData checkUserCode(SysUserQueryModel sysUserQueryModel) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_CHECK);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_CHECK);
         ResultData resultData = sysUserService.checkUserCode(sysUserQueryModel);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_CHECK);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_CHECK);
         return resultData;
     }
 
@@ -218,9 +215,9 @@ public class SysUserController {
     public ResultData reset(
             @ApiParam(value = "用户信息ID", required = true)
             @RequestParam String userIds) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_RESET_PASSWORD);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_RESET_PASSWORD);
         ResultData resultData = sysUserService.reset(userIds);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_RESET_PASSWORD);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_RESET_PASSWORD);
         return resultData;
     }
 
@@ -236,9 +233,9 @@ public class SysUserController {
     public ResultData changPassword(
             @ApiParam(value = "用户信息密码", required = true)
             @RequestParam String password) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_UPDATE_PASSWORD);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_UPDATE_PASSWORD);
         ResultData resultData = sysUserService.changPassword(password);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_UPDATE_PASSWORD);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_UPDATE_PASSWORD);
         return resultData;
     }
 

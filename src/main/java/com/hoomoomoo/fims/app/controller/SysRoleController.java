@@ -4,24 +4,20 @@ import com.hoomoomoo.fims.app.model.SysRoleModel;
 import com.hoomoomoo.fims.app.model.SysRoleQueryModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
-import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysRoleService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
-import com.hoomoomoo.fims.app.util.LogUtils;
-import com.hoomoomoo.fims.app.util.SystemSessionUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import static com.hoomoomoo.fims.app.consts.BusinessConst.HAS_BUTTON;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
@@ -99,9 +95,9 @@ public class SysRoleController {
     @RequestMapping(value = "selectPage", method = RequestMethod.GET)
     @ResponseBody
     public FimsPage<SysRoleModel> selectPage(SysRoleQueryModel sysRoleQueryModel) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_PAGE);
         FimsPage<SysRoleModel> page = sysRoleService.selectPage(sysRoleQueryModel);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_PAGE);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_PAGE);
         return page;
     }
 
@@ -117,9 +113,9 @@ public class SysRoleController {
                                      @RequestParam(required = false) String disabled,
                                      @ApiParam(value = "角色信息ID", required = false)
                                      @RequestParam(required = false) String roleId) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_INIT);
         ResultData resultData = sysRoleService.selectInitData(disabled, roleId);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_INIT);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT_INIT);
         return resultData;
     }
 
@@ -135,9 +131,9 @@ public class SysRoleController {
     public ResultData delete(
             @ApiParam(value = "角色信息ID", required = true)
             @RequestParam String roleIds) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_DELETE);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_DELETE);
         ResultData resultData = sysRoleService.delete(roleIds);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_DELETE);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_DELETE);
         return resultData;
     }
 
@@ -156,9 +152,9 @@ public class SysRoleController {
             @RequestParam String roleId,
             @ApiParam(value = "是否翻译", required = true)
             @RequestParam Boolean isTranslate) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT);
         ResultData resultData = sysRoleService.selectOne(roleId, isTranslate);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT);
         return resultData;
     }
 
@@ -173,9 +169,9 @@ public class SysRoleController {
     @ResponseBody
     public ResultData save(SysRoleModel sysRoleModel) {
         String operateType = sysRoleModel.getRoleId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_ROLE, operateType);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_ROLE, operateType);
         ResultData resultData = sysRoleService.save(sysRoleModel);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_ROLE, operateType);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_ROLE, operateType);
         return resultData;
     }
 
@@ -189,9 +185,9 @@ public class SysRoleController {
     @RequestMapping(value = "checkRoleCode", method = RequestMethod.GET)
     @ResponseBody
     public ResultData checkRoleCode(SysRoleQueryModel sysRoleQueryModel) {
-        LogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_CHECK);
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_CHECK);
         ResultData resultData = sysRoleService.checkRoleCode(sysRoleQueryModel);
-        LogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_CHECK);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_CHECK);
         return resultData;
     }
 }

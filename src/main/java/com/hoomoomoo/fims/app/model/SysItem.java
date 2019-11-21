@@ -11,7 +11,7 @@ import lombok.Data;
  */
 
 @Data
-public class Item {
+public class SysItem {
 
     @ApiModelProperty(value="标题", required = false)
     private String title;
@@ -22,10 +22,10 @@ public class Item {
     @ApiModelProperty(value="链接地址", required = false)
     private String href;
 
-    public Item() {
+    public SysItem() {
     }
 
-    public Item(String title, String value, String href) {
+    public SysItem(String title, String value, String href) {
         this.title = title;
         this.value = value;
         this.href = href;
