@@ -18,8 +18,8 @@
     <div class="layui-card">
         <div class="layui-tab layui-tab-brief">
             <ul class="layui-tab-title">
-                <li style="margin: 0px 10px;">未读<span class="layui-badge"></span></li>
-                <li style="margin: 0px 10px;">已读</li>
+                <li style="margin: 0px 10px;" id="read">未读<span class="layui-badge"></span></li>
+                <li style="margin: 0px 10px;" id="isRead">已读</li>
             </ul>
             <div class="layui-tab-content">
 
@@ -69,7 +69,7 @@
                 isRead: {text: "已读", id: "LAY-app-notice_is_read"}
             }),
             detail = function (d) {
-                var url = "<a href='detail?noticeId=" + d.noticeId + "&isTranslate=1'>";
+                var url = "<a href='detail?noticeId=" + d.noticeId + "&isTranslate=1&readStatus=" + d.readStatusCode + "'>";
                     url += "<div>" + d.userId + '&nbsp;&nbsp;&nbsp;' + d.businessType + '&nbsp;&nbsp;&nbsp;' + d.businessAmount + "</div>";
                     url += "</a>";
                 return url;
@@ -84,6 +84,10 @@
             update: appName + "/notice/updateReadStatus",
             websocketUrl: '${requestUrl}'
         }
+
+        // 阅读状态
+        var readStatus = fims.getUrlParameter("readStatus");
+        console.log(readStatus);
 
         // 列表字段
         var tableColumn = [[
@@ -183,6 +187,12 @@
                 window.location.reload();
             }
         });
+
+        if (readStatus == '2') {
+            $("#isRead").click();
+        } else {
+            $("#read").click();
+        }
     });
 </script>
 </body>

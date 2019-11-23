@@ -44,7 +44,7 @@
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button class="layui-btn" lay-submit lay-filter="setmypass">确认修改</button>
+                                <button class="layui-btn" lay-submit lay-filter="setmypass">提交</button>
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                         $("input[name='oldPassword']").attr("disabled", true);
                         $("input[name='password']").attr("disabled", true);
                         $("input[name='repassword']").attr("disabled", true);
-                        $(".layui-btn").text(fims.tips.msg.passwordChangefresh);
+                        $(".layui-btn").parent().parent().remove();
                         fims.msg(response.msg);
                     } else {
                         fims.msg(response.msg);

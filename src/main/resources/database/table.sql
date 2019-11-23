@@ -376,6 +376,28 @@ comment on column sys_login_log.login_status
 comment on column sys_login_log.login_message
     is '登录信息';
 
+-- 修订信息
+call drop_table('sys_version');
+create table sys_version
+(
+    version_id        varchar2(30) primary key,
+    version_content   varchar2(500),
+    version_date      date,
+    version_order     number(10),
+    version_type      varchar2(50)
+);
+
+comment on column sys_version.version_id
+    is '修订ID';
+comment on column sys_version.version_content
+    is '修订内容';
+comment on column sys_version.version_date
+    is '修订日期';
+comment on column sys_version.version_order
+    is '修订排序';
+comment on column sys_version.version_type
+    is '修订类型';
+
 
 -- 初始化数据 开始
 -- 用户信息
@@ -447,6 +469,9 @@ values (20190000000019, '登录日志', 'layui-icon-form', 'loginLog/view/list',
 
 insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
 values (20190000000020, '查询权限', null, null, 20190000000019, 55.00, '1', '2', sysdate, sysdate, '20190000000001', '20190000000001');
+
+insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
+values (20190000000021, '修订信息', null, 'version/view/list', 20190000000011, 110.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 -- 字典信息
 truncate table sys_dictionary;
@@ -580,7 +605,138 @@ insert into sys_parameter (parameter_code, parameter_caption, parameter_value, p
 values ('userDefaultPassword', '用户默认密码', '123456', 'text', null, '1', '1', 50);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
-values ('version', '系统版本号', '#', 'text', null, '1', '0', 55);
--- todo 填充系统版本号
+values ('version', '系统版本号', 'V.201911.01', 'text', null, '1', '0', 55);
+
+-- 修订信息
+truncate table sys_version;
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000001', '系统初始化', to_date('19-08-2017', 'dd-mm-yyyy'), 1, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000002', '版本发布：V1.201811.01', to_date('11-08-2018', 'dd-mm-yyyy'), 5, '4');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000003', '系统初始化', to_date('21-10-2018', 'dd-mm-yyyy'), 10, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000004', '版本发布：V2.201907.01', to_date('01-07-2019', 'dd-mm-yyyy'), 15, '4');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000005', '系统初始化', to_date('07-08-2019', 'dd-mm-yyyy'), 20, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000006', '流水号生成、集成Swagger', to_date('08-08-2019', 'dd-mm-yyyy'), 25, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000007', '集成webSocket、通用工具类', to_date('09-08-2019', 'dd-mm-yyyy'), 30, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000008', '集成freemarker、适配前台页面布局', to_date('10-08-2019', 'dd-mm-yyyy'), 35, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000009', '字典转义、日志输出、前台页面布局', to_date('11-08-2019', 'dd-mm-yyyy'), 40, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000010', '日志输出工具类封装、字典转义支持单条数据', to_date('12-08-2019', 'dd-mm-yyyy'), 45, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000011', 'dto目录调整为Model目录、返回实体类返回值整合', to_date('15-08-2019', 'dd-mm-yyyy'), 50, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000012', '适配前台页面布局', to_date('16-08-2019', 'dd-mm-yyyy'), 55, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000013', '按用户加载查询数据字典', to_date('23-08-2019', 'dd-mm-yyyy'), 60, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000014', '收入信息：数据列表、查询条件', to_date('29-08-2019', 'dd-mm-yyyy'), 65, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000015', '收入信息', to_date('01-09-2019', 'dd-mm-yyyy'), 70, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000016', '全局异常处理', to_date('01-09-2019', 'dd-mm-yyyy'), 75, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000017', '随礼信息', to_date('07-09-2019', 'dd-mm-yyyy'), 80, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000018', '收入信息报表：年度、月度', to_date('09-09-2019', 'dd-mm-yyyy'), 85, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000019', '收入信息报表：来源、类型、极值、前台页面渲染', to_date('13-09-2019', 'dd-mm-yyyy'), 90, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000020', '随礼信息报表', to_date('13-09-2019', 'dd-mm-yyyy'), 95, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000021', '字典信息', to_date('21-09-2019', 'dd-mm-yyyy'), 100, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000022', '用户信息', to_date('22-09-2019', 'dd-mm-yyyy'), 105, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000023', '角色信息', to_date('08-10-2019', 'dd-mm-yyyy'), 110, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000024', '业务ID编号规则', to_date('11-10-2019', 'dd-mm-yyyy'), 115, '2');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000025', '登录加载菜单信息', to_date('13-10-2019', 'dd-mm-yyyy'), 120, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000026', '页面按钮权限、字典加载数据权限', to_date('13-10-2019', 'dd-mm-yyyy'), 125, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000027', '用户登录', to_date('15-10-2019', 'dd-mm-yyyy'), 130, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000028', '用户Session信息', to_date('18-10-2019', 'dd-mm-yyyy'), 135, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000029', '登录过滤器', to_date('19-10-2019', 'dd-mm-yyyy'), 140, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000030', '字典信息', to_date('19-10-2019', 'dd-mm-yyyy'), 145, '2');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000031', '图标信息', to_date('20-10-2019', 'dd-mm-yyyy'), 150, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000032', '菜单图标', to_date('21-10-2019', 'dd-mm-yyyy'), 155, '2');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000033', '参数信息', to_date('25-10-2019', 'dd-mm-yyyy'), 160, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000034', '重置用户密码、用户退出、修改用户密码', to_date('26-10-2019', 'dd-mm-yyyy'), 165, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000035', '登入日志、消息通知', to_date('26-10-2019', 'dd-mm-yyyy'), 170, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000036', '修复列表翻页查询数据错误', to_date('26-10-2019', 'dd-mm-yyyy'), 175, '3');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000037', '首页信息', to_date('02-11-2019', 'dd-mm-yyyy'), 180, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000038', '消息通知：优化页面展示风格', to_date('03-11-2019', 'dd-mm-yyyy'), 185, '2');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000039', '首页信息：展示未读消息通知信息', to_date('04-11-2019', 'dd-mm-yyyy'), 190, '2');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000040', '报表信息：多用户数据展示', to_date('17-11-2019', 'dd-mm-yyyy'), 195, '2');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000041', '优化数据转义', to_date('21-11-2019', 'dd-mm-yyyy'), 200, '2');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000042', '修订信息', to_date('23-11-2019', 'dd-mm-yyyy'), 205, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000043', '版本发布：V3.201911.01', to_date('24-11-2019', 'dd-mm-yyyy'), 210, '4');
+
 commit;
 -- 初始化数据 结束

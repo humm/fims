@@ -120,3 +120,25 @@
     background-color: #FFB800 !important;
 }
 
+.layui-btn-fims {
+    display: inline-block;
+    height: 38px;
+    line-height: 38px;
+    padding: 0 18px;
+    background-color: #009688;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 14px;
+    border: none;
+    border-radius: 2px;
+}
+.layui-btn-xs-fims {
+    height: 22px;
+    line-height: 22px;
+    padding: 0 5px;
+    font-size: 12px;
+}
+.layui-bg-red {
+    background-color: #FF5722!important;
+}

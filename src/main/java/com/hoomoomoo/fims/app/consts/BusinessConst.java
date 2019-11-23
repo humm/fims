@@ -556,9 +556,9 @@ public class BusinessConst {
     public static final String MENU_ID_GIFT                                 = "20190000000004";
 
     /**
-     * 菜单：修订信息 todo
+     * 菜单：修订信息
      */
-    public static final String MENU_ID_VERSION                              = "todo";
+    public static final String MENU_ID_VERSION                              = "20190000000021";
 
     /**
      * 最近一次登入时间

@@ -188,9 +188,9 @@ public class SysLogUtils {
     public static void parameter(Logger logger, Object obj) {
         if (LOG_REQUEST_PARAMETER) {
             if (obj instanceof List) {
-                logger.info(LOG_BUSINESS_PARAMETER, clearBlank(SysBeanUtils.beanToMap((List)obj)));
+                logger.info(LOG_BUSINESS_PARAMETER, SysBeanUtils.beanToMap((List)obj));
             } else {
-                logger.info(LOG_BUSINESS_PARAMETER, clearBlank(SysBeanUtils.beanToMap(obj)));
+                logger.info(LOG_BUSINESS_PARAMETER, SysBeanUtils.beanToMap(obj));
             }
         }
     }
@@ -205,42 +205,5 @@ public class SysLogUtils {
         logger.info(obj.toString());
     }
 
-    /**
-     * 空值过滤
-     *
-     * @param list
-     * @return
-     */
-    private static List<Map<String, Object>> clearBlank(List<Map<String, Object>> list){
-        for(Map<String, Object> ele : list){
-            Iterator<String> iterator = ele.keySet().iterator();
-            while(iterator.hasNext()){
-                String key = iterator.next();
-                Object value = ele.get(key);
-                if(value == null){
-                    iterator.remove();
-                }
-            }
-        }
-        return list;
-    }
-
-    /**
-     * 空值过滤
-     *
-     * @param map
-     * @return
-     */
-    private static Map<String, Object> clearBlank(Map<String, Object> map){
-        Iterator<String> iterator = map.keySet().iterator();
-        while(iterator.hasNext()){
-            String key = iterator.next();
-            Object value = map.get(key);
-            if(value == null){
-                iterator.remove();
-            }
-        }
-        return map;
-    }
 
 }

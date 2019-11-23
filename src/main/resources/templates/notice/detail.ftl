@@ -9,6 +9,8 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="${appName}/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="${appName}/layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="${appName}/layuiadmin/style/fims.css" media="all">
+
 </head>
 <body>
 
@@ -24,7 +26,7 @@
             <div class="layadmin-text" id="content"></div>
 
             <div style="padding-top: 30px;">
-                <a href="javascript:;" layadmin-event="back"
+                <a href="javascript:;" id="back"
                    class="layui-btn layui-btn-primary layui-btn-sm">返回上级</a>
             </div>
         </div>
@@ -51,6 +53,9 @@
             isTranslate: fims.getUrlParameter("isTranslate"),
         }
 
+        // 阅读状态
+        var readStatus = fims.getUrlParameter("readStatus");
+
         // 请求url
         var url = appName + "/notice/selectOne?" + $.param(request);
 
@@ -70,7 +75,6 @@
                     content += "<p>业务时间：" + data.businessDate + "</p>";
                     content += "<p>业务金额：" + data.businessAmount + "</p>";
                     content += "<p>通知状态：" + data.noticeStatus + "</p>";
-                    content += "<p>通知状态：" + data.noticeStatus + "</p>";
                     content += "<p>通知类型：" + data.noticeType + "</p>";
                     content += "<p>阅读状态：" + data.readStatus + "</p>";
                     $("#content").html(content);
@@ -79,7 +83,11 @@
                 }
             }
         });
-
+        
+        // 返回上级事件
+        $("#back").on("click", function () {
+            window.location.href = window.location.href.replace("detail", "list");
+        });
     });
 </script>
 </body>

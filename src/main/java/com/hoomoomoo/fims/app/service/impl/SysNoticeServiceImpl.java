@@ -142,6 +142,7 @@ public class SysNoticeServiceImpl implements SysNoticeService {
         }
         sysNotice.setReadStatus(new StringBuffer(D012).append(MINUS).append(STR_2).toString());
         SystemUtils.setModifyUserInfo(sysNoticeModel);
+        SystemUtils.setModifyUserInfo(sysNotice);
         // 修改阅读状态
         sysNoticeDao.update(sysNotice);
         WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_NOTICE);

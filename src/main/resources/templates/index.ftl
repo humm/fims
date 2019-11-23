@@ -26,7 +26,7 @@
             <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right" style="margin-right: 10px;">
 
                 <li class="layui-nav-item" lay-unselect>
-                    <a lay-href="notice/view/list" style="margin-right: 30px;" layadmin-event="message" lay-text="通知中心">
+                    <a lay-href="notice/view/list?menuId=20190000000017" style="margin-right: 30px;" lay-text="消息通知">
                         <span class="" id="readNum"></span>
                     </a>
                 </li>
@@ -35,7 +35,7 @@
                         <cite id="userName"></cite>
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="${appName}/user/view/password">修改密码</a></dd>
+                        <dd><a lay-href="user/view/password">修改密码</a></dd>
                         <hr>
                         <dd id="logout" style="text-align: center;"><a>退出</a></dd>
                     </dl>

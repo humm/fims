@@ -5,29 +5,7 @@
         f = "layui-disabled", h = "#LAY_app_body", m = "LAY_app_flexible", p = "layadmin-layout-tabs",
         v = "layadmin-side-spread-sm", b = "layadmin-tabsbody-item", g = "layui-icon-shrink-right",
         x = "layui-icon-spread-left", C = "layadmin-side-shrink", k = "LAY-system-side-menu", F = {
-            v: "1.2.1 std", req: n.req, sendAuthCode: function (e) {
-                e = a.extend({seconds: 60, elemPhone: "#LAY_phone", elemVercode: "#LAY_vercode"}, e);
-                var i, t = e.seconds, l = a(e.elem), n = function (a) {
-                    t--, t < 0 ? (l.removeClass(f).html("获取验证码"), t = e.seconds, clearInterval(i)) : l.addClass(f).html(t + "秒后重获"), a || (i = setInterval(function () {
-                        n(!0)
-                    }, 1e3))
-                };
-                e.elemPhone = a(e.elemPhone), e.elemVercode = a(e.elemVercode), l.on("click", function () {
-                    var i = e.elemPhone, l = i.val();
-                    if (t === e.seconds && !a(this).hasClass(f)) {
-                        if (!/^1\d{10}$/.test(l)) return i.focus(), layer.msg("请输入正确的手机号");
-                        if ("object" == typeof e.ajax) {
-                            var s = e.ajax.success;
-                            delete e.ajax.success
-                        }
-                        F.req(a.extend(!0, {
-                            url: "/auth/code", type: "get", data: {phone: l}, success: function (a) {
-                                layer.msg("验证码已发送至你的手机，请注意查收", {icon: 1, shade: 0}), e.elemVercode.focus(), n(), s && s(a)
-                            }
-                        }, e.ajax))
-                    }
-                })
-            }, screen: function () {
+            v: "1.2.1 std", req: n.req, screen: function () {
                 var e = r.width();
                 return e >= 1200 ? 3 : e >= 992 ? 2 : e >= 768 ? 1 : 0
             }, exit: n.exit, sideFlexible: function (e) {
@@ -95,61 +73,8 @@
                         i += this.value, t = t + ' <span style="color: #FF5722;">' + F.escape(this.value) + "</span>", layui.index.openTabsPage(i, t), P.serach.keys || (P.serach.keys = {}), P.serach.keys[F.tabsPage.index] = this.value, this.value === P.serach.keys[F.tabsPage.index] && P.refresh(e), this.value = ""
                     }
                 })
-            }, message: function (e) {
-                e.find(".layui-badge-dot").remove()
-            }, theme: function () {
-                F.popupRight({
-                    id: "LAY_adminPopupTheme", success: function () {
-                        n(this.id).render("system/theme")
-                    }
-                })
-            }, note: function (e) {
-                var a = F.screen() < 2, i = layui.data(l.tableName).note;
-                P.note.index = F.popup({
-                    title: "便签",
-                    shade: 0,
-                    offset: ["41px", a ? null : e.offset().left - 250 + "px"],
-                    anim: -1,
-                    id: "LAY_adminNote",
-                    skin: "layadmin-note layui-anim layui-anim-upbit",
-                    content: '<textarea placeholder="内容"></textarea>',
-                    resize: !1,
-                    success: function (e, a) {
-                        var t = e.find("textarea"),
-                            n = void 0 === i ? "便签中的内容会存储在本地，这样即便你关掉了浏览器，在下次打开时，依然会读取到上一次的记录。是个非常小巧实用的本地备忘录" : i;
-                        t.val(n).focus().on("keyup", function () {
-                            layui.data(l.tableName, {key: "note", value: this.value})
-                        })
-                    }
-                })
-            }, fullscreen: function (e) {
-                var a = "layui-icon-screen-full", i = "layui-icon-screen-restore", t = e.children("i");
-                if (t.hasClass(a)) {
-                    var l = document.body;
-                    l.webkitRequestFullScreen ? l.webkitRequestFullScreen() : l.mozRequestFullScreen ? l.mozRequestFullScreen() : l.requestFullScreen && l.requestFullscreen(), t.addClass(i).removeClass(a)
-                } else {
-                    var l = document;
-                    l.webkitCancelFullScreen ? l.webkitCancelFullScreen() : l.mozCancelFullScreen ? l.mozCancelFullScreen() : l.cancelFullScreen ? l.cancelFullScreen() : l.exitFullscreen && l.exitFullscreen(), t.addClass(a).removeClass(i)
-                }
-            }, about: function () {
-                F.popupRight({
-                    id: "LAY_adminPopupAbout", success: function () {
-                        n(this.id).render("system/about")
-                    }
-                })
-            }, more: function () {
-                F.popupRight({
-                    id: "LAY_adminPopupMore", success: function () {
-                        n(this.id).render("system/more")
-                    }
-                })
-            }, back: function () {
-                history.back()
-            }, setTheme: function (e) {
-                var a = e.data("index");
-                e.siblings(".layui-this").data("index");
-                e.hasClass(y) || (e.addClass(y).siblings(".layui-this").removeClass(y), F.initTheme(a))
-            }, rollPage: function (e, i) {
+            },
+            rollPage: function (e, i) {
                 var t = a("#LAY_app_tabsheader"), l = t.children("li"), n = (t.prop("scrollWidth"), t.outerWidth()),
                     s = parseFloat(t.css("left"));
                 if ("left" === e) {
