@@ -1,6 +1,8 @@
 package com.hoomoomoo.fims.app.service.impl;
 
 import com.hoomoomoo.fims.FimsApplication;
+import com.hoomoomoo.fims.app.config.RunDataConfig;
+import com.hoomoomoo.fims.app.config.bean.DatasourceConfigBean;
 import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
 import com.hoomoomoo.fims.app.dao.SysDictionaryDao;
 import com.hoomoomoo.fims.app.dao.SysUserDao;
@@ -17,6 +19,8 @@ import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.jdbc.ScriptRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -24,10 +28,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ResourceUtils;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,8 +44,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static com.hoomoomoo.fims.app.config.RunDataConfig.*;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.*;
-import static com.hoomoomoo.fims.app.consts.ParameterConst.START_CONSOLE_OUTPUT;
-import static com.hoomoomoo.fims.app.consts.SystemConst.APPLICATION_PROPERTIES;
+import static com.hoomoomoo.fims.app.consts.ParameterConst.*;
+import static com.hoomoomoo.fims.app.consts.ParameterConst.MIND_FILL;
+import static com.hoomoomoo.fims.app.consts.SystemConst.*;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 
@@ -56,6 +65,9 @@ public class SysSystemServiceImpl implements SysSystemService {
 
     @Autowired
     private FimsConfigBean fimsConfigBean;
+
+    @Autowired
+    private DatasourceConfigBean datasourceConfigBean;
 
     @Autowired
     private Environment environment;
@@ -305,7 +317,7 @@ public class SysSystemServiceImpl implements SysSystemService {
     public void setCondition(ViewData viewData) {
         SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_CONDITION_SET);
         // 智能填充
-        viewData.setMindFill(MIND_FILL);
+        viewData.setMindFill(RunDataConfig.MIND_FILL);
         // 设置登录用户信息
         viewData.setSessionBean(SystemSessionUtils.getSession());
         String userId = getUserId();
@@ -402,6 +414,116 @@ public class SysSystemServiceImpl implements SysSystemService {
             }
         }
         return password;
+    }
+
+    /**
+     * 系统初始化
+     */
+    @Override
+    public void initSystem() {
+        // 初始化模式  1:不初始化 2:强制初始化 3:弱校验初始化 4:强校验初始化
+        String initMode = fimsConfigBean.getInitMode();
+        switch (initMode) {
+            case STR_2:
+                initData();
+                break;
+            case STR_3:
+                // 有表不存在则初始化
+                int num = SYSTEM_TABLE.split(COMMA).length;
+                int tableNum = sysSystemDao.selectTableNum(SYSTEM_TABLE.toLowerCase());
+                if (num > tableNum) {
+                    initData();
+                }
+                break;
+            case STR_4:
+                // 所有表不存在则初始化
+                tableNum = sysSystemDao.selectTableNum(SYSTEM_TABLE.toLowerCase());
+                if (tableNum == 0) {
+                    initData();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 参数初始化
+     */
+    @Override
+    public void initParameter() {
+        // 控制台输出请求标记
+        RunDataConfig.LOG_REQUEST_TAG = sysParameterService.getParameterBoolean(CONSOLE_OUTPUT_LOG_REQUEST_TAG);
+        // 控制台输出请求入参
+        RunDataConfig.LOG_REQUEST_PARAMETER = sysParameterService.getParameterBoolean(CONSOLE_OUTPUT_LOG_REQUEST_PARAMETER);
+        // 智能填充
+        RunDataConfig.MIND_FILL = sysParameterService.getParameterBoolean(MIND_FILL);
+    }
+
+    /**
+     * 初始化数据
+     */
+    private void initData() {
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_INIT_SYSTEM);
+        try {
+            Connection connection = getConnection();
+            if (connection != null) {
+                // 初始化存储过程
+                File file = ResourceUtils.getFile(INIT_SYSTEM_PROCEDURE);
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                StringBuffer content = new StringBuffer();
+                String temp = null;
+                while((temp = bufferedReader.readLine()) != null){
+                    content.append(temp);
+                }
+                if (StringUtils.isNotBlank(content.toString())) {
+                    Statement statement = connection.createStatement();
+                    String[] procedure = content.toString().split(INIT_SYSTEM_PROCEDURE_SPLIT);
+                    for (int i=0; i<procedure.length; i++) {
+                        if (i == 0) {
+                            // 文件描述内容不执行
+                            continue;
+                        }
+                        statement.execute(procedure[i]);
+                    }
+                }
+                // 初始化数据
+                ScriptRunner runner = new ScriptRunner(connection);
+                Resources.setCharset(Charset.forName(UTF8));
+                runner.setLogWriter(null);
+                Reader reader = Resources.getResourceAsReader(INIT_SYSTEM_TABLE);
+                runner.runScript(reader);
+
+                // 关闭资源连接
+                bufferedReader.close();
+                reader.close();
+                runner.closeConnection();
+                connection.close();
+            }
+        } catch (IOException e) {
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_INIT_SYSTEM, e);
+        } catch (SQLException e) {
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_INIT_SYSTEM, e);
+        }
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_INIT_SYSTEM);
+    }
+
+
+    /**
+     * 获取数据库连接驱动
+     * @return
+     */
+    private Connection getConnection(){
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(
+                    datasourceConfigBean.getUrl(),
+                    datasourceConfigBean.getUsername(),
+                    datasourceConfigBean.getPassword());
+        } catch (SQLException e) {
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_INIT_SYSTEM, e);
+        }
+        return connection;
     }
 
     /**

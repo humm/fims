@@ -99,13 +99,13 @@
         var addItem = function (type, content) {
             var item  = '<li>';
                 if (type == '1') {
-                    item += '<span class="layui-btn-fims layui-btn-xs-fims layui-bg-orange">功能</span>';
+                    item += '<span class="layui-btn-fims layui-btn-xs-fims layui-bg-orange">&nbsp;功能&nbsp;</span>';
                 } else if (type == '2') {
-                    item += '<span class="layui-btn-fims layui-btn-xs-fims layui-bg-blue">优化</span>';
+                    item += '<span class="layui-btn-fims layui-btn-xs-fims layui-bg-blue">&nbsp;优化&nbsp;</span>';
                 } else if (type == '3') {
-                    item += '<span class="layui-btn-fims layui-btn-xs-fims layui-bg-gray">修复</span>';
+                    item += '<span class="layui-btn-fims layui-btn-xs-fims layui-bg-gray">&nbsp;修复&nbsp;</span>';
                 }else if (type == '4') {
-                    item += '<span class="layui-btn-fims layui-btn-xs-fims layui-bg-red">定版</span>';
+                    item += '<span class="layui-btn-fims layui-btn-xs-fims layui-bg-red">&nbsp;发版&nbsp;</span>';
                 }
                 item += '&nbsp;&nbsp;&nbsp;';
                 item += content;

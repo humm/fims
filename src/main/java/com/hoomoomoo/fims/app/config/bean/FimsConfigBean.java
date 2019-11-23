@@ -41,4 +41,9 @@ public class FimsConfigBean {
      */
     private String swaggerLocation;
 
+    /**
+     * 系统初始化模式
+     */
+    private String initMode;
+
 }

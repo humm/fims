@@ -46,5 +46,10 @@
         and c.menu_type = '4'
     </select>
 
+    <select id="selectTableNum" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1)
+        from user_tables
+        where lower(table_name) in (${tableConfig})
+    </select>
 
 </mapper>

@@ -6,17 +6,7 @@
 -- 金额 number(20, 2)
 -- 其他 varchar2(50)
 
--- 建表存储过程
-create or replace procedure drop_table(tableName in varchar2)
-is
-    v_count number(10);
-begin
-    select count(1) into v_count from user_tables where table_name = upper(tableName);
-    if v_count > 0
-    then
-        execute immediate 'drop table ' || tableName || ' purge';
-    end if;
-end drop_table;
+-- 此文件存放建表语句及相关初始化数据 
 
 -- 用户信息
 call drop_table('sys_user');
@@ -396,7 +386,7 @@ comment on column sys_version.version_date
 comment on column sys_version.version_order
     is '修订排序';
 comment on column sys_version.version_type
-    is '修订类型';
+    is '修订类型(1:功能 2:优化 3:修复 4:发版)';
 
 
 -- 初始化数据 开始
@@ -613,13 +603,13 @@ insert into sys_version (version_id, version_content, version_date, version_orde
 values ('20190000000001', '系统初始化', to_date('19-08-2017', 'dd-mm-yyyy'), 1, '1');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
-values ('20190000000002', '版本发布：V1.201811.01', to_date('11-08-2018', 'dd-mm-yyyy'), 5, '4');
+values ('20190000000002', '发布版本：V1.201811.01', to_date('11-08-2018', 'dd-mm-yyyy'), 5, '4');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
 values ('20190000000003', '系统初始化', to_date('21-10-2018', 'dd-mm-yyyy'), 10, '1');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
-values ('20190000000004', '版本发布：V2.201907.01', to_date('01-07-2019', 'dd-mm-yyyy'), 15, '4');
+values ('20190000000004', '发布版本：V2.201907.01', to_date('01-07-2019', 'dd-mm-yyyy'), 15, '4');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
 values ('20190000000005', '系统初始化', to_date('07-08-2019', 'dd-mm-yyyy'), 20, '1');
@@ -721,22 +711,28 @@ insert into sys_version (version_id, version_content, version_date, version_orde
 values ('20190000000037', '首页信息', to_date('02-11-2019', 'dd-mm-yyyy'), 180, '1');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
-values ('20190000000038', '消息通知：优化页面展示风格', to_date('03-11-2019', 'dd-mm-yyyy'), 185, '2');
+values ('20190000000038', '消息通知：页面展示风格', to_date('03-11-2019', 'dd-mm-yyyy'), 185, '2');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
-values ('20190000000039', '首页信息：展示未读消息通知信息', to_date('04-11-2019', 'dd-mm-yyyy'), 190, '2');
+values ('20190000000039', '首页信息：展示未读消息通知', to_date('04-11-2019', 'dd-mm-yyyy'), 190, '2');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
 values ('20190000000040', '报表信息：多用户数据展示', to_date('17-11-2019', 'dd-mm-yyyy'), 195, '2');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
-values ('20190000000041', '优化数据转义', to_date('21-11-2019', 'dd-mm-yyyy'), 200, '2');
+values ('20190000000041', '数据转义', to_date('21-11-2019', 'dd-mm-yyyy'), 200, '2');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
 values ('20190000000042', '修订信息', to_date('23-11-2019', 'dd-mm-yyyy'), 205, '1');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
-values ('20190000000043', '版本发布：V3.201911.01', to_date('24-11-2019', 'dd-mm-yyyy'), 210, '4');
+values ('20190000000043', '发布版本：V3.201911.01', to_date('24-11-2019', 'dd-mm-yyyy'), 210, '4');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000044', '消息通知详情页面返回指定列表类型', to_date('25-11-2019', 'dd-mm-yyyy'), 215, '2');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000045', '系统初始化', to_date('25-11-2019', 'dd-mm-yyyy'), 220, '1');
 
 commit;
 -- 初始化数据 结束

@@ -36,6 +36,16 @@ public class BusinessConst {
     public static final String STR_2                                        = "2";
 
     /**
+     * 字符串：3
+     */
+    public static final String STR_3                                        = "3";
+
+    /**
+     * 字符串：4
+     */
+    public static final String STR_4                                        = "4";
+
+    /**
      * 空串
      */
     public static final String STR_EMPTY                                    = "";
@@ -124,6 +134,11 @@ public class BusinessConst {
      * multipart/*
      */
     public static final String MULTIPART                                    = "multipart/*";
+
+    /**
+     * UTF-8/*
+     */
+    public static final String UTF8                                         = "UTF-8";
 
     /**
      * 业务ID初始值

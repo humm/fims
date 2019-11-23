@@ -38,12 +38,11 @@ public class InitRunnerConfig implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        // 系统初始化 todo
+        // 系统初始化
+        sysSystemService.initSystem();
 
         // 加载系统参数
-        RunDataConfig.LOG_REQUEST_TAG = sysParameterService.getParameterBoolean(CONSOLE_OUTPUT_LOG_REQUEST_TAG);
-        RunDataConfig.LOG_REQUEST_PARAMETER = sysParameterService.getParameterBoolean(CONSOLE_OUTPUT_LOG_REQUEST_PARAMETER);
-        RunDataConfig.MIND_FILL = sysParameterService.getParameterBoolean(MIND_FILL);
+        sysSystemService.initParameter();
 
         // 输出系统配置参数至控制台
         sysSystemService.outputConfigParameter();

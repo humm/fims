@@ -88,4 +88,14 @@ public interface SysSystemService {
      */
     String selectUserPassword();
 
+    /**
+     * 系统初始化
+     */
+    void initSystem();
+
+    /**
+     * 参数初始化
+     */
+    void initParameter();
+
 }

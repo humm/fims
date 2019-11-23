@@ -126,6 +126,17 @@ public class SysLogUtils {
     }
 
     /**
+     * 业务异常日志
+     *
+     * @param logger
+     * @param businessType
+     * @param e
+     */
+    public static void exception(Logger logger, String businessType, String e) {
+        logger.error(String.format(LOG_FORMAT_STATUS, businessType, LOG_OPERATE_TAG_EXCEPTION), e);
+    }
+
+    /**
      * 应用启动、参数类成功日志
      *
      * @param logger

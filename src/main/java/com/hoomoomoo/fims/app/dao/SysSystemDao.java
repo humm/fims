@@ -3,6 +3,7 @@ package com.hoomoomoo.fims.app.dao;
 import com.hoomoomoo.fims.app.model.SysMenuTreeQueryModel;
 import com.hoomoomoo.fims.app.model.SysSystemQueryModel;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -38,4 +39,12 @@ public interface SysSystemDao {
      * @return
      */
     Boolean selectDataAuthority(SysSystemQueryModel sysSystemQueryModel);
+
+    /**
+     * 查询系统当前存在表
+     *
+     * @param tableConfig
+     * @return
+     */
+    int selectTableNum(@Param("tableConfig") String tableConfig);
 }

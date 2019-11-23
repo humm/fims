@@ -306,6 +306,11 @@ public class TipConst {
     public static final String LOG_BUSINESS_TYPE_BUTTON_AUTHORITY_SELECT        = "查询按钮权限";
 
     /**
+     * 日志业务类型：系统初始化
+     */
+    public static final String LOG_BUSINESS_TYPE_INIT_SYSTEM                    = "系统初始化";
+
+    /**
      * 请求入参
      */
     public static final String LOG_BUSINESS_PARAMETER                           = "服务请求入参：{}";

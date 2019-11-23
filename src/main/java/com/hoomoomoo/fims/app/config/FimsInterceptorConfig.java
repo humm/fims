@@ -1,6 +1,7 @@
 package com.hoomoomoo.fims.app.config;
 
 import com.hoomoomoo.fims.app.service.SysParameterService;
+import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class FimsInterceptorConfig implements HandlerInterceptor {
     private static final Logger logger = LoggerFactory.getLogger(FimsInterceptorConfig.class);
 
     @Autowired
-    private SysParameterService sysParameterService;
+    private SysSystemService sysSystemService;
 
     @PostConstruct
     public void init(){
@@ -57,9 +58,8 @@ public class FimsInterceptorConfig implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object obj) {
-        RunDataConfig.LOG_REQUEST_TAG = sysParameterService.getParameterBoolean(CONSOLE_OUTPUT_LOG_REQUEST_TAG);
-        RunDataConfig.LOG_REQUEST_PARAMETER = sysParameterService.getParameterBoolean(CONSOLE_OUTPUT_LOG_REQUEST_PARAMETER);
-        RunDataConfig.MIND_FILL = sysParameterService.getParameterBoolean(MIND_FILL);
+        // 加载系统参数
+        sysSystemService.initParameter();
         return true;
     }
 }
