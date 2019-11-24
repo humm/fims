@@ -1,8 +1,10 @@
 package com.hoomoomoo.fims.test;
 
 import com.hoomoomoo.fims.FimsApplication;
+import com.hoomoomoo.fims.app.model.SysInterfaceModel;
 import com.hoomoomoo.fims.app.model.SysMailModel;
 import com.hoomoomoo.fims.app.service.SysMailService;
+import com.hoomoomoo.fims.app.util.SysFileUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -41,10 +43,11 @@ public class MailConfigTest {
     @Test
     public void receive() {
         SysMailModel mailModel = new SysMailModel();
-        mailModel.setSubject("*");
+        mailModel.setSubject("xml解析");
         List<SysMailModel> mailTDtos = sysMailService.receiveMail(mailModel);
         for(SysMailModel dto : mailTDtos){
-            logger.info(dto.toString());
+            SysInterfaceModel sysInterfaceModel = SysFileUtils.getMailXmlToBean(dto.getContent());
+            logger.info(sysInterfaceModel.toString());
         }
     }
 }

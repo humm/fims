@@ -1,6 +1,7 @@
 package com.hoomoomoo.fims.app.config;
 
 import com.hoomoomoo.fims.app.model.SysDictionaryModel;
+import com.hoomoomoo.fims.app.model.SysSqlMode;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +19,11 @@ public class RunDataConfig {
      * 业务序列号
      */
     public static ConcurrentHashMap<String, String> BUSINESS_SERIAL_NO      = new ConcurrentHashMap<>();
+
+    /**
+     * 配置sql
+     */
+    public static ConcurrentHashMap<String, SysSqlMode> CONFIG_SQL          = new ConcurrentHashMap<>();
 
     /**
      * 字典项查询条件

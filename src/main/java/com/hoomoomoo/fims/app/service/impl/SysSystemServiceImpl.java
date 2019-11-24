@@ -13,10 +13,7 @@ import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.model.common.ViewData;
 import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
-import com.hoomoomoo.fims.app.util.SysBeanUtils;
-import com.hoomoomoo.fims.app.util.SysDateUtils;
-import com.hoomoomoo.fims.app.util.SysLogUtils;
-import com.hoomoomoo.fims.app.util.SystemSessionUtils;
+import com.hoomoomoo.fims.app.util.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.io.Resources;
@@ -461,6 +458,14 @@ public class SysSystemServiceImpl implements SysSystemService {
     }
 
     /**
+     * 加载配置sql
+     */
+    @Override
+    public void getConfigSql() {
+        CONFIG_SQL = SysFileUtils.getConfigSql(SYSTEM_CONFIG_SQL);
+    }
+
+    /**
      * 初始化数据
      */
     private void initData() {
@@ -474,7 +479,7 @@ public class SysSystemServiceImpl implements SysSystemService {
                 StringBuffer content = new StringBuffer();
                 String temp = null;
                 while((temp = bufferedReader.readLine()) != null){
-                    content.append(temp);
+                    content.append(temp).append("\n");
                 }
                 if (StringUtils.isNotBlank(content.toString())) {
                     Statement statement = connection.createStatement();

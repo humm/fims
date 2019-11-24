@@ -732,7 +732,6 @@ insert into sys_version (version_id, version_content, version_date, version_orde
 values ('20190000000044', '消息通知详情页面返回指定列表类型', to_date('25-11-2019', 'dd-mm-yyyy'), 215, '2');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
-values ('20190000000045', '系统初始化', to_date('25-11-2019', 'dd-mm-yyyy'), 220, '1');
+values ('20190000000045', '初始化系统配置数据', to_date('25-11-2019', 'dd-mm-yyyy'), 220, '1');
 
-commit;
 -- 初始化数据 结束

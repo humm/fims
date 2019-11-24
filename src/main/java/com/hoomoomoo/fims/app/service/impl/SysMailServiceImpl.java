@@ -142,7 +142,7 @@ public class SysMailServiceImpl implements SysMailService {
                     if (bodyPart.isMimeType(TEXT_PLAIN)) {
                         // 文本内容
                         mailModel.setSubject(mimeMessage.getSubject());
-                        mailModel.setContent(String.valueOf(content));
+                        mailModel.setContent(String.valueOf(bodyPart.getContent()));
                         mailModel.setMailId(mailId);
                         break inner;
                     } else if (bodyPart.isMimeType(TEXT_HTML)) {

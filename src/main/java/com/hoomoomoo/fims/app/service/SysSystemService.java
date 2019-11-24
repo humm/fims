@@ -98,4 +98,9 @@ public interface SysSystemService {
      */
     void initParameter();
 
+    /**
+     * 加载配置sql
+     */
+    void getConfigSql();
+
 }

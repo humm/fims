@@ -50,6 +50,11 @@ public class SystemConst {
     public static final String INIT_SYSTEM_PROCEDURE                = "classpath:database/procedure.sql";
 
     /**
+     * 系统配置sql
+     */
+    public static final String SYSTEM_CONFIG_SQL                    = "classpath:mapper/sqlConfig.xml";
+
+    /**
      * 存储过程分隔符
      */
     public static final String INIT_SYSTEM_PROCEDURE_SPLIT          = "-- ====== --";

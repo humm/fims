@@ -1,6 +1,5 @@
 package com.hoomoomoo.fims.app.config;
 
-import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
 import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
@@ -10,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
-import static com.hoomoomoo.fims.app.consts.ParameterConst.*;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
@@ -28,9 +25,6 @@ public class InitRunnerConfig implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(InitRunnerConfig.class);
 
     @Autowired
-    private FimsConfigBean fimsConfigBean;
-
-    @Autowired
     private SysSystemService sysSystemService;
 
     @Autowired
@@ -40,6 +34,9 @@ public class InitRunnerConfig implements CommandLineRunner {
     public void run(String... args) {
         // 系统初始化
         sysSystemService.initSystem();
+
+        // 加载配置sql
+        sysSystemService.getConfigSql();
 
         // 加载系统参数
         sysSystemService.initParameter();

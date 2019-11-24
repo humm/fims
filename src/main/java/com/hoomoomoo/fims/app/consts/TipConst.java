@@ -350,4 +350,24 @@ public class TipConst {
      */
     public static final String SWAGGER_VERSION                                  = "3.0";
 
+    /**
+     * sql id已存在
+     */
+    public static final String TIP_SQL_ID_EXIST                                 = "sql [%s] 已存在";
+
+    /**
+     * sql id不存在
+     */
+    public static final String TIP_SQL_ID                                       = "sql id 不能为空";
+
+    /**
+     * sql mode不存在
+     */
+    public static final String TIP_SQL_MODE                                     = "sql [%s] mode 不能为空";
+
+    /**
+     * sql value不存在
+     */
+    public static final String TIP_SQL_VALUE                                    = "sql [%s] value 不能为空";
+
 }

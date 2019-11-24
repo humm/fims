@@ -111,6 +111,21 @@ public class BusinessConst {
     public static final String GREATER_THAN                                 = ">";
 
     /**
+     * 小于号
+     */
+    public static final String LESS_THAN_SEMICOLON                          = "&lt;";
+
+    /**
+     * 小于号
+     */
+    public static final String GREATER_THAN_SEMICOLON                       = "&gt;";
+
+    /**
+     * 空格
+     */
+    public static final String NBSP                                         = "&nbsp;";
+
+    /**
      * 六个*
      */
     public static final String ASTERISK_SIX                                 = "******";
@@ -629,6 +644,48 @@ public class BusinessConst {
      * websocket主题：notice
      */
     public static final String WEBSOCKET_TOPIC_NAME_NOTICE                  = "notice";
+
+    /**
+     * 配置sql：id
+     *
+     */
+    public static final String SQL_ID                                       = "id";
+
+    /**
+     * 配置sql：model
+     *
+     */
+    public static final String SQL_MODEL                                   = "model";
+
+    /**
+     * 配置sql：value
+     *
+     */
+    public static final String SQL_VALUE                                   = "value";
+
+    /**
+     * sql模式：新增
+     *
+     */
+    public static final String SQL_MODEL_ADD                               = "insert";
+
+    /**
+     * sql模式：删除
+     *
+     */
+    public static final String SQL_MODEL_DELETE                            = "delete";
+
+    /**
+     * sql模式：修改
+     *
+     */
+    public static final String SQL_MODEL_UPDATE                            = "update";
+
+    /**
+     * sql模式：查询
+     *
+     */
+    public static final String SQL_MODEL_SELECT                            = "select";
 
 
 }
