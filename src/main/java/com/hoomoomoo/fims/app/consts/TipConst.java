@@ -343,7 +343,7 @@ public class TipConst {
     /**
      * Swagger描述
      */
-    public static final String SWAGGER_DESCRIPTION                              = "no bug ...";
+    public static final String SWAGGER_DESCRIPTION                              = "...";
 
     /**
      * Swagger版本
