@@ -1,5 +1,7 @@
 package com.hoomoomoo.fims.app.service.impl;
 
+import com.hoomoomoo.fims.app.config.WebSocketServerConfig;
+import com.hoomoomoo.fims.app.dao.SysConfigDao;
 import com.hoomoomoo.fims.app.dao.SysConsoleDao;
 import com.hoomoomoo.fims.app.dao.SysMenuDao;
 import com.hoomoomoo.fims.app.model.*;
@@ -9,6 +11,7 @@ import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysConsoleService;
 import com.hoomoomoo.fims.app.service.SysNoticeService;
 import com.hoomoomoo.fims.app.service.SysParameterService;
+import com.hoomoomoo.fims.app.util.SysBeanUtils;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SystemSessionUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -22,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +33,7 @@ import static com.hoomoomoo.fims.app.config.RunDataConfig.DICTIONARY_CONDITION;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.CONSOLE_GIFT_RECEIVE_YEAR;
 import static com.hoomoomoo.fims.app.consts.CueConst.SELECT_SUCCESS;
+import static com.hoomoomoo.fims.app.consts.CueConst.UPDATE_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D000;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D012;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.VERSION;
@@ -60,6 +65,9 @@ public class SysConsoleServiceImpl implements SysConsoleService {
     @Autowired
     private SysNoticeService sysNoticeService;
 
+    @Autowired
+    private SysConfigDao sysConfigDao;
+
     /**
      * 查询首页信息
      *
@@ -76,7 +84,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         sysConsoleQueryModel.setYearStartDate(yearStartDate);
         // 查询未读消息通知
         sysConsoleModel.setReadNum(selectReadNoticeNum());
-        // 设置模块功能开关todo
+        sysConsoleModel.setSysConfig(selectConfigModule());
         Map menu = getMenuInfo();
         if (sessionBean != null) {
             String loginUserId = sessionBean.getUserId();
@@ -109,12 +117,12 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         // 设置版本信息
         setVersionInfo(sysConsoleModel, menu);
         // 查询年度开始时间
-        sysConsoleModel.setYearStartDate(new SysItem(CONSOLE_YEAR_START_DATE, sysConsoleQueryModel.getYearStartDate(), null));
+        sysConsoleModel.setYearStartDate(new SysItemModel(CONSOLE_YEAR_START_DATE, sysConsoleQueryModel.getYearStartDate(), null));
 
         // 首页用户数据处理
-        if (sysConsoleModel.getBusinessModel() != null && sysConsoleModel.getBusinessModel().size() == 2) {
+        if (sysConsoleModel.getUser() != null && sysConsoleModel.getUser().size() == 2) {
             // 系统当前只有一个用户
-            sysConsoleModel.getBusinessModel().remove(0);
+            sysConsoleModel.getUser().remove(0);
         }
         SysLogUtils.parameter(logger, sessionBean == null ? new SessionBean() : sessionBean);
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
@@ -167,7 +175,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
                                  Map<String, String> menu) {
         String incomeMonth = STR_0;
         SysBusinessModel sysBusinessModel = new SysBusinessModel();
-        sysConsoleModel.getBusinessModel().add(sysBusinessModel);
+        sysConsoleModel.getUser().add(sysBusinessModel);
         sysBusinessModel.setTitle(sysConsoleQueryModel.getUserName());
         // 查询最近一笔收入
         String console = sysConsoleDao.selectIncomeLast(sysConsoleQueryModel);
@@ -237,7 +245,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      * @param url
      */
     private void setIncomeBusinessValue(SysBusinessModel sysBusinessModel, String title, String value, String url) {
-        sysBusinessModel.getIncome().add(new SysItem(title, formatValue(value, true, true), url));
+        sysBusinessModel.getIncome().add(new SysItemModel(title, formatValue(value, true, true), url));
     }
 
     /**
@@ -250,7 +258,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      */
     private void setGiftSendBusinessValue(SysBusinessModel sysBusinessModel, String title, String value,
                                           String url) {
-        sysBusinessModel.getGiftSend().add(new SysItem(title, formatValue(value, true, true), url));
+        sysBusinessModel.getGiftSend().add(new SysItemModel(title, formatValue(value, true, true), url));
     }
 
     /**
@@ -263,7 +271,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      */
     private void setGiftReceiveBusinessValue(SysBusinessModel sysBusinessModel, String title, String value,
                                              String url) {
-        sysBusinessModel.getGiftReceive().add(new SysItem(title, formatValue(value, true, true), url));
+        sysBusinessModel.getGiftReceive().add(new SysItemModel(title, formatValue(value, true, true), url));
     }
 
     /**
@@ -277,7 +285,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      */
     private void setLoginLogValue(SysConsoleModel sysConsoleModel, String title, String value, String url,
                                   boolean isZero) {
-        sysConsoleModel.getLoginModel().add(new SysItem(title, formatValue(value, isZero, false), url));
+        sysConsoleModel.getLogin().add(new SysItemModel(title, formatValue(value, isZero, false), url));
     }
 
     /**
@@ -289,7 +297,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      * @param url
      */
     private void setVersionValue(SysConsoleModel sysConsoleModel, String title, String value, String url) {
-        sysConsoleModel.getVersionModel().add(new SysItem(title, formatValue(value, false, false), url));
+        sysConsoleModel.getVersion().add(new SysItemModel(title, formatValue(value, false, false), url));
     }
 
     /**
@@ -323,5 +331,50 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         sysNoticeQueryModel.setReadStatus(new StringBuffer(D012).append(MINUS).append(STR_1).toString());
         FimsPage fimsPage = sysNoticeService.selectPage(sysNoticeQueryModel);
         return String.valueOf(fimsPage.getCount());
+    }
+
+    /**
+     * 查询配置模块信息
+     *
+     */
+    @Override
+    public SysModuleModel selectConfigModule(){
+        SysConfigQueryModel sysConfigQueryModel = new SysConfigQueryModel();
+        sysConfigQueryModel.setModuleGroupCode(MODULE_CONSOLE);
+        List<SysConfigModel> sysConfigModelList = sysConfigDao.selectModule(sysConfigQueryModel);
+        if (CollectionUtils.isNotEmpty(sysConfigModelList)) {
+            Map module = new HashMap(16);
+            for (SysConfigModel sysConfigModel : sysConfigModelList) {
+                module.put(sysConfigModel.getModuleCode(), sysConfigModel.getModuleStatus());
+            }
+            return (SysModuleModel)SysBeanUtils.mapToBean(SysModuleModel.class, module);
+        }
+        return new SysModuleModel();
+    }
+
+    /**
+     * 保存模块信息
+     *
+     * @param sysModuleModel
+     * @return
+     */
+    @Override
+    public ResultData save(SysModuleModel sysModuleModel) {
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_UPDATE);
+        Map<String, Object> module = SysBeanUtils.beanToMap(sysModuleModel);
+        SysConfigModel sysConfigModel = new SysConfigModel();
+        Iterator<String> iterator = module.keySet().iterator();
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            sysConfigModel.setModuleGroupCode(MODULE_CONSOLE);
+            sysConfigModel.setModuleCode(key);
+            String status = SWITCH_ON.equals(String.valueOf(module.get(key))) ? STR_1 : STR_0;
+            sysConfigModel.setModuleStatus(status);
+            sysConfigDao.save(sysConfigModel);
+        }
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_UPDATE);
+        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_CONSOLE);
+        return new ResultData(true, UPDATE_SUCCESS, null);
+
     }
 }

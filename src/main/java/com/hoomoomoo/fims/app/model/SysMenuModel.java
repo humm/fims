@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 @Data
-public class SysMenuModel extends BaseModel {
+public class SysMenuModel {
 
     @ApiModelProperty(value="菜单ID", required = false)
     private String menuId;

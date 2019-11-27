@@ -21,12 +21,12 @@ public class SysBusinessModel {
     private String title;
 
     @ApiModelProperty(value="收入数据", required = false)
-    private List<SysItem> income           = new ArrayList<>();
+    private List<SysItemModel> income           = new ArrayList<>();
 
     @ApiModelProperty(value="送礼数据", required = false)
-    private List<SysItem> giftSend         = new ArrayList<>();
+    private List<SysItemModel> giftSend         = new ArrayList<>();
 
     @ApiModelProperty(value="收礼数据", required = false)
-    private List<SysItem> giftReceive      = new ArrayList<>();
+    private List<SysItemModel> giftReceive      = new ArrayList<>();
 
 }

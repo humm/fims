@@ -26,14 +26,11 @@
         base: '${appName}/layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'form', 'admin', 'fims', 'laydate'], function () {
+    }).use(['index', 'form', 'fims'], function () {
         var $ = layui.$,
             form = layui.form,
-            admin = layui.admin,
-            laydate = layui.laydate,
             fims = layui.fims;
 
-        // 应用名称
         var parameterCode = fims.getUrlParameter("parameterCode");
         var parameterValue = decodeURI(fims.getUrlParameter("parameterValue"));
         var parameterOldValue = decodeURI(fims.getUrlParameter("parameterOldValue"));

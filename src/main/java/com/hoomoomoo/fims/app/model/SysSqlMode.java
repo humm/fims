@@ -2,6 +2,7 @@ package com.hoomoomoo.fims.app.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author humm23693
@@ -11,6 +12,7 @@ import lombok.Data;
  */
 
 @Data
+@NoArgsConstructor
 public class SysSqlMode {
 
     @ApiModelProperty(value="id", required = false)
@@ -21,9 +23,6 @@ public class SysSqlMode {
 
     @ApiModelProperty(value="sql值", required = false)
     private String value;
-
-    public SysSqlMode() {
-    }
 
     public SysSqlMode(String id, String mode, String value) {
         this.id = id;

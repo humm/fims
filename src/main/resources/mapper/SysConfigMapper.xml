@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hoomoomoo.fims.app.dao.SysConfigDao">
+
+    <select id="selectModule" parameterType="com.hoomoomoo.fims.app.model.SysConfigQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.SysConfigModel">
+        select
+            module_group_code moduleGroupCode,
+            module_group_name moduleGroupName,
+            module_code moduleCode,
+            module_name moduleName,
+            module_status moduleStatus,
+            module_ext moduleExt
+        from sys_config
+        <where>
+            <if test="moduleGroupCode != null">
+                and module_group_code = #{moduleGroupCode}
+            </if>
+            <if test="moduleGroupName != null">
+                and module_group_name = #{moduleGroupName}
+            </if>
+            <if test="moduleCode != null">
+                and module_code = #{moduleCode}
+            </if>
+            <if test="moduleName != null">
+                and module_name = #{moduleName}
+            </if>
+            <if test="moduleStatus != null">
+                and module_status = #{moduleStatus}
+            </if>
+        </where>
+    </select>
+
+    <update id="save" parameterType="com.hoomoomoo.fims.app.model.SysConfigModel">
+        update sys_config set module_status = #{moduleStatus}
+        where module_group_code = #{moduleGroupCode}
+        and module_code = #{moduleCode}
+    </update>
+
+</mapper>

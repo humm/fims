@@ -26,8 +26,14 @@
             <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right" style="margin-right: 10px;">
 
                 <li class="layui-nav-item" lay-unselect>
-                    <a lay-href="notice/view/list?menuId=20190000000017" style="margin-right: 30px;" lay-text="消息通知">
-                        <span class="" id="readNum"></span>
+                    <a href="javascript:;" lay-text="模块设置" id="module">
+                        <i class="layui-icon layui-icon-app"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item" lay-unselect>
+                    <a lay-href="notice/view/list?menuId=20190000000017" lay-text="消息通知">
+                        <i class="layui-icon layui-icon-notice"></i>
+                        <span class="" style="top: 30%; border-radius: 50%;" id="readNum">
                     </a>
                 </li>
                 <li class="layui-nav-item" lay-unselect>
@@ -114,7 +120,9 @@
         var url = {
             init: appName + "/menu/initMenu",
             logout: appName + "/user/logout",
-            login: appName + "/login"
+            login: appName + "/login",
+            module: appName + "/console/view/module",
+            save: appName + "/console/save"
         };
 
         // 子菜单
@@ -206,6 +214,50 @@
                 }
             });
         });
+
+        // 绑定模块编辑事件
+        $(document).on('click', '#module', function () {
+            layer.open({
+                type: 2,
+                title: "首页模块设置",
+                content: url.module,
+                area:  ["300px", "320px"],
+                btn: [fims.tips.btn.save, fims.tips.btn.cancel],
+                resize: fims.set.resize,
+                yes: function (e, t) {
+                    save(e, t, fims.operate.update);
+                }
+            });
+        });
+
+        // 数据保存
+        var save = function (e, t, type) {
+            var iframe = window["layui-layer-iframe" + e],
+                button = t.find("iframe").contents().find("#LAY-app-module-update");
+                iframe.layui.form.on("submit(LAY-app-module-update)", function (data) {
+                var request = {
+                    user: fims.isBlank(data.field["user"]) ? 'off' : data.field["user"],
+                    tips: fims.isBlank(data.field["tips"]) ? 'off' : data.field["tips"],
+                    login: fims.isBlank(data.field["login"]) ? 'off' : data.field["login"],
+                    version: fims.isBlank(data.field["version"]) ? 'off' : data.field["version"]
+                };
+                admin.req({
+                    url: url.save,
+                    type: "post",
+                    data: fims.clearBlank(request),
+                    done: function (response) {
+                        if (response.bizResult) {
+                            setTimeout(function () {
+                                layer.close(e);
+                                fims.msg(response.msg);
+                            }, 500);
+                        } else {
+                            fims.msg(response.msg);
+                        }
+                    }
+                });
+            }), button.trigger("click");
+        }
 
     });
 </script>

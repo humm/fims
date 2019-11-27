@@ -5,13 +5,13 @@ import lombok.Data;
 
 /**
  * @author humm23693
- * @description 配置信息实体类
+ * @description 配置信息查询实体类
  * @package com.hoomoomoo.fims.app.model
  * @date 2019/11/26
  */
 
 @Data
-public class SysConfigModel {
+public class SysConfigQueryModel {
 
     @ApiModelProperty(value="模块组代码", required = false)
     private String moduleGroupCode;

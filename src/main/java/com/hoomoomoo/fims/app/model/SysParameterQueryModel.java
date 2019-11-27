@@ -12,7 +12,7 @@ import lombok.Data;
  */
 
 @Data
-public class SysParameterQueryModel extends QueryBaseModel {
+public class SysParameterQueryModel {
 
     @ApiModelProperty(value = "参数代码", required = false)
     private String parameterCode;

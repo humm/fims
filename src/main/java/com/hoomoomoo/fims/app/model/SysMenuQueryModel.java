@@ -1,6 +1,5 @@
 package com.hoomoomoo.fims.app.model;
 
-import com.hoomoomoo.fims.app.model.common.QueryBaseModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -12,7 +11,7 @@ import lombok.Data;
  */
 
 @Data
-public class SysMenuQueryModel extends QueryBaseModel {
+public class SysMenuQueryModel {
 
     @ApiModelProperty(value="父级菜单ID", required = false)
     private String parentId;

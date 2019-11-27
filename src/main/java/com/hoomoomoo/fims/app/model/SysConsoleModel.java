@@ -17,19 +17,19 @@ import java.util.List;
 public class SysConsoleModel {
 
     @ApiModelProperty(value="业务数据", required = false)
-    private List<SysBusinessModel> businessModel      = new ArrayList<>();
+    private List<SysBusinessModel> user                  = new ArrayList<>();
 
     @ApiModelProperty(value="登入日志数据", required = false)
-    private List<SysItem> loginModel                     = new ArrayList<>();
+    private List<SysItemModel> login                     = new ArrayList<>();
 
     @ApiModelProperty(value="版本信息", required = false)
-    private List<SysItem> versionModel                   = new ArrayList<>();
+    private List<SysItemModel> version                   = new ArrayList<>();
 
     @ApiModelProperty(value="统计开始时间", required = false)
-    private SysItem yearStartDate;
+    private SysItemModel yearStartDate;
 
     @ApiModelProperty(value="模块控制信息", required = false)
-    private SysConfigModel sysConfigModel;
+    private SysModuleModel sysConfig;
 
     @ApiModelProperty(value="未读消息通知", required = false)
     private String readNum;

@@ -60,10 +60,20 @@ public class SystemConst {
     public static final String INIT_SYSTEM_PROCEDURE_SPLIT          = "-- ====== --";
 
     /**
-     * 当前系统存在数据表
+     * 当前系统存在数据表 todo 新增表需在此配置  此处配置全量表结构
      */
-    public static final String SYSTEM_TABLE                         = "'sys_user','sys_role','sys_user_role','sys_menu','sys_role_menu','sys_dictionary','sys_parameter','sys_notice','sys_version','sys_login_log','sys_income','sys_gift'";
-
-
-
+    public static final String SYSTEM_TABLE                         =  new StringBuffer()
+                                                                            .append("'sys_user'").append(",")
+                                                                            .append("'sys_role'").append(",")
+                                                                            .append("'sys_user_role'").append(",")
+                                                                            .append("'sys_menu'").append(",")
+                                                                            .append("'sys_role_menu'").append(",")
+                                                                            .append("'sys_dictionary'").append(",")
+                                                                            .append("'sys_parameter'").append(",")
+                                                                            .append("'sys_notice'").append(",")
+                                                                            .append("'sys_version'").append(",")
+                                                                            .append("'sys_login_log'").append(",")
+                                                                            .append("'sys_income'").append(",")
+                                                                            .append("'sys_gift'").append(",")
+                                                                            .append("'sys_config'").toString();
 }

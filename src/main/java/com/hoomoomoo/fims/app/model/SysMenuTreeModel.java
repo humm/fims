@@ -1,5 +1,6 @@
 package com.hoomoomoo.fims.app.model;
 
+import com.hoomoomoo.fims.app.model.common.BaseModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -14,7 +15,7 @@ import java.util.List;
  */
 
 @Data
-public class SysMenuTreeModel {
+public class SysMenuTreeModel extends BaseModel {
 
     @ApiModelProperty(value="菜单ID", required = false)
     private String id;

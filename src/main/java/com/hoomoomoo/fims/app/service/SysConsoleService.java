@@ -1,6 +1,6 @@
 package com.hoomoomoo.fims.app.service;
 
-import com.hoomoomoo.fims.app.model.SysConsoleModel;
+import com.hoomoomoo.fims.app.model.SysModuleModel;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,4 +19,19 @@ public interface SysConsoleService {
      * @return
      */
     ResultData selectConsoleData(HttpServletRequest httpServletRequest);
+
+    /**
+     * 查询模块配置信息
+     *
+     * @return
+     */
+    SysModuleModel selectConfigModule();
+
+    /**
+     * 保存模块信息
+     *
+     * @param sysModuleModel
+     * @return
+     */
+    ResultData save(SysModuleModel sysModuleModel);
 }

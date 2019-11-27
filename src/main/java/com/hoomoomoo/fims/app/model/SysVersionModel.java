@@ -16,7 +16,7 @@ import java.util.Date;
  */
 
 @Data
-public class SysVersionModel extends BaseModel {
+public class SysVersionModel{
 
     @ApiModelProperty(value="修订ID", required = false)
     private String versionId;

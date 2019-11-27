@@ -122,7 +122,7 @@
         var save = function (e, t, type, request) {
             var iframe = window["layui-layer-iframe" + e],
                 button = t.find("iframe").contents().find("#LAY-app-" + businessType + "-" + type);
-            iframe.layui.form.on("submit(LAY-app-" + businessType + "-" + type + ")", function (data) {
+                iframe.layui.form.on("submit(LAY-app-" + businessType + "-" + type + ")", function (data) {
                 if(request.parameterType == 'date' && request.parameterExt != data.field[request.parameterCode].length){
                     fims.msg(fims.tips.msg.onlyLength.replace("S", request.parameterExt));
                     return;

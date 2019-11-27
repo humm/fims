@@ -687,5 +687,11 @@ public class BusinessConst {
      */
     public static final String SQL_MODEL_SELECT                            = "select";
 
+    /**
+     * 配置模块：首页
+     *
+     */
+    public static final String MODULE_CONSOLE                              = "console";
+
 
 }

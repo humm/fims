@@ -388,6 +388,32 @@ comment on column sys_version.version_order
 comment on column sys_version.version_type
     is '修订类型(1:功能 2:优化 3:修复 4:发版)';
 
+-- 配置信息
+call drop_table('sys_config');
+create table sys_config
+(
+    module_group_code   varchar2(50),
+    module_group_name   varchar2(50),
+    module_code         varchar2(50),
+    module_name         varchar2(50),
+    module_status       varchar2(50),
+    module_ext          varchar2(500),
+    constraint sys_config_pk primary key(module_group_code , module_code)
+);
+
+comment on column sys_config.module_group_code
+    is '模块组代码';
+comment on column sys_config.module_group_name
+    is '模块组名称';
+comment on column sys_config.module_code
+    is '模块代码';
+comment on column sys_config.module_name
+    is '模块名称';
+comment on column sys_config.module_status
+    is '模块状态';
+comment on column sys_config.module_ext
+    is '模块扩展参数';
+
 
 -- 初始化数据 开始
 -- 用户信息
@@ -401,7 +427,7 @@ insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_
 values (20190000000000, '数据权限', null, null, null, 0.00, '1', '4', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
-values (20190000000001, '收入信息', 'layui-icon-rmb', 'income/view/list', null, 10.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000001, '收入信息', 'layui-icon-flag', 'income/view/list', null, 10.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
 values (20190000000002, '查询权限', null, null, 20190000000001, 15.00, '1', '2', sysdate, sysdate, '20190000000001', '20190000000001');
@@ -410,7 +436,7 @@ insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_
 values (20190000000003, '设置权限', null, null, 20190000000001, 20.00, '1', '3', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
-values (20190000000004, '随礼信息', 'layui-icon-cart', 'gift/view/list', null, 25.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000004, '随礼信息', 'layui-icon-transfer', 'gift/view/list', null, 25.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
 values (20190000000005, '查询权限', null, null, 20190000000004, 30.00, '1', '2', sysdate, sysdate, '20190000000001', '20190000000001');
@@ -431,7 +457,7 @@ insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_
 values (20190000000010, '收礼分析', null, 'report/view/giftReceive', 20190000000007, 75.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
-values (20190000000011, '系统设置', 'layui-icon-set-sm', '#', null, 80.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000011, '系统设置', 'layui-icon-engine', '#', null, 80.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
 values (20190000000012, '用户信息', null, 'user/view/list', 20190000000011, 85.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
@@ -455,7 +481,7 @@ insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_
 values (20190000000018, '查询权限', null, null, 20190000000017, 45.00, '1', '2', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
-values (20190000000019, '登录日志', 'layui-icon-form', 'loginLog/view/list', null, 62.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
+values (20190000000019, '登录日志', 'layui-icon-log', 'loginLog/view/list', null, 62.00, '1', '1', sysdate, sysdate, '20190000000001', '20190000000001');
 
 insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_order, is_enable, menu_type, create_date, modify_date, create_user, modify_user)
 values (20190000000020, '查询权限', null, null, 20190000000019, 55.00, '1', '2', sysdate, sysdate, '20190000000001', '20190000000001');
@@ -733,5 +759,8 @@ values ('20190000000044', '消息通知详情页面返回指定列表类型', to
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
 values ('20190000000045', '初始化系统配置数据', to_date('25-11-2019', 'dd-mm-yyyy'), 220, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000046', '自定义首页模块', to_date('27-11-2019', 'dd-mm-yyyy'), 225, '1');
 
 -- 初始化数据 结束

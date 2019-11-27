@@ -30,11 +30,11 @@ public class SysMenuController {
     private SysMenuService sysMenuService;
 
     /**
-     * 查询报表数据
+     * 查询菜单数据
      *
      * @return
      */
-    @ApiOperation("查询报表数据")
+    @ApiOperation("查询菜单数据")
     @RequestMapping(value = "initMenu", method = RequestMethod.GET)
     public ResultData initMenu(){
         SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_MENU, LOG_OPERATE_TYPE_SELECT);

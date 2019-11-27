@@ -12,7 +12,7 @@ import lombok.Data;
  */
 
 @Data
-public class SysParameterModel extends BaseModel {
+public class SysParameterModel{
 
     @ApiModelProperty(value = "参数代码", required = false)
     private String parameterCode;
