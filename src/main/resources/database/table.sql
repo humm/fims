@@ -623,6 +623,20 @@ values ('userDefaultPassword', '用户默认密码', '123456', 'text', null, '1'
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
 values ('version', '系统版本号', 'V.201911.01', 'text', null, '1', '0', 55);
 
+-- 模块配置数据
+truncate table sys_config;
+insert into sys_config (MODULE_GROUP_CODE, MODULE_GROUP_NAME, MODULE_CODE, MODULE_NAME, MODULE_STATUS, MODULE_EXT)
+values ('console', '首页信息', 'user', '用户信息', '1', null);
+
+insert into sys_config (MODULE_GROUP_CODE, MODULE_GROUP_NAME, MODULE_CODE, MODULE_NAME, MODULE_STATUS, MODULE_EXT)
+values ('console', '首页信息', 'tips', '提示信息', '1', null);
+
+insert into sys_config (MODULE_GROUP_CODE, MODULE_GROUP_NAME, MODULE_CODE, MODULE_NAME, MODULE_STATUS, MODULE_EXT)
+values ('console', '首页信息', 'login', '登录信息', '1', null);
+
+insert into sys_config (MODULE_GROUP_CODE, MODULE_GROUP_NAME, MODULE_CODE, MODULE_NAME, MODULE_STATUS, MODULE_EXT)
+values ('console', '首页信息', 'version', '版本信息', '1', null);
+
 -- 修订信息
 truncate table sys_version;
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
