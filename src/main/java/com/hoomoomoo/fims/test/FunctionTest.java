@@ -7,6 +7,7 @@ import com.hoomoomoo.fims.app.model.SysIncomeModel;
 import com.hoomoomoo.fims.app.model.SysMailModel;
 import com.hoomoomoo.fims.app.service.SysDictionaryService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
+import com.hoomoomoo.fims.app.util.SysDateUtils;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Test;
@@ -23,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.hoomoomoo.fims.app.consts.BusinessConst.BACKUP_DMP_SUFFIX;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.UNDERLINE;
 
 
@@ -149,7 +151,7 @@ public class FunctionTest {
 
     @Test
     public void backupDmp(){
-        sysSystemService.systemBackupDmp("backup.sql");
+        sysSystemService.systemBackupDmp(SysDateUtils.yyyyMMddHHmmss() + BACKUP_DMP_SUFFIX);
     }
 
 }

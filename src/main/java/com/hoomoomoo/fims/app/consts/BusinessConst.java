@@ -171,9 +171,14 @@ public class BusinessConst {
     public static final String MULTIPART                                    = "multipart/*";
 
     /**
-     * UTF-8/*
+     * UTF-8
      */
     public static final String UTF8                                         = "UTF-8";
+
+    /**
+     * GBK
+     */
+    public static final String GBK                                          = "gbk";
 
     /**
      * 业务ID初始值
@@ -738,8 +743,9 @@ public class BusinessConst {
     public static final String BACKUP_MODE_START                           = "start";
     public static final String BACKUP_MODE_MANUAL                          = "manual";
     public static final String BACKUP_FILENAME_SUFFIX                      = ".sql";
+    public static final String BACKUP_DMP_SUFFIX                           = ".dmp";
 
-    public static final String BACKUP_COMMAND                              = "expdp %s/%s@%s/%s directory=%s dumpfile=%s";
+    public static final String BACKUP_COMMAND                              = "expdp %s/%s@%s directory=backup_dir dumpfile=%s";
 
 
 

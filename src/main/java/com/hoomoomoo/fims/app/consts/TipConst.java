@@ -375,4 +375,9 @@ public class TipConst {
      */
     public static final String TIP_SQL_VALUE                                    = "sql [%s] value 不能为空";
 
+    /**
+     * 备份命令
+     */
+    public static final String TIP_BACKUP_COMMAND                               = "执行备份命令: ";
+
 }

@@ -566,7 +566,7 @@ public class SysSystemServiceImpl implements SysSystemService {
     @Override
     public ResultData systemBackupDmp(String fileName) {
         SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BACKUP);
-
+        ResultData resultData = null;
         // 拼装执行命令
         String username = datasourceConfigBean.getUsername();
         String password = datasourceConfigBean.getPassword();
@@ -578,12 +578,17 @@ public class SysSystemServiceImpl implements SysSystemService {
             ip = connect[0];
             sid = connect[2];
         }
-        String command = String.format(BACKUP_COMMAND, username, password, ip, sid, "backup_dir", SysDateUtils.yyyyMMddHHmmss() + ".dmp");
-        SysLogUtils.info(logger, "备份命令: " + command);
-        ResultData resultData = SysCommandUtils.execute(command);
+        String command = String.format(BACKUP_COMMAND, username, password, sid, fileName);
+        SysLogUtils.info(logger, TIP_BACKUP_COMMAND + command);
+        resultData = SysCommandUtils.execute(command);
+        if (STR_0.equals(resultData.getCode())) {
+            // 备份成功
+            SysLogUtils.success(logger, LOG_BUSINESS_TYPE_BACKUP);
+        } else {
+            SysLogUtils.fail(logger, LOG_BUSINESS_TYPE_BACKUP, resultData.getData());
+        }
         SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BACKUP);
-logger.info(resultData.toString());
-        return null;
+        return resultData;
     }
 
     /**
@@ -595,7 +600,12 @@ logger.info(resultData.toString());
     public void applicationStartBackup() {
         boolean startBackup = sysParameterService.getParameterBoolean(START_BACKUP);
         if (startBackup) {
-            systemBackupFile(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_FILENAME_SUFFIX).toString());
+            try {
+                systemBackupFile(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_FILENAME_SUFFIX).toString());
+                systemBackupDmp(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_DMP_SUFFIX).toString());
+            } catch (Exception e) {
+                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP, e);
+            }
         }
     }
 

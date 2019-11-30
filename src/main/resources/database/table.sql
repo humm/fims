@@ -777,4 +777,7 @@ values ('20190000000045', '初始化系统配置数据', to_date('25-11-2019', '
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
 values ('20190000000046', '自定义首页模块', to_date('27-11-2019', 'dd-mm-yyyy'), 225, '1');
 
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000047', '系统备份：sql文件模式、dmp文件模式', to_date('30-11-2019', 'dd-mm-yyyy'), 230, '1');
+
 -- 初始化数据 结束

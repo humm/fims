@@ -6,8 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import static com.hoomoomoo.fims.app.consts.BusinessConst.STATUS_FAIL;
-import static com.hoomoomoo.fims.app.consts.BusinessConst.STR_EMPTY;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 
 /**
  * @author humm23693
@@ -25,11 +24,12 @@ public class SysCommandUtils {
         String output = STR_EMPTY;
 
         try {
+            // 设置GBK编码 uft8乱码
             Process process = Runtime.getRuntime().exec(cmd);
             inputBufferedReader = new BufferedReader(
-                new InputStreamReader(process.getInputStream()));
+                new InputStreamReader(process.getInputStream(), GBK));
             errorBufferedReader = new BufferedReader(
-                new InputStreamReader(process.getErrorStream()));
+                new InputStreamReader(process.getErrorStream(), GBK));
 
             String line = null;
             while ((line = inputBufferedReader.readLine()) != null) {
