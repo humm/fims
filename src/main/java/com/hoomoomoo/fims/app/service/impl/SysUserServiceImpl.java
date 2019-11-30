@@ -14,8 +14,8 @@ import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysUserService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
-import com.hoomoomoo.fims.app.util.SystemSessionUtils;
-import com.hoomoomoo.fims.app.util.SystemUtils;
+import com.hoomoomoo.fims.app.util.SysSessionUtils;
+import com.hoomoomoo.fims.app.util.SysUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
@@ -70,7 +70,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public List<SysUserModel> selectSysUser(SysUserQueryModel sysUserQueryModel) {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
-        SystemUtils.setSessionInfo(sysUserQueryModel);
+        SysUtils.setSessionInfo(sysUserQueryModel);
         SysLogUtils.parameter(logger, sysUserQueryModel);
         List<SysUserModel> sysUserList = sysUserDao.selectSysUser(sysUserQueryModel);
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
@@ -184,7 +184,7 @@ public class SysUserServiceImpl implements SysUserService {
         String operateType = sysUserModel.getUserId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
         String tipMsg = sysUserModel.getUserId() == null ? ADD_SUCCESS : UPDATE_SUCCESS;
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, operateType);
-        SystemUtils.setCreateUserInfo(sysUserModel);
+        SysUtils.setCreateUserInfo(sysUserModel);
         SysDictionaryModel sysDictionaryModel = new SysDictionaryModel();
         sysDictionaryModel.setDictionaryCode(D009);
         sysDictionaryModel.setDictionaryCaption(sysUserModel.getUserName());
@@ -273,7 +273,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public ResultData changPassword(String password) {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_UPDATE_PASSWORD);
-        SessionBean sessionBean = SystemSessionUtils.getSession();
+        SessionBean sessionBean = SysSessionUtils.getSession();
         if(sessionBean != null){
             SysUserModel sysUserModel = new SysUserModel();
             sysUserModel.setUserId(sessionBean.getUserId());

@@ -1,9 +1,8 @@
 package com.hoomoomoo.fims.app.controller;
 
 import com.hoomoomoo.fims.app.config.bean.SystemConfigBean;
-import com.hoomoomoo.fims.app.service.SysNoticeService;
-import com.hoomoomoo.fims.app.util.SystemSessionUtils;
-import com.hoomoomoo.fims.app.util.SystemUtils;
+import com.hoomoomoo.fims.app.util.SysSessionUtils;
+import com.hoomoomoo.fims.app.util.SysUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +38,7 @@ public class SysSystemController {
     @ApiOperation("跳转首页")
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public String index(ModelMap modelMap) {
-        modelMap.addAttribute(USER_NAME, SystemSessionUtils.getSession().getUserName());
+        modelMap.addAttribute(USER_NAME, SysSessionUtils.getSession().getUserName());
         return "index";
     }
 
@@ -51,7 +50,7 @@ public class SysSystemController {
     @ApiOperation("跳转首页子页面")
     @RequestMapping(value = "home/console", method = RequestMethod.GET)
     public String console(ModelMap modelMap, HttpServletRequest httpServletRequest) {
-        modelMap.addAttribute(REQUEST_URL, SystemUtils.getConnectUrl(httpServletRequest, systemConfigBean.getAppName()));
+        modelMap.addAttribute(REQUEST_URL, SysUtils.getConnectUrl(httpServletRequest, systemConfigBean.getAppName()));
         return "home/console";
     }
 

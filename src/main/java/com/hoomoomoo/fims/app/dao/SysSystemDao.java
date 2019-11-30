@@ -1,11 +1,13 @@
 package com.hoomoomoo.fims.app.dao;
 
-import com.hoomoomoo.fims.app.model.SysMenuTreeQueryModel;
 import com.hoomoomoo.fims.app.model.SysSystemQueryModel;
+import com.hoomoomoo.fims.app.model.SysTableModel;
+import com.hoomoomoo.fims.app.model.SysTableQueryModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author humm23693
@@ -43,8 +45,25 @@ public interface SysSystemDao {
     /**
      * 查询系统当前存在表
      *
-     * @param tableConfig
+     * @param sysTableQueryModel
      * @return
      */
-    int selectTableNum(@Param("tableConfig") String tableConfig);
+    int selectTableNum(SysTableQueryModel sysTableQueryModel);
+
+    /**
+     * 查询表字段信息
+     *
+     * @param sysTableQueryModel
+     * @return
+     */
+    List<SysTableModel> selectTableColumn(SysTableQueryModel sysTableQueryModel);
+
+    /**
+     * 查询表数据
+     *
+     * @param sysTableQueryModel
+     * @return
+     */
+    List<Map> selectTableData(SysTableQueryModel sysTableQueryModel);
+
 }

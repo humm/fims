@@ -46,10 +46,29 @@
         and c.menu_type = '4'
     </select>
 
-    <select id="selectTableNum" parameterType="java.lang.String" resultType="java.lang.Integer">
+    <select id="selectTableNum" parameterType="com.hoomoomoo.fims.app.model.SysTableQueryModel" resultType="java.lang.Integer">
         select count(1)
         from user_tables
-        where lower(table_name) in (${tableConfig})
+        where lower(table_name) in (${tableName})
+    </select>
+
+    <select id="selectTableColumn" parameterType="com.hoomoomoo.fims.app.model.SysTableQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.SysTableModel">
+        select
+            lower(a.column_name) columnCode,
+            lower(a.data_type) columnType
+        from user_tab_columns a, user_col_comments b
+        where a.table_name = b.table_name
+        and a.column_name = b.column_name
+        and a.table_name = upper(#{tableName})
+        order by a.column_id
+    </select>
+
+    <select id="selectTableData" parameterType="com.hoomoomoo.fims.app.model.SysTableQueryModel"
+            resultType="java.util.Map">
+        select ${tableColumn}
+        from ${tableName}
+        order by ${tableOrder}
     </select>
 
 </mapper>

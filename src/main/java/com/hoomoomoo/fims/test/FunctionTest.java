@@ -114,7 +114,7 @@ public class FunctionTest {
                 times++;
             }
             for (int i = 1; i <= times; i++) {
-                List<String> item = new ArrayList<>();
+                List<String> item = null;
                 if (i == times && surplus != 0) {
                     item = fundInfoList.subList((i - 1) * batchNum,
                             ((i - 1) * batchNum) + surplus);
@@ -132,8 +132,6 @@ public class FunctionTest {
         map.put("subject", "1234");
         map.put("content", "7890");
         SysMailModel sysMailModel = new SysMailModel();
-//        sysMailModel.setSubject("1234---");
-//        sysMailModel.setContent("7890---");
         try {
             BeanUtils.populate(sysMailModel, map);
         } catch (IllegalAccessException e) {
@@ -142,14 +140,16 @@ public class FunctionTest {
             e.printStackTrace();
         }
         logger.info(sysMailModel.toString());
-      /*  try {
-//            logger.info(BeanUtils.describe(sysMailModel));
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }*/
     }
+
+    @Test
+    public void backupFile(){
+        sysSystemService.systemBackupFile("backup.sql");
+    }
+
+    @Test
+    public void backupDmp(){
+        sysSystemService.systemBackupDmp("backup.sql");
+    }
+
 }

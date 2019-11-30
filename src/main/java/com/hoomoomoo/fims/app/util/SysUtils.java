@@ -14,7 +14,7 @@ import java.util.Date;
  * @date 2019/08/08
  */
 
-public class SystemUtils {
+public class SysUtils {
 
     /**
      * 设置创建人修改人信息
@@ -22,7 +22,7 @@ public class SystemUtils {
      * @param baseModel
      */
     public static void setCreateUserInfo(BaseModel baseModel) {
-        SessionBean sessionBean = SystemSessionUtils.getSession();
+        SessionBean sessionBean = SysSessionUtils.getSession();
         if (sessionBean != null) {
             baseModel.setCreateUser(sessionBean.getUserId());
             baseModel.setModifyUser(sessionBean.getUserId());
@@ -38,7 +38,7 @@ public class SystemUtils {
      * @param baseModel
      */
     public static void setModifyUserInfo(BaseModel baseModel) {
-        SessionBean sessionBean = SystemSessionUtils.getSession();
+        SessionBean sessionBean = SysSessionUtils.getSession();
         if (sessionBean != null) {
             baseModel.setModifyUser(sessionBean.getUserId());
         }
@@ -51,7 +51,7 @@ public class SystemUtils {
      * @param queryBaseModel
      */
     public static void setSessionInfo(QueryBaseModel queryBaseModel) {
-        SessionBean sessionBean = SystemSessionUtils.getSession();
+        SessionBean sessionBean = SysSessionUtils.getSession();
         if (sessionBean != null) {
             queryBaseModel.setUserKey(sessionBean.getUserId());
             queryBaseModel.setIsAdminData(sessionBean.getIsAdminData());

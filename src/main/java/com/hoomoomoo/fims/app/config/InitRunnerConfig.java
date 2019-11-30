@@ -27,13 +27,13 @@ public class InitRunnerConfig implements CommandLineRunner {
     @Autowired
     private SysSystemService sysSystemService;
 
-    @Autowired
-    private SysParameterService sysParameterService;
-
     @Override
     public void run(String... args) {
         // 系统初始化
         sysSystemService.initSystem();
+
+        // 系统启动备份
+        sysSystemService.applicationStartBackup();
 
         // 加载配置sql
         sysSystemService.getConfigSql();

@@ -9,12 +9,14 @@ import com.hoomoomoo.fims.app.dao.SysUserDao;
 import com.hoomoomoo.fims.app.dao.SysSystemDao;
 import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.BaseModel;
+import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.model.common.ViewData;
 import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.*;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.jdbc.ScriptRunner;
@@ -40,6 +42,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static com.hoomoomoo.fims.app.config.RunDataConfig.*;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.*;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.*;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.MIND_FILL;
@@ -58,28 +61,28 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 @Transactional
 public class SysSystemServiceImpl implements SysSystemService {
 
-    private static final Logger logger = LoggerFactory.getLogger(SysSystemServiceImpl.class);
+    private static final Logger  logger = LoggerFactory.getLogger(SysSystemServiceImpl.class);
 
     @Autowired
-    private FimsConfigBean fimsConfigBean;
+    private FimsConfigBean       fimsConfigBean;
 
     @Autowired
     private DatasourceConfigBean datasourceConfigBean;
 
     @Autowired
-    private Environment environment;
+    private Environment          environment;
 
     @Autowired
-    private SysSystemDao sysSystemDao;
+    private SysSystemDao         sysSystemDao;
 
     @Autowired
-    private SysDictionaryDao sysDictionaryDao;
+    private SysDictionaryDao     sysDictionaryDao;
 
     @Autowired
-    private SysUserDao sysUserDao;
+    private SysUserDao           sysUserDao;
 
     @Autowired
-    private SysParameterService sysParameterService;
+    private SysParameterService  sysParameterService;
 
     /**
      * 控制台输出应用配置参数
@@ -92,8 +95,7 @@ public class SysSystemServiceImpl implements SysSystemService {
         Properties properties = new OrderedProperties();
         SysLogUtils.configStart(logger, LOG_BUSINESS_TYPE_PARAMETER_CONFIG);
         try {
-            InputStream inputStream =
-                    FimsApplication.class.getClassLoader().getResourceAsStream(APPLICATION_PROPERTIES.split(COLON)[1]);
+            InputStream inputStream = FimsApplication.class.getClassLoader().getResourceAsStream(APPLICATION_PROPERTIES.split(COLON)[1]);
             properties.load(inputStream);
         } catch (FileNotFoundException e) {
             SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_PARAMETER_CONFIG, e);
@@ -257,8 +259,7 @@ public class SysSystemServiceImpl implements SysSystemService {
                 String dictionaryCode = sysDictionaryModel.getDictionaryCode();
                 // 用户不存在
                 if (DICTIONARY_CONDITION.get(sysUserModel.getUserId()) == null) {
-                    setDictionaryItem(sysUserModel, sysDictionaryModel, userDataAuthority,
-                            new ConcurrentHashMap(), new ConcurrentHashMap());
+                    setDictionaryItem(sysUserModel, sysDictionaryModel, userDataAuthority, new ConcurrentHashMap(1), new ConcurrentHashMap(1));
                 } else {
                     // 用户存在 字典不存在
                     if (DICTIONARY_CONDITION.get(sysUserModel.getUserId()).get(dictionaryCode) == null) {
@@ -287,7 +288,7 @@ public class SysSystemServiceImpl implements SysSystemService {
     public String getUserId() {
         SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_USER_ID_SELECT);
         String userId = STR_EMPTY;
-        SessionBean sessionBean = SystemSessionUtils.getSession();
+        SessionBean sessionBean = SysSessionUtils.getSession();
         if (sessionBean != null) {
             userId = sessionBean.getUserId();
         } else {
@@ -316,7 +317,7 @@ public class SysSystemServiceImpl implements SysSystemService {
         // 智能填充
         viewData.setMindFill(RunDataConfig.MIND_FILL);
         // 设置登录用户信息
-        viewData.setSessionBean(SystemSessionUtils.getSession());
+        viewData.setSessionBean(SysSessionUtils.getSession());
         String userId = getUserId();
         // 获取查询条件
         switch (viewData.getViewType()) {
@@ -377,7 +378,7 @@ public class SysSystemServiceImpl implements SysSystemService {
     public Boolean selectButtonAuthority(String menuId) {
         Boolean hasAuthority = false;
         SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BUTTON_AUTHORITY_SELECT);
-        SessionBean sessionBean = SystemSessionUtils.getSession();
+        SessionBean sessionBean = SysSessionUtils.getSession();
         if (sessionBean != null) {
             if (ADMIN_CODE.equals(sessionBean.getUserCode())) {
                 hasAuthority = true;
@@ -401,7 +402,7 @@ public class SysSystemServiceImpl implements SysSystemService {
     @Override
     public String selectUserPassword() {
         String password = STR_EMPTY;
-        SessionBean sessionBean = SystemSessionUtils.getSession();
+        SessionBean sessionBean = SysSessionUtils.getSession();
         if (sessionBean != null) {
             SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
             sysUserQueryModel.setUserId(sessionBean.getUserId());
@@ -420,6 +421,8 @@ public class SysSystemServiceImpl implements SysSystemService {
     public void initSystem() {
         // 初始化模式  1:不初始化 2:强制初始化 3:弱校验初始化 4:强校验初始化
         String initMode = fimsConfigBean.getInitMode();
+        SysTableQueryModel sysTableQueryModel = new SysTableQueryModel();
+        sysTableQueryModel.setTableName(SYSTEM_TABLE.toLowerCase());
         switch (initMode) {
             case STR_2:
                 initData();
@@ -427,14 +430,14 @@ public class SysSystemServiceImpl implements SysSystemService {
             case STR_3:
                 // 有表不存在则初始化
                 int num = SYSTEM_TABLE.split(COMMA).length;
-                int tableNum = sysSystemDao.selectTableNum(SYSTEM_TABLE.toLowerCase());
+                int tableNum = sysSystemDao.selectTableNum(sysTableQueryModel);
                 if (num > tableNum) {
                     initData();
                 }
                 break;
             case STR_4:
                 // 所有表不存在则初始化
-                tableNum = sysSystemDao.selectTableNum(SYSTEM_TABLE.toLowerCase());
+                tableNum = sysSystemDao.selectTableNum(sysTableQueryModel);
                 if (tableNum == 0) {
                     initData();
                 }
@@ -466,6 +469,163 @@ public class SysSystemServiceImpl implements SysSystemService {
     }
 
     /**
+     * 系统备份文件
+     *
+     * @param fileName
+     */
+    @Override
+    public ResultData systemBackupFile(String fileName) {
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BACKUP);
+        String[] tables = SYSTEM_TABLE.split(COMMA);
+        StringBuffer database = new StringBuffer(BACKUP_START);
+        database.append(NEXT_LINE).append(NEXT_LINE);
+        for (String tableName : tables) {
+            // 去除表名称的单引号
+            tableName = tableName.substring(1, tableName.length()- 1);
+            StringBuffer tableInfo = new StringBuffer();
+            tableInfo.append(SLASH).append(ASTERISK).append(STR_SPACE)
+                      .append(tableName).append(STR_SPACE).append(ASTERISK).append(SLASH).append(NEXT_LINE);
+            // 历史数据数据
+            tableInfo.append(TRUNCATE_LEFT).append(tableName).append(SEMICOLON).append(NEXT_LINE);
+            tableInfo.append(COMMIT).append(NEXT_LINE).append(NEXT_LINE);
+
+            // 拼装查询数据
+            SysTableQueryModel sysTableQueryModel = new SysTableQueryModel();
+            sysTableQueryModel.setTableName(tableName);
+            // 查询数据表字段
+            List<SysTableModel> sysTableColumns = sysSystemDao.selectTableColumn(sysTableQueryModel);
+            // 拼装查询表数据查询字段
+            if (CollectionUtils.isNotEmpty(sysTableColumns)) {
+                LinkedHashMap<String, String> columnMap = new LinkedHashMap(16);
+                StringBuffer queryColumn = new StringBuffer();
+                for (SysTableModel sysTableModel : sysTableColumns) {
+                    queryColumn.append(sysTableModel.getColumnCode()).append(COMMA);
+                    columnMap.put(sysTableModel.getColumnCode(), sysTableModel.getColumnType());
+                }
+                String column = queryColumn.toString();
+                sysTableQueryModel.setTableColumn(column.substring(0, column.length() - 1));
+                sysTableQueryModel.setTableOrder(sysTableColumns.get(0).getColumnCode());
+
+                // 查询数据表数据
+                List<Map> tableData = sysSystemDao.selectTableData(sysTableQueryModel);
+                if (CollectionUtils.isNotEmpty(tableData)) {
+                    // 拼装数据
+                    for (Map singleData : tableData) {
+                        StringBuffer sql = new StringBuffer();
+                        StringBuffer insert = new StringBuffer();
+                        StringBuffer values = new StringBuffer();
+                        insert.append(INSERT_LEFT).append(tableName).append(STR_SPACE).append(BRACKET_LEFT);
+                        values.append(VALUES_LEFT);
+                        Iterator<Map.Entry<String, String>> iterator = columnMap.entrySet().iterator();
+                        while (iterator.hasNext()) {
+                            Map.Entry<String, String> columnData = iterator.next();
+                            String columnCode = columnData.getKey().toLowerCase();
+                            String columnType = columnData.getValue();
+                            insert.append(columnCode).append(COMMA).append(STR_SPACE);
+                            values.append(getColumnValue(columnType, singleData.get(columnCode.toUpperCase()))).append(COMMA).append(STR_SPACE);
+                        }
+                        if(insert.toString().endsWith(new StringBuffer(COMMA).append(STR_SPACE).toString())){
+                            insert = new StringBuffer(insert.substring(0, insert.length() - 2));
+                        }
+                        if(values.toString().endsWith(new StringBuffer(COMMA).append(STR_SPACE).toString())){
+                            values = new StringBuffer(values.substring(0, values.length() - 2));
+                        }
+                        sql.append(insert).append(BRACKET_RIGHT).append(NEXT_LINE)
+                                .append(values).append(BRACKET_RIGHT).append(SEMICOLON)
+                                .append(NEXT_LINE).append(NEXT_LINE);
+                        tableInfo.append(sql);
+                    }
+                }
+            }
+            database.append(tableInfo).append(COMMIT).append(NEXT_LINE).append(NEXT_LINE);
+        }
+        database.append(BACKUP_END);
+        try {
+            // 写文件
+            String backupLocation = sysParameterService.getParameterString(BACKUP_LOCATION);
+            if (WELL.equals(backupLocation)) {
+                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP, BACKUP_LOCATION_IS_EMPTY);
+                return new ResultData(false, BACKUP_LOCATION_IS_EMPTY, null);
+            }
+            File saveLocation = new File(backupLocation + SLASH + fileName);
+            FileUtils.writeStringToFile(saveLocation, database.toString(), UTF8);
+            SysLogUtils.success(logger, LOG_BUSINESS_TYPE_BACKUP);
+        } catch (IOException e) {
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP, e);
+            return new ResultData(false, e.getMessage(), null);
+        }
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BACKUP);
+        return new ResultData(true, BACKUP_SUCCESS, null);
+    }
+
+    /**
+     * 系统备份dmp
+     *
+     * @param fileName
+     */
+    @Override
+    public ResultData systemBackupDmp(String fileName) {
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BACKUP);
+
+        // 拼装执行命令
+        String username = datasourceConfigBean.getUsername();
+        String password = datasourceConfigBean.getPassword();
+        String ip = STR_EMPTY;
+        String sid = STR_EMPTY;
+        String url = datasourceConfigBean.getUrl();
+        if (StringUtils.isNotBlank(url)) {
+            String[] connect = url.split(AT)[1].split(COLON);
+            ip = connect[0];
+            sid = connect[2];
+        }
+        String command = String.format(BACKUP_COMMAND, username, password, ip, sid, "backup_dir", SysDateUtils.yyyyMMddHHmmss() + ".dmp");
+        SysLogUtils.info(logger, "备份命令: " + command);
+        ResultData resultData = SysCommandUtils.execute(command);
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BACKUP);
+logger.info(resultData.toString());
+        return null;
+    }
+
+    /**
+     * 应用启动备份
+     *
+     * @return
+     */
+    @Override
+    public void applicationStartBackup() {
+        boolean startBackup = sysParameterService.getParameterBoolean(START_BACKUP);
+        if (startBackup) {
+            systemBackupFile(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_FILENAME_SUFFIX).toString());
+        }
+    }
+
+    /**
+     * 获取字段值
+     *
+     * @param columnType
+     * @param columnValue
+     * @return
+     */
+    private String getColumnValue(String columnType, Object columnValue) {
+        if (columnValue == null) {
+            return null;
+        }
+        if (COLUMN_NUMBER.contains(columnType)) {
+            return String.valueOf(columnValue);
+        } else if (COLUMN_DATE.equals(columnType)) {
+            return new StringBuffer(TO_DATE_LEFT).append(String.valueOf(columnValue).substring(0, 10)).append(TO_DATE_RIGHT).toString();
+        } else if (columnType.contains(COLUMN_TIMESTAMP)) {
+            return new StringBuffer(TO_TIMESTAMP_LEFT).append(String.valueOf(columnValue).substring(0, 19)).append(TO_TIMESTAMP_RIGHT).toString();
+        } else {
+            if (String.valueOf(columnValue).contains(AMPERSAND)) {
+                return new StringBuffer(CHR_38).append(String.valueOf(columnValue).replace(AMPERSAND, STR_EMPTY)).append(SINGLE_QUOTES).toString();
+            } else {
+                return new StringBuffer(SINGLE_QUOTES).append(columnValue).append(SINGLE_QUOTES).toString();
+            }
+        }
+    }
+
+    /**
      * 初始化数据
      */
     private void initData() {
@@ -477,14 +637,14 @@ public class SysSystemServiceImpl implements SysSystemService {
                 File file = ResourceUtils.getFile(INIT_SYSTEM_PROCEDURE);
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
                 StringBuffer content = new StringBuffer();
-                String temp = null;
-                while((temp = bufferedReader.readLine()) != null){
-                    content.append(temp).append("\n");
+                String temp = STR_EMPTY;
+                while ((temp = bufferedReader.readLine()) != null) {
+                    content.append(temp).append(NEXT_LINE);
                 }
                 if (StringUtils.isNotBlank(content.toString())) {
                     Statement statement = connection.createStatement();
                     String[] procedure = content.toString().split(INIT_SYSTEM_PROCEDURE_SPLIT);
-                    for (int i=0; i<procedure.length; i++) {
+                    for (int i = 0; i < procedure.length; i++) {
                         if (i == 0) {
                             // 文件描述内容不执行
                             continue;
@@ -513,18 +673,15 @@ public class SysSystemServiceImpl implements SysSystemService {
         SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_INIT_SYSTEM);
     }
 
-
     /**
      * 获取数据库连接驱动
      * @return
      */
-    private Connection getConnection(){
+    private Connection getConnection() {
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection(
-                    datasourceConfigBean.getUrl(),
-                    datasourceConfigBean.getUsername(),
-                    datasourceConfigBean.getPassword());
+            connection = DriverManager.getConnection(datasourceConfigBean.getUrl(),
+                    datasourceConfigBean.getUsername(), datasourceConfigBean.getPassword());
         } catch (SQLException e) {
             SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_INIT_SYSTEM, e);
         }
@@ -539,7 +696,8 @@ public class SysSystemServiceImpl implements SysSystemService {
      * @param codeMap
      * @param codeMapBlank
      */
-    private void setDictionaryItem(SysUserModel sysUserModel, SysDictionaryModel sysDictionaryModel,
+    private void setDictionaryItem(SysUserModel sysUserModel,
+                                   SysDictionaryModel sysDictionaryModel,
                                    Map<String, Boolean> userDataAuthority,
                                    ConcurrentHashMap<String, List<SysDictionaryModel>> codeMap,
                                    ConcurrentHashMap<String, List<SysDictionaryModel>> codeMapBlank) {
@@ -554,12 +712,10 @@ public class SysSystemServiceImpl implements SysSystemService {
             select.setDictionaryCaption(SELECT);
             select.setItemOrder(STR_0);
             itemBlank.add(select);
-
             if (isUserDictionary(sysUserModel, sysDictionaryModel, userDataAuthority)) {
                 item.add(sysDictionaryModel);
                 itemBlank.add(sysDictionaryModel);
             }
-
             codeMap.put(sysDictionaryModel.getDictionaryCode(), item);
             codeMapBlank.put(sysDictionaryModel.getDictionaryCode(), itemBlank);
         } else {
@@ -580,18 +736,19 @@ public class SysSystemServiceImpl implements SysSystemService {
      * @param sysDictionaryModel
      * @return
      */
-    private Boolean isUserDictionary(SysUserModel sysUserModel, SysDictionaryModel sysDictionaryModel,
+    private Boolean isUserDictionary(SysUserModel sysUserModel,
+                                     SysDictionaryModel sysDictionaryModel,
                                      Map<String, Boolean> userDataAuthority) {
-        boolean flag =
-                D000.equals(sysDictionaryModel.getDictionaryCode()) || D005.equals(sysDictionaryModel.getDictionaryCode())
-                        || D009.equals(sysDictionaryModel.getDictionaryCode());
+        String dictionaryCode = sysDictionaryModel.getDictionaryCode();
+        boolean flag = D000.equals(dictionaryCode) || D005.equals(dictionaryCode) || D009.equals(dictionaryCode);
         if (!selectDataAuthority(sysUserModel, userDataAuthority) && flag) {
             return sysUserModel.getUserId().equals(sysDictionaryModel.getUserId());
         }
         return true;
     }
 
-    private Boolean selectDataAuthority(SysUserModel sysUserModel, Map<String, Boolean> userDataAuthority) {
+    private Boolean selectDataAuthority(SysUserModel sysUserModel,
+                                        Map<String, Boolean> userDataAuthority) {
         if (userDataAuthority.containsKey(sysUserModel.getUserId())) {
             return userDataAuthority.get(sysUserModel.getUserId());
         }
@@ -631,8 +788,7 @@ public class SysSystemServiceImpl implements SysSystemService {
                     SysDictionaryQueryModel sysDictionaryQueryModel = new SysDictionaryQueryModel();
                     sysDictionaryQueryModel.setDictionaryCode(dictionaryCode);
                     sysDictionaryQueryModel.setDictionaryItem(dictionaryItem);
-                    List<SysDictionaryModel> dictionaryList =
-                            sysDictionaryDao.selectSysDictionary(sysDictionaryQueryModel);
+                    List<SysDictionaryModel> dictionaryList = sysDictionaryDao.selectSysDictionary(sysDictionaryQueryModel);
                     if (CollectionUtils.isNotEmpty(dictionaryList)) {
                         ele.put(key, dictionaryList.get(0).getDictionaryCaption());
                         dictionaryCache.put(value, dictionaryList.get(0).getDictionaryCaption());
@@ -640,12 +796,12 @@ public class SysSystemServiceImpl implements SysSystemService {
                 }
                 continue;
             }
-
             // 配置key转义
             int index = -1;
             String[] keys = TRANSFER_KEY.split(COMMA);
             for (int i = 0; i < keys.length; i++) {
-                if (keys[i].equalsIgnoreCase(key) || key.toLowerCase().contains(keys[i].toLowerCase())) {
+                if (keys[i].equalsIgnoreCase(key)
+                    || key.toLowerCase().contains(keys[i].toLowerCase())) {
                     index = i;
                 }
             }
@@ -662,13 +818,13 @@ public class SysSystemServiceImpl implements SysSystemService {
                             // 转义 userId
                             SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
                             sysUserQueryModel.setUserId(value);
-                            List<SysUserModel> sysUserList = sysUserDao.selectSysUser(sysUserQueryModel);
+                            List<SysUserModel> sysUserList = sysUserDao
+                                .selectSysUser(sysUserQueryModel);
                             if (CollectionUtils.isNotEmpty(sysUserList)) {
                                 ele.put(key, sysUserList.get(0).getUserName());
                                 dictionaryCache.put(value, sysUserList.get(0).getUserName());
                             }
                         }
-
                         break;
                     default:
                         break;
@@ -694,7 +850,7 @@ public class SysSystemServiceImpl implements SysSystemService {
 
         @Override
         public Enumeration<Object> keys() {
-            return Collections.<Object>enumeration(keys);
+            return Collections.<Object> enumeration(keys);
         }
 
         @Override
@@ -725,7 +881,8 @@ public class SysSystemServiceImpl implements SysSystemService {
      * @return
      */
     private String convertValue(String key) {
-        if (StringUtils.isNotBlank(fimsConfigBean.getConvertOutputKeyword()) && StringUtils.isNotBlank(key)) {
+        if (StringUtils.isNotBlank(fimsConfigBean.getConvertOutputKeyword())
+            && StringUtils.isNotBlank(key)) {
             String[] keywords = fimsConfigBean.getConvertOutputKeyword().split(COMMA);
             for (String word : keywords) {
                 if (key.contains(word)) {

@@ -44,7 +44,7 @@ public class SysFileUtils {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
             String readContent = null;
             while ((readContent = bufferedReader.readLine()) != null) {
-                content.append(readContent).append("\n");
+                content.append(readContent).append(NEXT_LINE);
             }
             bufferedReader.close();
         } catch (IOException e) {

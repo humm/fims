@@ -133,7 +133,7 @@ public class SysLogUtils {
      * @param e
      */
     public static void exception(Logger logger, String businessType, String e) {
-        logger.error(String.format(LOG_FORMAT_STATUS, businessType, LOG_OPERATE_TAG_EXCEPTION), e);
+        logger.error(String.format(LOG_FORMAT_ERROR_STATUS, businessType, LOG_OPERATE_TAG_EXCEPTION, e));
     }
 
     /**

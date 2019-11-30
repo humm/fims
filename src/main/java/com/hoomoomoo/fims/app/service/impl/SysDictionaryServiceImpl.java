@@ -12,8 +12,8 @@ import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysDictionaryService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
-import com.hoomoomoo.fims.app.util.SystemSessionUtils;
-import com.hoomoomoo.fims.app.util.SystemUtils;
+import com.hoomoomoo.fims.app.util.SysSessionUtils;
+import com.hoomoomoo.fims.app.util.SysUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -91,7 +91,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
     @Override
     public List<SysDictionaryModel> selectSysDictionary(SysDictionaryQueryModel sysDictionaryQueryModel) {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
-        SystemUtils.setSessionInfo(sysDictionaryQueryModel);
+        SysUtils.setSessionInfo(sysDictionaryQueryModel);
         SysLogUtils.parameter(logger, sysDictionaryQueryModel);
         List<SysDictionaryModel> sysDictionaryList = sysDictionaryDao.selectSysDictionary(sysDictionaryQueryModel);
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
@@ -127,7 +127,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
         Map data = new HashMap<>();
         data.put(BUSINESS_TYPE_USER, sysUserModelList);
         data.put(BUSINESS_TYPE_DICTIONARY, sysDictionaryModelList);
-        data.put(SESSION_BEAN, SystemSessionUtils.getSession());
+        data.put(SESSION_BEAN, SysSessionUtils.getSession());
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, data);
     }

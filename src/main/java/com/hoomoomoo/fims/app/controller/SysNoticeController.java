@@ -7,7 +7,7 @@ import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysNoticeService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
-import com.hoomoomoo.fims.app.util.SystemUtils;
+import com.hoomoomoo.fims.app.util.SysUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -52,7 +52,7 @@ public class SysNoticeController {
     @ApiOperation("跳转列表页面")
     @RequestMapping(value = "view/list", method = RequestMethod.GET)
     public String viewList(ModelMap modelMap, HttpServletRequest httpServletRequest) {
-        modelMap.addAttribute(REQUEST_URL, SystemUtils.getConnectUrl(httpServletRequest, systemConfigBean.getAppName()));
+        modelMap.addAttribute(REQUEST_URL, SysUtils.getConnectUrl(httpServletRequest, systemConfigBean.getAppName()));
         return "notice/list";
     }
 

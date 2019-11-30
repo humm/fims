@@ -145,6 +145,12 @@
             <artifactId>xstream</artifactId>
             <version>${xstream.version}</version>
         </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+
     </dependencies>
 
     <properties>
@@ -168,6 +174,7 @@
         <lombok.version>1.16.4</lombok.version>
         <spring-test.version>5.0.7.RELEASE</spring-test.version>
         <xstream.version>1.4.11.1</xstream.version>
+        <commons-io.version>2.6</commons-io.version>
     </properties>
 
     <build>

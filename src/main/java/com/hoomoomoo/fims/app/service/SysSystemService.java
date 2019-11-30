@@ -1,6 +1,7 @@
 package com.hoomoomoo.fims.app.service;
 
 import com.hoomoomoo.fims.app.model.common.BaseModel;
+import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.ViewData;
 
 import java.util.List;
@@ -102,5 +103,25 @@ public interface SysSystemService {
      * 加载配置sql
      */
     void getConfigSql();
+
+    /**
+     * 系统备份文件
+     *
+     * @param fileName
+     */
+    ResultData systemBackupFile(String fileName);
+
+    /**
+     * 系统备份dmp
+     *
+     * @param fileName
+     */
+    ResultData systemBackupDmp(String fileName);
+
+    /**
+     * 应用启动备份
+     * @return
+     */
+    void applicationStartBackup();
 
 }

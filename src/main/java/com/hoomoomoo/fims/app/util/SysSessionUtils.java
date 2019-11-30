@@ -9,7 +9,7 @@ import com.hoomoomoo.fims.app.model.common.SessionBean;
  * @date 2019/08/08
  */
 
-public class SystemSessionUtils {
+public class SysSessionUtils {
 
     private static ThreadLocal<SessionBean> threadLocal = new ThreadLocal<>();
 

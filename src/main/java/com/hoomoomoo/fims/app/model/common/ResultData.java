@@ -16,7 +16,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.STATUS_SUCCESS;
 @Data
 public class ResultData<T> {
 
-    @ApiModelProperty(value="状态码：请求返回码 0正常返回 1异常返回", required = false)
+    @ApiModelProperty(value="状态码：请求返回码 0正常返回 -1异常返回", required = false)
     private String code;
 
     @ApiModelProperty(value="业务处理是否正常", required = false)

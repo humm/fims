@@ -11,7 +11,7 @@ import com.hoomoomoo.fims.app.model.common.ViewData;
 import com.hoomoomoo.fims.app.service.SysLoginLogService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
-import com.hoomoomoo.fims.app.util.SystemUtils;
+import com.hoomoomoo.fims.app.util.SysUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +89,7 @@ public class SysLoginLogServiceImpl implements SysLoginLogService {
     @Override
     public FimsPage<SysLoginLogModel> selectPage(SysLoginLogQueryModel sysLoginLogQueryModel) {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_PAGE);
-        SystemUtils.setSessionInfo(sysLoginLogQueryModel);
+        SysUtils.setSessionInfo(sysLoginLogQueryModel);
         SysLogUtils.parameter(logger, sysLoginLogQueryModel);
         PageHelper.startPage(sysLoginLogQueryModel.getPage(), sysLoginLogQueryModel.getLimit());
         List<SysLoginLogModel> sysLoginLogModelList = sysLoginLogDao.selectPage(sysLoginLogQueryModel);

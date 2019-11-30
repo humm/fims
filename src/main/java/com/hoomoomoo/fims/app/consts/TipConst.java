@@ -24,6 +24,11 @@ public class TipConst {
     public static final String LOG_FORMAT_STATUS                                = "%s %s";
 
     /**
+     * 异常日志输出格式
+     */
+    public static final String LOG_FORMAT_ERROR_STATUS                          = "%s %s [%s]";
+
+    /**
      * 日志输出格式
      */
     public static final String LOG_FORMAT_STATUS_MSG                            = "%s %s：{}";
@@ -236,9 +241,9 @@ public class TipConst {
     public static final String LOG_BUSINESS_TYPE_LOGIN_LOG                      = "登入日志信息";
 
     /**
-     * 日志业务类型：数据库备份恢复
+     * 日志业务类型：数据库备份
      */
-    public static final String LOG_BUSINESS_TYPE_DATABASE                       = "数据库备份恢复信息";
+    public static final String LOG_BUSINESS_TYPE_BACKUP                         = "数据备份";
 
     /**
      * 日志业务类型：修订

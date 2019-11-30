@@ -6,7 +6,7 @@ import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysReportService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
-import com.hoomoomoo.fims.app.util.SystemSessionUtils;
+import com.hoomoomoo.fims.app.util.SysSessionUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -198,7 +198,7 @@ public class SysReportServiceImpl implements SysReportService {
      */
     private SysReportModel initPieData(SysReportQueryModel sysReportQueryModel) {
         SysReportModel sysReportModel = new SysReportModel();
-        SessionBean sessionBean = SystemSessionUtils.getSession();
+        SessionBean sessionBean = SysSessionUtils.getSession();
         if (sessionBean != null) {
             String loginUserId = sessionBean.getUserId();
             if (!sessionBean.getIsAdminData()) {
@@ -236,7 +236,7 @@ public class SysReportServiceImpl implements SysReportService {
      */
     private SysReportModel initBarData(SysReportQueryModel sysReportQueryModel) {
         SysReportModel sysReportModel = new SysReportModel();
-        SessionBean sessionBean = SystemSessionUtils.getSession();
+        SessionBean sessionBean = SysSessionUtils.getSession();
         if (sessionBean != null) {
             String loginUserId = sessionBean.getUserId();
             // 获取所有用户数据

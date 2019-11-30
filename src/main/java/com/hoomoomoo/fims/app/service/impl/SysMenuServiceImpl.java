@@ -9,7 +9,7 @@ import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysMenuService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
-import com.hoomoomoo.fims.app.util.SystemSessionUtils;
+import com.hoomoomoo.fims.app.util.SysSessionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,7 +124,7 @@ public class SysMenuServiceImpl implements SysMenuService {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_MENU, LOG_OPERATE_TYPE_SELECT);
         SysMenuQueryModel sysMenuQueryModel = new SysMenuQueryModel();
         sysMenuQueryModel.setIsParentId(true);
-        SessionBean sessionBean = SystemSessionUtils.getSession();
+        SessionBean sessionBean = SysSessionUtils.getSession();
         if(sessionBean != null){
             sysMenuQueryModel.setUserId(sessionBean.getUserId());
             sysMenuQueryModel.setUserCode(sessionBean.getUserCode());

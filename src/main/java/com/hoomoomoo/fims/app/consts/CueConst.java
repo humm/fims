@@ -128,4 +128,18 @@ public class CueConst {
      * 提示信息：送礼人和收礼人不能同时为系统用户
      */
     public static final String GIFT_SENDER_RECEIVER_EXIST            = "送礼人和收礼人不能同时为系统用户";
+
+    /**
+     * 请设置系统备份路径
+     */
+    public static final String BACKUP_LOCATION_IS_EMPTY              = "请设置系统备份路径";
+
+    /**
+     * 系统备份路径不存在
+     */
+    public static final String BACKUP_LOCATION_NOT_EXIST             = "系统备份路径 %s 不存在";
+    /**
+     * 系统备份路径不存在
+     */
+    public static final String BACKUP_SUCCESS                        = "备份成功";
 }

@@ -12,7 +12,7 @@ import com.hoomoomoo.fims.app.service.SysIncomeService;
 import com.hoomoomoo.fims.app.service.SysNoticeService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
-import com.hoomoomoo.fims.app.util.SystemUtils;
+import com.hoomoomoo.fims.app.util.SysUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,7 +84,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
     @Override
     public FimsPage<SysIncomeModel> selectPage(SysIncomeQueryModel sysIncomeQueryModel) {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, LOG_OPERATE_TYPE_SELECT_PAGE);
-        SystemUtils.setSessionInfo(sysIncomeQueryModel);
+        SysUtils.setSessionInfo(sysIncomeQueryModel);
         SysLogUtils.parameter(logger, sysIncomeQueryModel);
         PageHelper.startPage(sysIncomeQueryModel.getPage(), sysIncomeQueryModel.getLimit());
         List<SysIncomeModel> sysIncomeModelList = sysIncomeDao.selectPage(sysIncomeQueryModel);
@@ -153,7 +153,7 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         String operateType = sysIncomeModel.getIncomeId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
         String tipMsg = sysIncomeModel.getIncomeId() == null ? ADD_SUCCESS : UPDATE_SUCCESS;
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
-        SystemUtils.setCreateUserInfo(sysIncomeModel);
+        SysUtils.setCreateUserInfo(sysIncomeModel);
         SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysIncomeModel);
         if (sysIncomeModel.getIncomeId() == null) {
             // 新增

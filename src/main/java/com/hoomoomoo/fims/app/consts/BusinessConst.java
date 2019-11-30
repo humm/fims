@@ -111,6 +111,11 @@ public class BusinessConst {
     public static final String GREATER_THAN                                 = ">";
 
     /**
+     * @
+     */
+    public static final String AT                                           = "@";
+
+    /**
      * 小于号
      */
     public static final String LESS_THAN_SEMICOLON                          = "&lt;";
@@ -134,6 +139,21 @@ public class BusinessConst {
      * *
      */
     public static final String ASTERISK                                     = "*";
+
+    /**
+     * 单引号
+     */
+    public static final String SINGLE_QUOTES                                = "'";
+
+    /**
+     * 单引号
+     */
+    public static final String AMPERSAND                                    = "&";
+
+    /**
+     * 换行
+     */
+    public static final String NEXT_LINE                                    = "\n";
 
     /**
      * text/plain
@@ -692,6 +712,37 @@ public class BusinessConst {
      *
      */
     public static final String MODULE_CONSOLE                              = "console";
+
+    /**
+     * 备份相关
+     */
+    public static final String COLUMN_NUMBER                               = "long,number,integer,float,decimal";
+    public static final String COLUMN_TIMESTAMP                            = "timestamp";
+    public static final String COLUMN_DATE                                 = "date";
+
+    public static final String BACKUP_START                                = "/* ====== backup start ====== */";
+    public static final String BACKUP_END                                  = "/* ====== backup end ====== */";
+
+    public static final String TO_DATE_LEFT                                = "to_timestamp('";
+    public static final String TO_DATE_RIGHT                               = "', 'yyyy-MM-dd')";
+    public static final String TO_TIMESTAMP_LEFT                           = "to_timestamp('";
+    public static final String TO_TIMESTAMP_RIGHT                          = "', 'yyyy-MM-dd hh24:mi:ss')";
+    public static final String CHR_38                                      = "chr(38) || '";
+    public static final String BRACKET_LEFT                                = "(";
+    public static final String BRACKET_RIGHT                               = ")";
+    public static final String INSERT_LEFT                                 = "insert into ";
+    public static final String VALUES_LEFT                                 = "values (";
+    public static final String COMMIT                                      = "commit;";
+    public static final String TRUNCATE_LEFT                               = "truncate table ";
+
+    public static final String BACKUP_MODE_START                           = "start";
+    public static final String BACKUP_MODE_MANUAL                          = "manual";
+    public static final String BACKUP_FILENAME_SUFFIX                      = ".sql";
+
+    public static final String BACKUP_COMMAND                              = "expdp %s/%s@%s/%s directory=%s dumpfile=%s";
+
+
+
 
 
 }

@@ -13,7 +13,7 @@ import com.hoomoomoo.fims.app.service.SysNoticeService;
 import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.util.SysBeanUtils;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
-import com.hoomoomoo.fims.app.util.SystemSessionUtils;
+import com.hoomoomoo.fims.app.util.SysSessionUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -77,7 +77,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
     public ResultData selectConsoleData(HttpServletRequest httpServletRequest) {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
         SysConsoleModel sysConsoleModel = new SysConsoleModel();
-        SessionBean sessionBean = SystemSessionUtils.getSession();
+        SessionBean sessionBean = SysSessionUtils.getSession();
         // 设置统计开始时间
         String yearStartDate = sysParameterService.getParameterString(YEAR_START_DATE);
         SysConsoleQueryModel sysConsoleQueryModel = new SysConsoleQueryModel();
