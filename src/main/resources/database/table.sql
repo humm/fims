@@ -345,8 +345,8 @@ comment on column sys_parameter.parameter_order
 call drop_table('sys_login_log');
 create table sys_login_log
 (
-    log_id        varchar2(30) primary key,
-    user_id       varchar2(30),
+    log_id        number(30) primary key,
+    user_id       number(30),
     login_date    timestamp(6) default sysdate,
     logout_date   timestamp(6),
     login_status  varchar2(50),
@@ -370,7 +370,7 @@ comment on column sys_login_log.login_message
 call drop_table('sys_version');
 create table sys_version
 (
-    version_id        varchar2(30) primary key,
+    version_id        number(30) primary key,
     version_content   varchar2(500),
     version_date      date,
     version_order     number(10),
@@ -414,6 +414,23 @@ comment on column sys_config.module_status
 comment on column sys_config.module_ext
     is '模块扩展参数';
 
+
+-- 接口信息
+call drop_table('sys_interface');
+create table sys_interface
+(
+    interface_id        number(30) primary key,
+    request_id          varchar2(50),
+    request_data        varchar2(500),
+    request_result      varchar2(50),
+    request_message     varchar2(500),
+    feedback_status     varchar2(500),
+    create_date timestamp(6) default sysdate,
+    modify_date timestamp(6) default sysdate,
+    create_user varchar2(50),
+    modify_user varchar2(50)
+);
+-- todo
 
 -- 初始化数据 开始
 -- 用户信息
@@ -621,7 +638,10 @@ insert into sys_parameter (parameter_code, parameter_caption, parameter_value, p
 values ('userDefaultPassword', '用户默认密码', '123456', 'text', null, '1', '1', 50);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
-values ('version', '系统版本号', 'V.201911.01', 'text', null, '1', '0', 55);
+values ('messageTip', '未读消息提醒', '1', 'switch', null, '1', '1', 55);
+
+insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
+values ('version', '系统版本号', 'V.201911.01', 'text', null, '1', '0', 999);
 
 -- 模块配置数据
 truncate table sys_config;
@@ -775,9 +795,12 @@ insert into sys_version (version_id, version_content, version_date, version_orde
 values ('20190000000045', '初始化系统配置数据', to_date('25-11-2019', 'dd-mm-yyyy'), 220, '1');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
-values ('20190000000046', '自定义首页模块', to_date('27-11-2019', 'dd-mm-yyyy'), 225, '1');
+values ('20190000000046', '自定义首页显示模块', to_date('27-11-2019', 'dd-mm-yyyy'), 225, '1');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
 values ('20190000000047', '系统备份：sql文件模式、dmp文件模式', to_date('30-11-2019', 'dd-mm-yyyy'), 230, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000048', '首页未读消息提醒新增参数控制', to_date('07-12-2019', 'dd-mm-yyyy'), 235, '2');
 
 -- 初始化数据 结束

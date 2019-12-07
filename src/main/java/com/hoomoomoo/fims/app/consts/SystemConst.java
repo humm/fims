@@ -75,5 +75,6 @@ public class SystemConst {
                                                                             .append("'sys_login_log'").append(",")
                                                                             .append("'sys_income'").append(",")
                                                                             .append("'sys_gift'").append(",")
+                                                                            .append("'sys_interface'").append(",")
                                                                             .append("'sys_config'").toString();
 }

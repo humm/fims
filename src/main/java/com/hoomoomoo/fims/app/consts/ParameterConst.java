@@ -67,4 +67,9 @@ public class ParameterConst {
      * 年度开始时间
      */
     public static final String YEAR_START_DATE                                  = "yearStartDate";
+
+    /**
+     * 未读消息提醒
+     */
+    public static final String MESSAGE_TIP                                      = "messageTip";
 }

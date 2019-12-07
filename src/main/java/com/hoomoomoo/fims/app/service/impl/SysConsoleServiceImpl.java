@@ -36,8 +36,7 @@ import static com.hoomoomoo.fims.app.consts.CueConst.SELECT_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.CueConst.UPDATE_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D000;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D012;
-import static com.hoomoomoo.fims.app.consts.ParameterConst.VERSION;
-import static com.hoomoomoo.fims.app.consts.ParameterConst.YEAR_START_DATE;
+import static com.hoomoomoo.fims.app.consts.ParameterConst.*;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
@@ -325,6 +324,10 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      * @return
      */
     private String selectReadNoticeNum() {
+        boolean messageTip = sysParameterService.getParameterBoolean(MESSAGE_TIP);
+        if (!messageTip) {
+            return STR_0;
+        }
         SysNoticeQueryModel sysNoticeQueryModel = new SysNoticeQueryModel();
         sysNoticeQueryModel.setPage(1);
         sysNoticeQueryModel.setLimit(10);
