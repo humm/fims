@@ -26,7 +26,7 @@ public class SysConsoleModel {
     private List<SysItemModel> version                   = new ArrayList<>();
 
     @ApiModelProperty(value="统计开始时间", required = false)
-    private SysItemModel yearStartDate;
+    private List<SysItemModel> tips                      = new ArrayList<>();
 
     @ApiModelProperty(value="模块控制信息", required = false)
     private SysModuleModel sysConfig;

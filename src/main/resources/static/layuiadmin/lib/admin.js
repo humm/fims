@@ -1,5 +1,5 @@
 /** layuiAdmin.std-v1.0.0 LPPL License By http://www.layui.com/admin/ */
-;layui.define("view", function (e) {
+;layui.define(["view"], function (e) {
     var a = layui.jquery, i = layui.laytpl, t = layui.element, l = layui.setter, n = layui.view, s = layui.device(),
         r = a(window), o = a("body"), u = a("#" + l.container), d = "layui-show", c = "layui-hide", y = "layui-this",
         f = "layui-disabled", h = "#LAY_app_body", m = "LAY_app_flexible", p = "layadmin-layout-tabs",
@@ -184,7 +184,15 @@
         layui.router();
         F.tabsPage.elem = e;
         var l = parent === self ? layui : top.layui;
-        l.index.openTabsPage(i, t || e.text())
+        var tabName = e.text();
+        if (i.indexOf("menuTitle") != -1) {
+            var reg = new RegExp("(^|&)" + "menuTitle" + "=([^&]*)(&|$)", "i");
+            var r = i.match(reg);
+            if (r != null) {
+                tabName = unescape(r[2]);
+            }
+        }
+        l.index.openTabsPage(i, t || tabName)
     }), o.on("click", "*[layadmin-event]", function () {
         var e = a(this), i = e.attr("layadmin-event");
         P[i] && P[i].call(this, e)

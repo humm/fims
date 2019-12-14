@@ -9,6 +9,7 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="${appName}/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="${appName}/layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="${appName}/layuiadmin/style/fims.css" media="all">
 </head>
 <body>
 
@@ -65,20 +66,16 @@
 
             $(".other").html('');
             // 初始化提示信息
-            var tips = new Array();
-            if (!$.isEmptyObject(data.yearStartDate)) {
-                tips.push(data.yearStartDate);
-            }
-            if (!$.isEmptyObject(tips) && data.sysConfig.tips == '1') {
-                $(".other").append(initTips(tips));
+            if (!$.isEmptyObject(data.tips) && data.sysConfig.tips == '1') {
+                $(".other").append(initInfo(data.tips));
             }
             // 初始化登入日志信息
             if (!$.isEmptyObject(data.login) && data.sysConfig.login == '1') {
-                $(".other").append(initLogin(data.login));
+                $(".other").append(initInfo(data.login));
             }
             // 初始化版本信息
             if (!$.isEmptyObject(data.version)&& data.sysConfig.version == '1') {
-                $(".other").append(initVersion(data.version));
+                $(".other").append(initInfo(data.version));
             }
         }
 
@@ -146,37 +143,8 @@
             }
         }
 
-        // 初始登入日志信息
-        var initLogin = function (data) {
-            var item = '<div class="layui-card">';
-            item += '       <div class="layui-card-header">' + data[0].title + '</div>';
-            item += '           <div class="layui-card-body layui-text">';
-            item += '               <div class="layui-card-body layui-text">';
-            item += '                   <table class="layui-table">';
-            item += '                       <colgroup>';
-            item += '                           <col width="50%" />';
-            item += '                           <col />';
-            item += '                       </colgroup>';
-            item += '                       <colgroup>';
-            item += '                           <tbody>';
-            for (var i = 1; i < data.length; i++) {
-                item += '                           <tr>';
-                item += '                               <td>' + data[i].title + '</td>';
-                item += '                               <td>' + data[i].value + '</td>';
-                item += '                           </tr>';
-            }
-            item += '                           </tbody>';
-            item += '                       </colgroup>';
-            item += '                   </table>';
-            item += '               </div>';
-            item += '           </div>';
-            item += '       </div>';
-            item += '</div>';
-            return item;
-        }
-
-        // 初始化版本信息
-        var initVersion = function (data) {
+        // 初始化信息
+        var initInfo = function (data) {
             var item = '<div class="layui-card">';
             item += '       <div class="layui-card-header">' + data[0].title + '</div>';
             item += '           <div class="layui-card-body layui-text">';
@@ -198,35 +166,6 @@
                     item += '                               ' + data[i].value;
                 }
                 item += '                               </td>';
-                item += '                           </tr>';
-            }
-            item += '                           </tbody>';
-            item += '                       </colgroup>';
-            item += '                   </table>';
-            item += '               </div>';
-            item += '           </div>';
-            item += '       </div>';
-            item += '</div>';
-            return item;
-        }
-
-        // 初始化提示信息
-        var initTips = function (data) {
-            var item = '<div class="layui-card">';
-            item += '       <div class="layui-card-header">提示信息</div>';
-            item += '           <div class="layui-card-body layui-text">';
-            item += '               <div class="layui-card-body layui-text">';
-            item += '                   <table class="layui-table">';
-            item += '                       <colgroup>';
-            item += '                           <col width="50%" />';
-            item += '                           <col />';
-            item += '                       </colgroup>';
-            item += '                       <colgroup>';
-            item += '                           <tbody>';
-            for (var i = 0; i < data.length; i++) {
-                item += '                           <tr>';
-                item += '                               <td>' + data[i].title + '</td>';
-                item += '                               <td>' + data[i].value + '</td>';
                 item += '                           </tr>';
             }
             item += '                           </tbody>';

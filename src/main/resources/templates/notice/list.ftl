@@ -87,7 +87,6 @@
 
         // 阅读状态
         var readStatus = fims.getUrlParameter("readStatus");
-        console.log(readStatus);
 
         // 列表字段
         var tableColumn = [[

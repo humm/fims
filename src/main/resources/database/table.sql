@@ -430,7 +430,28 @@ create table sys_interface
     create_user varchar2(50),
     modify_user varchar2(50)
 );
--- todo
+
+comment on column sys_interface.interface_id
+    is '接口ID';
+comment on column sys_interface.request_id
+    is '申请ID';
+comment on column sys_interface.request_data
+    is '申请数据';
+comment on column sys_interface.request_result
+    is '处理结果';
+comment on column sys_interface.request_message
+    is '提示信息';
+comment on column sys_interface.feedback_status
+    is '反馈状态';
+comment on column sys_role.create_date
+    is '创建时间';
+comment on column sys_role.modify_date
+    is '修改时间';
+comment on column sys_role.create_user
+    is '创建人';
+comment on column sys_role.modify_user
+    is '修改人';
+
 
 -- 初始化数据 开始
 -- 用户信息
@@ -802,5 +823,11 @@ values ('20190000000047', '系统备份：sql文件模式、dmp文件模式', to
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
 values ('20190000000048', '首页未读消息提醒新增参数控制', to_date('07-12-2019', 'dd-mm-yyyy'), 235, '2');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000049', '首页提示信息、登录信息新增菜单跳转链接', to_date('07-12-2019', 'dd-mm-yyyy'), 240, '2');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000050', '首页链接跳转TAB名称统一处理', to_date('14-12-2019', 'dd-mm-yyyy'), 245, '2');
 
 -- 初始化数据 结束

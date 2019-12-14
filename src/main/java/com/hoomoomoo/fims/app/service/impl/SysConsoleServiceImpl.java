@@ -84,7 +84,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         // 查询未读消息通知
         sysConsoleModel.setReadNum(selectReadNoticeNum());
         sysConsoleModel.setSysConfig(selectConfigModule());
-        Map menu = getMenuInfo();
+        Map<String, String> menu = getMenuInfo();
         if (sessionBean != null) {
             String loginUserId = sessionBean.getUserId();
             sysConsoleQueryModel.setUserName(CONSOLE_FAMILY);
@@ -93,7 +93,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
                 setBusinessInfo(sysConsoleModel, sysConsoleQueryModel, menu);
                 // 查询登入统计信息
                 sysConsoleQueryModel.setUserId(sessionBean.getUserId());
-                setLoginInfo(sysConsoleModel, sysConsoleQueryModel);
+                setLoginInfo(sysConsoleModel, sysConsoleQueryModel, menu);
                 // 获取用户信息
                 List<SysDictionaryModel> userList = DICTIONARY_CONDITION.get(loginUserId).get(D000);
                 if (CollectionUtils.isNotEmpty(userList)) {
@@ -110,14 +110,13 @@ public class SysConsoleServiceImpl implements SysConsoleService {
                 // 查询业务统计信息
                 setBusinessInfo(sysConsoleModel, sysConsoleQueryModel, menu);
                 // 查询登入统计信息
-                setLoginInfo(sysConsoleModel, sysConsoleQueryModel);
+                setLoginInfo(sysConsoleModel, sysConsoleQueryModel, menu);
             }
         }
         // 设置版本信息
         setVersionInfo(sysConsoleModel, menu);
-        // 查询年度开始时间
-        sysConsoleModel.setYearStartDate(new SysItemModel(CONSOLE_YEAR_START_DATE, sysConsoleQueryModel.getYearStartDate(), null));
-
+        // 设置提示信息
+        setTipsInfo(sysConsoleModel, sysConsoleQueryModel, menu);
         // 首页用户数据处理
         if (sysConsoleModel.getUser() != null && sysConsoleModel.getUser().size() == 2) {
             // 系统当前只有一个用户
@@ -126,6 +125,18 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         SysLogUtils.parameter(logger, sessionBean == null ? new SessionBean() : sessionBean);
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
         return new ResultData(true, SELECT_SUCCESS, sysConsoleModel);
+    }
+
+    /**
+     * 设置提示信息
+     * @param sysConsoleModel
+     * @param sysConsoleQueryModel
+     * @param menu
+     */
+    private void setTipsInfo(SysConsoleModel sysConsoleModel, SysConsoleQueryModel sysConsoleQueryModel, Map<String,
+            String> menu) {
+        setTipsValue(sysConsoleModel, CONSOLE_VERSION_TIPS, CONSOLE_VERSION_TIPS, null);
+        setTipsValue(sysConsoleModel, CONSOLE_YEAR_START_DATE, sysConsoleQueryModel.getYearStartDate(), menu.get(MENU_ID_PARAMETER));
     }
 
     /**
@@ -146,21 +157,22 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      * @param sysConsoleModel
      * @param sysConsoleQueryModel
      */
-    private void setLoginInfo(SysConsoleModel sysConsoleModel, SysConsoleQueryModel sysConsoleQueryModel) {
+    private void setLoginInfo(SysConsoleModel sysConsoleModel, SysConsoleQueryModel sysConsoleQueryModel, Map<String,
+            String> menu) {
         // 设置标题
         setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_TITLE, CONSOLE_LOGIN_TITLE, null, false);
         // 查询最后一次登入时间
         String console = sysConsoleDao.selectLoginLast(sysConsoleQueryModel);
-        setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_LAST_DATE, console, null, false);
+        setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_LAST_DATE, console, menu.get(MENU_ID_LOGIN), false);
         // 查询本月登入次数
         console = sysConsoleDao.selectLoginMonthTime(sysConsoleQueryModel);
-        setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_MONTH_TIME, console, null, true);
+        setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_MONTH_TIME, console, menu.get(MENU_ID_LOGIN), true);
         // 查询本年登入次数
         console = sysConsoleDao.selectLoginYearTime(sysConsoleQueryModel);
-        setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_YEAR_TIME, console, null, true);
+        setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_YEAR_TIME, console, menu.get(MENU_ID_LOGIN), true);
         // 查询总登入次数
         console = sysConsoleDao.selectLoginTotalTime(sysConsoleQueryModel);
-        setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_TOTAL_TIME, console, null, true);
+        setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_TOTAL_TIME, console, menu.get(MENU_ID_LOGIN), true);
     }
 
     /**
@@ -297,6 +309,18 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      */
     private void setVersionValue(SysConsoleModel sysConsoleModel, String title, String value, String url) {
         sysConsoleModel.getVersion().add(new SysItemModel(title, formatValue(value, false, false), url));
+    }
+
+    /**
+     * 设置提示信息值
+     *
+     * @param sysConsoleModel
+     * @param title
+     * @param value
+     * @param url
+     */
+    private void setTipsValue(SysConsoleModel sysConsoleModel, String title, String value, String url) {
+        sysConsoleModel.getTips().add(new SysItemModel(title, formatValue(value, false, false), url));
     }
 
     /**

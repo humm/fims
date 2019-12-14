@@ -142,3 +142,7 @@
 .layui-bg-red {
     background-color: #FF5722!important;
 }
+
+.layui-text a:not(.layui-btn):hover {
+    text-decoration: none;
+}

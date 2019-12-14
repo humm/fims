@@ -616,6 +616,16 @@ public class BusinessConst {
     public static final String MENU_ID_VERSION                              = "20190000000021";
 
     /**
+     * 菜单：参数信息
+     */
+    public static final String MENU_ID_PARAMETER                            = "20190000000016";
+
+    /**
+     * 菜单：登录信息
+     */
+    public static final String MENU_ID_LOGIN                                = "20190000000019";
+
+    /**
      * 最近一次登入时间
      */
     public static final String CONSOLE_LOGIN_LAST_DATE                      = "最近一次登入时间";
@@ -644,6 +654,11 @@ public class BusinessConst {
      * 版本信息
      */
     public static final String CONSOLE_VERSION_TITLE                        = "版本信息";
+
+    /**
+     * 提示信息
+     */
+    public static final String CONSOLE_VERSION_TIPS                         = "提示信息";
 
     /**
      * 版本信息

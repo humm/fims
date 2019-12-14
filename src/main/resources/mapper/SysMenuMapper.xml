@@ -116,7 +116,7 @@
             a.menu_id menuId,
             a.parent_id parentId,
             a.menu_title menuTitle,
-            a.menu_url || '?menuId=' || menu_id menuUrl,
+            a.menu_url || '?menuId=' || menu_id || '&amp;menuTitle=' || menu_title menuUrl,
             a.menu_icon menuIcon
         from sys_menu a
         where a.menu_type in ('1')

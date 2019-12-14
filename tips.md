@@ -34,3 +34,4 @@ fims
     09. dmp备份时 需设置backup_dir虚拟路径
             创建虚拟路径 create or replace directory backup_dir as 'D:/fims/backup';
             授权 grant read, write on directory backup_dir to public;
+    10. admin.js 打开tab中文处理
