@@ -51,6 +51,11 @@ public class BusinessConst {
     public static final String STR_EMPTY                                    = "";
 
     /**
+     * 单引号
+     */
+    public static final String SINGLE_QUOTATION_MARKS                       = "'";
+
+    /**
      * 空串
      */
     public static final String STR_SPACE                                    = " ";
@@ -79,6 +84,11 @@ public class BusinessConst {
      * 减号分隔符
      */
     public static final String MINUS                                        = "-";
+
+    /**
+     * 注释
+     */
+    public static final String EXPLAN                                       = "-- ";
 
     /**
      * 分隔符

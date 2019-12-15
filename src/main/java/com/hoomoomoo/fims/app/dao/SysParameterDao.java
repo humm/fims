@@ -32,6 +32,13 @@ public interface SysParameterDao {
     void save(SysParameterModel sysParameterModel);
 
     /**
+     * 修改dmp备份路径
+     *
+     * @param sysParameterModel
+     */
+    void updateBackupDir(SysParameterModel sysParameterModel);
+
+    /**
      * 查询系统参数
      *
      * @param sysParameterQueryModel

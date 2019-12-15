@@ -475,13 +475,15 @@ public class SysSystemServiceImpl implements SysSystemService {
      */
     @Override
     public ResultData systemBackupFile(String fileName) {
-        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BACKUP);
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BACKUP_SQL);
         String[] tables = SYSTEM_TABLE.split(COMMA);
-        StringBuffer database = new StringBuffer(BACKUP_START);
-        database.append(NEXT_LINE).append(NEXT_LINE);
+        StringBuffer database = new StringBuffer();
+        StringBuffer databaseContent = new StringBuffer(BACKUP_START);
+        databaseContent.append(NEXT_LINE).append(NEXT_LINE);
         for (String tableName : tables) {
             // 去除表名称的单引号
             tableName = tableName.substring(1, tableName.length()- 1);
+            database.append(EXPLAN).append(STR_SPACE).append(tableName).append(NEXT_LINE);
             StringBuffer tableInfo = new StringBuffer();
             tableInfo.append(SLASH).append(ASTERISK).append(STR_SPACE)
                       .append(tableName).append(STR_SPACE).append(ASTERISK).append(SLASH).append(NEXT_LINE);
@@ -537,24 +539,25 @@ public class SysSystemServiceImpl implements SysSystemService {
                     }
                 }
             }
-            database.append(tableInfo).append(COMMIT).append(NEXT_LINE).append(NEXT_LINE);
+            databaseContent.append(tableInfo).append(COMMIT).append(NEXT_LINE).append(NEXT_LINE);
         }
-        database.append(BACKUP_END);
+        databaseContent.append(BACKUP_END);
+        database.append(NEXT_LINE).append(databaseContent);
         try {
             // 写文件
             String backupLocation = sysParameterService.getParameterString(BACKUP_LOCATION);
             if (WELL.equals(backupLocation)) {
-                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP, BACKUP_LOCATION_IS_EMPTY);
+                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP_SQL, BACKUP_LOCATION_IS_EMPTY);
                 return new ResultData(false, BACKUP_LOCATION_IS_EMPTY, null);
             }
             File saveLocation = new File(backupLocation + SLASH + fileName);
             FileUtils.writeStringToFile(saveLocation, database.toString(), UTF8);
-            SysLogUtils.success(logger, LOG_BUSINESS_TYPE_BACKUP);
+            SysLogUtils.success(logger, LOG_BUSINESS_TYPE_BACKUP_SQL);
         } catch (IOException e) {
-            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP, e);
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP_SQL, e);
             return new ResultData(false, e.getMessage(), null);
         }
-        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BACKUP);
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BACKUP_SQL);
         return new ResultData(true, BACKUP_SUCCESS, null);
     }
 
@@ -565,29 +568,32 @@ public class SysSystemServiceImpl implements SysSystemService {
      */
     @Override
     public ResultData systemBackupDmp(String fileName) {
-        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BACKUP);
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BACKUP_DMP);
         ResultData resultData = null;
         // 拼装执行命令
         String username = datasourceConfigBean.getUsername();
         String password = datasourceConfigBean.getPassword();
-        String ip = STR_EMPTY;
         String sid = STR_EMPTY;
         String url = datasourceConfigBean.getUrl();
         if (StringUtils.isNotBlank(url)) {
             String[] connect = url.split(AT)[1].split(COLON);
-            ip = connect[0];
             sid = connect[2];
         }
         String command = String.format(BACKUP_COMMAND, username, password, sid, fileName);
         SysLogUtils.info(logger, TIP_BACKUP_COMMAND + command);
-        resultData = SysCommandUtils.execute(command);
+        try {
+            resultData = SysCommandUtils.execute(command);
+        } catch (Exception e) {
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP_DMP, e);
+            return new ResultData(false, e.getMessage(), null);
+        }
         if (STR_0.equals(resultData.getCode())) {
             // 备份成功
-            SysLogUtils.success(logger, LOG_BUSINESS_TYPE_BACKUP);
+            SysLogUtils.success(logger, LOG_BUSINESS_TYPE_BACKUP_DMP);
         } else {
-            SysLogUtils.fail(logger, LOG_BUSINESS_TYPE_BACKUP, resultData.getData());
+            SysLogUtils.fail(logger, LOG_BUSINESS_TYPE_BACKUP_DMP, resultData.getData());
         }
-        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BACKUP);
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BACKUP_DMP);
         return resultData;
     }
 

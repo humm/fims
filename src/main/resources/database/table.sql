@@ -457,7 +457,7 @@ comment on column sys_role.modify_user
 -- 用户信息
 truncate table sys_user;
 insert into sys_user (USER_ID, USER_CODE, USER_NAME, USER_PASSWORD, USER_STATUS, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER, USER_MEMO)
-values (20190000000001, 'admin', '管理员', '123456', 'D001-1', sysdate, sysdate, '20190000000001', '20190000000001', '系统管理员，不能删除');
+values (20190000000001, 'admin', '管理员', '2UDNzITM', 'D001-1', sysdate, sysdate, '20190000000001', '20190000000001', '系统管理员，不能删除');
 
 -- 菜单信息
 truncate table sys_menu;
@@ -807,7 +807,7 @@ insert into sys_version (version_id, version_content, version_date, version_orde
 values ('20190000000042', '修订信息', to_date('23-11-2019', 'dd-mm-yyyy'), 205, '1');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
-values ('20190000000043', '发布版本：V3.201911.01', to_date('24-11-2019', 'dd-mm-yyyy'), 210, '4');
+values ('20190000000043', '发布版本：V3.0.000', to_date('24-11-2019', 'dd-mm-yyyy'), 210, '4');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
 values ('20190000000044', '消息通知详情页面返回指定列表类型', to_date('25-11-2019', 'dd-mm-yyyy'), 215, '2');

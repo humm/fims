@@ -24,6 +24,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.SELECT_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.CueConst.UPDATE_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D010;
+import static com.hoomoomoo.fims.app.consts.ParameterConst.BACKUP_LOCATION;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
@@ -79,6 +80,18 @@ public class SysParameterServiceImpl implements SysParameterService {
             }
         }
         sysParameterDao.save(sysParameterModel);
+
+        // 修改dmp备份路径
+        try {
+            if (BACKUP_LOCATION.equals(sysParameterModel.getParameterCode())) {
+                String backupLocation =
+                        new StringBuffer(SINGLE_QUOTATION_MARKS).append(sysParameterModel.getParameterValue()).append(SINGLE_QUOTATION_MARKS).toString();
+                sysParameterModel.setParameterValue(backupLocation);
+                sysParameterDao.updateBackupDir(sysParameterModel);
+            }
+        } catch (Exception e) {
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_PARAMETER, e);
+        }
         WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_PARAMETER);
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_UPDATE);
         return new ResultData(true, UPDATE_SUCCESS, null);

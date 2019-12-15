@@ -246,6 +246,16 @@ public class TipConst {
     public static final String LOG_BUSINESS_TYPE_BACKUP                         = "数据备份";
 
     /**
+     * 日志业务类型：数据库备份
+     */
+    public static final String LOG_BUSINESS_TYPE_BACKUP_SQL                     = "SQL数据备份";
+
+    /**
+     * 日志业务类型：数据库备份
+     */
+    public static final String LOG_BUSINESS_TYPE_BACKUP_DMP                     = "DMP数据备份";
+
+    /**
      * 日志业务类型：修订
      */
     public static final String LOG_BUSINESS_TYPE_VERSION                        = "修订信息";
