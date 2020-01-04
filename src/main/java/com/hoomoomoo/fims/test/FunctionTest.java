@@ -156,13 +156,9 @@ public class FunctionTest {
 
     @Test
     public void str(){
-        Map map = new HashMap();
-        String[] str = new String[10];
-        str[0] = "1";
-        str[1] = "2";
-        str[2] = "3";
-        map.put("11", str);
-        System.out.println(map);
+
+
     }
+
 
 }

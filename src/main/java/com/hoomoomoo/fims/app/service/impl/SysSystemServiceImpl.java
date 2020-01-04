@@ -580,7 +580,8 @@ public class SysSystemServiceImpl implements SysSystemService {
             sid = connect[2];
         }
         String command = String.format(BACKUP_COMMAND, username, password, sid, fileName);
-        SysLogUtils.info(logger, TIP_BACKUP_COMMAND + command);
+        String commandTip = String.format(BACKUP_COMMAND, username, ASTERISK_SIX, sid, fileName);
+        SysLogUtils.info(logger, TIP_BACKUP_COMMAND + commandTip);
         try {
             resultData = SysCommandUtils.execute(command);
         } catch (Exception e) {
@@ -608,7 +609,8 @@ public class SysSystemServiceImpl implements SysSystemService {
         if (startBackup) {
             try {
                 systemBackupFile(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_FILENAME_SUFFIX).toString());
-                systemBackupDmp(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_DMP_SUFFIX).toString());
+                // 影响应用启动时间 备份耗时
+                //                systemBackupDmp(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_DMP_SUFFIX).toString());
             } catch (Exception e) {
                 SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP, e);
             }
