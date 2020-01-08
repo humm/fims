@@ -104,6 +104,9 @@ values (20190000000010, 'D004-1', '20190000000002', 'D009-8', to_timestamp('2018
 insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
 values (20190000000011, 'D004-1', '20190000000002', 'D009-10', to_timestamp('2018-11-10', 'yyyy-MM-dd'), 400, '日期已忘记', to_timestamp('2019-01-11 23:13:08', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-05-08 19:25:55', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000012, 'D004-1', '20190000000002', 'D009-11', to_timestamp('2019-10-01', 'yyyy-MM-dd'), 600, '', to_timestamp('2019-10-01 23:13:08', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-10-01 19:25:55', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
 commit;
 
 /* sys_income */
@@ -483,7 +486,37 @@ insert into sys_income (income_id, user_id, income_type, income_date, income_com
 values (20190000000124, 20190000000002, 'D003-1', to_timestamp('2019-03-26', 'yyyy-MM-dd'), 'D005-7', 12283.26, null, to_timestamp('2019-03-26 22:03:54', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-03-26 22:03:54', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
-values (20190000000125, 20190000000002, 'D003-1', to_timestamp('2019-04-26', 'yyyy-MM-dd'), 'D005-7', 16294.21, '补发1月至三月3000', to_timestamp('2019-04-26 19:32:57', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-05-08 19:29:17', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+values (20190000000125, 20190000000002, 'D003-1', to_timestamp('2019-04-26', 'yyyy-MM-dd'), 'D005-7', 16294.21, '补发1月至3月3000', to_timestamp('2019-04-26 19:32:57', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-05-08 19:29:17', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000126, 20190000000002, 'D003-1', to_timestamp('2019-05-26', 'yyyy-MM-dd'), 'D005-7', 13442.41, '', to_timestamp('2019-05-26 19:32:57', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-05-26 19:29:17', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000127, 20190000000002, 'D003-1', to_timestamp('2019-06-26', 'yyyy-MM-dd'), 'D005-7', 12692.73, '', to_timestamp('2019-06-26 19:32:57', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-06-26 19:29:17', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000128, 20190000000002, 'D003-1', to_timestamp('2019-07-26', 'yyyy-MM-dd'), 'D005-7', 12615.14, '', to_timestamp('2019-07-26 19:32:57', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-07-26 19:29:17', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000129, 20190000000002, 'D003-1', to_timestamp('2019-08-26', 'yyyy-MM-dd'), 'D005-7', 12926.70, '', to_timestamp('2019-08-26 19:32:57', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-08-26 19:29:17', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000130, 20190000000002, 'D003-1', to_timestamp('2019-09-26', 'yyyy-MM-dd'), 'D005-7', 15689.70, '补发7月至8月2100', to_timestamp('2019-09-26 19:32:57', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-09-26 19:29:17', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000131, 20190000000002, 'D003-1', to_timestamp('2019-10-26', 'yyyy-MM-dd'), 'D005-7', 13745.70, '', to_timestamp('2019-10-26 19:32:57', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-10-26 19:29:17', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000132, 20190000000002, 'D003-1', to_timestamp('2019-11-26', 'yyyy-MM-dd'), 'D005-7', 13606.20, '', to_timestamp('2019-11-26 19:32:57', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-11-26 19:29:17', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000133, 20190000000002, 'D003-1', to_timestamp('2019-12-26', 'yyyy-MM-dd'), 'D005-7', 13606.20, '', to_timestamp('2019-12-26 19:32:57', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-12-26 19:29:17', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000134, 20190000000002, 'D003-3', to_timestamp('2018-04-23', 'yyyy-MM-dd'), 'D005-6', 11000, null, to_timestamp('2018-04-23 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2018-04-23 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000135, 20190000000002, 'D003-3', to_timestamp('2019-05-28', 'yyyy-MM-dd'), 'D005-7', 12000, null, to_timestamp('2019-05-28 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-05-28 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 commit;
 
