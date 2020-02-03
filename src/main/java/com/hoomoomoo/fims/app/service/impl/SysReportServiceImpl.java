@@ -7,6 +7,7 @@ import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysReportService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SysSessionUtils;
+import com.hoomoomoo.fims.app.util.SysUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -221,7 +222,7 @@ public class SysReportServiceImpl implements SysReportService {
                     }
                     sysReportModel.setUserList(user);
                 } else {
-                    sysReportModel.setTitle(userList.get(0).getDictionaryCaption());
+                    sysReportModel.setTitle(SysUtils.getDictionaryCaption(userList.get(0).getDictionaryCaption()));
                 }
             }
         }
@@ -250,7 +251,7 @@ public class SysReportServiceImpl implements SysReportService {
                 if (CollectionUtils.isNotEmpty(userList)) {
                     for (int i = 0; i < userList.size(); i++) {
                         sysReportQueryModel.setUserId(userList.get(i).getDictionaryItem());
-                        sysReportQueryModel.setUserName(userList.get(i).getDictionaryCaption());
+                        sysReportQueryModel.setUserName(SysUtils.getDictionaryCaption(userList.get(i).getDictionaryCaption()));
                         sysReportModelList = getSysReportData(sysReportQueryModel);
                         setSysReportProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean, i + 1);
                     }

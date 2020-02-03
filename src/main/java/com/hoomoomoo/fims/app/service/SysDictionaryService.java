@@ -55,4 +55,11 @@ public interface SysDictionaryService {
      */
     ResultData save(List<SysDictionaryModel> sysDictionaryModelList);
 
+    /**
+     * 刷新字典信息
+     *
+     * @return
+     */
+    ResultData refresh();
+
 }

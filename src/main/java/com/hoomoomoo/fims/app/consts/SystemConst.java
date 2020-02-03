@@ -40,12 +40,21 @@ public class SystemConst {
     public static final String APP_NAME                             = "appName";
 
     /**
-     * 系统初始化配置文件
+     * 应用描述
+     */
+    public static final String APP_DESCRIBE                         = "appDescribe";
+
+    /**
+     * 系统初始化数据
+     */
+    public static final String INIT_SYSTEM_DATA                     = "database/data.sql";
+    /**
+     * 系统初始化表结构
      */
     public static final String INIT_SYSTEM_TABLE                    = "database/table.sql";
 
     /**
-     * 系统初始化配置文件
+     * 系统初始化存储过程
      */
     public static final String INIT_SYSTEM_PROCEDURE                = "classpath:database/procedure.sql";
 

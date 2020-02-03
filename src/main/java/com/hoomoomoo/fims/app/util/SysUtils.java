@@ -3,9 +3,12 @@ package com.hoomoomoo.fims.app.util;
 import com.hoomoomoo.fims.app.model.common.QueryBaseModel;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.model.common.BaseModel;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+
+import static com.hoomoomoo.fims.app.consts.BusinessConst.COLON_CHINESE;
 
 /**
  * @author humm23693
@@ -68,5 +71,21 @@ public class SysUtils {
         String url = httpServletRequest.getRequestURL().toString();
         String uri = httpServletRequest.getRequestURI();
         return new StringBuffer(url.substring(0, url.indexOf(uri))).append(appName).toString();
+    }
+
+    /**
+     * 获取字典描述内容
+     * @param dictionaryCaption
+     * @return
+     */
+    public static String getDictionaryCaption(String dictionaryCaption) {
+        if (StringUtils.isNotBlank(dictionaryCaption) && dictionaryCaption.contains(COLON_CHINESE)) {
+            String[] caption = dictionaryCaption.split(COLON_CHINESE);
+            if (caption != null && caption.length == 2) {
+                return caption[1];
+            }
+        }
+        return dictionaryCaption;
+
     }
 }

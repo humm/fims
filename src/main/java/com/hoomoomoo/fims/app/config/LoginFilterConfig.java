@@ -2,10 +2,12 @@ package com.hoomoomoo.fims.app.config;
 
 
 import com.hoomoomoo.fims.app.model.common.SessionBean;
+import com.hoomoomoo.fims.app.service.SysMenuService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SysSessionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
@@ -31,6 +33,9 @@ public class LoginFilterConfig implements Filter {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginFilterConfig.class);
 
+    @Autowired
+    private SysMenuService sysMenuService;
+
     @Override
     public void init(FilterConfig filterConfig) {
         SysLogUtils.load(logger, LOG_BUSINESS_TYPE_LOGIN_FILTER);
@@ -45,6 +50,9 @@ public class LoginFilterConfig implements Filter {
         String requestSuffix = servletPath.substring(index + 1);
         SessionBean sessionBean = (SessionBean) request.getSession().getAttribute(SESSION_BEAN);
         if (sessionBean != null) {
+            // 查询用户数据权限 避免数据权限更新后session刷新不计时
+            boolean dataAuthority = sysMenuService.selectDataAuthorityByUserId(sessionBean.getUserId());
+            sessionBean.setIsAdminData(dataAuthority);
             SysSessionUtils.setSession(sessionBean);
             if (PAGE_LOGIN.equals(servletPath)) {
                 response.sendRedirect(request.getContextPath() + PAGE_INDEX);

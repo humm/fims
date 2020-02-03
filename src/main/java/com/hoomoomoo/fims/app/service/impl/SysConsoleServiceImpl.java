@@ -14,6 +14,7 @@ import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.util.SysBeanUtils;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SysSessionUtils;
+import com.hoomoomoo.fims.app.util.SysUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -99,7 +100,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
                 if (CollectionUtils.isNotEmpty(userList)) {
                     for (SysDictionaryModel sysDictionaryModel : userList) {
                         sysConsoleQueryModel.setUserId(sysDictionaryModel.getDictionaryItem());
-                        sysConsoleQueryModel.setUserName(sysDictionaryModel.getDictionaryCaption());
+                        sysConsoleQueryModel.setUserName(SysUtils.getDictionaryCaption(sysDictionaryModel.getDictionaryCaption()));
                         // 查询业务统计信息
                         setBusinessInfo(sysConsoleModel, sysConsoleQueryModel, menu);
                     }

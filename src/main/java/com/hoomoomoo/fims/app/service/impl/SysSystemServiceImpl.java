@@ -475,6 +475,11 @@ public class SysSystemServiceImpl implements SysSystemService {
      */
     @Override
     public ResultData systemBackupFile(String fileName) {
+        String backupLocation = sysParameterService.getParameterString(BACKUP_LOCATION);
+        if (WELL.equals(backupLocation)) {
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP_SQL, BACKUP_LOCATION_IS_EMPTY);
+            return new ResultData(false, BACKUP_LOCATION_IS_EMPTY, null);
+        }
         SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BACKUP_SQL);
         String[] tables = SYSTEM_TABLE.split(COMMA);
         StringBuffer database = new StringBuffer();
@@ -545,11 +550,6 @@ public class SysSystemServiceImpl implements SysSystemService {
         database.append(NEXT_LINE).append(databaseContent);
         try {
             // 写文件
-            String backupLocation = sysParameterService.getParameterString(BACKUP_LOCATION);
-            if (WELL.equals(backupLocation)) {
-                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP_SQL, BACKUP_LOCATION_IS_EMPTY);
-                return new ResultData(false, BACKUP_LOCATION_IS_EMPTY, null);
-            }
             File saveLocation = new File(backupLocation + SLASH + fileName);
             FileUtils.writeStringToFile(saveLocation, database.toString(), UTF8);
             SysLogUtils.success(logger, LOG_BUSINESS_TYPE_BACKUP_SQL);
@@ -609,8 +609,8 @@ public class SysSystemServiceImpl implements SysSystemService {
         if (startBackup) {
             try {
                 systemBackupFile(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_FILENAME_SUFFIX).toString());
-                // 影响应用启动时间 备份耗时
-                //                systemBackupDmp(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_DMP_SUFFIX).toString());
+                // dmp备份 影响应用启动时间 备份耗时
+//                systemBackupDmp(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_DMP_SUFFIX).toString());
             } catch (Exception e) {
                 SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP, e);
             }
@@ -655,13 +655,13 @@ public class SysSystemServiceImpl implements SysSystemService {
                 File file = ResourceUtils.getFile(INIT_SYSTEM_PROCEDURE);
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
                 StringBuffer content = new StringBuffer();
-                String temp = STR_EMPTY;
+                String temp;
                 while ((temp = bufferedReader.readLine()) != null) {
                     content.append(temp).append(NEXT_LINE);
                 }
                 if (StringUtils.isNotBlank(content.toString())) {
                     Statement statement = connection.createStatement();
-                    String[] procedure = content.toString().split(INIT_SYSTEM_PROCEDURE_SPLIT);
+                    String[] procedure = content.toString().trim().split(INIT_SYSTEM_PROCEDURE_SPLIT);
                     for (int i = 0; i < procedure.length; i++) {
                         if (i == 0) {
                             // 文件描述内容不执行
@@ -674,7 +674,12 @@ public class SysSystemServiceImpl implements SysSystemService {
                 ScriptRunner runner = new ScriptRunner(connection);
                 Resources.setCharset(Charset.forName(UTF8));
                 runner.setLogWriter(null);
+                // 初始化表结构
                 Reader reader = Resources.getResourceAsReader(INIT_SYSTEM_TABLE);
+                runner.runScript(reader);
+
+                // 初始化基础数据
+                reader = Resources.getResourceAsReader(INIT_SYSTEM_DATA);
                 runner.runScript(reader);
 
                 // 关闭资源连接
@@ -815,37 +820,17 @@ public class SysSystemServiceImpl implements SysSystemService {
                 continue;
             }
             // 配置key转义
-            int index = -1;
             String[] keys = TRANSFER_KEY.split(COMMA);
             for (int i = 0; i < keys.length; i++) {
-                if (keys[i].equalsIgnoreCase(key)
-                    || key.toLowerCase().contains(keys[i].toLowerCase())) {
-                    index = i;
-                }
-            }
-            if (index == -1) {
-                continue;
-            }
-            if (dictionaryCache.get(value) != null) {
-                ele.put(key, dictionaryCache.get(value));
-            } else {
-                switch (index) {
-                    case 0:
-                        // 用户信息userId不转义
-                        if (!clazz.equals(SysUserModel.class)) {
-                            // 转义 userId
-                            SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
-                            sysUserQueryModel.setUserId(value);
-                            List<SysUserModel> sysUserList = sysUserDao
-                                .selectSysUser(sysUserQueryModel);
-                            if (CollectionUtils.isNotEmpty(sysUserList)) {
-                                ele.put(key, sysUserList.get(0).getUserName());
-                                dictionaryCache.put(value, sysUserList.get(0).getUserName());
-                            }
+                if (keys[i].equalsIgnoreCase(key)) {
+                    if (dictionaryCache.get(value) != null) {
+                        ele.put(key, dictionaryCache.get(value));
+                    } else {
+                        if (i == 0 || i == 1 || i==2) {
+                            transfer(dictionaryCache, ele, clazz, key, value);
                         }
-                        break;
-                    default:
-                        break;
+                    }
+                    break;
                 }
             }
             // 金额格式化
@@ -855,6 +840,30 @@ public class SysSystemServiceImpl implements SysSystemService {
             }
         }
         return SysBeanUtils.mapToBean(clazz, ele);
+    }
+
+    /**
+     * 配置key转义
+     *
+     * @param dictionaryCache
+     * @param ele
+     * @param clazz
+     * @param key
+     * @param value
+     */
+    private void transfer(Map dictionaryCache, Map ele, Class clazz, String key, String value){
+        // 用户信息userId不转义
+        if (!clazz.equals(SysUserModel.class)) {
+            // 转义 userId
+            SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
+            sysUserQueryModel.setUserId(value);
+            List<SysUserModel> sysUserList = sysUserDao
+                    .selectSysUser(sysUserQueryModel);
+            if (CollectionUtils.isNotEmpty(sysUserList)) {
+                ele.put(key, sysUserList.get(0).getUserName());
+                dictionaryCache.put(value, sysUserList.get(0).getUserName());
+            }
+        }
     }
 
     /**

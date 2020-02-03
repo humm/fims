@@ -75,6 +75,11 @@ public class CueConst {
     public static final String CHECK_SUCCESS                        = "校验成功";
 
     /**
+     * 提示信息：刷新成功
+     */
+    public static final String REFRESH_SUCCESS                      = "刷新成功";
+
+    /**
      * 提示信息：校验失败
      */
     public static final String CHECK_FAIL                           = "校验失败";
@@ -117,29 +122,29 @@ public class CueConst {
     /**
      * 提示信息：登出成功
      */
-    public static final String USER_LOGOUT_SUCCESS                   = "退出成功";
+    public static final String USER_LOGOUT_SUCCESS                  = "退出成功";
 
     /**
      * 提示信息：送礼人和收礼人都不为系统用户
      */
-    public static final String GIFT_SENDER_RECEIVER_NOT_EXIST        = "送礼人和收礼人必须有一个为系统用户";
+    public static final String GIFT_SENDER_RECEIVER_NOT_EXIST       = "送礼人和收礼人必须有一个为系统用户";
 
     /**
      * 提示信息：送礼人和收礼人不能同时为系统用户
      */
-    public static final String GIFT_SENDER_RECEIVER_EXIST            = "送礼人和收礼人不能同时为系统用户";
+    public static final String GIFT_SENDER_RECEIVER_EXIST           = "送礼人和收礼人不能同时为系统用户";
 
     /**
      * 请设置系统备份路径
      */
-    public static final String BACKUP_LOCATION_IS_EMPTY              = "请设置系统备份路径";
+    public static final String BACKUP_LOCATION_IS_EMPTY             = "请设置系统备份路径";
 
     /**
      * 系统备份路径不存在
      */
-    public static final String BACKUP_LOCATION_NOT_EXIST             = "系统备份路径 %s 不存在";
+    public static final String BACKUP_LOCATION_NOT_EXIST            = "系统备份路径 %s 不存在";
     /**
      * 系统备份路径不存在
      */
-    public static final String BACKUP_SUCCESS                        = "备份成功";
+    public static final String BACKUP_SUCCESS                       = "备份成功";
 }

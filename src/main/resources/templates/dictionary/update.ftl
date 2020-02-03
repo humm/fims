@@ -144,7 +144,7 @@
         function addItem(userList, userId, dictionaryItem, dictionaryCaption) {
             var item = '';
             item = '<div class="layui-form-item layui-form-item-dictionary">';
-            item += '   <label class="layui-form-label">字典选值</label>';
+            item += '   <label class="layui-form-label" style="display:none;">字典选值</label>';
             item += '   <div class="layui-input-inline">';
             item += '       <input type="hidden" class="layui-input layui-detail" disabled="disabled" lay-verify="required|number"';
             item += '        name="dictionaryItem" value="' + dictionaryItem + '">';

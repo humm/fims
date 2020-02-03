@@ -119,6 +119,11 @@ public class TipConst {
      */
     public static final String LOG_OPERATE_TYPE_DELETE                          = "删除";
 
+    /**
+     * 日志操作类型：刷新
+     */
+    public static final String LOG_OPERATE_TYPE_REFRESH                         = "刷新";
+
 
     /**
      * 日志业务类型：应用启动

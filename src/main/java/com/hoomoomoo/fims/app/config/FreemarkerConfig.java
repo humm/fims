@@ -12,6 +12,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.hoomoomoo.fims.app.consts.SystemConst.APP_DESCRIBE;
 import static com.hoomoomoo.fims.app.consts.SystemConst.APP_NAME;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
@@ -38,6 +39,7 @@ public class FreemarkerConfig {
         configurer.setPreferFileSystemAccess(false);
         Map<String, Object> freemarkerVariables = new HashMap<>(1);
         freemarkerVariables.put(APP_NAME, systemConfigBean.getAppName());
+        freemarkerVariables.put(APP_DESCRIBE, systemConfigBean.getAppDescribe());
         configurer.setFreemarkerVariables(freemarkerVariables);
         SysLogUtils.load(logger, LOG_BUSINESS_TYPE_FREEMARKER);
         return configurer;

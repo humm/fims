@@ -123,4 +123,19 @@ public class SysDictionaryController {
         return resultData;
     }
 
+    /**
+     * 刷新字典信息
+     *
+     * @return
+     */
+    @ApiOperation("刷新字典信息")
+    @RequestMapping(value = "refresh", method = RequestMethod.GET)
+    @ResponseBody
+    public ResultData refresh() {
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_REFRESH);
+        ResultData resultData = sysDictionaryService.refresh();
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_REFRESH);
+        return resultData;
+    }
+
 }

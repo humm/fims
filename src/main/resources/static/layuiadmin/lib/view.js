@@ -37,7 +37,7 @@
                     });
                     setTimeout(function () {
                         parent.location.href = "./login";
-                    }, 3000);
+                    }, 1000);
                     return;
                 }
                 var n = ["请求异常，请重试<br><cite>错误信息：</cite>" + t, s()].join("");

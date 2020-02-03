@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>FIMS</title>
+    <title>${appDescribe}</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -53,7 +53,7 @@
         <div class="layui-side layui-side-menu">
             <div class="layui-side-scroll">
                 <div class="layui-logo">
-                    <span>FIMS</span>
+                    <span>${appDescribe}</span>
                 </div>
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all"
                     id="LAY-system-side-menu"

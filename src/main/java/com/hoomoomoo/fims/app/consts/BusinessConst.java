@@ -81,6 +81,11 @@ public class BusinessConst {
     public static final String COLON                                        = ":";
 
     /**
+     * 冒号
+     */
+    public static final String COLON_CHINESE                                = "：";
+
+    /**
      * 减号分隔符
      */
     public static final String MINUS                                        = "-";
@@ -203,7 +208,7 @@ public class BusinessConst {
     /**
      * 转义key
      */
-    public static final String TRANSFER_KEY                                 = "userId,amount";
+    public static final String TRANSFER_KEY                                 = "userId,giftSender,giftReceiver";
 
     /**
      * 是否有按钮权限

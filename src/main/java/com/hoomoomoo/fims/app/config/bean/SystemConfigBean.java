@@ -32,4 +32,10 @@ public class SystemConfigBean {
      */
     @Value("${server.servlet.context-path}")
     private String appName;
+
+    /**
+     * 应用名称
+     */
+    @Value("${server.servlet.context-describe}")
+    private String appDescribe;
 }

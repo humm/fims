@@ -1,39 +1,137 @@
 delete from sys_dictionary where dictionary_code = 'D009' and dictionary_item != '#';
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '1', '周大林', 1, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '2', '易明', 2, null, 20190000000002, null, null);
+values ('D009', '20190000000002', '二毛', 1, null, 20190000000001, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '3', '韩声海', 3, null, 20190000000002, null, null);
+values ('D009', '20190000000003', '雅丽', 2, null, 20190000000001, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '4', '刘诱', 4, null, 20190000000002, null, null);
+values ('D009', '1', '周大林', 3, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '5', '敖丽平', 5, null, 20190000000002, null, null);
+values ('D009', '2', '易明', 4, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '6', '郭锦', 6, null, 20190000000002, null, null);
+values ('D009', '3', '韩声海', 5, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '7', '朱凌钦', 7, null, 20190000000002, null, null);
+values ('D009', '4', '刘诱', 6, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '8', '孙俪', 8, null, 20190000000002, null, null);
+values ('D009', '5', '敖丽平', 7, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '9', '黄霄', 9, null, 20190000000002, null, null);
+values ('D009', '6', '郭锦', 8, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '10', '肖海刚', 10, null, 20190000000002, null, null);
+values ('D009', '7', '朱凌钦', 9, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '11', '胡永兵', 11, null, 20190000000002, null, null);
+values ('D009', '8', '孙俪', 10, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '9', '黄霄', 11, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '10', '肖海刚', 12, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '11', '胡永兵', 13, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '12', '廖龙龙', 14, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '13', '胡琳', 15, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '14', '二毛-云南姐姐', 16, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '15', '二毛-女女姐姐', 17, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '16', '二毛-大姑姑', 18, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '17', '二毛-三姑姑', 19, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '18', '二毛-小姑姑', 20, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '19', '二毛-青青老表', 21, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '20', '二毛-大伯母', 22, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '21', '二毛-小伯母', 23, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '22', '二毛-胡小聪', 24, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '23', '二毛-奶奶', 25, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '24', '二毛-大姨', 26, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '25', '二毛-李娟', 27, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '26', '二毛-李敏', 28, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '27', '二毛-外婆', 29, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '28', '雅丽-奶奶', 30, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '29', '雅丽-大姑姑', 31, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '30', '雅丽-小姑姑', 32, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '31', '雅丽-叔叔', 33, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '32', '雅丽-颖韬', 34, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '33', '雅丽-大舅妈', 35, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '34', '雅丽-二舅妈', 36, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '35', '雅丽-小舅妈', 37, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '36', '雅丽-艳梅', 38, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '37', '雅丽-雪梅', 39, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '38', '雅丽-雨晴', 40, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '39', '雅丽-梅兰', 41, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '40', '雅丽-小姨', 42, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '41', '雅丽-二姨', 43, null, 20190000000003, null, null);
+
 commit;
 
-delete from sys_dictionary t where t.dictionary_code = 'D003' and t.dictionary_item in ('3', '4', '5');
+delete from sys_dictionary t where t.dictionary_code = 'D003' and t.dictionary_item in ('3', '4', '5', '6');
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D003', '3', '公积金', 3, null, 20190000000002, null, null);
 
@@ -42,6 +140,9 @@ values ('D003', '4', '奖金', 4, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D003', '5', '出差补贴', 5, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D003', '6', '失业保险金', 6, null, 20190000000002, null, null);
 commit;
 
 delete from sys_dictionary t where t.dictionary_code = 'D005' and t.dictionary_item != '#';
@@ -72,40 +173,136 @@ truncate table sys_gift;
 commit;
 
 insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
-values (20190000000001, 'D004-1', '20190000000002', 'D009-2', to_timestamp('2014-01-01', 'yyyy-MM-dd'), 666, '日期已忘记', to_timestamp('2019-01-11 23:04:43', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:04:43', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+values (20190000000001, 'D004-1', 'D009-20190000000002', 'D009-2', to_timestamp('2014-01-01', 'yyyy-MM-dd'), 666, '日期已忘记', to_timestamp('2019-01-11 23:04:43', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:04:43', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
-values (20190000000002, 'D004-1', '20190000000002', 'D009-1', to_timestamp('2014-01-01', 'yyyy-MM-dd'), 666, '日期已忘记', to_timestamp('2019-01-11 23:05:06', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:05:06', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+values (20190000000002, 'D004-1', 'D009-20190000000002', 'D009-1', to_timestamp('2014-01-01', 'yyyy-MM-dd'), 666, '日期已忘记', to_timestamp('2019-01-11 23:05:06', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:05:06', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
-values (20190000000003, 'D004-1', '20190000000002', 'D009-5', to_timestamp('2016-02-01', 'yyyy-MM-dd'), 300, null, to_timestamp('2019-01-11 23:06:13', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:06:13', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+values (20190000000003, 'D004-1', 'D009-20190000000002', 'D009-5', to_timestamp('2016-02-01', 'yyyy-MM-dd'), 300, null, to_timestamp('2019-01-11 23:06:13', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:06:13', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
-values (20190000000004, 'D004-1', '20190000000002', 'D009-4', to_timestamp('2016-02-01', 'yyyy-MM-dd'), 300, null, to_timestamp('2019-01-11 23:06:39', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:06:39', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+values (20190000000004, 'D004-1', 'D009-20190000000002', 'D009-4', to_timestamp('2016-02-01', 'yyyy-MM-dd'), 300, null, to_timestamp('2019-01-11 23:06:39', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:06:39', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
-values (20190000000005, 'D004-1', '20190000000002', 'D009-3', to_timestamp('2015-01-01', 'yyyy-MM-dd'), 666, '日期已忘记', to_timestamp('2019-01-11 23:07:06', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:07:06', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+values (20190000000005, 'D004-1', 'D009-20190000000002', 'D009-3', to_timestamp('2015-01-01', 'yyyy-MM-dd'), 666, '日期已忘记', to_timestamp('2019-01-11 23:07:06', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:07:06', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
-values (20190000000006, 'D004-1', '20190000000002', 'D009-6', to_timestamp('2016-10-01', 'yyyy-MM-dd'), 600, null, to_timestamp('2019-01-11 23:08:03', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:08:03', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+values (20190000000006, 'D004-1', 'D009-20190000000002', 'D009-6', to_timestamp('2016-10-01', 'yyyy-MM-dd'), 600, null, to_timestamp('2019-01-11 23:08:03', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:08:03', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
-values (20190000000007, 'D004-1', '20190000000002', 'D009-7', to_timestamp('2017-10-01', 'yyyy-MM-dd'), 1000, null, to_timestamp('2019-01-11 23:08:42', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:08:42', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+values (20190000000007, 'D004-1', 'D009-20190000000002', 'D009-7', to_timestamp('2017-10-01', 'yyyy-MM-dd'), 1000, null, to_timestamp('2019-01-11 23:08:42', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:08:42', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
-values (20190000000008, 'D004-2', '20190000000002', 'D009-7', to_timestamp('2018-10-01', 'yyyy-MM-dd'), 300, '日期已忘记', to_timestamp('2019-01-11 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+values (20190000000008, 'D004-2', 'D009-20190000000002', 'D009-7', to_timestamp('2018-10-01', 'yyyy-MM-dd'), 300, '日期已忘记', to_timestamp('2019-01-11 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
-values (20190000000009, 'D004-1', '20190000000002', 'D009-9', to_timestamp('2018-01-02', 'yyyy-MM-dd'), 600, null, to_timestamp('2019-01-11 23:10:15', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:10:15', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+values (20190000000009, 'D004-1', 'D009-20190000000002', 'D009-9', to_timestamp('2018-01-02', 'yyyy-MM-dd'), 600, null, to_timestamp('2019-01-11 23:10:15', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:10:15', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
-values (20190000000010, 'D004-1', '20190000000002', 'D009-8', to_timestamp('2018-01-02', 'yyyy-MM-dd'), 500, null, to_timestamp('2019-01-11 23:10:48', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:10:48', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+values (20190000000010, 'D004-1', 'D009-20190000000002', 'D009-8', to_timestamp('2018-01-02', 'yyyy-MM-dd'), 500, null, to_timestamp('2019-01-11 23:10:48', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-01-11 23:10:48', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
-values (20190000000011, 'D004-1', '20190000000002', 'D009-10', to_timestamp('2018-11-10', 'yyyy-MM-dd'), 400, '日期已忘记', to_timestamp('2019-01-11 23:13:08', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-05-08 19:25:55', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+values (20190000000011, 'D004-1', 'D009-20190000000002', 'D009-10', to_timestamp('2018-11-10', 'yyyy-MM-dd'), 400, '日期已忘记', to_timestamp('2019-01-11 23:13:08', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-05-08 19:25:55', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
-values (20190000000012, 'D004-1', '20190000000002', 'D009-11', to_timestamp('2019-10-01', 'yyyy-MM-dd'), 600, '', to_timestamp('2019-10-01 23:13:08', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-10-01 19:25:55', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+values (20190000000012, 'D004-1', 'D009-20190000000002', 'D009-11', to_timestamp('2019-10-01', 'yyyy-MM-dd'), 600, '', to_timestamp('2019-10-01 23:13:08', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-10-01 19:25:55', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000013, 'D004-2', 'D009-12', 'D009-20190000000002', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000014, 'D004-2', 'D009-7', 'D009-20190000000002', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 300, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000015, 'D004-2', 'D009-13', 'D009-20190000000003', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 300, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000003', '20190000000003');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000016, 'D004-2', 'D009-14', 'D009-20190000000002', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000017, 'D004-2', 'D009-15', 'D009-20190000000002', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000018, 'D004-2', 'D009-16', 'D009-20190000000002', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000019, 'D004-2', 'D009-17', 'D009-20190000000002', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000020, 'D004-2', 'D009-18', 'D009-20190000000002', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000021, 'D004-2', 'D009-19', 'D009-20190000000002', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000022, 'D004-2', 'D009-20', 'D009-20190000000002', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000023, 'D004-2', 'D009-21', 'D009-20190000000002', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000024, 'D004-2', 'D009-22', 'D009-20190000000002', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 600, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000025, 'D004-2', 'D009-23', 'D009-20190000000002', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 400, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000026, 'D004-2', 'D009-24', 'D009-20190000000002', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000027, 'D004-2', 'D009-25', 'D009-20190000000002', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000028, 'D004-2', 'D009-26', 'D009-20190000000002', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000029, 'D004-2', 'D009-27', 'D009-20190000000002', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000030, 'D004-2', 'D009-28', 'D009-20190000000003', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 600, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000003', '20190000000003');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000031, 'D004-2', 'D009-29', 'D009-20190000000003', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 800, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000003', '20190000000003');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000032, 'D004-2', 'D009-30', 'D009-20190000000003', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 400, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000003', '20190000000003');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000033, 'D004-2', 'D009-31', 'D009-20190000000003', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 400, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000003', '20190000000003');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000034, 'D004-2', 'D009-32', 'D009-20190000000003', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 1600, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000003', '20190000000003');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000000, 'D004-2', 'D009-20190000000003', 'D009-32', to_timestamp('2018-01-19', 'yyyy-MM-dd'), 1600, '日期已忘记', to_timestamp('2018-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2018-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000003', '20190000000003');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000035, 'D004-2', 'D009-33', 'D009-20190000000003', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000003', '20190000000003');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000036, 'D004-2', 'D009-34', 'D009-20190000000003', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000003', '20190000000003');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000037, 'D004-2', 'D009-35', 'D009-20190000000003', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000003', '20190000000003');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000038, 'D004-2', 'D009-36', 'D009-20190000000003', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000003', '20190000000003');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000039, 'D004-2', 'D009-37', 'D009-20190000000003', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000003', '20190000000003');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000040, 'D004-2', 'D009-38', 'D009-20190000000003', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000003', '20190000000003');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000041, 'D004-2', 'D009-39', 'D009-20190000000003', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 300, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000003', '20190000000003');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000042, 'D004-2', 'D009-40', 'D009-20190000000003', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000003', '20190000000003');
+
+insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date, gift_amount, gift_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000043, 'D004-2', 'D009-41', 'D009-20190000000003', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 23:09:21', 'yyyy-MM-dd hh24:mi:ss'), '20190000000003', '20190000000003');
 
 commit;
 
@@ -222,7 +419,7 @@ insert into sys_income (income_id, user_id, income_type, income_date, income_com
 values (20190000000036, 20190000000002, 'D003-1', to_timestamp('2013-05-20', 'yyyy-MM-dd'), 'D005-2', 5813, null, to_timestamp('2013-05-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2013-05-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
-values (20190000000037, 20190000000002, 'D003-4', to_timestamp('2013-06-20', 'yyyy-MM-dd'), 'D005-2', 1474, '失业保险金', to_timestamp('2013-06-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2013-06-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+values (20190000000037, 20190000000002, 'D003-6', to_timestamp('2013-06-20', 'yyyy-MM-dd'), 'D005-2', 1474, '失业保险金', to_timestamp('2013-06-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2013-06-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
 values (20190000000038, 20190000000002, 'D003-1', to_timestamp('2013-06-20', 'yyyy-MM-dd'), 'D005-3', 322, null, to_timestamp('2013-06-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2013-06-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
@@ -231,7 +428,7 @@ insert into sys_income (income_id, user_id, income_type, income_date, income_com
 values (20190000000039, 20190000000002, 'D003-1', to_timestamp('2013-07-20', 'yyyy-MM-dd'), 'D005-3', 2043, null, to_timestamp('2013-07-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2013-07-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
-values (20190000000040, 20190000000002, 'D003-3', to_timestamp('2013-07-20', 'yyyy-MM-dd'), 'D005-2', 5688, null, to_timestamp('2013-07-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2013-07-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+values (20190000000040, 20190000000002, 'D003-3', to_timestamp('2013-06-13', 'yyyy-MM-dd'), 'D005-2', 4747.96, null, to_timestamp('2013-07-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2013-07-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
 values (20190000000041, 20190000000002, 'D003-1', to_timestamp('2013-08-20', 'yyyy-MM-dd'), 'D005-3', 2699, null, to_timestamp('2013-08-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2013-08-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
@@ -339,6 +536,9 @@ insert into sys_income (income_id, user_id, income_type, income_date, income_com
 values (20190000000075, 20190000000002, 'D003-1', to_timestamp('2016-03-10', 'yyyy-MM-dd'), 'D005-4', 4200, null, to_timestamp('2016-03-10 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2016-03-10 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000136, 20190000000002, 'D003-3', to_timestamp('2016-06-04', 'yyyy-MM-dd'), 'D005-4', 1795.17, null, to_timestamp('2016-03-10 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2016-03-10 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
 values (20190000000076, 20190000000002, 'D003-1', to_timestamp('2016-04-20', 'yyyy-MM-dd'), 'D005-5', 3884, null, to_timestamp('2016-04-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2016-04-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
@@ -411,10 +611,10 @@ insert into sys_income (income_id, user_id, income_type, income_date, income_com
 values (20190000000099, 20190000000002, 'D003-5', to_timestamp('2017-06-16', 'yyyy-MM-dd'), 'D005-5', 1260, null, to_timestamp('2017-06-16 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2017-06-16 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
-values (20190000000100, 20190000000002, 'D003-1', to_timestamp('2017-07-20', 'yyyy-MM-dd'), 'D005-6', 3637, null, to_timestamp('2017-07-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2017-07-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+values (20190000000101, 20190000000002, 'D003-3', to_timestamp('2017-08-04', 'yyyy-MM-dd'), 'D005-5', 5937, null, to_timestamp('2017-08-04 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2017-08-04 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
-values (20190000000101, 20190000000002, 'D003-3', to_timestamp('2017-08-04', 'yyyy-MM-dd'), 'D005-5', 5937, null, to_timestamp('2017-08-04 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2017-08-04 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+values (20190000000100, 20190000000002, 'D003-1', to_timestamp('2017-07-20', 'yyyy-MM-dd'), 'D005-6', 3637, null, to_timestamp('2017-07-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2017-07-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
 values (20190000000102, 20190000000002, 'D003-1', to_timestamp('2017-08-20', 'yyyy-MM-dd'), 'D005-6', 7149, null, to_timestamp('2017-08-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2017-08-20 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
@@ -518,7 +718,29 @@ values (20190000000134, 20190000000002, 'D003-3', to_timestamp('2018-04-23', 'yy
 insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
 values (20190000000135, 20190000000002, 'D003-3', to_timestamp('2019-05-28', 'yyyy-MM-dd'), 'D005-7', 12000, null, to_timestamp('2019-05-28 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2019-05-28 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
+insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000137, 20190000000002, 'D003-1', to_timestamp('2020-01-22', 'yyyy-MM-dd'), 'D005-7', 14223.26, '', to_timestamp('2020-01-22 19:32:57', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-22 19:29:17', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
+insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000138, 20190000000002, 'D003-2', to_timestamp('2020-01-23', 'yyyy-MM-dd'), 'D005-7', 29100, null, to_timestamp('2020-01-23 23:57:33', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-23 00:04:28', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
 commit;
 
+update sys_income set create_date = income_date, modify_date = income_date;
+update sys_gift set create_date = gift_date, modify_date = gift_date;
+commit;
+
+delete from sys_user where USER_ID in ('20190000000002', '20190000000003');
 insert into sys_user (USER_ID, USER_CODE, USER_NAME, USER_PASSWORD, USER_STATUS, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER, USER_MEMO)
-values (20190000000002, 'mao', '二毛', '2UDNzITM', 'D001-1', sysdate, sysdate, '20190000000001', '20190000000001', null);
+values (20190000000002, 'maomao', '二毛', '2UDNzITM', 'D001-1', sysdate, sysdate, '20190000000001', '20190000000001', null);
+
+insert into sys_user (USER_ID, USER_CODE, USER_NAME, USER_PASSWORD, USER_STATUS, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER, USER_MEMO)
+values (20190000000003, 'yali', '雅丽', '2UDNzITM', 'D001-1', sysdate, sysdate, '20190000000001', '20190000000001', null);
+commit;
+
+update sys_parameter set parameter_value = 'D:\fims\backup' where parameter_code = 'backupLocation';
+commit;
+
+create or replace directory backup_dir as 'D:\fims\backup';
+
+

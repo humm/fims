@@ -250,7 +250,8 @@
             delete: "delete",
             update: "update",
             detail: "detail-.ftl",
-            reset: "reset"
+            reset: "reset",
+            refresh: "refresh"
         },
         tips: {
             title: {

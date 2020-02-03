@@ -195,10 +195,11 @@ public class SysGiftServiceImpl implements SysGiftService {
         SysUserModel giftSender = sysUserDao.selectOne(sysUserQueryModel);
         if (giftSender == null) {
             sysNoticeModel.setUserId(changeUserId(sysGiftModel.getGiftReceiver()));
+            sysNoticeModel.setBusinessType(new StringBuffer(D011).append(MINUS).append(STR_3).toString());
         } else {
             sysNoticeModel.setUserId(changeUserId(sysGiftModel.getGiftSender()));
+            sysNoticeModel.setBusinessType(new StringBuffer(D011).append(MINUS).append(STR_2).toString());
         }
-        sysNoticeModel.setBusinessType(new StringBuffer(D011).append(MINUS).append(STR_2).toString());
         sysNoticeModel.setBusinessSubType(sysGiftModel.getGiftType());
         sysNoticeModel.setBusinessDate(sysGiftModel.getGiftDate());
         sysNoticeModel.setBusinessAmount(sysGiftModel.getGiftAmount());

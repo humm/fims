@@ -56,6 +56,7 @@
             <!-- 头部操作按钮 -->
             <div style="padding-bottom: 10px;" id="LAY-app-dictionary-list-button">
                 <button class="layui-btn layuiadmin-btn-dictionary-list" data-type="update">修改</button>
+                <button class="layui-btn layuiadmin-btn-dictionary-list" data-type="refresh">刷新</button>
             </div>
 
             <!-- 列表数据 -->
@@ -98,7 +99,8 @@
             page: appName + "/dictionary/selectPage",
             save: appName + "/dictionary/save",
             update: appName + "/dictionary/view/update",
-            detail: appName + "/dictionary/view/detail"
+            detail: appName + "/dictionary/view/detail",
+            refresh: appName + "/dictionary/refresh"
         }
 
         // 列表字段
@@ -109,6 +111,18 @@
             {field: "isOpen", title: "开放状态", align: "center", templet: "#isOpen", sort: true},
             {field: "userId", title: "字典用户", hide: true},
         ]];
+
+        // 数据刷新
+        var refresh = function (data) {
+            admin.req({
+                url: url.refresh,
+                type: "get",
+                dataType: "json",
+                done: function (response) {
+                    fims.msg(response.msg);
+                }
+            });
+        }
 
         // 数据删除
         var del = function (data) {
@@ -136,7 +150,7 @@
                 type: 2,
                 title: fims.tips.title.update,
                 content: url.update + "?" + $.param(request),
-                area: ["900px", "450px"],
+                area: ["750px", "450px"],
                 btn: [fims.tips.btn.save, fims.tips.btn.cancel],
                 resize: fims.set.resize,
                 yes: function (e, t) {
@@ -157,7 +171,7 @@
                 type: 2,
                 title: fims.tips.title.detail,
                 content: url.detail + "?" + $.param(request),
-                area: ["800px", "450px"],
+                area: ["700px", "450px"],
                 resize: false
             });
         }
@@ -291,6 +305,9 @@
                         return fims.msg(fims.tips.warn.notSelect);
                     }
                     del(checkData);
+                    break;
+                case fims.operate.refresh:
+                    refresh();
                     break;
                 default:
                     fims.msg(fims.tips.msg.notSupportEvent);

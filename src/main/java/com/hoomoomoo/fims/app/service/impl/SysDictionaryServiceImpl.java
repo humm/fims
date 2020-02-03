@@ -28,8 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
-import static com.hoomoomoo.fims.app.consts.CueConst.SELECT_SUCCESS;
-import static com.hoomoomoo.fims.app.consts.CueConst.UPDATE_SUCCESS;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
@@ -169,6 +168,19 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
         sysSystemService.loadSysDictionaryCondition();
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_UPDATE);
         return new ResultData(true, UPDATE_SUCCESS, null);
+    }
+
+    /**
+     * 刷新字典信息
+     *
+     * @return
+     */
+    @Override
+    public ResultData refresh() {
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_REFRESH);
+        sysSystemService.loadSysDictionaryCondition();
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_REFRESH);
+        return new ResultData(true, REFRESH_SUCCESS, null);
     }
 
 }
