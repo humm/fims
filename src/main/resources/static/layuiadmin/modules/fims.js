@@ -1,6 +1,7 @@
 /** fims自定义方法 */
 ;layui.define(function (e) {
     var $ = layui.$,
+        table = layui.table,
         form = layui.form;
 
     var obj = {
@@ -237,6 +238,21 @@
             socket.onerror = function () {
                 console.log("webSocket error: " + topicName);
             }
+        },
+        initTable: function (config) {
+            table.render($.extend({
+                autoSort: false,  // 禁用前端自动排序
+                page: true,
+                limit: 10,
+                limits: [10, 50, 100, 500],
+                text: {
+                    none: this.tips.msg.emptyData
+                },
+                // 行边框风格
+                skin: 'line'
+                // 开启隔行背景
+                // even: true
+            }, config));
         },
         config: {
             index: "/index",

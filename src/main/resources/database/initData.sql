@@ -389,3 +389,12 @@ values ('20190000000053', '数据权限修改后session刷新不及时导致查�
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
 values ('20190000000054', '发布版本：3.0.01', to_date('03-02-2020', 'dd-mm-yyyy'), 265, '4');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000055', '删除角色时不删除sys_role_menu数据造成脏数据', to_date('05-02-2020', 'dd-mm-yyyy'), 270, '3');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000056', '删除角色时不删除sys_user_role数据造成脏数据', to_date('05-02-2020', 'dd-mm-yyyy'), 275, '3');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000057', 'session失效列表数据查询报错不跳转登录页面', to_date('05-02-2020', 'dd-mm-yyyy'), 280, '3');

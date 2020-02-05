@@ -47,16 +47,16 @@ public class SystemConst {
     /**
      * 系统初始化数据
      */
-    public static final String INIT_SYSTEM_DATA                     = "database/data.sql";
+    public static final String INIT_SYSTEM_DATA                     = "database/initData.sql";
     /**
      * 系统初始化表结构
      */
-    public static final String INIT_SYSTEM_TABLE                    = "database/table.sql";
+    public static final String INIT_SYSTEM_TABLE                    = "database/initTable.sql";
 
     /**
      * 系统初始化存储过程
      */
-    public static final String INIT_SYSTEM_PROCEDURE                = "classpath:database/procedure.sql";
+    public static final String INIT_SYSTEM_PROCEDURE                = "classpath:database/initProcedure.sql";
 
     /**
      * 系统配置sql

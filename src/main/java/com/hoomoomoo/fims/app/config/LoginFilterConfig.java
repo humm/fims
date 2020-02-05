@@ -51,8 +51,11 @@ public class LoginFilterConfig implements Filter {
         SessionBean sessionBean = (SessionBean) request.getSession().getAttribute(SESSION_BEAN);
         if (sessionBean != null) {
             // 查询用户数据权限 避免数据权限更新后session刷新不计时
-            boolean dataAuthority = sysMenuService.selectDataAuthorityByUserId(sessionBean.getUserId());
-            sessionBean.setIsAdminData(dataAuthority);
+            if (ADMIN_CODE.equals(sessionBean.getUserCode())) {
+                sessionBean.setIsAdminData(true);
+            } else {
+                sessionBean.setIsAdminData(sysMenuService.selectDataAuthorityByUserId(sessionBean.getUserId()));
+            }
             SysSessionUtils.setSession(sessionBean);
             if (PAGE_LOGIN.equals(servletPath)) {
                 response.sendRedirect(request.getContextPath() + PAGE_INDEX);

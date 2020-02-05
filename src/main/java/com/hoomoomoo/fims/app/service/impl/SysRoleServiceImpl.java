@@ -115,10 +115,17 @@ public class SysRoleServiceImpl implements SysRoleService {
         List<SysRoleModel> list = new ArrayList<>();
         if (StringUtils.isNotBlank(roleIds)) {
             String[] roleId = roleIds.split(COMMA);
+            SysRoleMenuModel sysRoleMenuModel = new SysRoleMenuModel();
+            SysUserModel sysUserModel = new SysUserModel();
+            sysRoleDao.deleteRoleMenu(sysRoleMenuModel);
             for (String ele : roleId) {
                 SysRoleModel sysRoleModel = new SysRoleModel();
                 sysRoleModel.setRoleId(ele);
                 list.add(sysRoleModel);
+                sysRoleMenuModel.setRoleId(sysRoleModel.getRoleId());
+                sysUserModel.setRoleId(sysRoleModel.getRoleId());
+                sysRoleDao.deleteRoleMenu(sysRoleMenuModel);
+                sysRoleDao.deleteRoleUser(sysUserModel);
             }
             sysRoleDao.delete(list);
         }

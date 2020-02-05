@@ -92,7 +92,6 @@
                         $("input[name='dataAuthority']").attr("checked", true);
                     }
                     form.render();
-                    console.log(response.data.menuList)
                     //加载菜单树
                     tree.render({
                         elem: '#menuTree',

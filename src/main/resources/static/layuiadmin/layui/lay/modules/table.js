@@ -198,6 +198,17 @@
                     "function" == typeof a.parseData && (t = a.parseData(t) || t), t[n.statusName] != n.statusCode ? (i.renderForm(), i.errorView(t[n.msgName] || '返回的数据不符合规范，正确的成功状态码应为："' + n.statusName + '": ' + n.statusCode)) : (i.renderData(t, e, t[n.countName]), o(), a.time = (new Date).getTime() - i.startTime + " ms"), i.setColsWidth(), "function" == typeof a.done && a.done(t, e, t[n.countName])
                 },
                 error: function (e, t) {
+                    var status = e.getResponseHeader("status");
+                    // 跳转登录页面
+                    if(status == "timeout") {
+                        layer.alert('由于您长时间没有操作, 请重新登录...', function () {
+                            parent.location.href = "./login";
+                        });
+                        setTimeout(function () {
+                            parent.location.href = "./login";
+                        }, 1500);
+                        return;
+                    }
                     i.errorView("数据接口请求异常：" + t), i.renderForm(), i.setColsWidth()
                 }
             })

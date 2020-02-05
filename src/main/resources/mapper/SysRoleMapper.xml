@@ -142,6 +142,10 @@
         delete from sys_role_menu where role_id = #{roleId}
     </delete>
 
+    <delete id="deleteRoleUser" parameterType="com.hoomoomoo.fims.app.model.SysUserModel">
+        delete from sys_user_role where role_id = #{roleId}
+    </delete>
+
     <insert id="saveRoleMenu" parameterType="com.hoomoomoo.fims.app.model.SysRoleMenuModel">
         insert into sys_role_menu(
             role_menu_id,

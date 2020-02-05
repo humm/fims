@@ -3,6 +3,7 @@ package com.hoomoomoo.fims.app.dao;
 import com.hoomoomoo.fims.app.model.SysRoleMenuModel;
 import com.hoomoomoo.fims.app.model.SysRoleModel;
 import com.hoomoomoo.fims.app.model.SysRoleQueryModel;
+import com.hoomoomoo.fims.app.model.SysUserModel;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -78,4 +79,11 @@ public interface SysRoleDao {
      * @param sysRoleMenuModel
      */
     void saveRoleMenu(SysRoleMenuModel sysRoleMenuModel);
+
+    /**
+     * 删除角色用户信息
+     *
+     * @param sysUserModel
+     */
+    void deleteRoleUser(SysUserModel sysUserModel);
 }

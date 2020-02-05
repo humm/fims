@@ -320,17 +320,10 @@
         }
 
         // 列表数据渲染
-        table.render({
+        fims.initTable({
             elem: "#LAY-app-" + businessType + "-list",
             url: url.page,
-            cols: tableColumn,
-            autoSort: false, // 禁用前端自动排序
-            page: true,
-            limit: 10,
-            limits: [10, 30, 50, 100, 500],
-            text: {
-                none: fims.tips.msg.emptyData
-            }
+            cols: tableColumn
         });
 
         // 行数据按钮事件绑定 暂未启用

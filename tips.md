@@ -35,3 +35,5 @@ fims
             创建虚拟路径 create or replace directory backup_dir as 'D:/fims/backup';
             授权 grant read, write on directory backup_dir to public;
     10. admin.js 打开tab中文处理
+    11. view.js session失效跳转登录页面(32行位置)
+    12. table.js session失效跳转登录页面(201行位置)

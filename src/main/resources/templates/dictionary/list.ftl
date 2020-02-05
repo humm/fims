@@ -108,8 +108,8 @@
             {type: "checkbox", fixed: "left"},
             {field: "dictionaryCode", title: "字典代码", sort: true,},
             {field: "dictionaryCaption", title: "字典描述", sort: true},
-            {field: "isOpen", title: "开放状态", align: "center", templet: "#isOpen", sort: true},
             {field: "userId", title: "字典用户", hide: true},
+            {field: "isOpen", title: "开放状态", align: "center", templet: "#isOpen", sort: true}
         ]];
 
         // 数据刷新
@@ -239,17 +239,10 @@
         }
 
         // 列表数据渲染
-        table.render({
+        fims.initTable({
             elem: "#LAY-app-" + businessType + "-list",
             url: url.page,
-            cols: tableColumn,
-            autoSort: false, // 禁用前端自动排序
-            page: true,
-            limit: 10,
-            limits: [10, 30, 50, 100, 500],
-            text: {
-                none: fims.tips.msg.emptyData
-            }
+            cols: tableColumn
         });
 
         // 行数据按钮事件绑定 暂未启用
