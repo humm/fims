@@ -30,7 +30,7 @@ fims
     05. index.js 退出按钮事件已注释(移动至index.ftl)
     06. table.js 解决查询自带上次查询条件问题(178行位置) t.extend(!0, {}, i.config, e) 修改为 t.extend({}, i.config, e)
     07. admin.js 删除多余方法
-    08. user.js
+    08. user.js 删除多余方法
     09. dmp备份时 需设置backup_dir虚拟路径
             创建虚拟路径 create or replace directory backup_dir as 'D:/fims/backup';
             授权 grant read, write on directory backup_dir to public;
