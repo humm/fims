@@ -724,6 +724,9 @@ values (20190000000137, 20190000000002, 'D003-1', to_timestamp('2020-01-22', 'yy
 insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
 values (20190000000138, 20190000000002, 'D003-2', to_timestamp('2020-01-23', 'yyyy-MM-dd'), 'D005-7', 29100, null, to_timestamp('2020-01-23 23:57:33', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-23 00:04:28', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
+insert into sys_income (income_id, user_id, income_type, income_date, income_company, income_amount, income_memo, create_date, modify_date, create_user, modify_user)
+values (20190000000139, 20190000000002, 'D003-3', to_timestamp('2020-02-07', 'yyyy-MM-dd'), 'D005-7', 9000, null, to_timestamp('2020-02-07 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-07 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
+
 commit;
 
 update sys_income set create_date = income_date, modify_date = income_date;
