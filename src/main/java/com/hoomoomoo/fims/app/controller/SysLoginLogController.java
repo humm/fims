@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
-import static com.hoomoomoo.fims.app.consts.TipConst.LOG_OPERATE_TYPE_SELECT_PAGE;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 
 /**

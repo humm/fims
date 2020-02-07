@@ -21,11 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
-import static com.hoomoomoo.fims.app.consts.CueConst.SELECT_SUCCESS;
-import static com.hoomoomoo.fims.app.consts.CueConst.UPDATE_SUCCESS;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D010;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.BACKUP_LOCATION;
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
  * @author humm23693

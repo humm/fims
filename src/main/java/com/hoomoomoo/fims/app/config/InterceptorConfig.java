@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import static com.hoomoomoo.fims.app.consts.TipConst.LOG_BUSINESS_TYPE_INTERCEPTOR;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
  * @author humm23693

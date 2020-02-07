@@ -14,9 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.hoomoomoo.fims.app.consts.ParameterConst.*;
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
-
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 /**
  * @author humm23693
  * @description 系统拦截器

@@ -13,8 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.hoomoomoo.fims.app.consts.CueConst.SELECT_SUCCESS;
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
  * @author humm23693

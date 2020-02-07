@@ -7,7 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 
 /**
@@ -19,12 +19,12 @@ import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 @SpringBootApplication
 @ServletComponentScan
-public class FimsApplication {
+public class FimsStarter {
 
-    private static final Logger logger = LoggerFactory.getLogger(FimsApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(FimsStarter.class);
 
     public static void main(String[] args){
-        SpringApplication.run(FimsApplication.class, args);
+        SpringApplication.run(FimsStarter.class, args);
         SysLogUtils.configSuccess(logger, LOG_BUSINESS_TYPE_APP_START);
     }
 }

@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Iterator;
 import java.util.Map;
 
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
  * @author humm23693

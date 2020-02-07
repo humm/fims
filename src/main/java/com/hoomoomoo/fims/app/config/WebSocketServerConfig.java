@@ -11,8 +11,7 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
-
-import static com.hoomoomoo.fims.app.consts.TipConst.LOG_BUSINESS_TYPE_WEBSOCKET;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
  * @author humm23693

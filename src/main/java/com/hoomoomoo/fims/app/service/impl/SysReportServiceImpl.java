@@ -7,7 +7,7 @@ import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysReportService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SysSessionUtils;
-import com.hoomoomoo.fims.app.util.SysUtils;
+import com.hoomoomoo.fims.app.util.SysCommonUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -23,8 +23,7 @@ import static com.hoomoomoo.fims.app.config.RunDataConfig.DICTIONARY_CONDITION;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.SELECT_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D000;
-import static com.hoomoomoo.fims.app.consts.TipConst.LOG_BUSINESS_TYPE_REPORT;
-import static com.hoomoomoo.fims.app.consts.TipConst.LOG_OPERATE_TYPE_SELECT;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
  * @author humm23693
@@ -222,7 +221,7 @@ public class SysReportServiceImpl implements SysReportService {
                     }
                     sysReportModel.setUserList(user);
                 } else {
-                    sysReportModel.setTitle(SysUtils.getDictionaryCaption(userList.get(0).getDictionaryCaption()));
+                    sysReportModel.setTitle(SysCommonUtils.getDictionaryCaption(userList.get(0).getDictionaryCaption()));
                 }
             }
         }
@@ -251,7 +250,7 @@ public class SysReportServiceImpl implements SysReportService {
                 if (CollectionUtils.isNotEmpty(userList)) {
                     for (int i = 0; i < userList.size(); i++) {
                         sysReportQueryModel.setUserId(userList.get(i).getDictionaryItem());
-                        sysReportQueryModel.setUserName(SysUtils.getDictionaryCaption(userList.get(i).getDictionaryCaption()));
+                        sysReportQueryModel.setUserName(SysCommonUtils.getDictionaryCaption(userList.get(i).getDictionaryCaption()));
                         sysReportModelList = getSysReportData(sysReportQueryModel);
                         setSysReportProperties(sysReportModel, sysReportQueryModel, sysReportModelList, sessionBean, i + 1);
                     }
@@ -384,8 +383,8 @@ public class SysReportServiceImpl implements SysReportService {
             }
         } else {
             if (StringUtils.isBlank(sysReportModelList.get(0).getReportName())) {
-                sysReportYaxisModel.setName(REPORT_COLLECT_TITLE);
-                sysReportModel.getLegendData()[index] = REPORT_COLLECT_TITLE;
+                sysReportYaxisModel.setName(FAMILY_TITLE);
+                sysReportModel.getLegendData()[index] = FAMILY_TITLE;
             } else {
                 sysReportYaxisModel.setName(sysReportModelList.get(0).getReportName());
                 sysReportModel.getLegendData()[index] = sysReportModelList.get(0).getReportName();

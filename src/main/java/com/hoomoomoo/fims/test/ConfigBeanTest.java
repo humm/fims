@@ -1,6 +1,6 @@
 package com.hoomoomoo.fims.test;
 
-import com.hoomoomoo.fims.FimsApplication;
+import com.hoomoomoo.fims.FimsStarter;
 import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
 import com.hoomoomoo.fims.app.config.bean.MailConfigBean;
 import com.hoomoomoo.fims.app.config.bean.ScheduleConfigBean;
@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = FimsApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(classes = FimsStarter.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class ConfigBeanTest {
 
     private static final Logger logger = LoggerFactory.getLogger(ConfigBeanTest.class);

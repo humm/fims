@@ -2,7 +2,7 @@ package com.hoomoomoo.fims.app.controller;
 
 import com.hoomoomoo.fims.app.config.bean.SystemConfigBean;
 import com.hoomoomoo.fims.app.util.SysSessionUtils;
-import com.hoomoomoo.fims.app.util.SysUtils;
+import com.hoomoomoo.fims.app.util.SysCommonUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,7 +50,7 @@ public class SysSystemController {
     @ApiOperation("跳转首页子页面")
     @RequestMapping(value = "home/console", method = RequestMethod.GET)
     public String console(ModelMap modelMap, HttpServletRequest httpServletRequest) {
-        modelMap.addAttribute(REQUEST_URL, SysUtils.getConnectUrl(httpServletRequest, systemConfigBean.getAppName()));
+        modelMap.addAttribute(REQUEST_URL, SysCommonUtils.getConnectUrl(httpServletRequest, systemConfigBean.getAppName()));
         return "home/console";
     }
 

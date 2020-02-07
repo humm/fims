@@ -1,12 +1,11 @@
 package com.hoomoomoo.fims.app.model.common;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 
 import java.util.List;
 
-import static com.hoomoomoo.fims.app.consts.CueConst.PAGE_CODE_SUCCESS;
-import static com.hoomoomoo.fims.app.consts.CueConst.PAGE_MSG_SUCCESS;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.PAGE_CODE_SUCCESS;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
  * @author humm23693

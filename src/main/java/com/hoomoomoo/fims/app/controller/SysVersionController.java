@@ -7,7 +7,6 @@ package com.hoomoomoo.fims.app.controller;
  * @date 2019/11/23
  */
 
-import com.hoomoomoo.fims.app.model.SysVersionModel;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysVersionService;
@@ -24,8 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.BUSINESS_TYPE_VERSION;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.VERSION;
-import static com.hoomoomoo.fims.app.consts.TipConst.LOG_BUSINESS_TYPE_VERSION;
-import static com.hoomoomoo.fims.app.consts.TipConst.LOG_OPERATE_TYPE_SELECT;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 @Controller
 @RequestMapping("/version")

@@ -11,7 +11,7 @@ import com.hoomoomoo.fims.app.model.common.ViewData;
 import com.hoomoomoo.fims.app.service.SysLoginLogService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
-import com.hoomoomoo.fims.app.util.SysUtils;
+import com.hoomoomoo.fims.app.util.SysCommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +22,7 @@ import java.util.List;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.BUSINESS_TYPE_LOGIN_LOG;
 import static com.hoomoomoo.fims.app.consts.CueConst.SELECT_SUCCESS;
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
-import static com.hoomoomoo.fims.app.consts.TipConst.LOG_OPERATE_TYPE_SELECT_PAGE;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
  * @author humm23693
@@ -89,7 +88,7 @@ public class SysLoginLogServiceImpl implements SysLoginLogService {
     @Override
     public FimsPage<SysLoginLogModel> selectPage(SysLoginLogQueryModel sysLoginLogQueryModel) {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_LOGIN_LOG, LOG_OPERATE_TYPE_SELECT_PAGE);
-        SysUtils.setSessionInfo(sysLoginLogQueryModel);
+        SysCommonUtils.setSessionInfo(sysLoginLogQueryModel);
         SysLogUtils.parameter(logger, sysLoginLogQueryModel);
         PageHelper.startPage(sysLoginLogQueryModel.getPage(), sysLoginLogQueryModel.getLimit());
         List<SysLoginLogModel> sysLoginLogModelList = sysLoginLogDao.selectPage(sysLoginLogQueryModel);

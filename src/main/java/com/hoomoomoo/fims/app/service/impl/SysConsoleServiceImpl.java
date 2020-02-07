@@ -14,7 +14,7 @@ import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.util.SysBeanUtils;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SysSessionUtils;
-import com.hoomoomoo.fims.app.util.SysUtils;
+import com.hoomoomoo.fims.app.util.SysCommonUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -32,13 +32,10 @@ import java.util.Map;
 
 import static com.hoomoomoo.fims.app.config.RunDataConfig.DICTIONARY_CONDITION;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
-import static com.hoomoomoo.fims.app.consts.BusinessConst.CONSOLE_GIFT_RECEIVE_YEAR;
-import static com.hoomoomoo.fims.app.consts.CueConst.SELECT_SUCCESS;
-import static com.hoomoomoo.fims.app.consts.CueConst.UPDATE_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D000;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D012;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.*;
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
  * @author humm23693
@@ -88,7 +85,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         Map<String, String> menu = getMenuInfo();
         if (sessionBean != null) {
             String loginUserId = sessionBean.getUserId();
-            sysConsoleQueryModel.setUserName(CONSOLE_FAMILY);
+            sysConsoleQueryModel.setUserName(FAMILY_TITLE);
             if (sessionBean.getIsAdminData()) {
                 // 查询业务统计信息
                 setBusinessInfo(sysConsoleModel, sysConsoleQueryModel, menu);
@@ -100,7 +97,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
                 if (CollectionUtils.isNotEmpty(userList)) {
                     for (SysDictionaryModel sysDictionaryModel : userList) {
                         sysConsoleQueryModel.setUserId(sysDictionaryModel.getDictionaryItem());
-                        sysConsoleQueryModel.setUserName(SysUtils.getDictionaryCaption(sysDictionaryModel.getDictionaryCaption()));
+                        sysConsoleQueryModel.setUserName(SysCommonUtils.getDictionaryCaption(sysDictionaryModel.getDictionaryCaption()));
                         // 查询业务统计信息
                         setBusinessInfo(sysConsoleModel, sysConsoleQueryModel, menu);
                     }
@@ -336,12 +333,13 @@ public class SysConsoleServiceImpl implements SysConsoleService {
             return isZero ? STR_0 : STR_EMPTY;
         }
         // 金额格式化
-        if (isFormat && Double.valueOf(value) >= 1) {
-            DecimalFormat decimalFormat = new DecimalFormat(FORMAT_TEMPLATE);
-            return decimalFormat.format(Double.valueOf(value));
+        if (isFormat) {
+            return SysCommonUtils.formatValue(value);
         }
         return value;
     }
+
+
 
     /**
      * 查询未读通知消息

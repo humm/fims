@@ -13,7 +13,7 @@ import com.hoomoomoo.fims.app.service.SysDictionaryService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SysSessionUtils;
-import com.hoomoomoo.fims.app.util.SysUtils;
+import com.hoomoomoo.fims.app.util.SysCommonUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -29,7 +29,6 @@ import java.util.Map;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
  * @author humm23693
@@ -90,7 +89,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
     @Override
     public List<SysDictionaryModel> selectSysDictionary(SysDictionaryQueryModel sysDictionaryQueryModel) {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);
-        SysUtils.setSessionInfo(sysDictionaryQueryModel);
+        SysCommonUtils.setSessionInfo(sysDictionaryQueryModel);
         SysLogUtils.parameter(logger, sysDictionaryQueryModel);
         List<SysDictionaryModel> sysDictionaryList = sysDictionaryDao.selectSysDictionary(sysDictionaryQueryModel);
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY, LOG_OPERATE_TYPE_SELECT);

@@ -19,6 +19,10 @@ public class BusinessConst {
      */
     public static final String STATUS_FAIL                                  = "-1";
 
+    /**
+     * 提示信息：分页查询成功代码
+     */
+    public static final String PAGE_CODE_SUCCESS                            = "0";
 
     /**
      * 字符串：0
@@ -263,519 +267,386 @@ public class BusinessConst {
     /**
      * 业务类型：登录日志
      */
-    public static final String BUSINESS_TYPE_LOGIN_LOG                     = "loginLog";
+    public static final String BUSINESS_TYPE_LOGIN_LOG                      = "loginLog";
 
     /**
      * 业务类型：系统参数
      */
-    public static final String BUSINESS_TYPE_PARAMETER                     = "parameter";
+    public static final String BUSINESS_TYPE_PARAMETER                      = "parameter";
 
     /**
      * 业务类型：数据库备份恢复
      */
-    public static final String BUSINESS_TYPE_DATABASE                      = "database";
+    public static final String BUSINESS_TYPE_DATABASE                       = "database";
 
     /**
      * 业务类型：修订
      */
-    public static final String BUSINESS_TYPE_VERSION                       = "version";
+    public static final String BUSINESS_TYPE_VERSION                        = "version";
 
     /**
      * 业务类型：邮件
      */
-    public static final String BUSINESS_TYPE_MAIL                          = "mail";
+    public static final String BUSINESS_TYPE_MAIL                           = "mail";
 
     /**
      * 业务类型：随礼
      */
-    public static final String BUSINESS_TYPE_GIFT                          = "gift";
+    public static final String BUSINESS_TYPE_GIFT                           = "gift";
 
     /**
      * 业务类型：大额支出
      */
-    public static final String BUSINESS_TYPE_PAY                           = "pay";
+    public static final String BUSINESS_TYPE_PAY                            = "pay";
 
     /**
      * 字典项空白
      */
-    public static final String BLANK                                       = "blank";
-
-    /**
-     * 请选择
-     */
-    public static final String SELECT                                      = "请选择";
+    public static final String BLANK                                        = "blank";
 
     /**
      * shutdown
      */
-    public static final String SHUTDOWN                                    = "shutdown";
+    public static final String SHUTDOWN                                     = "shutdown";
 
     /**
      * 查询条件：用户ID
      */
-    public static final String SELECT_USER_ID                              = "userId";
+    public static final String SELECT_USER_ID                               = "userId";
 
     /**
      * 查询条件：收入来源
      */
-    public static final String SELECT_INCOME_COMPANY                       = "incomeCompany";
+    public static final String SELECT_INCOME_COMPANY                        = "incomeCompany";
 
     /**
      * 查询条件：收入类型
      */
-    public static final String SELECT_INCOME_TYPE                          = "incomeType";
+    public static final String SELECT_INCOME_TYPE                           = "incomeType";
 
     /**
      * 查询条件：随礼类型
      */
-    public static final String SELECT_GIFT_TYPE                            = "giftType";
+    public static final String SELECT_GIFT_TYPE                             = "giftType";
 
     /**
      * 查询条件：送礼人
      */
-    public static final String SELECT_GIFT_SENDER                          = "giftSender";
+    public static final String SELECT_GIFT_SENDER                           = "giftSender";
 
     /**
      * 查询条件：收礼人
      */
-    public static final String SELECT_GIFT_RECEIVER                        = "giftReceiver";
+    public static final String SELECT_GIFT_RECEIVER                         = "giftReceiver";
 
     /**
      * 查询条件：用户状态
      */
-    public static final String SELECT_USER_STATUS                          = "userStatus";
+    public static final String SELECT_USER_STATUS                           = "userStatus";
 
     /**
      * 查询条件：登入状态
      */
-    public static final String SELECT_LOGIN_STATUS                         = "loginStatus";
+    public static final String SELECT_LOGIN_STATUS                          = "loginStatus";
 
     /**
      * 查询条件：通知类型
      */
-    public static final String SELECT_NOTICE_TYPE                          = "noticeType";
+    public static final String SELECT_NOTICE_TYPE                           = "noticeType";
 
     /**
      * 查询条件：通知状态
      */
-    public static final String SELECT_NOTICE_STATUS                        = "noticeStatus";
+    public static final String SELECT_NOTICE_STATUS                         = "noticeStatus";
 
     /**
      * 查询条件：业务类型
      */
-    public static final String SELECT_BUSINESS_TYPE                        = "businessType";
+    public static final String SELECT_BUSINESS_TYPE                         = "businessType";
 
     /**
      * 查询条件：业务子类型
      */
-    public static final String SELECT_BUSINESS_SUB_TYPE                    = "businessSubType";
+    public static final String SELECT_BUSINESS_SUB_TYPE                     = "businessSubType";
 
     /**
      * 查询条件：阅读状态
      */
-    public static final String SELECT_READ_STATUS                          = "readStatus";
-
-    /**
-     * 报表：汇总title
-     */
-    public static final String REPORT_COLLECT_TITLE                        = "家庭";
+    public static final String SELECT_READ_STATUS                           = "readStatus";
 
     /**
      * 报表类型：收入报表
      */
-    public static final String REPORT_TYPE_INCOME                          = "income";
+    public static final String REPORT_TYPE_INCOME                           = "income";
 
     /**
      * 报表类型：送礼报表
      */
-    public static final String REPORT_TYPE_GIFT_SEND                       = "giftSend";
+    public static final String REPORT_TYPE_GIFT_SEND                        = "giftSend";
 
     /**
      * 报表类型：收礼礼报表
      */
-    public static final String REPORT_TYPE_GIFT_RECEIVE                    = "giftReceive";
+    public static final String REPORT_TYPE_GIFT_RECEIVE                     = "giftReceive";
 
     /**
      * 报表模式：柱状图
      */
-    public static final String REPORT_MODE_BAR                             = "bar";
+    public static final String REPORT_MODE_BAR                              = "bar";
 
     /**
      * 报表模式：饼图
      */
-    public static final String REPORT_MODE_PIE                             = "pie";
+    public static final String REPORT_MODE_PIE                              = "pie";
 
     /**
      * 报表子类型：年度报表
      */
-    public static final String REPORT_SUB_TYPE_YEAR                        = "year";
+    public static final String REPORT_SUB_TYPE_YEAR                         = "year";
 
     /**
      * 报表子类型：月度报表
      */
-    public static final String REPORT_SUB_TYPE_MONTH                       = "month";
+    public static final String REPORT_SUB_TYPE_MONTH                        = "month";
 
     /**
      * 报表子类型：收入来源
      */
-    public static final String REPORT_SUB_TYPE_SOURCE                      = "source";
+    public static final String REPORT_SUB_TYPE_SOURCE                       = "source";
 
     /**
      * 报表子类型：随礼类型、收入类型
      */
-    public static final String REPORT_SUB_TYPE_TYPE                        = "type";
+    public static final String REPORT_SUB_TYPE_TYPE                         = "type";
 
     /**
      * 报表子类型：极值
      */
-    public static final String REPORT_SUB_TYPE_PEAK                        = "peak";
+    public static final String REPORT_SUB_TYPE_PEAK                         = "peak";
 
     /**
      * 报表子类型：随礼
      */
-    public static final String REPORT_SUB_TYPE_GIFT                        = "gift";
+    public static final String REPORT_SUB_TYPE_GIFT                         = "gift";
 
     /**
      * 报表月份数：12
      */
-    public static final Integer REPORT_NUM_12                              = 12;
-
-    /**
-     * 报表单位：年
-     */
-    public static final String REPORT_UNIT_YEAR                            = "年";
-
-    /**
-     * 报表单位：月
-     */
-    public static final String REPORT_UNIT_MONTH                           = "月";
+    public static final Integer REPORT_NUM_12                               = 12;
 
     /**
      * 用户状态：正常
      */
-    public static final String USER_STATUS_NORMAL                           = "1";
+    public static final String USER_STATUS_NORMAL                            = "1";
 
     /**
      * 用户状态：冻结
      */
-    public static final String USER_STATUS_FREEZE                           = "2";
+    public static final String USER_STATUS_FREEZE                            = "2";
 
     /**
      * x_requested_with
      */
-    public static final String X_REQUESTED_WITH                             = "x-requested-with";
+    public static final String X_REQUESTED_WITH                              = "x-requested-with";
 
     /**
      * XMLHttpRequest
      */
-    public static final String XML_HTTPREQUEST                              = "XMLHttpRequest";
+    public static final String XML_HTTPREQUEST                               = "XMLHttpRequest";
 
     /**
      * 开关：on
      */
-    public static final String SWITCH_ON                                    = "on";
+    public static final String SWITCH_ON                                     = "on";
 
     /**
      * 开关：off
      */
-    public static final String SWITCH_OFF                                   = "off";
+    public static final String SWITCH_OFF                                    = "off";
 
     /**
      * 管理员
      */
-    public static final String ADMIN_CODE                                   = "admin";
+    public static final String ADMIN_CODE                                    = "admin";
 
     /**
      * 系统错误
      * */
-    public static final String ERROR_PATH                                   = "/error";
+    public static final String ERROR_PATH                                    = "/error";
 
     /**
      * 404页面
      * */
-    public static final String PAGE_ERROR_404                               = "/error/404";
+    public static final String PAGE_ERROR_404                                = "/error/404";
 
     /**
      * 登录请求
      * */
-    public static final String PAGE_LOGIN                                  = "/login";
+    public static final String PAGE_LOGIN                                   = "/login";
 
     /**
      * 首页请求
      * */
-    public static final String PAGE_INDEX                                  = "/index";
+    public static final String PAGE_INDEX                                   = "/index";
 
     /**
      * 忽略后缀
      */
-    public static final String IGORE_SUFFIX                                 = "js,css,jpg,jpeg,png,gif,woff2,woff,ttf";
+    public static final String IGORE_SUFFIX                                  = "js,css,jpg,jpeg,png,gif,woff2,woff,ttf";
 
     /**
      * 忽略请求
      */
-    public static final String IGORE_REQUEST                                = "/login,/user/login";
+    public static final String IGORE_REQUEST                                 = "/login,/user/login";
 
     /**
      * 状态：status
      * */
-    public static final String STATUS                                       = "status";
+    public static final String STATUS                                        = "status";
 
     /**
      * 状态：timeout
      * */
-    public static final String STATUS_TIMEOUT                               = "timeout";
+    public static final String STATUS_TIMEOUT                                = "timeout";
 
     /**
      * 参数类型
      */
-    public static final String PARAMETER_TYPE_SWITCH                        = "switch";
+    public static final String PARAMETER_TYPE_SWITCH                         = "switch";
 
     /**
      * 用户密码
      */
-    public static final String PASSWORD                                     = "password";
+    public static final String PASSWORD                                      = "password";
 
     /**
      * 金额
      */
-    public static final String AMOUNT                                       = "amount";
+    public static final String AMOUNT                                        = "amount";
 
     /**
      * 格式化模板
      */
-    public static final String FORMAT_TEMPLATE                              = "#,###.##";
-
-    /**
-     * 家庭信息
-     */
-    public static final String CONSOLE_FAMILY                               = "家庭";
-
-    /**
-     * 最近一笔收入
-     */
-    public static final String CONSOLE_INCOME_LAST                          = "最近一笔收入";
-
-    /**
-     * 收入环比增长
-     */
-    public static final String CONSOLE_INCOME_CHAIN_RATIO                   = "月度收入环比增长";
-
-    /**
-     * 收入同比增长
-     */
-    public static final String CONSOLE_INCOME_RATIO                         = "月度收入同比增长";
-
-    /**
-     * 月度收入
-     */
-    public static final String CONSOLE_INCOME_MONTH                         = "月度收入";
-
-    /**
-     * 年度收入
-     */
-    public static final String CONSOLE_INCOME_YEAR                          = "年度收入(万元)";
-
-    /**
-     * 总收入
-     */
-    public static final String CONSOLE_INCOME_TOTAL                         = "总收入(万元)";
-
-    /**
-     * 统计开始时间
-     */
-    public static final String CONSOLE_YEAR_START_DATE                      = "统计开始时间";
-
-    /**
-     * 最近一笔送礼
-     */
-    public static final String CONSOLE_GIFT_SEND_LAST                       = "最近一笔送礼";
-
-    /**
-     * 年度送礼
-     */
-    public static final String CONSOLE_GIFT_SEND_YEAR                       = "年度送礼";
-
-    /**
-     * 总送礼
-     */
-    public static final String CONSOLE_GIFT_SEND_TOTAL                      = "总送礼";
-
-    /**
-     * 最近一笔收礼
-     */
-    public static final String CONSOLE_GIFT_RECEIVE_LAST                    = "最近一笔收礼";
-
-    /**
-     * 年度收礼
-     */
-    public static final String CONSOLE_GIFT_RECEIVE_YEAR                    = "年度收礼";
-
-    /**
-     * 总收礼
-     */
-    public static final String CONSOLE_GIFT_RECEIVE_TOTAL                   = "总收礼";
+    public static final String FORMAT_TEMPLATE                               = "#,###.##";
 
     /**
      * 菜单：收入信息
      */
-    public static final String MENU_ID_INCOME                               = "20190000000001";
+    public static final String MENU_ID_INCOME                                = "20190000000001";
 
     /**
      * 菜单：随礼信息
      */
-    public static final String MENU_ID_GIFT                                 = "20190000000004";
+    public static final String MENU_ID_GIFT                                  = "20190000000004";
 
     /**
      * 菜单：修订信息
      */
-    public static final String MENU_ID_VERSION                              = "20190000000021";
+    public static final String MENU_ID_VERSION                               = "20190000000021";
 
     /**
      * 菜单：参数信息
      */
-    public static final String MENU_ID_PARAMETER                            = "20190000000016";
+    public static final String MENU_ID_PARAMETER                             = "20190000000016";
 
     /**
      * 菜单：登录信息
      */
-    public static final String MENU_ID_LOGIN                                = "20190000000019";
-
-    /**
-     * 最近一次登入时间
-     */
-    public static final String CONSOLE_LOGIN_LAST_DATE                      = "最近一次登入时间";
-
-     /**
-     * 本月登入次数
-     */
-    public static final String CONSOLE_LOGIN_MONTH_TIME                     = "本月登入次数";
-
-    /**
-     * 本年登入次数
-     */
-    public static final String CONSOLE_LOGIN_YEAR_TIME                      = "本年登入次数";
-
-    /**
-     * 登入总次数
-     */
-    public static final String CONSOLE_LOGIN_TOTAL_TIME                     = "登入总次数";
-
-    /**
-     * 登入信息
-     */
-    public static final String CONSOLE_LOGIN_TITLE                          = "登入信息";
-
-    /**
-     * 版本信息
-     */
-    public static final String CONSOLE_VERSION_TITLE                        = "版本信息";
-
-    /**
-     * 提示信息
-     */
-    public static final String CONSOLE_VERSION_TIPS                         = "提示信息";
-
-    /**
-     * 版本信息
-     */
-    public static final String CONSOLE_VERSION_CODE                         = "版本号";
+    public static final String MENU_ID_LOGIN                                 = "20190000000019";
 
     /**
      * 用户名称
      */
-    public static final String USER_NAME                                    = "userName";
+    public static final String USER_NAME                                     = "userName";
 
     /**
      * 请求url
      */
-    public static final String REQUEST_URL                                  = "requestUrl";
+    public static final String REQUEST_URL                                   = "requestUrl";
 
     /**
      * websocket主题：console
      */
-    public static final String WEBSOCKET_TOPIC_NAME_CONSOLE                 = "console";
+    public static final String WEBSOCKET_TOPIC_NAME_CONSOLE                  = "console";
 
     /**
      * websocket主题：notice
      */
-    public static final String WEBSOCKET_TOPIC_NAME_NOTICE                  = "notice";
+    public static final String WEBSOCKET_TOPIC_NAME_NOTICE                   = "notice";
 
     /**
      * 配置sql：id
      *
      */
-    public static final String SQL_ID                                       = "id";
+    public static final String SQL_ID                                        = "id";
 
     /**
      * 配置sql：model
      *
      */
-    public static final String SQL_MODEL                                   = "model";
+    public static final String SQL_MODEL                                    = "model";
 
     /**
      * 配置sql：value
      *
      */
-    public static final String SQL_VALUE                                   = "value";
+    public static final String SQL_VALUE                                    = "value";
 
     /**
      * sql模式：新增
      *
      */
-    public static final String SQL_MODEL_ADD                               = "insert";
+    public static final String SQL_MODEL_ADD                                = "insert";
 
     /**
      * sql模式：删除
      *
      */
-    public static final String SQL_MODEL_DELETE                            = "delete";
+    public static final String SQL_MODEL_DELETE                             = "delete";
 
     /**
      * sql模式：修改
      *
      */
-    public static final String SQL_MODEL_UPDATE                            = "update";
+    public static final String SQL_MODEL_UPDATE                             = "update";
 
     /**
      * sql模式：查询
      *
      */
-    public static final String SQL_MODEL_SELECT                            = "select";
+    public static final String SQL_MODEL_SELECT                             = "select";
 
     /**
      * 配置模块：首页
      *
      */
-    public static final String MODULE_CONSOLE                              = "console";
+    public static final String MODULE_CONSOLE                               = "console";
 
     /**
      * 备份相关
      */
-    public static final String COLUMN_NUMBER                               = "long,number,integer,float,decimal";
-    public static final String COLUMN_TIMESTAMP                            = "timestamp";
-    public static final String COLUMN_DATE                                 = "date";
+    public static final String COLUMN_NUMBER                                = "long,number,integer,float,decimal";
+    public static final String COLUMN_TIMESTAMP                             = "timestamp";
+    public static final String COLUMN_DATE                                  = "date";
 
-    public static final String BACKUP_START                                = "/* ====== backup start ====== */";
-    public static final String BACKUP_END                                  = "/* ====== backup end ====== */";
+    public static final String TO_DATE_LEFT                                 = "to_timestamp('";
+    public static final String TO_DATE_RIGHT                                = "', 'yyyy-MM-dd')";
+    public static final String TO_TIMESTAMP_LEFT                            = "to_timestamp('";
+    public static final String TO_TIMESTAMP_RIGHT                           = "', 'yyyy-MM-dd hh24:mi:ss')";
+    public static final String CHR_38                                       = "chr(38) || '";
+    public static final String BRACKET_LEFT                                 = "(";
+    public static final String BRACKET_RIGHT                                = ")";
+    public static final String INSERT_LEFT                                  = "insert into ";
+    public static final String VALUES_LEFT                                  = "values (";
+    public static final String COMMIT                                       = "commit;";
+    public static final String TRUNCATE_LEFT                                = "truncate table ";
 
-    public static final String TO_DATE_LEFT                                = "to_timestamp('";
-    public static final String TO_DATE_RIGHT                               = "', 'yyyy-MM-dd')";
-    public static final String TO_TIMESTAMP_LEFT                           = "to_timestamp('";
-    public static final String TO_TIMESTAMP_RIGHT                          = "', 'yyyy-MM-dd hh24:mi:ss')";
-    public static final String CHR_38                                      = "chr(38) || '";
-    public static final String BRACKET_LEFT                                = "(";
-    public static final String BRACKET_RIGHT                               = ")";
-    public static final String INSERT_LEFT                                 = "insert into ";
-    public static final String VALUES_LEFT                                 = "values (";
-    public static final String COMMIT                                      = "commit;";
-    public static final String TRUNCATE_LEFT                               = "truncate table ";
+    public static final String BACKUP_MODE_START                            = "start";
+    public static final String BACKUP_MODE_MANUAL                           = "manual";
+    public static final String BACKUP_FILENAME_SUFFIX                       = ".sql";
+    public static final String BACKUP_DMP_SUFFIX                            = ".dmp";
 
-    public static final String BACKUP_MODE_START                           = "start";
-    public static final String BACKUP_MODE_MANUAL                          = "manual";
-    public static final String BACKUP_FILENAME_SUFFIX                      = ".sql";
-    public static final String BACKUP_DMP_SUFFIX                           = ".dmp";
-
-    public static final String BACKUP_COMMAND                              = "expdp %s/%s@%s directory=backup_dir dumpfile=%s";
+    public static final String BACKUP_COMMAND                               = "expdp %s/%s@%s directory=backup_dir dumpfile=%s";
 
 
 

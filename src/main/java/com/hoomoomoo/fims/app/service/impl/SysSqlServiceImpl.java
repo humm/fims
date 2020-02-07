@@ -2,7 +2,6 @@ package com.hoomoomoo.fims.app.service.impl;
 
 import com.hoomoomoo.fims.app.model.SysSqlMode;
 import com.hoomoomoo.fims.app.service.SysSqlService;
-import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,13 +3,11 @@ package com.hoomoomoo.fims.app.util;
 
 import org.slf4j.Logger;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import static com.hoomoomoo.fims.app.config.RunDataConfig.LOG_REQUEST_TAG;
 import static com.hoomoomoo.fims.app.config.RunDataConfig.LOG_REQUEST_PARAMETER;
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
  * @author humm23693

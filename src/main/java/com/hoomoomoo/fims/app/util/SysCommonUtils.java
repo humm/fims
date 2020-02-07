@@ -6,9 +6,11 @@ import com.hoomoomoo.fims.app.model.common.BaseModel;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.NumberFormat;
 import java.util.Date;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.COLON_CHINESE;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.POINT;
 
 /**
  * @author humm23693
@@ -17,7 +19,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.COLON_CHINESE;
  * @date 2019/08/08
  */
 
-public class SysUtils {
+public class SysCommonUtils {
 
     /**
      * 设置创建人修改人信息
@@ -86,6 +88,17 @@ public class SysUtils {
             }
         }
         return dictionaryCaption;
+    }
 
+    /**
+     * 数字格式化 保留2位小数
+     * @param value
+     * @return
+     */
+    public static String formatValue(String value) {
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setGroupingUsed(true);
+        numberFormat.setMaximumFractionDigits(2);
+        return numberFormat.format(Double.valueOf(value));
     }
 }

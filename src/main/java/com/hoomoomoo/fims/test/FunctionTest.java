@@ -2,7 +2,7 @@ package com.hoomoomoo.fims.test;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.hoomoomoo.fims.FimsApplication;
+import com.hoomoomoo.fims.FimsStarter;
 import com.hoomoomoo.fims.app.model.SysIncomeModel;
 import com.hoomoomoo.fims.app.model.SysMailModel;
 import com.hoomoomoo.fims.app.service.SysDictionaryService;
@@ -19,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +37,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.UNDERLINE;
  */
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = FimsApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(classes = FimsStarter.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class FunctionTest {
 
     private static final Logger logger = LoggerFactory.getLogger(FunctionTest.class);
@@ -153,12 +154,5 @@ public class FunctionTest {
     public void backupDmp(){
         sysSystemService.systemBackupDmp(SysDateUtils.yyyyMMddHHmmss() + BACKUP_DMP_SUFFIX);
     }
-
-    @Test
-    public void str(){
-
-
-    }
-
 
 }

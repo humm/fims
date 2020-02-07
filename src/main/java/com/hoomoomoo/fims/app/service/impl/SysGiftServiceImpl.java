@@ -11,7 +11,7 @@ import com.hoomoomoo.fims.app.service.SysGiftService;
 import com.hoomoomoo.fims.app.service.SysNoticeService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
-import com.hoomoomoo.fims.app.util.SysUtils;
+import com.hoomoomoo.fims.app.util.SysCommonUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,6 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.UPDATE_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.*;
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
  * @author humm23693
@@ -85,7 +84,7 @@ public class SysGiftServiceImpl implements SysGiftService {
     @Override
     public FimsPage<SysGiftModel> selectPage(SysGiftQueryModel sysGiftQueryModel) {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_GIFT, LOG_OPERATE_TYPE_SELECT_PAGE);
-        SysUtils.setSessionInfo(sysGiftQueryModel);
+        SysCommonUtils.setSessionInfo(sysGiftQueryModel);
         SysLogUtils.parameter(logger, sysGiftQueryModel);
         PageHelper.startPage(sysGiftQueryModel.getPage(), sysGiftQueryModel.getLimit());
         List<SysGiftModel> sysGiftModelList = sysGiftDao.selectPage(sysGiftQueryModel);
@@ -156,7 +155,7 @@ public class SysGiftServiceImpl implements SysGiftService {
         String operateType = sysGiftModel.getGiftId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
         String tipMsg = sysGiftModel.getGiftId() == null ? ADD_SUCCESS : UPDATE_SUCCESS;
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_GIFT, operateType);
-        SysUtils.setCreateUserInfo(sysGiftModel);
+        SysCommonUtils.setCreateUserInfo(sysGiftModel);
         String msg = checkSenderAndReceiver(sysGiftModel);
         if (StringUtils.isNotBlank(msg)) {
             return new ResultData(false, msg, null);

@@ -14,8 +14,7 @@ import java.util.Map;
 
 import static com.hoomoomoo.fims.app.consts.SystemConst.APP_DESCRIBE;
 import static com.hoomoomoo.fims.app.consts.SystemConst.APP_NAME;
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
-
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 /**
  * @author humm23693
  * @description freeMarker配置类

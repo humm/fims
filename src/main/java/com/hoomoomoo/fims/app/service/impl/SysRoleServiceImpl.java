@@ -11,7 +11,7 @@ import com.hoomoomoo.fims.app.service.SysMenuService;
 import com.hoomoomoo.fims.app.service.SysRoleService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
-import com.hoomoomoo.fims.app.util.SysUtils;
+import com.hoomoomoo.fims.app.util.SysCommonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,6 @@ import java.util.List;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
  * @author humm23693
@@ -55,7 +54,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public List<SysRoleModel> selectSysRole(SysRoleQueryModel sysRoleQueryModel) {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT);
-        SysUtils.setSessionInfo(sysRoleQueryModel);
+        SysCommonUtils.setSessionInfo(sysRoleQueryModel);
         SysLogUtils.parameter(logger, sysRoleQueryModel);
         List<SysRoleModel> sysRoleModelList = sysRoleDao.selectSysRole(sysRoleQueryModel);
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_SELECT);
@@ -166,7 +165,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         String operateType = sysRoleModel.getRoleId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
         String tipMsg = sysRoleModel.getRoleId() == null ? ADD_SUCCESS : UPDATE_SUCCESS;
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, operateType);
-        SysUtils.setCreateUserInfo(sysRoleModel);
+        SysCommonUtils.setCreateUserInfo(sysRoleModel);
         if (sysRoleModel.getRoleId() == null) {
             // 新增
             String roleId = sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_ROLE);

@@ -1,6 +1,5 @@
 package com.hoomoomoo.fims.app.config;
 
-import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.slf4j.Logger;
@@ -9,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
-
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 /**
  * @author humm23693
  * @description 初始化配置

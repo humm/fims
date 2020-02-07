@@ -27,7 +27,6 @@ import java.util.List;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D002;
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
  * @author humm23693

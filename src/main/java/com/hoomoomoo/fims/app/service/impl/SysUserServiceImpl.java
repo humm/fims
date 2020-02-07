@@ -15,7 +15,7 @@ import com.hoomoomoo.fims.app.service.SysUserService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SysSessionUtils;
-import com.hoomoomoo.fims.app.util.SysUtils;
+import com.hoomoomoo.fims.app.util.SysCommonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
@@ -31,7 +31,6 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D009;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.USER_DEFAULT_PASSWORD;
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
 
 /**
  * @author humm23693
@@ -70,7 +69,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public List<SysUserModel> selectSysUser(SysUserQueryModel sysUserQueryModel) {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
-        SysUtils.setSessionInfo(sysUserQueryModel);
+        SysCommonUtils.setSessionInfo(sysUserQueryModel);
         SysLogUtils.parameter(logger, sysUserQueryModel);
         List<SysUserModel> sysUserList = sysUserDao.selectSysUser(sysUserQueryModel);
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
@@ -184,7 +183,7 @@ public class SysUserServiceImpl implements SysUserService {
         String operateType = sysUserModel.getUserId() == null ? LOG_OPERATE_TYPE_ADD : LOG_OPERATE_TYPE_UPDATE;
         String tipMsg = sysUserModel.getUserId() == null ? ADD_SUCCESS : UPDATE_SUCCESS;
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, operateType);
-        SysUtils.setCreateUserInfo(sysUserModel);
+        SysCommonUtils.setCreateUserInfo(sysUserModel);
         SysDictionaryModel sysDictionaryModel = new SysDictionaryModel();
         sysDictionaryModel.setDictionaryCode(D009);
         sysDictionaryModel.setDictionaryCaption(sysUserModel.getUserName());

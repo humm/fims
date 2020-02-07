@@ -1,6 +1,6 @@
 package com.hoomoomoo.fims.app.service.impl;
 
-import com.hoomoomoo.fims.FimsApplication;
+import com.hoomoomoo.fims.FimsStarter;
 import com.hoomoomoo.fims.app.config.RunDataConfig;
 import com.hoomoomoo.fims.app.config.bean.DatasourceConfigBean;
 import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
@@ -47,7 +47,6 @@ import static com.hoomoomoo.fims.app.consts.DictionaryConst.*;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.*;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.MIND_FILL;
 import static com.hoomoomoo.fims.app.consts.SystemConst.*;
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 
 /**
@@ -95,7 +94,7 @@ public class SysSystemServiceImpl implements SysSystemService {
         Properties properties = new OrderedProperties();
         SysLogUtils.configStart(logger, LOG_BUSINESS_TYPE_PARAMETER_CONFIG);
         try {
-            InputStream inputStream = FimsApplication.class.getClassLoader().getResourceAsStream(APPLICATION_PROPERTIES.split(COLON)[1]);
+            InputStream inputStream = FimsStarter.class.getClassLoader().getResourceAsStream(APPLICATION_PROPERTIES.split(COLON)[1]);
             properties.load(inputStream);
         } catch (FileNotFoundException e) {
             SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_PARAMETER_CONFIG, e);
@@ -482,9 +481,10 @@ public class SysSystemServiceImpl implements SysSystemService {
         }
         SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BACKUP_SQL);
         String[] tables = SYSTEM_TABLE.split(COMMA);
-        StringBuffer database = new StringBuffer();
-        StringBuffer databaseContent = new StringBuffer(BACKUP_START);
-        databaseContent.append(NEXT_LINE).append(NEXT_LINE);
+        StringBuffer database = new StringBuffer(String.format(BACKUP_TIPS, LOG_BUSINESS_TYPE_BACKUP_LIST, LOG_OPERATE_TAG_START));
+        StringBuffer databaseContent = new StringBuffer(String.format(BACKUP_TIPS, LOG_BUSINESS_TYPE_BACKUP, LOG_OPERATE_TAG_START));
+        database.append(NEXT_LINE);
+        databaseContent.append(NEXT_LINE);
         for (String tableName : tables) {
             // 去除表名称的单引号
             tableName = tableName.substring(1, tableName.length()- 1);
@@ -544,10 +544,11 @@ public class SysSystemServiceImpl implements SysSystemService {
                     }
                 }
             }
-            databaseContent.append(tableInfo).append(COMMIT).append(NEXT_LINE).append(NEXT_LINE);
+            databaseContent.append(tableInfo).append(COMMIT).append(NEXT_LINE);
         }
-        databaseContent.append(BACKUP_END);
-        database.append(NEXT_LINE).append(databaseContent);
+        databaseContent.append(String.format(BACKUP_TIPS, LOG_BUSINESS_TYPE_BACKUP, LOG_OPERATE_TAG_END));
+        database.append(String.format(BACKUP_TIPS, LOG_BUSINESS_TYPE_BACKUP_LIST, LOG_OPERATE_TAG_END));
+        database.append(NEXT_LINE).append(NEXT_LINE).append(databaseContent);
         try {
             // 写文件
             File saveLocation = new File(backupLocation + SLASH + fileName);
@@ -609,8 +610,10 @@ public class SysSystemServiceImpl implements SysSystemService {
         if (startBackup) {
             try {
                 systemBackupFile(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_FILENAME_SUFFIX).toString());
-                // dmp备份 影响应用启动时间 备份耗时
-//                systemBackupDmp(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_DMP_SUFFIX).toString());
+                // todo dmp备份 影响应用启动时间 备份耗时
+                if (false) {
+                    systemBackupDmp(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_DMP_SUFFIX).toString());
+                }
             } catch (Exception e) {
                 SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP, e);
             }
@@ -834,9 +837,8 @@ public class SysSystemServiceImpl implements SysSystemService {
                 }
             }
             // 金额格式化
-            if (key.toLowerCase().contains(AMOUNT) && Double.valueOf(value) >= 1) {
-                DecimalFormat decimalFormat = new DecimalFormat(FORMAT_TEMPLATE);
-                ele.put(key, decimalFormat.format(Double.valueOf(value)));
+            if (key.toLowerCase().contains(AMOUNT)) {
+                ele.put(key, SysCommonUtils.formatValue(value));
             }
         }
         return SysBeanUtils.mapToBean(clazz, ele);

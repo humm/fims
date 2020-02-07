@@ -7,7 +7,7 @@ import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysMenuService;
 import com.hoomoomoo.fims.app.service.SysSqlService;
 import com.hoomoomoo.fims.app.util.SysSessionUtils;
-import com.hoomoomoo.fims.app.util.SysUtils;
+import com.hoomoomoo.fims.app.util.SysCommonUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -66,14 +66,14 @@ public class TestController {
     @ApiOperation("配置sql新增")
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public void add(SysGiftModel sysGiftModel){
-        SysUtils.setCreateUserInfo(sysGiftModel);
+        SysCommonUtils.setCreateUserInfo(sysGiftModel);
         sysSqlService.execute(CONFIG_SQL.get("sysGift-add"), sysGiftModel);
     }
 
     @ApiOperation("配置sql修改")
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public void update(SysGiftModel sysGiftModel){
-        SysUtils.setCreateUserInfo(sysGiftModel);
+        SysCommonUtils.setCreateUserInfo(sysGiftModel);
         sysSqlService.execute(CONFIG_SQL.get("sysGift-update"), sysGiftModel);
     }
 }

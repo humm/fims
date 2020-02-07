@@ -13,8 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
-import static com.hoomoomoo.fims.app.consts.TipConst.LOG_BUSINESS_TYPE_EXCEPTION;
-
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 /**
  * @author humm23693
  * @description 全局异常处理

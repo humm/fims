@@ -12,139 +12,655 @@ public class CueConst {
     /**
      * 提示信息：操作成功
      */
-    public static final String OPERATE_SUCCESS                      = "操作成功";
+    public static final String OPERATE_SUCCESS                                  = "操作成功";
 
     /**
      * 提示信息：操作失败
      */
-    public static final String OPERATE_FAIL                         = "操作失败";
+    public static final String OPERATE_FAIL                                     = "操作失败";
 
     /**
      * 提示信息：查询成功
      */
-    public static final String SELECT_SUCCESS                       = "查询成功";
+    public static final String SELECT_SUCCESS                                   = "查询成功";
 
     /**
      * 提示信息：重置密码成功
      */
-    public static final String RESET_PASSWORD_SUCCESS               = "重置密码成功";
+    public static final String RESET_PASSWORD_SUCCESS                           = "重置密码成功";
 
     /**
      * 提示信息：修改密码成功
      */
-    public static final String UPDATE_PASSWORD_SUCCESS              = "修改密码成功";
+    public static final String UPDATE_PASSWORD_SUCCESS                          = "修改密码成功";
 
     /**
      * 提示信息：查询失败
      */
-    public static final String SELECT_FAIL                          = "查询失败";
+    public static final String SELECT_FAIL                                      = "查询失败";
 
     /**
      * 提示信息：新增成功
      */
-    public static final String ADD_SUCCESS                          = "新增成功";
+    public static final String ADD_SUCCESS                                      = "新增成功";
 
     /**
      * 提示信息：新增失败
      */
-    public static final String ADD_FAIL                             = "新增失败";
+    public static final String ADD_FAIL                                         = "新增失败";
 
     /**
      * 提示信息：删除成功
      */
-    public static final String DELETE_SUCCESS                       = "删除成功";
+    public static final String DELETE_SUCCESS                                   = "删除成功";
 
     /**
      * 提示信息：删除失败
      */
-    public static final String DELETE_FAIL                          = "删除失败";
+    public static final String DELETE_FAIL                                      = "删除失败";
 
     /**
      * 提示信息：修改成功
      */
-    public static final String UPDATE_SUCCESS                       = "修改成功";
+    public static final String UPDATE_SUCCESS                                   = "修改成功";
 
     /**
      * 提示信息：修改失败
      */
-    public static final String UPDATE_FAIL                          = "修改失败";
+    public static final String UPDATE_FAIL                                      = "修改失败";
 
     /**
      * 提示信息：校验成功
      */
-    public static final String CHECK_SUCCESS                        = "校验成功";
+    public static final String CHECK_SUCCESS                                    = "校验成功";
 
     /**
      * 提示信息：刷新成功
      */
-    public static final String REFRESH_SUCCESS                      = "刷新成功";
+    public static final String REFRESH_SUCCESS                                  = "刷新成功";
 
     /**
      * 提示信息：校验失败
      */
-    public static final String CHECK_FAIL                           = "校验失败";
-
-    /**
-     * 提示信息：分页查询成功代码
-     */
-    public static final String PAGE_CODE_SUCCESS                    = "0";
+    public static final String CHECK_FAIL                                       = "校验失败";
 
     /**
      * 提示信息：分页查询成功
      */
-    public static final String PAGE_MSG_SUCCESS                     = "分页查询成功";
+    public static final String PAGE_MSG_SUCCESS                                 = "分页查询成功";
 
     /**
      * 提示信息：系统错误
      */
-    public static final String ERROR                                = "系统错误";
+    public static final String ERROR                                            = "系统错误";
 
     /**
      * 提示信息：账号不存在
      */
-    public static final String USER_LOGON_ACCOUNT_NOT_EXIST         = "账号不存在";
+    public static final String USER_LOGON_ACCOUNT_NOT_EXIST                     = "账号不存在";
 
     /**
      * 提示信息：账号已冻结
      */
-    public static final String USER_LOGON_ACCOUNT_FREEZE            = "账号已冻结";
+    public static final String USER_LOGON_ACCOUNT_FREEZE                        = "账号已冻结";
 
     /**
      * 提示信息：密码错误
      */
-    public static final String USER_LOGON_PASSWORD_ERROR            = "密码错误";
+    public static final String USER_LOGON_PASSWORD_ERROR                        = "密码错误";
 
     /**
      * 提示信息：登入成功
      */
-    public static final String USER_LOGON_SUCCESS                   = "登入成功";
+    public static final String USER_LOGON_SUCCESS                               = "登入成功";
 
     /**
      * 提示信息：登出成功
      */
-    public static final String USER_LOGOUT_SUCCESS                  = "退出成功";
+    public static final String USER_LOGOUT_SUCCESS                              = "退出成功";
 
     /**
      * 提示信息：送礼人和收礼人都不为系统用户
      */
-    public static final String GIFT_SENDER_RECEIVER_NOT_EXIST       = "送礼人和收礼人必须有一个为系统用户";
+    public static final String GIFT_SENDER_RECEIVER_NOT_EXIST                   = "送礼人和收礼人必须有一个为系统用户";
 
     /**
      * 提示信息：送礼人和收礼人不能同时为系统用户
      */
-    public static final String GIFT_SENDER_RECEIVER_EXIST           = "送礼人和收礼人不能同时为系统用户";
+    public static final String GIFT_SENDER_RECEIVER_EXIST                       = "送礼人和收礼人不能同时为系统用户";
 
     /**
      * 请设置系统备份路径
      */
-    public static final String BACKUP_LOCATION_IS_EMPTY             = "请设置系统备份路径";
+    public static final String BACKUP_LOCATION_IS_EMPTY                         = "请设置系统备份路径";
 
     /**
      * 系统备份路径不存在
      */
-    public static final String BACKUP_LOCATION_NOT_EXIST            = "系统备份路径 %s 不存在";
+    public static final String BACKUP_LOCATION_NOT_EXIST                        = "系统备份路径 %s 不存在";
     /**
      * 系统备份路径不存在
      */
-    public static final String BACKUP_SUCCESS                       = "备份成功";
+    public static final String BACKUP_SUCCESS                                   = "备份成功";
+
+    /**
+     * 日志输出格式
+     */
+    public static final String LOG_TIP                                          = "====================== %s %s ======================";
+    /**
+     * 日志输出格式
+     */
+    public static final String LOG_FORMAT_TIP                                   = "%s %s %s %s";
+
+    /**
+     * 日志输出格式
+     */
+    public static final String LOG_FORMAT_STATUS                                = "%s %s";
+
+    /**
+     * 异常日志输出格式
+     */
+    public static final String LOG_FORMAT_ERROR_STATUS                          = "%s %s [%s]";
+
+    /**
+     * 日志输出格式
+     */
+    public static final String LOG_FORMAT_STATUS_MSG                            = "%s %s：{}";
+
+    /**
+     * 日志层级：控制层
+     */
+    public static final String LOG_TYPE_CONTROLLER                              = "控制层";
+
+    /**
+     * 日志层级：服务层
+     */
+    public static final String LOG_TYPE_SERVICE                                 = "服务层";
+
+    /**
+     * 日志状态：开始
+     */
+    public static final String LOG_OPERATE_TAG_START                            = "开始";
+
+    /**
+     * 日志状态：结束
+     */
+    public static final String LOG_OPERATE_TAG_END                              = "结束";
+
+    /**
+     * 日志状态：异常
+     */
+    public static final String LOG_OPERATE_TAG_EXCEPTION                        = "异常";
+
+    /**
+     * 日志状态：加载
+     */
+    public static final String LOG_OPERATE_TAG_LOAD                             = "加载";
+
+    /**
+     * 日志状态：成功
+     */
+    public static final String LOG_OPERATE_TAG_SUCCESS                          = "成功";
+
+    /**
+     * 日志状态：成功
+     */
+    public static final String LOG_OPERATE_TAG_FAIL                             = "失败";
+
+
+    /**
+     * 日志操作类型：查询
+     */
+    public static final String LOG_OPERATE_TYPE_SELECT                          = "查询";
+
+    /**
+     * 日志操作类型：分页查询
+     */
+    public static final String LOG_OPERATE_TYPE_SELECT_PAGE                     = "分页查询";
+
+    /**
+     * 日志操作类型：页面渲染参数查询
+     */
+    public static final String LOG_OPERATE_TYPE_SELECT_INIT                     = "页面渲染参数查询";
+
+    /**
+     * 日志操作类型：重置用户密码
+     */
+    public static final String LOG_OPERATE_TYPE_RESET_PASSWORD                  = "重置用户密码";
+
+    /**
+     * 日志操作类型：修改用户密码
+     */
+    public static final String LOG_OPERATE_TYPE_UPDATE_PASSWORD                 = "修改用户密码";
+
+    /**
+     * 日志操作类型：新增
+     */
+    public static final String LOG_OPERATE_TYPE_ADD                             = "新增";
+
+    /**
+     * 日志操作类型：修改
+     */
+    public static final String LOG_OPERATE_TYPE_UPDATE                          = "修改";
+
+    /**
+     * 日志操作类型：校验
+     */
+    public static final String LOG_OPERATE_TYPE_CHECK                           = "校验";
+
+    /**
+     * 日志操作类型：删除
+     */
+    public static final String LOG_OPERATE_TYPE_DELETE                          = "删除";
+
+    /**
+     * 日志操作类型：刷新
+     */
+    public static final String LOG_OPERATE_TYPE_REFRESH                         = "刷新";
+
+
+    /**
+     * 日志业务类型：应用启动
+     */
+    public static final String LOG_BUSINESS_TYPE_APP_START                      = "应用启动";
+
+    /**
+     * 日志业务类型：参数配置
+     */
+    public static final String LOG_BUSINESS_TYPE_PARAMETER_CONFIG               = "参数配置";
+
+    /**
+     * 日志业务类型：数据初始化
+     */
+    public static final String LOG_BUSINESS_TYPE_INIT                           = "应用数据";
+
+    /**
+     * 日志业务类型：登录过滤器
+     */
+    public static final String LOG_BUSINESS_TYPE_LOGIN_FILTER                   = "登录过滤器配置";
+
+    /**
+     * 日志业务类型：freemarker模板配置
+     */
+    public static final String LOG_BUSINESS_TYPE_FREEMARKER                     = "freemarker模板配置";
+
+    /**
+     * 日志业务类型：freemarker模板配置
+     */
+    public static final String LOG_BUSINESS_TYPE_SCHEDULE                       = "定时任务配置";
+
+    /**
+     * 日志业务类型：session配置
+     */
+    public static final String LOG_BUSINESS_TYPE_SESSION                        = "session配置";
+
+    /**
+     * 日志业务类型：swagger配置
+     */
+    public static final String LOG_BUSINESS_TYPE_SWAGGER                        = "swagger配置";
+
+    /**
+     * 日志业务类型：Interceptor配置
+     */
+    public static final String LOG_BUSINESS_TYPE_INTERCEPTOR                    = "拦截器配置器配置";
+
+    /**
+     * 日志业务类型：FimsInterceptor配置
+     */
+    public static final String LOG_BUSINESS_TYPE_FIMS_INTERCEPTOR               = "系统拦截器配置";
+
+    /**
+     * 日志业务类型：websocket配置
+     */
+    public static final String LOG_BUSINESS_TYPE_WEBSOCKET                      = "websocket配置";
+
+    /**
+     * 日志业务类型：全局异常配置
+     */
+    public static final String LOG_BUSINESS_TYPE_EXCEPTION                      = "全局异常配置";
+
+    /**
+     * 日志业务类型：邮件发送
+     */
+    public static final String LOG_BUSINESS_TYPE_MAIL_SEND                      = "邮件发送";
+
+    /**
+     * 日志业务类型：邮件读取
+     */
+    public static final String LOG_BUSINESS_TYPE_MAIL_RECEIVE                   = "邮件读取";
+
+    /**
+     * 日志业务类型：邮件数据处理
+     */
+    public static final String LOG_BUSINESS_TYPE_MAIL_HANDLE                    = "邮件数据处理";
+
+    /**
+     * 日志业务类型：收入
+     */
+    public static final String LOG_BUSINESS_TYPE_INCOME                         = "收入信息";
+
+    /**
+     * 日志业务类型：字典
+     */
+    public static final String LOG_BUSINESS_TYPE_DICTIONARY                     = "字典信息";
+
+    /**
+     * 日志业务类型：用户
+     */
+    public static final String LOG_BUSINESS_TYPE_USER                           = "用户信息";
+
+    /**
+     * 日志业务类型：角色
+     */
+    public static final String LOG_BUSINESS_TYPE_ROLE                           = "角色信息";
+
+    /**
+     * 日志业务类型：通知
+     */
+    public static final String LOG_BUSINESS_TYPE_NOTICE                         = "通知信息";
+
+    /**
+     * 日志业务类型：菜单
+     */
+    public static final String LOG_BUSINESS_TYPE_MENU                           = "菜单信息";
+
+    /**
+     * 日志业务类型：数据权限
+     */
+    public static final String LOG_BUSINESS_TYPE_DATA_AUTHORITY                 = "数据权限信息";
+
+    /**
+     * 日志业务类型：报表
+     */
+    public static final String LOG_BUSINESS_TYPE_REPORT                         = "报表信息";
+
+    /**
+     * 日志业务类型：登入日志信息
+     */
+    public static final String LOG_BUSINESS_TYPE_LOGIN_LOG                      = "登入日志信息";
+
+    /**
+     * 日志业务类型：数据库备份
+     */
+    public static final String LOG_BUSINESS_TYPE_BACKUP                         = "数据备份";
+
+    /**
+     * 日志业务类型：数据库备份
+     */
+    public static final String LOG_BUSINESS_TYPE_BACKUP_LIST                    = "数据备份清单";
+
+    /**
+     * 日志业务类型：数据库备份
+     */
+    public static final String LOG_BUSINESS_TYPE_BACKUP_SQL                     = "SQL数据备份";
+
+    /**
+     * 日志业务类型：数据库备份
+     */
+    public static final String LOG_BUSINESS_TYPE_BACKUP_DMP                     = "DMP数据备份";
+
+    /**
+     * 日志业务类型：修订
+     */
+    public static final String LOG_BUSINESS_TYPE_VERSION                        = "修订信息";
+
+    /**
+     * 日志业务类型：参数
+     */
+    public static final String LOG_BUSINESS_TYPE_PARAMETER                      = "参数信息";
+
+    /**
+     * 日志业务类型：邮件
+     */
+    public static final String LOG_BUSINESS_TYPE_MAIL                           = "邮件信息";
+
+    /**
+     * 日志业务类型：随礼
+     */
+    public static final String LOG_BUSINESS_TYPE_GIFT                           = "随礼信息";
+
+    /**
+     * 日志业务类型：首页
+     */
+    public static final String LOG_BUSINESS_TYPE_CONSOLE                        = "首页信息";
+
+    /**
+     * 日志业务类型：大额支出
+     */
+    public static final String LOG_BUSINESS_TYPE_PAY                            = "大额支出信息";
+
+    /**
+     * 日志业务类型：字典转义
+     */
+    public static final String LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER            = "字典转义";
+
+    /**
+     * 日志业务类型：业务序列号
+     */
+    public static final String LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_GET         = "获取业务序列号";
+
+    /**
+     * 日志业务类型：业务序列号
+     */
+    public static final String LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_LOAD        = "加载业务序列号";
+
+    /**
+     * 日志业务类型：字典信息
+     */
+    public static final String LOG_BUSINESS_TYPE_DICTIONARY_LOAD                = "加载字典信息";
+
+    /**
+     * 日志业务类型：用户ID
+     */
+    public static final String LOG_BUSINESS_TYPE_USER_ID_SELECT                 = "获取用户ID";
+
+    /**
+     * 日志业务类型：查询条件
+     */
+    public static final String LOG_BUSINESS_TYPE_CONDITION_SET                  = "设置查询条件";
+
+    /**
+     * 日志业务类型：按钮权限
+     */
+    public static final String LOG_BUSINESS_TYPE_BUTTON_AUTHORITY_SELECT        = "查询按钮权限";
+
+    /**
+     * 日志业务类型：系统初始化
+     */
+    public static final String LOG_BUSINESS_TYPE_INIT_SYSTEM                    = "系统初始化";
+
+    /**
+     * 请求入参
+     */
+    public static final String LOG_BUSINESS_PARAMETER                           = "服务请求入参：{}";
+
+    /**
+     * 邮件超文本内容暂不读取
+     */
+    public static final String MAIL_CONTENT_HTML                                = "邮件超文本数据暂不读取";
+
+    /**
+     * 邮件超文本内容暂不读取
+     */
+    public static final String MAIL_CONTENT_MULTIPART                           = "邮件附件数据暂不处理";
+
+    /**
+     * 不支持的内容格式
+     */
+    public static final String MAIL_CONTENT_NOT_SUPPORT                         = "不支持的内容格式";
+
+    /**
+     * 业务类型不能为空
+     */
+    public static final String BUSINESS_TYPE_NOT_EMPTY                          = "业务类型不能为空";
+
+    /**
+     * Swagger标题
+     */
+    public static final String SWAGGER_TITLE                                    = "fims";
+
+    /**
+     * Swagger描述
+     */
+    public static final String SWAGGER_DESCRIPTION                              = "...";
+
+    /**
+     * Swagger版本
+     */
+    public static final String SWAGGER_VERSION                                  = "3.0.00";
+
+    /**
+     * sql id已存在
+     */
+    public static final String TIP_SQL_ID_EXIST                                 = "sql [%s] 已存在";
+
+    /**
+     * sql id不存在
+     */
+    public static final String TIP_SQL_ID                                       = "sql id 不能为空";
+
+    /**
+     * sql mode不存在
+     */
+    public static final String TIP_SQL_MODE                                     = "sql [%s] mode 不能为空";
+
+    /**
+     * sql value不存在
+     */
+    public static final String TIP_SQL_VALUE                                    = "sql [%s] value 不能为空";
+
+    /**
+     * 备份命令
+     */
+    public static final String TIP_BACKUP_COMMAND                               = "执行备份命令: ";
+
+    /**
+     * 最近一次登入时间
+     */
+    public static final String CONSOLE_LOGIN_LAST_DATE                          = "最近一次登入时间";
+
+    /**
+     * 本月登入次数
+     */
+    public static final String CONSOLE_LOGIN_MONTH_TIME                         = "本月登入次数";
+
+    /**
+     * 本年登入次数
+     */
+    public static final String CONSOLE_LOGIN_YEAR_TIME                          = "本年登入次数";
+
+    /**
+     * 登入总次数
+     */
+    public static final String CONSOLE_LOGIN_TOTAL_TIME                         = "登入总次数";
+
+    /**
+     * 登入信息
+     */
+    public static final String CONSOLE_LOGIN_TITLE                              = "登入信息";
+
+    /**
+     * 版本信息
+     */
+    public static final String CONSOLE_VERSION_TITLE                            = "版本信息";
+
+    /**
+     * 提示信息
+     */
+    public static final String CONSOLE_VERSION_TIPS                             = "提示信息";
+
+    /**
+     * 版本信息
+     */
+    public static final String CONSOLE_VERSION_CODE                             = "版本号";
+
+    /**
+     * 数据备份开始
+     */
+    public static final String BACKUP_TIPS                                      = "/* ====== %s %s ====== */";
+
+    /**
+     * 家庭信息
+     */
+    public static final String FAMILY_TITLE                                     = "家庭";
+
+    /**
+     * 最近一笔收入
+     */
+    public static final String CONSOLE_INCOME_LAST                              = "最近一笔收入";
+
+    /**
+     * 收入环比增长
+     */
+    public static final String CONSOLE_INCOME_CHAIN_RATIO                       = "月度收入环比增长";
+
+    /**
+     * 收入同比增长
+     */
+    public static final String CONSOLE_INCOME_RATIO                             = "月度收入同比增长";
+
+    /**
+     * 月度收入
+     */
+    public static final String CONSOLE_INCOME_MONTH                             = "月度收入";
+
+    /**
+     * 年度收入
+     */
+    public static final String CONSOLE_INCOME_YEAR                              = "年度收入(万元)";
+
+    /**
+     * 总收入
+     */
+    public static final String CONSOLE_INCOME_TOTAL                             = "总收入(万元)";
+
+    /**
+     * 统计开始时间
+     */
+    public static final String CONSOLE_YEAR_START_DATE                          = "统计开始时间";
+
+    /**
+     * 最近一笔送礼
+     */
+    public static final String CONSOLE_GIFT_SEND_LAST                           = "最近一笔送礼";
+
+    /**
+     * 年度送礼
+     */
+    public static final String CONSOLE_GIFT_SEND_YEAR                           = "年度送礼";
+
+    /**
+     * 总送礼
+     */
+    public static final String CONSOLE_GIFT_SEND_TOTAL                          = "总送礼";
+
+    /**
+     * 最近一笔收礼
+     */
+    public static final String CONSOLE_GIFT_RECEIVE_LAST                        = "最近一笔收礼";
+
+    /**
+     * 年度收礼
+     */
+    public static final String CONSOLE_GIFT_RECEIVE_YEAR                        = "年度收礼";
+
+    /**
+     * 总收礼
+     */
+    public static final String CONSOLE_GIFT_RECEIVE_TOTAL                       = "总收礼";
+
+    /**
+     * 请选择
+     */
+    public static final String SELECT                                           = "请选择";
+
+    /**
+     * 报表单位：年
+     */
+    public static final String REPORT_UNIT_YEAR                                 = "年";
+
+    /**
+     * 报表单位：月
+     */
+    public static final String REPORT_UNIT_MONTH                                = "月";
 }

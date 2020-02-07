@@ -20,8 +20,7 @@ import javax.mail.internet.MimeMultipart;
 import java.util.*;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
-import static com.hoomoomoo.fims.app.consts.TipConst.*;
-import static com.hoomoomoo.fims.app.consts.TipConst.LOG_BUSINESS_TYPE_MAIL_HANDLE;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
  * @author humm23693
