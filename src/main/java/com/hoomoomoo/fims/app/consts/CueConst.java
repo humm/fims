@@ -577,7 +577,7 @@ public class CueConst {
     /**
      * 数据备份开始
      */
-    public static final String BACKUP_TIPS                                      = "/* ====== %s %s ====== */";
+    public static final String BACKUP_TIPS                                      = "-- %s %s";
 
     /**
      * 家庭信息

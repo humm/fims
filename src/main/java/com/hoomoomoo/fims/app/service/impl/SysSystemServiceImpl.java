@@ -488,10 +488,9 @@ public class SysSystemServiceImpl implements SysSystemService {
         for (String tableName : tables) {
             // 去除表名称的单引号
             tableName = tableName.substring(1, tableName.length()- 1);
-            database.append(EXPLAN).append(STR_SPACE).append(tableName).append(NEXT_LINE);
+            database.append(EXPLAN).append(tableName).append(NEXT_LINE);
             StringBuffer tableInfo = new StringBuffer();
-            tableInfo.append(SLASH).append(ASTERISK).append(STR_SPACE)
-                      .append(tableName).append(STR_SPACE).append(ASTERISK).append(SLASH).append(NEXT_LINE);
+            tableInfo.append(EXPLAN).append(tableName).append(NEXT_LINE);
             // 历史数据数据
             tableInfo.append(TRUNCATE_LEFT).append(tableName).append(SEMICOLON).append(NEXT_LINE);
             tableInfo.append(COMMIT).append(NEXT_LINE).append(NEXT_LINE);
