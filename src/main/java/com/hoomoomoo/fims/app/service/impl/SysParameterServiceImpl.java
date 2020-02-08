@@ -138,6 +138,27 @@ public class SysParameterServiceImpl implements SysParameterService {
     }
 
     /**
+     * 获取系统参数
+     *
+     * @param parameterCode
+     * @return
+     */
+    @Override
+    public Integer getParameterInteger(String parameterCode) {
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_SELECT);
+        SysParameterQueryModel sysParameterQueryModel = new SysParameterQueryModel();
+        sysParameterQueryModel.setParameterCode(parameterCode);
+        SysLogUtils.parameter(logger, sysParameterQueryModel);
+        int parameterValue = 0;
+        SysParameterModel sysParameterModel = sysParameterDao.selectSysParameter(sysParameterQueryModel);
+        if (sysParameterModel != null) {
+            parameterValue = Integer.valueOf(sysParameterModel.getParameterValue());
+        }
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_SELECT);
+        return parameterValue;
+    }
+
+    /**
      * 转义
      *
      * @param sysParameterModelList

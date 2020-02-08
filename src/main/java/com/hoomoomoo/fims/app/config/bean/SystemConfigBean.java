@@ -38,4 +38,10 @@ public class SystemConfigBean {
      */
     @Value("${server.servlet.context-describe}")
     private String appDescribe;
+
+    /**
+     * 帮助信息
+     */
+    @Value("${banner.help}")
+    private String bannerHelp;
 }

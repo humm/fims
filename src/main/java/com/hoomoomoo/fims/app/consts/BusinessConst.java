@@ -225,6 +225,21 @@ public class BusinessConst {
     public static final String SESSION_BEAN                                 = "sessionBean";
 
     /**
+     * 业务类型：cookie userCode
+     */
+    public static final String COOKIE_USER_CODE                             = "userCode";
+
+    /**
+     * 业务类型：cookie userPassword
+     */
+    public static final String COOKIE_USER_PASSWORD                         = "userPassword";
+
+    /**
+     * 业务类型：cookie rememberPassword
+     */
+    public static final String COOKIE_REMEMBER_PASSWORD                     = "rememberPassword";
+
+    /**
      * 业务类型：用户
      */
     public static final String BUSINESS_TYPE_USER                           = "user";

@@ -5,6 +5,7 @@ import com.hoomoomoo.fims.app.model.common.ResultData;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author humm23693
@@ -19,10 +20,11 @@ public interface SysLoginService {
      * 用户登录
      *
      * @param request
+     * @param response
      * @param sysUserModel
      * @return
      */
-    ResultData login(HttpServletRequest request, SysUserModel sysUserModel);
+    ResultData login(HttpServletRequest request, HttpServletResponse response, SysUserModel sysUserModel);
 
     /**
      * 登出

@@ -200,13 +200,16 @@ insert into sys_parameter (parameter_code, parameter_caption, parameter_value, p
 values ('yearStartDate', '年度开始时间(yyyymm)', '201901', 'date', '6', '1', '1', 45);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
-values ('sessionTimeout', 'session超时时间(秒)', '300', 'number', '5', '1', '1', 45);
+values ('sessionTimeout', 'session有效时间(秒)', '300', 'number', '5', '1', '1', 50);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
-values ('userDefaultPassword', '用户默认密码', '123456', 'text', null, '1', '1', 50);
+values ('cookieTimeout', 'cookie有效时间(天)', '15', 'number', '5', '1', '1', 55);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
-values ('messageTip', '未读消息提醒', '1', 'switch', null, '1', '1', 55);
+values ('userDefaultPassword', '用户默认密码', '123456', 'text', null, '1', '1', 60);
+
+insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
+values ('messageTip', '未读消息提醒', '1', 'switch', null, '1', '1', 65);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
 values ('version', '系统版本号', '3.0.01', 'text', null, '1', '0', 999);
@@ -398,3 +401,6 @@ values ('20190000000056', '删除角色时不删除sys_user_role数据造成脏�
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
 values ('20190000000057', 'session失效列表数据查询报错不跳转登录页面', to_date('05-02-2020', 'dd-mm-yyyy'), 280, '3');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000058', '登入记住密码', to_date('08-02-2020', 'dd-mm-yyyy'), 285, '1');

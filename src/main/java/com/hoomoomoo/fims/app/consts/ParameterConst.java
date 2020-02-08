@@ -59,9 +59,19 @@ public class ParameterConst {
     public static final String SESSION_TIMEOUT                                  = "sessionTimeout";
 
     /**
+     * cookie超时时间
+     */
+    public static final String COOKIE_TIMEOUT                                   = "cookieTimeout";
+
+    /**
      * 系统版本号
      */
     public static final String VERSION                                          = "version";
+
+    /**
+     * 帮助信息
+     */
+    public static final String BANNER_HELP                                      = "bannerHelp";
 
     /**
      * 年度开始时间

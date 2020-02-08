@@ -9,9 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.NumberFormat;
 import java.util.Date;
 
-import static com.hoomoomoo.fims.app.consts.BusinessConst.COLON_CHINESE;
-import static com.hoomoomoo.fims.app.consts.BusinessConst.POINT;
-
 /**
  * @author humm23693
  * @description 系统级工具类
@@ -20,6 +17,8 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.POINT;
  */
 
 public class SysCommonUtils {
+
+    private static final String COLON_CHINESE                                = "：";
 
     /**
      * 设置创建人修改人信息

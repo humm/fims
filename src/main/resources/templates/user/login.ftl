@@ -18,6 +18,7 @@
     <div class="layadmin-user-login-main">
         <div class="layadmin-user-login-box layadmin-user-login-header">
             <h2>${appDescribe}</h2>
+            <p>${version}</p>
         </div>
         <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
             <div class="layui-form-item">
@@ -32,6 +33,9 @@
                 <input type="password" name="userPassword" id="LAY-user-login-password" lay-verify="required"
                        placeholder="密码" class="layui-input">
             </div>
+            <div class="layui-form-item" style="margin-bottom: 20px;">
+                <input type="checkbox" name="rememberPassword" id="LAY-user-login-rememberPassword" lay-skin="primary" title="记住密码">
+            </div>
             <div class="layui-form-item">
                 <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit">登 入</button>
             </div>
@@ -39,7 +43,7 @@
     </div>
 
     <div class="layui-trans layadmin-user-login-footer">
-        <p>版本号：${version}</p>
+        <p>${bannerHelp}</p>
     </div>
 </div>
 
@@ -61,9 +65,11 @@
         // 应用名称
         var appName = '${appName}';
 
+
         //提交
         form.on('submit(LAY-user-login-submit)', function (obj) {
             obj.field.userPassword = Base64.encode(obj.field.userPassword);
+            obj.field.rememberPassword = $("input[name='rememberPassword']:checked").val();
             //请求登入接口
             admin.req({
                 url: appName + '/user/login',
@@ -85,6 +91,32 @@
             if (event.keyCode == 13) {
                 $(".layui-btn").click();
             }
+        }
+
+        // 获取cookie信息
+        var getCookie = function () {
+            var cookieInfo = {}
+            var cookies = document.cookie.split(';');
+            for (var i=0; i<cookies.length; i++) {
+                if (cookies[i].indexOf("=")) {
+                    var single = cookies[i].split("=");
+                    if (single.length == 2) {
+                        cookieInfo[single[0].trim()] = single[1].trim();
+                    }
+                }
+            }
+            return cookieInfo;
+        }
+
+        // 填充历史登录信息
+        var userInfo = getCookie();
+        if ('on' == userInfo.rememberPassword) {
+            $("input[name='rememberPassword']").attr("checked",true);
+            $("input[name='userCode']").val(userInfo.userCode);
+            if (!fims.isBlank(userInfo.userPassword)) {
+                $("input[name='userPassword']").val(Base64.decode(userInfo.userPassword));
+            }
+            form.render();
         }
     });
 </script>

@@ -550,8 +550,8 @@ public class SysSystemServiceImpl implements SysSystemService {
         database.append(NEXT_LINE).append(NEXT_LINE).append(databaseContent);
         try {
             // 写文件
-            File saveLocation = new File(backupLocation + SLASH + fileName);
-            FileUtils.writeStringToFile(saveLocation, database.toString(), UTF8);
+            File saveFile = new File(backupLocation + SLASH + fileName);
+            FileUtils.writeStringToFile(saveFile, database.toString(), UTF8);
             SysLogUtils.success(logger, LOG_BUSINESS_TYPE_BACKUP_SQL);
         } catch (IOException e) {
             SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP_SQL, e);

@@ -42,4 +42,7 @@ public class SysUserModel extends BaseModel {
     @ApiModelProperty(value="角色代码", required = false)
     private String roleId;
 
+    @ApiModelProperty(value="记住密码", required = false)
+    private String rememberPassword;
+
 }

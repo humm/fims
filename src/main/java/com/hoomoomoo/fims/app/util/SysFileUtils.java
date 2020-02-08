@@ -20,9 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
-import static com.hoomoomoo.fims.app.consts.CueConst.*;
-
 /**
  * @author humm23693
  * @description 文件读取工具类
@@ -31,6 +28,20 @@ import static com.hoomoomoo.fims.app.consts.CueConst.*;
  */
 
 public class SysFileUtils {
+
+    private static final String NEXT_LINE                                    = "\n";
+    private static final String SQL_ID                                        = "id";
+    private static final String SQL_MODEL                                    = "model";
+    private static final String SQL_MODEL_SELECT                             = "select";
+    private static final String TIP_SQL_ID_EXIST                             = "sql [%s] 已存在";
+    private static final String TIP_SQL_ID                                   = "sql id 不能为空";
+    private static final String TIP_SQL_VALUE                                = "sql [%s] value 不能为空";
+    private static final String LESS_THAN_SEMICOLON                          = "&lt;";
+    private static final String GREATER_THAN_SEMICOLON                       = "&gt;";
+    private static final String NBSP                                         = "&nbsp;";
+    private static final String LESS_THAN                                    = "<";
+    private static final String GREATER_THAN                                 = ">";
+    private static final String STR_EMPTY                                    = "";
 
     /**
      * 读取文件内容

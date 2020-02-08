@@ -6,8 +6,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
-
 /**
  * @author humm23693
  * @description 命令行执行工具类
@@ -16,6 +14,10 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
  */
 
 public class SysCommandUtils {
+
+    private static final String GBK                                          = "gbk";
+    private static final String STR_EMPTY                                    = "";
+    private static final String STATUS_FAIL                                  = "-1";
 
     public static ResultData<String> execute(String cmd) {
         BufferedReader inputBufferedReader = null;

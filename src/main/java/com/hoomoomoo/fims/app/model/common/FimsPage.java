@@ -1,6 +1,9 @@
 package com.hoomoomoo.fims.app.model.common;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -13,7 +16,7 @@ import static com.hoomoomoo.fims.app.consts.CueConst.*;
  * @package com.hoomoomoo.fims.app.model.common
  * @date 2019/08/10
  */
-
+@Data
 public class FimsPage<T> {
 
     @ApiModelProperty(value="状态码", required = false)
@@ -56,51 +59,4 @@ public class FimsPage<T> {
         this.data = data;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public Integer getPage() {
-        return page;
-    }
-
-    public void setPage(Integer page) {
-        this.page = page;
-    }
-
-    public Integer getLimit() {
-        return limit;
-    }
-
-    public void setLimit(Integer limit) {
-        this.limit = limit;
-    }
-
-    public Long getCount() {
-        return count;
-    }
-
-    public void setCount(Long count) {
-        this.count = count;
-    }
-
-    public List<T> getData() {
-        return data;
-    }
-
-    public void setData(List<T> data) {
-        this.data = data;
-    }
 }

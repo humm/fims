@@ -7,7 +7,6 @@ import java.util.List;
 
 import static com.hoomoomoo.fims.app.config.RunDataConfig.LOG_REQUEST_TAG;
 import static com.hoomoomoo.fims.app.config.RunDataConfig.LOG_REQUEST_PARAMETER;
-import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
  * @author humm23693
@@ -17,6 +16,22 @@ import static com.hoomoomoo.fims.app.consts.CueConst.*;
  */
 
 public class SysLogUtils {
+
+    private static final String LOG_FORMAT_TIP                                   = "%s %s %s %s";
+    private static final String LOG_TYPE_CONTROLLER                              = "控制层";
+    private static final String LOG_TYPE_SERVICE                                 = "服务层";
+    private static final String LOG_OPERATE_TAG_START                            = "开始";
+    private static final String LOG_OPERATE_TAG_END                              = "结束";
+    private static final String LOG_OPERATE_TAG_EXCEPTION                        = "异常";
+    private static final String LOG_OPERATE_TAG_LOAD                             = "加载";
+    private static final String LOG_OPERATE_TAG_SUCCESS                          = "成功";
+    private static final String LOG_OPERATE_TAG_FAIL                             = "失败";
+    private static final String LOG_TIP                                          = "====================== %s %s ======================";
+    private static final String LOG_FORMAT_STATUS_MSG                            = "%s %s：{}";
+    private static final String LOG_FORMAT_STATUS                                = "%s %s";
+    private static final String LOG_BUSINESS_PARAMETER                           = "服务请求入参：{}";
+    private static final String LOG_FORMAT_ERROR_STATUS                          = "%s %s [%s]";
+
 
     /**
      * 控制层日志开始

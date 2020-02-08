@@ -6,10 +6,7 @@ import com.hoomoomoo.fims.app.model.SysUserModel;
 import com.hoomoomoo.fims.app.model.SysUserQueryModel;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
-import com.hoomoomoo.fims.app.service.SysLoginLogService;
-import com.hoomoomoo.fims.app.service.SysLoginService;
-import com.hoomoomoo.fims.app.service.SysMenuService;
-import com.hoomoomoo.fims.app.service.SysSystemService;
+import com.hoomoomoo.fims.app.service.*;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -19,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.support.SessionStatus;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +26,7 @@ import java.util.List;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.D002;
+import static com.hoomoomoo.fims.app.consts.ParameterConst.COOKIE_TIMEOUT;
 
 /**
  * @author humm23693
@@ -53,14 +53,19 @@ public class SysLoginServiceImpl implements SysLoginService {
     @Autowired
     private SysLoginLogService sysLoginLogService;
 
+    @Autowired
+    private SysParameterService sysParameterService;
+
     /**
      * 用户登录
      *
+     * @param request
+     * @param response
      * @param sysUserModel
      * @return
      */
     @Override
-    public ResultData login(HttpServletRequest request, SysUserModel sysUserModel) {
+    public ResultData login(HttpServletRequest request, HttpServletResponse response, SysUserModel sysUserModel) {
         ResultData resultData = null;
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_SELECT);
         SysLogUtils.parameter(logger, sysUserModel);
@@ -73,7 +78,6 @@ public class SysLoginServiceImpl implements SysLoginService {
         if (CollectionUtils.isEmpty(sysUserModelList)) {
             // 用户不存在
             resultData = new ResultData(false, USER_LOGON_ACCOUNT_NOT_EXIST, USER_LOGON_ACCOUNT_NOT_EXIST);
-            sysLoginLogModel.setUserId(sysUserModel.getUserCode());
             sysLoginLogModel.setLoginStatus(new StringBuffer(D002).append(MINUS).append(STR_2).toString());
             sysLoginLogModel.setLoginMessage(USER_LOGON_ACCOUNT_NOT_EXIST);
         } else {
@@ -91,9 +95,18 @@ public class SysLoginServiceImpl implements SysLoginService {
             String savePassword = new StringBuffer(sysUser.getUserPassword()).reverse().toString();
             if (flag && inputPassword.equals(savePassword)) {
                 // 登录成功
+                // 设置session信息
                 HttpSession session = request.getSession();
                 SessionBean sessionBean = setSessionBeanInfo(sysUser);
                 session.setAttribute(SESSION_BEAN, sessionBean);
+                //  设置cookie信息
+                if (SWITCH_ON.equals(sysUserModel.getRememberPassword())) {
+                    response.addCookie(setCookiInfo(COOKIE_USER_CODE, sysUserModel.getUserCode()));
+                    response.addCookie(setCookiInfo(COOKIE_USER_PASSWORD, sysUserModel.getUserPassword()));
+                    response.addCookie(setCookiInfo(COOKIE_REMEMBER_PASSWORD, sysUserModel.getRememberPassword()));
+                } else {
+                    clearCookieInfo(request, response);
+                }
                 resultData = new ResultData(true, USER_LOGON_SUCCESS, sessionBean);
                 sysLoginLogModel.setLoginStatus(new StringBuffer(D002).append(MINUS).append(STR_1).toString());
                 sysLoginLogModel.setLoginMessage(USER_LOGON_SUCCESS);
@@ -153,5 +166,36 @@ public class SysLoginServiceImpl implements SysLoginService {
             sessionBean.setIsAdminData(sysMenuService.selectDataAuthorityByUserId(sysUserModel.getUserId()));
         }
         return sessionBean;
+    }
+
+    /**
+     * 设置cookie信息
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    private Cookie setCookiInfo(String key, String value) {
+        Cookie cookie = new Cookie(key, value);
+        cookie.setPath(SLASH);
+        cookie.setMaxAge(sysParameterService.getParameterInteger(COOKIE_TIMEOUT) * 24 * 60 * 60);
+        return cookie;
+    }
+
+    /**
+     * 删除cookie信息
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    private void clearCookieInfo(HttpServletRequest request, HttpServletResponse response) {
+        Cookie[] cookies=request.getCookies();
+        for(Cookie cookie: cookies){
+            cookie.setValue(null);
+            cookie.setPath(SLASH);
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+        }
     }
 }

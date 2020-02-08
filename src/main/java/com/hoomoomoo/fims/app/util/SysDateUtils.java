@@ -13,25 +13,10 @@ import java.util.Date;
 
 public class SysDateUtils {
 
-    /**
-     * 时间格式化类型
-     */
-    public static final String YYYYMMDD                            = "yyyyMMdd";
-
-    /**
-     * 时间格式化类型
-     */
-    public static final String YYYY                                = "yyyy";
-
-    /**
-     * 时间格式化类型
-     */
-    public static final String HHMMSS                              = "HHmmss";
-
-    /**
-     * 时间格式化类型
-     */
-    public static final String YYYYMMDDHHMMSS                      = "yyyyMMddHHmmss";
+    private static final String YYYYMMDD                            = "yyyyMMdd";
+    private static final String YYYY                                = "yyyy";
+    private static final String HHMMSS                              = "HHmmss";
+    private static final String YYYYMMDDHHMMSS                      = "yyyyMMddHHmmss";
 
     /**
      * 年月日

@@ -43,4 +43,12 @@ public interface SysParameterService {
      * @return
      */
     String getParameterString(String parameterCode);
+
+    /**
+     * 获取系统参数
+     *
+     * @param parameterCode
+     * @return
+     */
+    Integer getParameterInteger(String parameterCode);
 }

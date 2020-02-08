@@ -1,5 +1,6 @@
 package com.hoomoomoo.fims.app.controller;
 
+import com.hoomoomoo.fims.app.config.bean.SystemConfigBean;
 import com.hoomoomoo.fims.app.model.SysUserModel;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysLoginService;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import static com.hoomoomoo.fims.app.consts.ParameterConst.BANNER_HELP;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.VERSION;
 
 /**
@@ -34,6 +37,9 @@ public class SysLoginController {
     @Autowired
     private SysParameterService sysParameterService;
 
+    @Autowired
+    private SystemConfigBean systemConfigBean;
+
 
     /**
      * 跳转登入页面
@@ -44,6 +50,7 @@ public class SysLoginController {
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String viewLogin(ModelMap modelMap) {
         modelMap.addAttribute(VERSION, sysParameterService.getParameterString(VERSION));
+        modelMap.addAttribute(BANNER_HELP, systemConfigBean.getBannerHelp());
         return "user/login";
     }
 
@@ -57,8 +64,8 @@ public class SysLoginController {
     @ApiOperation("用户登入")
     @RequestMapping(value = "user/login", method = RequestMethod.POST)
     @ResponseBody
-    public ResultData login(HttpServletRequest request, SysUserModel sysUserModel) {
-        return sysLoginService.login(request, sysUserModel);
+    public ResultData login(HttpServletRequest request, HttpServletResponse response, SysUserModel sysUserModel) {
+        return sysLoginService.login(request, response, sysUserModel);
     }
 
     /**
