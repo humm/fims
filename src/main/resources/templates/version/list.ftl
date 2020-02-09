@@ -29,11 +29,12 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header">当前版本：${version}</div>
+                <div class="layui-card-header">
+                    <span>当前版本：${version}</span>
+                    <span style="float: right;" id="time"></span>
+                </div>
                 <div class="layui-card-body">
-
                     <ul class="layui-timeline"></ul>
-
                 </div>
             </div>
         </div>
@@ -73,6 +74,8 @@
         // 初始化修订信息
         var initVersion = function (data) {
             if(!$.isEmptyObject(data)){
+                var time = data[data.length - 1].versionDate + " - " + data[0].versionDate;
+                $("#time").text(time);
                 for (var i=0; i<data.length; i++) {
                     var versionContent = data[i].versionContent;
                     var versionDate = data[i].versionDate;

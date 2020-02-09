@@ -388,7 +388,7 @@ insert into sys_version (version_id, version_content, version_date, version_orde
 values ('20190000000052', '随礼信息修改时不能显示随礼人信息', to_date('03-02-2020', 'dd-mm-yyyy'), 255, '3');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
-values ('20190000000053', '数据权限修改后session刷新不及时导致查询到脏数据', to_date('03-02-2020', 'dd-mm-yyyy'), 260, '3');
+values ('20190000000053', '数据权限修改后session刷新不及时导致查询脏数据', to_date('03-02-2020', 'dd-mm-yyyy'), 260, '3');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
 values ('20190000000054', '发布版本：3.0.01', to_date('03-02-2020', 'dd-mm-yyyy'), 265, '4');
@@ -403,4 +403,7 @@ insert into sys_version (version_id, version_content, version_date, version_orde
 values ('20190000000057', 'session失效列表数据查询报错不跳转登录页面', to_date('05-02-2020', 'dd-mm-yyyy'), 280, '3');
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
-values ('20190000000058', '登入记住密码', to_date('08-02-2020', 'dd-mm-yyyy'), 285, '1');
+values ('20190000000058', '登入：记住密码', to_date('08-02-2020', 'dd-mm-yyyy'), 285, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000059', '添加系统logo', to_date('09-02-2020', 'dd-mm-yyyy'), 290, '2');

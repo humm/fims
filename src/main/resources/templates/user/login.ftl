@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="${appName}/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="${appName}/layuiadmin/style/admin.css" media="all">
     <link rel="stylesheet" href="${appName}/layuiadmin/style/login.css" media="all">
+    <link rel="icon" href="${appName}/layuiadmin/style/res/logo-black.png" type="image/png" />
 </head>
 <body>
 
@@ -17,7 +18,7 @@
 
     <div class="layadmin-user-login-main">
         <div class="layadmin-user-login-box layadmin-user-login-header">
-            <h2>${appDescribe}</h2>
+            <img src="${appName}/layuiadmin/style/res/login.png">
             <p>${version}</p>
         </div>
         <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
