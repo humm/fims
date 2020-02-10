@@ -12,6 +12,7 @@ import com.hoomoomoo.fims.app.model.common.BaseModel;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.model.common.ViewData;
+import com.hoomoomoo.fims.app.service.SysInterfaceService;
 import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.*;
@@ -82,6 +83,9 @@ public class SysSystemServiceImpl implements SysSystemService {
 
     @Autowired
     private SysParameterService  sysParameterService;
+
+    @Autowired
+    private SysInterfaceService sysInterfaceService;
 
     /**
      * 控制台输出应用配置参数
@@ -464,7 +468,7 @@ public class SysSystemServiceImpl implements SysSystemService {
      */
     @Override
     public void getConfigSql() {
-        CONFIG_SQL = SysFileUtils.getConfigSql(SYSTEM_CONFIG_SQL);
+        CONFIG_SQL = SysCommonUtils.getConfigSql(SYSTEM_CONFIG_SQL);
     }
 
     /**
@@ -616,6 +620,17 @@ public class SysSystemServiceImpl implements SysSystemService {
             } catch (Exception e) {
                 SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP, e);
             }
+        }
+    }
+
+    /**
+     * 系统启动读取邮件
+     */
+    @Override
+    public void applicationStartMail() {
+        boolean startMail = sysParameterService.getParameterBoolean(START_MAIL);
+        if (startMail) {
+            sysInterfaceService.handleMailRequest();
         }
     }
 

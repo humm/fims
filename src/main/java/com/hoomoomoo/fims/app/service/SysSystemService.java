@@ -124,4 +124,9 @@ public interface SysSystemService {
      */
     void applicationStartBackup();
 
+    /**
+     * 系统启动读取邮件
+     */
+    void applicationStartMail();
+
 }

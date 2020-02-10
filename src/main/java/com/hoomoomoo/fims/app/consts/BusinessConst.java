@@ -200,6 +200,11 @@ public class BusinessConst {
     public static final String GBK                                          = "gbk";
 
     /**
+     * GBK
+     */
+    public static final String BR                                           = "</br>";
+
+    /**
      * 业务ID初始值
      */
     public static final String BUSINESS_ID_DEFAULT                          = "0000000001";
@@ -300,9 +305,9 @@ public class BusinessConst {
     public static final String BUSINESS_TYPE_VERSION                        = "version";
 
     /**
-     * 业务类型：邮件
+     * 业务类型：接口
      */
-    public static final String BUSINESS_TYPE_MAIL                           = "mail";
+    public static final String BUSINESS_TYPE_INTERFACE                      = "interface";
 
     /**
      * 业务类型：随礼
@@ -540,9 +545,9 @@ public class BusinessConst {
     public static final String AMOUNT                                        = "amount";
 
     /**
-     * 格式化模板
+     * 日期格式化模板
      */
-    public static final String FORMAT_TEMPLATE                               = "#,###.##";
+    public static final String FORMAT_DATE_TEMPLATE                          = "yyyyMMdd";
 
     /**
      * 菜单：收入信息
@@ -663,8 +668,14 @@ public class BusinessConst {
 
     public static final String BACKUP_COMMAND                               = "expdp %s/%s@%s directory=backup_dir dumpfile=%s";
 
+    /**
+     * 接口业务类型：收入
+      */
+    public static final String INTERFACE_TYPE_INCOME                        = "收入";
 
-
-
+    /**
+     * 接口业务类型：随礼
+      */
+    public static final String INTERFACE_TYPE_GIFT                          = "随礼";
 
 }

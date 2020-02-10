@@ -154,9 +154,14 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INCOME, operateType);
         SysCommonUtils.setCreateUserInfo(sysIncomeModel);
         SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysIncomeModel);
-        if (sysIncomeModel.getIncomeId() == null) {
+        if (sysIncomeModel.getIncomeId() == null || StringUtils.isNotEmpty(sysIncomeModel.getDataType())) {
             // 新增
-            String incomeId = sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_INCOME);
+            String incomeId = STR_EMPTY;
+            if (StringUtils.isNotEmpty(sysIncomeModel.getDataType())) {
+                incomeId = sysIncomeModel.getIncomeId();
+            } else {
+                incomeId = sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_INCOME);
+            }
             sysIncomeModel.setIncomeId(incomeId);
             sysNoticeModel.setBusinessId(incomeId);
         } else {
@@ -187,8 +192,12 @@ public class SysIncomeServiceImpl implements SysIncomeService {
         sysNoticeModel.setBusinessSubType(sysIncomeModel.getIncomeType());
         sysNoticeModel.setBusinessDate(sysIncomeModel.getIncomeDate());
         sysNoticeModel.setBusinessAmount(sysIncomeModel.getIncomeAmount());
-        sysNoticeModel.setNoticeType(new StringBuffer(D008).append(MINUS).append(STR_1).toString());
         sysNoticeModel.setReadStatus(new StringBuffer(D012).append(MINUS).append(STR_1).toString());
+        if (StringUtils.isEmpty(sysIncomeModel.getDataType())) {
+            sysNoticeModel.setNoticeType(new StringBuffer(D008).append(MINUS).append(STR_1).toString());
+        } else {
+            sysNoticeModel.setNoticeType(sysIncomeModel.getDataType());
+        }
         return sysNoticeModel;
     }
 

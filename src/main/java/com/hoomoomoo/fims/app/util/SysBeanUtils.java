@@ -36,6 +36,22 @@ public class SysBeanUtils {
     }
 
     /**
+     * List转换成bean
+     *
+     * @param clazz
+     * @param list
+     */
+    public static List<BaseModel> mapToBean(Class clazz, List<Map> list) {
+        List<BaseModel> baseModelList = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (Map single : list) {
+                baseModelList.add(mapToBean(clazz, single));
+            }
+        }
+        return baseModelList;
+    }
+
+    /**
      * bean转换成map
      *
      * @param obj

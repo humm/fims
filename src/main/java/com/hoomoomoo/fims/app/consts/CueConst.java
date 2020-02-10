@@ -214,6 +214,11 @@ public class CueConst {
     public static final String LOG_OPERATE_TYPE_SELECT                          = "查询";
 
     /**
+     * 日志操作类型：处理
+     */
+    public static final String LOG_OPERATE_TYPE_HANDLE                          = "处理";
+
+    /**
      * 日志操作类型：分页查询
      */
     public static final String LOG_OPERATE_TYPE_SELECT_PAGE                     = "分页查询";
@@ -428,6 +433,11 @@ public class CueConst {
      * 日志业务类型：大额支出
      */
     public static final String LOG_BUSINESS_TYPE_PAY                            = "大额支出信息";
+
+    /**
+     * 日志业务类型：大额支出
+     */
+    public static final String LOG_BUSINESS_TYPE_INTERFACE                      = "接口信息";
 
     /**
      * 日志业务类型：字典转义
@@ -663,4 +673,97 @@ public class CueConst {
      * 报表单位：月
      */
     public static final String REPORT_UNIT_MONTH                                = "月";
+
+    /**
+     * 接口信息：当前用户不能为空
+     */
+    public static final String INTERFACE_NOT_EMPTY_USER                         = "当前用户不能为空";
+
+    /**
+     * 接口信息：当前用户不存在
+     */
+    public static final String INTERFACE_NOT_EXIT_USER                          = "当前用户不存在";
+
+    /**
+     * 接口信息：目标对象不能为空
+     */
+    public static final String INTERFACE_NOT_EMPTY_TARGET                       = "目标对象不能为空";
+
+    /**
+     * 接口信息：目标对象不存在
+     */
+    public static final String INTERFACE_NOT_EXIT_TARGET                        = "目标对象不存在";
+
+    /**
+     * 接口信息：当前用户和目标对象必须有一个为系统用户
+     */
+    public static final String INTERFACE_MUST_ONE_SYSTEM_USER                   = "当前用户和目标对象必须有一个为系统用户";
+
+    /**
+     * 接口信息：业务日期不能为空
+     */
+    public static final String INTERFACE_NOT_EMPTY_DATE                         = "业务日期不能为空";
+
+    /**
+     * 接口信息：业务日期不能为空
+     */
+    public static final String INTERFACE_FORMAT_DATE                            = "业务日期格式错误";
+
+    /**
+     * 接口信息：业务类型不能为空
+     */
+    public static final String INTERFACE_NOT_EMPTY_TYPE                         = "业务类型不能为空";
+
+    /**
+     * 接口信息：业务类型不存在
+     */
+    public static final String INTERFACE_NOT_EXIT_TYPE                          = "业务类型不存在";
+
+    /**
+     * 接口信息：业务子类型不能为空
+     */
+    public static final String INTERFACE_NOT_EMPTY_SUBTYPE                      = "业务子类型不能为空";
+
+    /**
+     * 接口信息：业务子类型不存在
+     */
+    public static final String INTERFACE_NOT_EXIT_SUBTYPE                       = "业务子类型不存在";
+
+    /**
+     * 接口信息：业务金额不能为空
+     */
+    public static final String INTERFACE_NOT_EMPTY_AMOUNT                       = "业务金额不能为空";
+
+    /**
+     * 接口信息：业务金额格式错误
+     */
+    public static final String INTERFACE_FORMAT_AMOUNT                          = "业务金额格式错误";
+
+    /**
+     * 接口信息：业务备注不能超过150个字符
+     */
+    public static final String INTERFACE_LENGTH_MEMO                            = "业务备注不能超过150个字符";
+
+    /**
+     * 接口信息：业务备注不能超过150个字符
+     */
+    public static final String INTERFACE_TOGETHER_ERROR                         = "申请数据中有校验失败数据";
+
+    /**
+     * 接口信息：家庭信息平台邮件处理结果反馈
+     */
+    public static final String INTERFACE_FEEDBACK_MAIL                          = "家庭信息平台邮件处理结果反馈";
+
+    /**
+     * 接口信息：处理成功
+     */
+    public static final String INTERFACE_MAIL_SUCCESS                           = "<b style='color:green'>处理成功</b>";
+
+    /**
+     * 接口信息：处理成功
+     */
+    public static final String INTERFACE_MAIL_FAIL                              = "<b style='color:red'>处理失败</b>";
+
+
+
 }

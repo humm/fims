@@ -212,7 +212,7 @@ insert into sys_parameter (parameter_code, parameter_caption, parameter_value, p
 values ('messageTip', '未读消息提醒', '1', 'switch', null, '1', '1', 65);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
-values ('version', '系统版本号', '3.0.01', 'text', null, '1', '0', 999);
+values ('version', '系统版本号', '3.1.00', 'text', null, '1', '0', 999);
 
 -- 模块配置数据
 truncate table sys_config;
@@ -407,3 +407,9 @@ values ('20190000000058', '登入：记住密码', to_date('08-02-2020', 'dd-mm-
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
 values ('20190000000059', '添加系统logo', to_date('09-02-2020', 'dd-mm-yyyy'), 290, '2');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000060', '邮件申请数据处理：支持业务类型为收入、随礼', to_date('10-02-2020', 'dd-mm-yyyy'), 295, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000061', '发布版本：3.1.00', to_date('10-02-2020', 'dd-mm-yyyy'), 300, '4');

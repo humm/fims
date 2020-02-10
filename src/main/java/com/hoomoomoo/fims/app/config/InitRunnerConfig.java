@@ -48,6 +48,9 @@ public class InitRunnerConfig implements CommandLineRunner {
         // 加载查询数据字典
         sysSystemService.loadSysDictionaryCondition();
 
+        // 处理邮件申请数据
+        sysSystemService.applicationStartMail();
+
         SysLogUtils.load(logger, LOG_BUSINESS_TYPE_INIT);
     }
 }

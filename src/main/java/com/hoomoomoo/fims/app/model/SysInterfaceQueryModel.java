@@ -1,18 +1,18 @@
 package com.hoomoomoo.fims.app.model;
 
-import com.hoomoomoo.fims.app.model.common.BaseModel;
+import com.hoomoomoo.fims.app.model.common.QueryBaseModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
  * @author humm23693
- * @description 接口信息实体类
+ * @description
  * @package com.hoomoomoo.fims.app.model
  * @date 2020/02/09
  */
 
 @Data
-public class SysInterfaceModel extends BaseModel {
+public class SysInterfaceQueryModel extends QueryBaseModel {
 
     @ApiModelProperty(value="接口ID", required = false)
     private String interfaceId;
@@ -32,13 +32,14 @@ public class SysInterfaceModel extends BaseModel {
     @ApiModelProperty(value="请求反馈状态", required = false)
     private String feedbackStatus;
 
-    public SysInterfaceModel() {
+    public SysInterfaceQueryModel() {
     }
 
-    public SysInterfaceModel(String param) {
+    public SysInterfaceQueryModel(String param) {
         this.requestData = param;
         this.requestResult = param;
         this.requestMessage = param;
         this.feedbackStatus = param;
     }
+
 }

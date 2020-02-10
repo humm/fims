@@ -1,10 +1,15 @@
 package com.hoomoomoo.fims.test;
 
 import com.hoomoomoo.fims.FimsStarter;
-import com.hoomoomoo.fims.app.model.SysInterfaceModel;
+import com.hoomoomoo.fims.app.model.SysInterfaceRequestModel;
 import com.hoomoomoo.fims.app.model.SysMailModel;
+import com.hoomoomoo.fims.app.model.common.BaseModel;
+import com.hoomoomoo.fims.app.service.SysInterfaceService;
 import com.hoomoomoo.fims.app.service.SysMailService;
-import com.hoomoomoo.fims.app.util.SysFileUtils;
+import com.hoomoomoo.fims.app.util.SysCommonUtils;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -31,6 +36,9 @@ public class MailConfigTest {
     @Autowired
     private SysMailService sysMailService;
 
+    @Autowired
+    private SysInterfaceService sysInterfaceService;
+
     @Test
     public void send() {
         SysMailModel mailModel = new SysMailModel();
@@ -46,8 +54,16 @@ public class MailConfigTest {
         mailModel.setSubject("xml解析");
         List<SysMailModel> mailTDtos = sysMailService.receiveMail(mailModel);
         for(SysMailModel dto : mailTDtos){
-            SysInterfaceModel sysInterfaceModel = SysFileUtils.getMailXmlToBean(dto.getContent());
-            logger.info(sysInterfaceModel.toString());
+            try {
+                List<BaseModel> list = SysCommonUtils.getMailXmlToBean(dto.getContent());
+            } catch (DocumentException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    @Test
+    public void handleMailRequest() {
+        sysInterfaceService.handleMailRequest();
     }
 }

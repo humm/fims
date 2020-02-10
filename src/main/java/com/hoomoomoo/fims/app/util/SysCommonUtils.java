@@ -1,13 +1,29 @@
 package com.hoomoomoo.fims.app.util;
 
+import com.hoomoomoo.fims.app.model.SysInterfaceRequestModel;
+import com.hoomoomoo.fims.app.model.SysSqlMode;
 import com.hoomoomoo.fims.app.model.common.QueryBaseModel;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.model.common.BaseModel;
 import org.apache.commons.lang.StringUtils;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.io.DOMReader;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.NumberFormat;
-import java.util.Date;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author humm23693
@@ -19,6 +35,20 @@ import java.util.Date;
 public class SysCommonUtils {
 
     private static final String COLON_CHINESE                                = "：";
+    private static final String NEXT_LINE                                    = "\n";
+    private static final String SQL_ID                                        = "id";
+    private static final String SQL_MODEL                                    = "model";
+    private static final String SQL_MODEL_SELECT                             = "select";
+    private static final String TIP_SQL_ID_EXIST                             = "sql [%s] 已存在";
+    private static final String TIP_SQL_ID                                   = "sql id 不能为空";
+    private static final String TIP_SQL_VALUE                                = "sql [%s] value 不能为空";
+    private static final String LESS_THAN_SEMICOLON                          = "&lt;";
+    private static final String GREATER_THAN_SEMICOLON                       = "&gt;";
+    private static final String NBSP                                         = "&nbsp;";
+    private static final String LESS_THAN                                    = "<";
+    private static final String GREATER_THAN                                 = ">";
+    private static final String STR_EMPTY                                    = "";
+
 
     /**
      * 设置创建人修改人信息
@@ -37,6 +67,20 @@ public class SysCommonUtils {
     }
 
     /**
+     * 设置创建人修改人信息
+     *
+     * @param baseModel
+     * @param userId
+     */
+    public static void setCreateUserInfo(BaseModel baseModel, String userId) {
+        baseModel.setCreateUser(userId);
+        baseModel.setModifyUser(userId);
+        Date date = new Date();
+        baseModel.setCreateDate(date);
+        baseModel.setModifyDate(date);
+    }
+
+    /**
      * 设置修改人信息
      *
      * @param baseModel
@@ -46,6 +90,16 @@ public class SysCommonUtils {
         if (sessionBean != null) {
             baseModel.setModifyUser(sessionBean.getUserId());
         }
+        baseModel.setModifyDate(new Date());
+    }
+
+    /**
+     * 设置修改人信息
+     *
+     * @param baseModel
+     */
+    public static void setModifyUserInfo(BaseModel baseModel, String userId) {
+        baseModel.setModifyUser(userId);
         baseModel.setModifyDate(new Date());
     }
 
@@ -99,5 +153,98 @@ public class SysCommonUtils {
         numberFormat.setGroupingUsed(true);
         numberFormat.setMaximumFractionDigits(2);
         return numberFormat.format(Double.valueOf(value));
+    }
+
+    /**
+     * 读取文件内容
+     *
+     * @param file
+     * @return
+     */
+    public static String getContent(File file) {
+        StringBuilder content = new StringBuilder();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            String readContent = null;
+            while ((readContent = bufferedReader.readLine()) != null) {
+                content.append(readContent).append(NEXT_LINE);
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return content.toString();
+    }
+
+    /**
+     * 获取配置sql
+     *
+     * @param filePath
+     * @return
+     */
+    public static ConcurrentHashMap<String, SysSqlMode> getConfigSql(String filePath) {
+        ConcurrentHashMap<String, SysSqlMode> xmlMap = new ConcurrentHashMap();
+        try {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            documentBuilderFactory.setNamespaceAware(true);
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document document = documentBuilder.parse(filePath);
+            DOMReader xmlReader = new DOMReader();
+            org.dom4j.Document doc = xmlReader.read(document);
+            Element root = doc.getRootElement();
+            List<Element> elementList = root.elements();
+            for (int i = 0; i < elementList.size(); i++) {
+                Element element = elementList.get(i);
+                String id = element.attribute(SQL_ID).getValue();
+                String model = SQL_MODEL_SELECT;
+                String value = element.getTextTrim();
+                if (StringUtils.isBlank(id)) {
+                    throw new RuntimeException(String.format(TIP_SQL_ID, id));
+                }
+                if (StringUtils.isBlank(value)) {
+                    throw new RuntimeException(String.format(TIP_SQL_VALUE, id));
+                }
+                if (element.attribute(SQL_MODEL) != null) {
+                    model = element.attribute(SQL_MODEL).getValue();
+                }
+                if (xmlMap.containsKey(id)) {
+                    throw new RuntimeException(String.format(TIP_SQL_ID_EXIST, id));
+                }
+                xmlMap.put(id, new SysSqlMode(id, model, value));
+            }
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return xmlMap;
+    }
+
+    /**
+     * 获取邮件信息
+     *
+     * @param xml
+     * @return
+     */
+    public static List<BaseModel> getMailXmlToBean(String xml) throws DocumentException {
+        List<Map> content = new ArrayList<>();
+        xml = xml.replace(LESS_THAN_SEMICOLON, LESS_THAN).replace(GREATER_THAN_SEMICOLON, GREATER_THAN).replace(NBSP, STR_EMPTY);
+        org.dom4j.Document document = DocumentHelper.parseText(xml);
+        org.dom4j.Element root = document.getRootElement();
+        Iterator<Element> iterator = root.elementIterator();
+        while (iterator.hasNext()) {
+            // 单条数据
+            org.dom4j.Element element = iterator.next();
+            Iterator<Element> single = element.elementIterator();
+            Map<String, String> request = new HashMap<>(16);
+            while (single.hasNext()) {
+                org.dom4j.Element node = single.next();
+                request.put(node.getName(), node.getTextTrim());
+            }
+            content.add(request);
+        }
+        return SysBeanUtils.mapToBean(SysInterfaceRequestModel.class, content);
     }
 }

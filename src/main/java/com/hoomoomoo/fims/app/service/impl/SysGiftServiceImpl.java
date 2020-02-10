@@ -161,9 +161,14 @@ public class SysGiftServiceImpl implements SysGiftService {
             return new ResultData(false, msg, null);
         }
         SysNoticeModel sysNoticeModel = setSysNoticeProperties(sysGiftModel);
-        if (sysGiftModel.getGiftId() == null) {
+        if (sysGiftModel.getGiftId() == null || StringUtils.isNotEmpty(sysGiftModel.getDataType())) {
             // 新增
-            String giftId = sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_GIFT);
+            String giftId = STR_EMPTY;
+            if (StringUtils.isNotEmpty(sysGiftModel.getDataType())) {
+                giftId = sysGiftModel.getGiftId();
+            } else {
+                giftId = sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_GIFT);
+            }
             sysGiftModel.setGiftId(giftId);
             sysNoticeModel.setBusinessId(giftId);
         } else {
@@ -202,7 +207,11 @@ public class SysGiftServiceImpl implements SysGiftService {
         sysNoticeModel.setBusinessSubType(sysGiftModel.getGiftType());
         sysNoticeModel.setBusinessDate(sysGiftModel.getGiftDate());
         sysNoticeModel.setBusinessAmount(sysGiftModel.getGiftAmount());
-        sysNoticeModel.setNoticeType(new StringBuffer(D008).append(MINUS).append(STR_1).toString());
+        if (StringUtils.isEmpty(sysGiftModel.getDataType())) {
+            sysNoticeModel.setNoticeType(new StringBuffer(D008).append(MINUS).append(STR_1).toString());
+        } else {
+            sysNoticeModel.setNoticeType(sysGiftModel.getDataType());
+        }
         sysNoticeModel.setReadStatus(new StringBuffer(D012).append(MINUS).append(STR_1).toString());
         return sysNoticeModel;
     }

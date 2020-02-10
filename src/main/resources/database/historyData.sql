@@ -1,22 +1,22 @@
-/* ====== 数据备份清单 开始 ====== */
---  sys_user
---  sys_role
---  sys_user_role
---  sys_menu
---  sys_role_menu
---  sys_dictionary
---  sys_parameter
---  sys_notice
---  sys_version
---  sys_login_log
---  sys_income
---  sys_gift
---  sys_interface
---  sys_config
-/* ====== 数据备份清单 结束 ====== */
+-- 数据备份清单 开始
+-- sys_user
+-- sys_role
+-- sys_user_role
+-- sys_menu
+-- sys_role_menu
+-- sys_dictionary
+-- sys_parameter
+-- sys_notice
+-- sys_version
+-- sys_login_log
+-- sys_income
+-- sys_gift
+-- sys_interface
+-- sys_config
+-- 数据备份清单 结束
 
-/* ====== 数据备份 开始 ====== */
-/* sys_user */
+-- 数据备份 开始
+-- sys_user
 truncate table sys_user;
 commit;
 
@@ -30,7 +30,7 @@ insert into sys_user (user_id, user_code, user_name, user_password, user_status,
 values (20190000000003, 'yali', '雅丽', '2UDNzITM', 'D001-1', ' ', to_timestamp('2020-02-07 15:55:30', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-07 17:11:28', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001');
 
 commit;
-/* sys_role */
+-- sys_role
 truncate table sys_role;
 commit;
 
@@ -38,7 +38,7 @@ insert into sys_role (role_id, role_code, role_name, role_memo, create_date, mod
 values (20200000000001, 'admin', '系统管理员角色', '系统管理员角色', to_timestamp('2020-02-07 17:10:38', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-07 17:10:38', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001');
 
 commit;
-/* sys_user_role */
+-- sys_user_role
 truncate table sys_user_role;
 commit;
 
@@ -49,7 +49,7 @@ insert into sys_user_role (user_role_id, user_id, role_id)
 values (20200000000002, 20190000000003, 20200000000001);
 
 commit;
-/* sys_menu */
+-- sys_menu
 truncate table sys_menu;
 commit;
 
@@ -120,7 +120,7 @@ insert into sys_menu (menu_id, menu_title, menu_icon, menu_url, parent_id, menu_
 values (20190000000021, '修订信息', null, 'version/view/list', 20190000000011, 110, '1', '1', to_timestamp('2020-02-07 15:11:50', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-07 15:11:50', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001');
 
 commit;
-/* sys_role_menu */
+-- sys_role_menu
 truncate table sys_role_menu;
 commit;
 
@@ -191,7 +191,7 @@ insert into sys_role_menu (role_menu_id, role_id, menu_id)
 values (20200000000022, 20200000000001, 20190000000000);
 
 commit;
-/* sys_dictionary */
+-- sys_dictionary
 truncate table sys_dictionary;
 commit;
 
@@ -199,19 +199,31 @@ insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption
 values ('D001', '#', '用户状态', null, 1, 20190000000001, '0', '1');
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D001', '2', '冻结', 2, null, 20190000000001, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D001', '1', '正常', 1, null, 20190000000001, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D002', '2', '失败', 2, null, 20190000000001, null, null);
+values ('D001', '2', '冻结', 2, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D002', '#', '状态标识', null, 2, 20190000000001, '0', '1');
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D002', '1', '成功', 1, null, 20190000000001, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D002', '#', '状态标识', null, 2, 20190000000001, '0', '1');
+values ('D002', '2', '失败', 2, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D003', '#', '收入类型', null, 3, 20190000000001, '1', '1');
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D003', '1', '工资', 1, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D003', '2', '年终奖', 2, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D003', '3', '公积金', 3, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D003', '4', '奖金', 4, null, 20190000000002, null, null);
@@ -220,19 +232,10 @@ insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption
 values ('D003', '5', '出差补贴', 5, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D003', '1', '工资', 1, null, 20190000000001, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D003', '#', '收入类型', null, 3, 20190000000001, '1', '1');
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D003', '6', '失业保险金', 6, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D003', '3', '公积金', 3, null, 20190000000002, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D003', '2', '年终奖', 2, null, 20190000000001, null, null);
+values ('D004', '#', '随礼类型', null, 4, 20190000000001, '1', '1');
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D004', '1', '结婚', 1, null, 20190000000001, null, null);
@@ -241,49 +244,46 @@ insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption
 values ('D004', '2', '生娃', 2, null, 20190000000001, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D004', '#', '随礼类型', null, 4, 20190000000001, '1', '1');
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D005', '#', '收入来源', null, 5, 20190000000001, '1', '1');
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D005', '1', '宁波慈星股份有限公司', 1, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D005', '7', '恒生电子股份有限公司', 7, null, 20190000000002, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D005', '6', '杭州吉利易云科技有限公司', 6, null, 20190000000002, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D005', '5', '华信咨询设计研究院有限公司', 5, null, 20190000000002, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D005', '4', '浙江久拓科技有限公司', 4, null, 20190000000002, null, null);
+values ('D005', '2', '招商银行杭州分行', 2, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D005', '3', '浙江恒强科技股份有限公司', 3, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D005', '2', '招商银行杭州分行', 2, null, 20190000000002, null, null);
+values ('D005', '4', '浙江久拓科技有限公司', 4, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D005', '5', '华信咨询设计研究院有限公司', 5, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D005', '6', '杭州吉利易云科技有限公司', 6, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D005', '7', '恒生电子股份有限公司', 7, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D006', '#', '大额支出类型', null, 6, 20190000000001, '1', '1');
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D007', '2', '撤销', 2, null, 20190000000001, null, null);
+values ('D007', '#', '消息通知状态', null, 7, 20190000000001, '0', '1');
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D007', '1', '正常', 1, null, 20190000000001, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D007', '#', '消息通知状态', null, 7, 20190000000001, '0', '1');
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D008', '1', '自录', 1, null, 20190000000001, null, null);
+values ('D007', '2', '撤销', 2, null, 20190000000001, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D008', '#', '消息通知类型', null, 8, 20190000000001, '0', '1');
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D008', '1', '自录', 1, null, 20190000000001, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D008', '2', '邮件', 2, null, 20190000000001, null, null);
@@ -292,73 +292,13 @@ insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption
 values ('D009', '#', '随礼人', null, 9, 20190000000001, '1', '1');
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '11', '胡永兵', 13, null, 20190000000002, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '40', '雅丽-小姨', 42, null, 20190000000003, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '39', '雅丽-梅兰', 41, null, 20190000000003, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '38', '雅丽-雨晴', 40, null, 20190000000003, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '37', '雅丽-雪梅', 39, null, 20190000000003, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '36', '雅丽-艳梅', 38, null, 20190000000003, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '35', '雅丽-小舅妈', 37, null, 20190000000003, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '34', '雅丽-二舅妈', 36, null, 20190000000003, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '33', '雅丽-大舅妈', 35, null, 20190000000003, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '32', '雅丽-颖韬', 34, null, 20190000000003, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '20190000000002', '二毛', null, null, 20190000000002, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '20190000000003', '雅丽', null, null, 20190000000003, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D009', '1', '周大林', 3, null, 20190000000002, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '2', '易明', 4, null, 20190000000002, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '3', '韩声海', 5, null, 20190000000002, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '4', '刘诱', 6, null, 20190000000002, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '5', '敖丽平', 7, null, 20190000000002, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '6', '郭锦', 8, null, 20190000000002, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '7', '朱凌钦', 9, null, 20190000000002, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '8', '孙俪', 10, null, 20190000000002, null, null);
-
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '9', '黄霄', 11, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D009', '10', '肖海刚', 12, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D009', '41', '雅丽-二姨', 43, null, 20190000000003, null, null);
+values ('D009', '11', '胡永兵', 13, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D009', '12', '廖龙龙', 14, null, 20190000000002, null, null);
@@ -385,7 +325,16 @@ insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption
 values ('D009', '19', '二毛-青青老表', 21, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '2', '易明', 4, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D009', '20', '二毛-大伯母', 22, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '20190000000002', '二毛', null, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '20190000000003', '雅丽', null, null, 20190000000003, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D009', '21', '二毛-小伯母', 23, null, 20190000000002, null, null);
@@ -415,31 +364,85 @@ insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption
 values ('D009', '29', '雅丽-大姑姑', 31, null, 20190000000003, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '3', '韩声海', 5, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D009', '30', '雅丽-小姑姑', 32, null, 20190000000003, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D009', '31', '雅丽-叔叔', 33, null, 20190000000003, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D010', '1', '开启', 1, null, 20190000000001, null, null);
+values ('D009', '32', '雅丽-颖韬', 34, null, 20190000000003, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D010', '0', '关闭', 0, null, 20190000000001, null, null);
+values ('D009', '33', '雅丽-大舅妈', 35, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '34', '雅丽-二舅妈', 36, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '35', '雅丽-小舅妈', 37, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '36', '雅丽-艳梅', 38, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '37', '雅丽-雪梅', 39, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '38', '雅丽-雨晴', 40, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '39', '雅丽-梅兰', 41, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '4', '刘诱', 6, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '40', '雅丽-小姨', 42, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '41', '雅丽-二姨', 43, null, 20190000000003, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '5', '敖丽平', 7, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '6', '郭锦', 8, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '7', '朱凌钦', 9, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '8', '孙俪', 10, null, 20190000000002, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D009', '9', '黄霄', 11, null, 20190000000002, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D010', '#', '参数状态类型', null, 10, 20190000000001, '0', '1');
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D011', '3', '收礼', 3, null, 20190000000001, null, null);
+values ('D010', '0', '关闭', 0, null, 20190000000001, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D011', '2', '送礼', 2, null, 20190000000001, null, null);
+values ('D010', '1', '开启', 1, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D011', '#', '业务类型', null, 11, 20190000000001, '0', '1');
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D011', '1', '收入', 1, null, 20190000000001, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D011', '#', '业务类型', null, 11, 20190000000001, '0', '1');
+values ('D011', '2', '送礼', 2, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D011', '3', '收礼', 3, null, 20190000000001, null, null);
+
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D012', '#', '阅读状态', null, 12, 20190000000001, '0', '1');
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D012', '1', '未读', 1, null, 20190000000001, null, null);
@@ -447,11 +450,8 @@ values ('D012', '1', '未读', 1, null, 20190000000001, null, null);
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D012', '2', '已读', 2, null, 20190000000001, null, null);
 
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D012', '#', '阅读状态', null, 12, 20190000000001, '0', '1');
-
 commit;
-/* sys_parameter */
+-- sys_parameter
 truncate table sys_parameter;
 commit;
 
@@ -465,13 +465,16 @@ insert into sys_parameter (parameter_code, parameter_caption, parameter_value, p
 values ('consoleOutputLogRequestTag', '控制台输出请求标记', '1', 'switch', null, '1', '1', 25);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
-values ('messageTip', '未读消息提醒', '1', 'switch', null, '1', '1', 55);
+values ('cookieTimeout', 'cookie有效时间(天)', '15', 'number', '5', '1', '1', 55);
+
+insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
+values ('messageTip', '未读消息提醒', '1', 'switch', null, '1', '1', 65);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
 values ('mindFill', '智能填充', '1', 'switch', null, '1', '1', 15);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
-values ('sessionTimeout', 'session超时时间(秒)', '300', 'number', '5', '1', '1', 45);
+values ('sessionTimeout', 'session有效时间(秒)', '300', 'number', '5', '1', '1', 50);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
 values ('startBackup', '系统启动备份数据库', '1', 'switch', null, '1', '1', 35);
@@ -480,30 +483,27 @@ insert into sys_parameter (parameter_code, parameter_caption, parameter_value, p
 values ('startConsoleOutput', '系统启动输出配置参数', '1', 'switch', null, '1', '1', 20);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
-values ('startMail', '系统启动读取邮件', '0', 'switch', null, '1', '1', 40);
+values ('startMail', '系统启动读取邮件', '1', 'switch', null, '1', '1', 40);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
 values ('uploadLocation', '文件上传路径', '#', 'text', null, '1', '1', 5);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
-values ('userDefaultPassword', '用户默认密码', '123456', 'text', null, '1', '1', 50);
+values ('userDefaultPassword', '用户默认密码', '123456', 'text', null, '1', '1', 60);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
-values ('version', '系统版本号', '3.0.01', 'text', null, '1', '0', 999);
+values ('version', '系统版本号', '3.1.00', 'text', null, '1', '0', 999);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
 values ('yearStartDate', '年度开始时间(yyyymm)', '202002', 'date', '6', '1', '1', 45);
 
 commit;
-/* sys_notice */
+-- sys_notice
 truncate table sys_notice;
 commit;
 
-insert into sys_notice (notice_id, user_id, business_id, business_type, business_sub_type, business_date, business_amount, notice_status, notice_type, read_status, create_date, modify_date, create_user, modify_user)
-values (20200000000001, 20190000000002, 20190000000139, 'D011-1', 'D003-3', to_timestamp('2020-01-31 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), 9000, 'D007-1', 'D008-1', 'D012-1', to_timestamp('2020-02-07 17:16:29', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-07 17:16:29', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
-
 commit;
-/* sys_version */
+-- sys_version
 truncate table sys_version;
 commit;
 
@@ -678,8 +678,20 @@ values (20190000000056, '删除角色时不删除sys_user_role数据造成脏数
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
 values (20190000000057, 'session失效列表数据查询报错不跳转登录页面', to_timestamp('2020-02-05', 'yyyy-MM-dd'), 280, '3');
 
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values (20190000000058, '登入：记住密码', to_timestamp('2020-02-08', 'yyyy-MM-dd'), 285, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values (20190000000059, '添加系统logo', to_timestamp('2020-02-09', 'yyyy-MM-dd'), 290, '2');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values (20190000000060, '邮件申请数据处理：支持业务类型为收入、随礼', to_timestamp('2020-02-10', 'yyyy-MM-dd'), 295, '1');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values (20190000000061, '发布版本：3.1.00', to_timestamp('2020-02-10', 'yyyy-MM-dd'), 300, '4');
+
 commit;
-/* sys_login_log */
+-- sys_login_log
 truncate table sys_login_log;
 commit;
 
@@ -702,10 +714,16 @@ insert into sys_login_log (log_id, user_id, login_date, logout_date, login_statu
 values (20200000000006, 20190000000001, to_timestamp('2020-02-07 17:08:26', 'yyyy-MM-dd hh24:mi:ss'), null, 'D002-1', '登入成功');
 
 insert into sys_login_log (log_id, user_id, login_date, logout_date, login_status, login_message)
-values (20200000000007, 20190000000002, to_timestamp('2020-02-07 17:15:52', 'yyyy-MM-dd hh24:mi:ss'), null, 'D002-1', '登入成功');
+values (20200000000007, 20190000000002, to_timestamp('2020-02-07 17:15:52', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-10 14:00:08', 'yyyy-MM-dd hh24:mi:ss'), 'D002-1', '登入成功');
+
+insert into sys_login_log (log_id, user_id, login_date, logout_date, login_status, login_message)
+values (20200000000008, 20190000000002, to_timestamp('2020-02-10 14:10:33', 'yyyy-MM-dd hh24:mi:ss'), null, 'D002-1', '登入成功');
+
+insert into sys_login_log (log_id, user_id, login_date, logout_date, login_status, login_message)
+values (20200000000009, 20190000000002, to_timestamp('2020-02-10 14:22:24', 'yyyy-MM-dd hh24:mi:ss'), null, 'D002-1', '登入成功');
 
 commit;
-/* sys_income */
+-- sys_income
 truncate table sys_income;
 commit;
 
@@ -1127,7 +1145,7 @@ insert into sys_income (income_id, user_id, income_type, income_date, income_com
 values (20190000000139, 20190000000002, 'D003-3', to_timestamp('2020-01-31', 'yyyy-MM-dd'), 'D005-7', 9000, ' ', to_timestamp('2020-02-07 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-07 17:16:29', 'yyyy-MM-dd hh24:mi:ss'), '20190000000002', '20190000000002');
 
 commit;
-/* sys_gift */
+-- sys_gift
 truncate table sys_gift;
 commit;
 
@@ -1264,26 +1282,26 @@ insert into sys_gift (gift_id, gift_type, gift_sender, gift_receiver, gift_date,
 values (20190000000043, 'D004-2', 'D009-41', 'D009-20190000000003', to_timestamp('2020-01-19', 'yyyy-MM-dd'), 200, null, to_timestamp('2020-01-19 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-01-19 00:00:00', 'yyyy-MM-dd hh24:mi:ss'), '20190000000003', '20190000000003');
 
 commit;
-/* sys_interface */
+-- sys_interface
 truncate table sys_interface;
 commit;
 
 commit;
-/* sys_config */
+-- sys_config
 truncate table sys_config;
 commit;
-
-insert into sys_config (module_group_code, module_group_name, module_code, module_name, module_status, module_ext)
-values ('console', '首页信息', 'user', '用户信息', '1', null);
-
-insert into sys_config (module_group_code, module_group_name, module_code, module_name, module_status, module_ext)
-values ('console', '首页信息', 'tips', '提示信息', '1', null);
 
 insert into sys_config (module_group_code, module_group_name, module_code, module_name, module_status, module_ext)
 values ('console', '首页信息', 'login', '登录信息', '1', null);
 
 insert into sys_config (module_group_code, module_group_name, module_code, module_name, module_status, module_ext)
+values ('console', '首页信息', 'tips', '提示信息', '1', null);
+
+insert into sys_config (module_group_code, module_group_name, module_code, module_name, module_status, module_ext)
+values ('console', '首页信息', 'user', '用户信息', '1', null);
+
+insert into sys_config (module_group_code, module_group_name, module_code, module_name, module_status, module_ext)
 values ('console', '首页信息', 'version', '版本信息', '1', null);
 
 commit;
-/* ====== 数据备份 结束 ====== */
+-- 数据备份 结束

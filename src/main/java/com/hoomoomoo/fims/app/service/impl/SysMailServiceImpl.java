@@ -94,9 +94,23 @@ public class SysMailServiceImpl implements SysMailService {
                     message.setFlag(Flags.Flag.SEEN, true);
                     // 处理邮件内容
                     Long uuid = ((IMAPFolder) folder).getUID(message);
-                    // todo 邮件ID判断 大于配置邮件ID数据返回
-                    String mailId = mailConfigBean.getReceiveHost() + MINUS + uuid;
-                    mailModelList.add(handleMailData(mailId, message));
+                    if (StringUtils.isNotBlank(mailModel.getMailId())) {
+                        String[] mailIds = mailModel.getMailId().split(MINUS);
+                        if (mailIds != null && mailIds.length == 3) {
+                            Long id = Long.parseLong(mailIds[2]);
+                            String mailHost = mailIds[0];
+                            String mailUsername = mailIds[1];
+                            if (mailConfigBean.getReceiveHost().equals(mailHost) && mailConfigBean.getReceiveUsername().equals(mailUsername)) {
+                                if (id >= uuid) {
+                                    continue;
+                                }
+                            }
+                            String mailId =
+                                    new StringBuffer(mailConfigBean.getReceiveHost()).append(MINUS)
+                                            .append(mailConfigBean.getReceiveUsername()).append(MINUS).append(uuid).toString();
+                            mailModelList.add(handleMailData(mailId, message));
+                        }
+                    }
                 }
             }
             SysLogUtils.success(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);

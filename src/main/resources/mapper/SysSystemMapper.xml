@@ -20,6 +20,8 @@
         select 'loginLog-' || max(to_number(log_id)) as businessId from sys_login_log
         union all
         select 'menu-' || max(to_number(menu_id)) as businessId from sys_menu
+        union all
+        select 'interface-' || max(to_number(interface_id)) as businessId from sys_interface
     </select>
 
     <select id="selectButtonAuthority" parameterType="com.hoomoomoo.fims.app.model.SysSystemQueryModel"
