@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+import static com.hoomoomoo.fims.app.config.RunDataConfig.MAIL_HANDLE_FLAG;
 import static com.hoomoomoo.fims.app.consts.CueConst.LOG_BUSINESS_TYPE_INTERFACE;
 
 /**

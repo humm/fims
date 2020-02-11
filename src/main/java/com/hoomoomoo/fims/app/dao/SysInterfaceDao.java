@@ -36,4 +36,5 @@ public interface SysInterfaceDao {
      * @return
      */
     void update(SysInterfaceModel sysInterfaceModel);
+
 }

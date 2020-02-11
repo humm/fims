@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.hoomoomoo.fims.app.config.RunDataConfig.MAIL_HANDLE_FLAG;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.MINUS;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
@@ -72,84 +73,95 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
      */
     @Override
     public void handleMailRequest() {
-        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INTERFACE, LOG_OPERATE_TYPE_HANDLE);
-        // 获取邮件读取开始ID
-        SysInterfaceQueryModel sysInterfaceQueryModel = new SysInterfaceQueryModel(ASTERISK);
-        SysInterfaceModel sysInterfaceModel = sysInterfaceDao.selectOne(sysInterfaceQueryModel);
-        if (sysInterfaceModel == null) {
-            // 基础数据不存在 存储基础数据
-            sysInterfaceModel = new SysInterfaceModel();
-            BeanUtils.copyProperties(sysInterfaceQueryModel, sysInterfaceModel);
-            sysInterfaceModel.setInterfaceId(sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_INTERFACE));
-            String requestId = new StringBuffer(mailConfigBean.getReceiveHost()).append(MINUS)
-                    .append(mailConfigBean.getReceiveUsername()).append(MINUS).append(0).toString();
-            sysInterfaceModel.setRequestId(requestId);
-            SysCommonUtils.setCreateUserInfo(sysInterfaceModel, sysSystemService.getUserId());
-            sysInterfaceDao.save(sysInterfaceModel);
+        if (MAIL_HANDLE_FLAG) {
+            SysLogUtils.info(logger, LOG_BUSINESS_MAIL_HANDLEING);
+            return;
         }
-        SysMailModel mailModel = new SysMailModel();
-        mailModel.setSubject(mailConfigBean.getSubject());
-        mailModel.setMailId(sysInterfaceModel.getRequestId());
-        List<SysMailModel> sysMailModelList = sysMailService.receiveMail(mailModel);
-        if (CollectionUtils.isNotEmpty(sysMailModelList)) {
-            for (SysMailModel sysMailModel : sysMailModelList) {
-                List<BaseModel> baseModelList = null;
-                try {
-                    baseModelList = SysCommonUtils.getMailXmlToBean(sysMailModel.getContent());
-                } catch (DocumentException e) {
-                    SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_INTERFACE, e);
-                }
-                // 接口数据处理
-                if (CollectionUtils.isNotEmpty(baseModelList)) {
-                    // 数据校验
-                    // 校验异常信息集合
-                    List<SysCheckResultModel> sysCheckResultModelList = new ArrayList<>();
-                    // 转义后业务数据
-                    List<SysInterfaceRequestModel> sysInterfaceRequestModelList = new ArrayList<>();
-                    // 业务数据ID集合
-                    List<String> interfaceIdList = new ArrayList<>();
-                    boolean check = checkBusinessData(baseModelList, sysInterfaceRequestModelList, sysCheckResultModelList);
-                    if (check) {
-                        for (int i=0; i<sysInterfaceRequestModelList.size(); i++) {
-                            SysInterfaceRequestModel sysInterfaceRequestModel = sysInterfaceRequestModelList.get(i);
-                            // 数据存储 存储业务数据
-                            String requestId = saveBusinessData(sysInterfaceRequestModel);
-                            // 存储接口数据
-                            String interfaceId = saveInterfaceData(requestId, (SysInterfaceRequestModel)baseModelList.get(i), null);
-                            interfaceIdList.add(interfaceId);
-                        }
-                    } else {
-                        for (int i=0; i<sysInterfaceRequestModelList.size(); i++) {
-                            String interfaceId = saveInterfaceData(STR_EMPTY, (SysInterfaceRequestModel)baseModelList.get(i),
-                                    sysCheckResultModelList.get(i));
-                            interfaceIdList.add(interfaceId);
-                        }
-                    }
-
-                    // 更新接口基础数据
-                    sysInterfaceModel.setRequestId(sysMailModel.getMailId());
-                    SysCommonUtils.setModifyUserInfo(sysInterfaceModel, sysSystemService.getUserId());
-                    sysInterfaceDao.update(sysInterfaceModel);
-
-                    // 邮件反馈处理结果
-                    SysMailModel mail = new SysMailModel();
-                    mail.setTo(sysMailModel.getTo());
-                    mail.setSubject(INTERFACE_FEEDBACK_MAIL);
-                    mail.setContent(getMailContent(check, baseModelList, sysCheckResultModelList));
-                    boolean sendStatus = sysMailService.sendMail(mail);
-                    String feedbackStatus = sendStatus ? D002 + MINUS + STR_1 : D002 + MINUS + STR_2;
-                    // 更新接口数据邮件反馈状态
-                    for (String interfaceId : interfaceIdList) {
-                        SysInterfaceModel sysInterface = new SysInterfaceModel();
-                        sysInterface.setInterfaceId(interfaceId);
-                        sysInterface.setFeedbackStatus(feedbackStatus);
-                        sysInterfaceDao.update(sysInterface);
-                    }
-                }
-
+        MAIL_HANDLE_FLAG = true;
+        try {
+            SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INTERFACE, LOG_OPERATE_TYPE_HANDLE);
+            // 获取邮件读取开始ID
+            SysInterfaceQueryModel sysInterfaceQueryModel = new SysInterfaceQueryModel(ASTERISK);
+            SysInterfaceModel sysInterfaceModel = sysInterfaceDao.selectOne(sysInterfaceQueryModel);
+            if (sysInterfaceModel == null) {
+                // 基础数据不存在 存储基础数据
+                sysInterfaceModel = new SysInterfaceModel();
+                BeanUtils.copyProperties(sysInterfaceQueryModel, sysInterfaceModel);
+                sysInterfaceModel.setInterfaceId(sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_INTERFACE));
+                String requestId = new StringBuffer(mailConfigBean.getReceiveHost()).append(MINUS)
+                        .append(mailConfigBean.getReceiveUsername()).append(MINUS).append(0).toString();
+                sysInterfaceModel.setRequestId(requestId);
+                SysCommonUtils.setCreateUserInfo(sysInterfaceModel, sysSystemService.getUserId());
+                sysInterfaceDao.save(sysInterfaceModel);
             }
+            SysMailModel mailModel = new SysMailModel();
+            mailModel.setSubject(mailConfigBean.getSubject());
+            mailModel.setMailId(sysInterfaceModel.getRequestId());
+            List<SysMailModel> sysMailModelList = sysMailService.receiveMail(mailModel);
+            if (CollectionUtils.isNotEmpty(sysMailModelList)) {
+                for (SysMailModel sysMailModel : sysMailModelList) {
+                    List<BaseModel> baseModelList = null;
+                    try {
+                        baseModelList = SysCommonUtils.getMailXmlToBean(sysMailModel.getContent());
+                    } catch (DocumentException e) {
+                        SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_INTERFACE, e);
+                    }
+                    // 接口数据处理
+                    if (CollectionUtils.isNotEmpty(baseModelList)) {
+                        // 数据校验
+                        // 校验异常信息集合
+                        List<SysCheckResultModel> sysCheckResultModelList = new ArrayList<>();
+                        // 转义后业务数据
+                        List<SysInterfaceRequestModel> sysInterfaceRequestModelList = new ArrayList<>();
+                        // 业务数据ID集合
+                        List<String> interfaceIdList = new ArrayList<>();
+                        boolean check = checkBusinessData(baseModelList, sysInterfaceRequestModelList, sysCheckResultModelList);
+                        if (check) {
+                            for (int i=0; i<sysInterfaceRequestModelList.size(); i++) {
+                                SysInterfaceRequestModel sysInterfaceRequestModel = sysInterfaceRequestModelList.get(i);
+                                // 数据存储 存储业务数据
+                                String requestId = saveBusinessData(sysInterfaceRequestModel);
+                                // 存储接口数据
+                                String interfaceId = saveInterfaceData(requestId, (SysInterfaceRequestModel)baseModelList.get(i), null);
+                                interfaceIdList.add(interfaceId);
+                            }
+                        } else {
+                            for (int i=0; i<sysInterfaceRequestModelList.size(); i++) {
+                                String interfaceId = saveInterfaceData(STR_EMPTY, (SysInterfaceRequestModel)baseModelList.get(i),
+                                        sysCheckResultModelList.get(i));
+                                interfaceIdList.add(interfaceId);
+                            }
+                        }
+
+                        // 更新接口基础数据
+                        sysInterfaceModel.setRequestId(sysMailModel.getMailId());
+                        SysCommonUtils.setModifyUserInfo(sysInterfaceModel, sysSystemService.getUserId());
+                        sysInterfaceDao.update(sysInterfaceModel);
+
+                        // 邮件反馈处理结果
+                        SysMailModel mail = new SysMailModel();
+                        mail.setTo(sysMailModel.getTo());
+                        mail.setSubject(INTERFACE_FEEDBACK_MAIL);
+                        mail.setContent(getMailContent(check, baseModelList, sysCheckResultModelList));
+                        boolean sendStatus = sysMailService.sendMail(mail);
+                        String feedbackStatus = sendStatus ? D002 + MINUS + STR_1 : D002 + MINUS + STR_2;
+                        // 更新接口数据邮件反馈状态
+                        for (String interfaceId : interfaceIdList) {
+                            SysInterfaceModel sysInterface = new SysInterfaceModel();
+                            sysInterface.setInterfaceId(interfaceId);
+                            sysInterface.setFeedbackStatus(feedbackStatus);
+                            sysInterfaceDao.update(sysInterface);
+                        }
+                    }
+
+                }
+            }
+            SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INTERFACE, LOG_OPERATE_TYPE_HANDLE);
+        } catch (Exception e) {
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_INTERFACE, e);
+        } finally {
+            MAIL_HANDLE_FLAG = false;
         }
-        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INTERFACE, LOG_OPERATE_TYPE_HANDLE);
     }
 
     /**

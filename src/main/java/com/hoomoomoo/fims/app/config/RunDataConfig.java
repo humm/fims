@@ -44,4 +44,9 @@ public class RunDataConfig {
      * 智能填充
      */
     public static Boolean MIND_FILL                                         = true;
+
+    /**
+     * 邮件数据处理标识
+     */
+    public static Boolean MAIL_HANDLE_FLAG                                  = false;
 }

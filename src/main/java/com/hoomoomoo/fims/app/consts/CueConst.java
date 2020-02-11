@@ -480,9 +480,9 @@ public class CueConst {
     public static final String LOG_BUSINESS_TYPE_INIT_SYSTEM                    = "系统初始化";
 
     /**
-     * 请求入参
+     * 邮件信息处理中
      */
-    public static final String LOG_BUSINESS_PARAMETER                           = "服务请求入参：{}";
+    public static final String LOG_BUSINESS_MAIL_HANDLEING                      = "邮件信息处理中...";
 
     /**
      * 邮件超文本内容暂不读取
@@ -518,26 +518,6 @@ public class CueConst {
      * Swagger版本
      */
     public static final String SWAGGER_VERSION                                  = "3.0.00";
-
-    /**
-     * sql id已存在
-     */
-    public static final String TIP_SQL_ID_EXIST                                 = "sql [%s] 已存在";
-
-    /**
-     * sql id不存在
-     */
-    public static final String TIP_SQL_ID                                       = "sql id 不能为空";
-
-    /**
-     * sql mode不存在
-     */
-    public static final String TIP_SQL_MODE                                     = "sql [%s] mode 不能为空";
-
-    /**
-     * sql value不存在
-     */
-    public static final String TIP_SQL_VALUE                                    = "sql [%s] value 不能为空";
 
     /**
      * 备份命令
@@ -763,7 +743,5 @@ public class CueConst {
      * 接口信息：处理成功
      */
     public static final String INTERFACE_MAIL_FAIL                              = "<b style='color:red'>处理失败</b>";
-
-
 
 }
