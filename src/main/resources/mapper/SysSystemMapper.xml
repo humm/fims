@@ -66,11 +66,29 @@
         order by a.column_id
     </select>
 
+    <select id="selectTablePrimaryKey" parameterType="com.hoomoomoo.fims.app.model.SysTableQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.SysTableModel">
+        select
+            lower(a.constraint_name) columnType,
+            lower(a.column_name)  columnCode
+            from user_cons_columns a, user_constraints b
+            where a.constraint_name = b.constraint_name
+            and b.constraint_type = 'P'
+            and a.table_name = upper(#{tableName})
+            order by a.column_name
+    </select>
+
     <select id="selectTableData" parameterType="com.hoomoomoo.fims.app.model.SysTableQueryModel"
             resultType="java.util.Map">
         select ${tableColumn}
         from ${tableName}
         order by ${tableOrder}
+    </select>
+
+    <select id="selectTableCount" parameterType="com.hoomoomoo.fims.app.model.SysTableQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.SysTableModel">
+        select count(1) dataCount
+        from ${tableName}
     </select>
 
 </mapper>

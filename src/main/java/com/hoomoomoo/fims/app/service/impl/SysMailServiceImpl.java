@@ -89,31 +89,40 @@ public class SysMailServiceImpl implements SysMailService {
             folder.open(Folder.READ_WRITE);
             Message[] messages = folder.getMessages();
             for (Message message : messages) {
-                if (ASTERISK.equals(mailModel.getSubject()) || mailModel.getSubject().equals(message.getSubject())) {
-                    // 邮件状态置为已读
-                    message.setFlag(Flags.Flag.SEEN, true);
-                    // 处理邮件内容
-                    Long uuid = ((IMAPFolder) folder).getUID(message);
-                    if (StringUtils.isNotBlank(mailModel.getMailId())) {
-                        String[] mailIds = mailModel.getMailId().split(MINUS);
-                        if (mailIds != null && mailIds.length == 3) {
-                            Long id = Long.parseLong(mailIds[2]);
-                            String mailHost = mailIds[0];
-                            String mailUsername = mailIds[1];
-                            if (mailConfigBean.getReceiveHost().equals(mailHost) && mailConfigBean.getReceiveUsername().equals(mailUsername)) {
-                                if (id >= uuid) {
-                                    continue;
+                try {
+                    if (message.getFlags().contains(Flags.Flag.SEEN)) {
+                        // 已读邮件不处理
+                        continue;
+                    }
+                    if (ASTERISK.equals(mailModel.getSubject()) || mailModel.getSubject().equals(message.getSubject())) {
+                        // 邮件状态置为已读
+                        message.setFlag(Flags.Flag.SEEN, true);
+                        // 处理邮件内容
+                        Long uuid = ((IMAPFolder) folder).getUID(message);
+                        if (StringUtils.isNotBlank(mailModel.getMailId())) {
+                            String[] mailIds = mailModel.getMailId().split(MINUS);
+                            if (mailIds != null && mailIds.length == 3) {
+                                Long id = Long.parseLong(mailIds[2]);
+                                String mailHost = mailIds[0];
+                                String mailUsername = mailIds[1];
+                                if (mailConfigBean.getReceiveHost().equals(mailHost) && mailConfigBean.getReceiveUsername().equals(mailUsername)) {
+                                    if (id >= uuid) {
+                                        continue;
+                                    }
                                 }
+                                String mailId =
+                                        new StringBuffer(mailConfigBean.getReceiveHost()).append(MINUS)
+                                                .append(mailConfigBean.getReceiveUsername()).append(MINUS).append(uuid).toString();
+                                mailModelList.add(handleMailData(mailId, message));
                             }
-                            String mailId =
-                                    new StringBuffer(mailConfigBean.getReceiveHost()).append(MINUS)
-                                            .append(mailConfigBean.getReceiveUsername()).append(MINUS).append(uuid).toString();
-                            mailModelList.add(handleMailData(mailId, message));
                         }
                     }
+                } catch (FolderClosedException e) {
+                    SysLogUtils.exception(logger, String.format(EXCEPTION_NOT_HANDLE, e.getMessage()));
+                } catch (MessagingException e) {
+                    SysLogUtils.exception(logger, String.format(EXCEPTION_NOT_HANDLE, e.getMessage()));
                 }
             }
-            SysLogUtils.success(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE);
         } catch (Exception e) {
             SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL_RECEIVE, e);
         }
@@ -159,9 +168,9 @@ public class SysMailServiceImpl implements SysMailService {
                         mailModel.setMailId(mailId);
                         break inner;
                     } else if (bodyPart.isMimeType(TEXT_HTML)) {
-                        // 超文本内容
+                        // 超文本内容 暂不处理
                     } else if (bodyPart.isMimeType(MULTIPART)) {
-                        // 附件
+                        // 附件 暂不处理
                     }
                 }
             } else {

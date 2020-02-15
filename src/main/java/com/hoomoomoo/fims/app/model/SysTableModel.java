@@ -18,4 +18,7 @@ public class SysTableModel {
 
     @ApiModelProperty(value="字段类型", required = false)
     private String columnType;
+
+    @ApiModelProperty(value="数据数量", required = false)
+    private Long dataCount;
 }

@@ -135,47 +135,9 @@ public class CueConst {
     public static final String BACKUP_LOCATION_IS_EMPTY                         = "请设置系统备份路径";
 
     /**
-     * 系统备份路径不存在
-     */
-    public static final String BACKUP_LOCATION_NOT_EXIST                        = "系统备份路径 %s 不存在";
-    /**
-     * 系统备份路径不存在
+     * 系统备份成功
      */
     public static final String BACKUP_SUCCESS                                   = "备份成功";
-
-    /**
-     * 日志输出格式
-     */
-    public static final String LOG_TIP                                          = "====================== %s %s ======================";
-    /**
-     * 日志输出格式
-     */
-    public static final String LOG_FORMAT_TIP                                   = "%s %s %s %s";
-
-    /**
-     * 日志输出格式
-     */
-    public static final String LOG_FORMAT_STATUS                                = "%s %s";
-
-    /**
-     * 异常日志输出格式
-     */
-    public static final String LOG_FORMAT_ERROR_STATUS                          = "%s %s [%s]";
-
-    /**
-     * 日志输出格式
-     */
-    public static final String LOG_FORMAT_STATUS_MSG                            = "%s %s：{}";
-
-    /**
-     * 日志层级：控制层
-     */
-    public static final String LOG_TYPE_CONTROLLER                              = "控制层";
-
-    /**
-     * 日志层级：服务层
-     */
-    public static final String LOG_TYPE_SERVICE                                 = "服务层";
 
     /**
      * 日志状态：开始
@@ -186,27 +148,6 @@ public class CueConst {
      * 日志状态：结束
      */
     public static final String LOG_OPERATE_TAG_END                              = "结束";
-
-    /**
-     * 日志状态：异常
-     */
-    public static final String LOG_OPERATE_TAG_EXCEPTION                        = "异常";
-
-    /**
-     * 日志状态：加载
-     */
-    public static final String LOG_OPERATE_TAG_LOAD                             = "加载";
-
-    /**
-     * 日志状态：成功
-     */
-    public static final String LOG_OPERATE_TAG_SUCCESS                          = "成功";
-
-    /**
-     * 日志状态：成功
-     */
-    public static final String LOG_OPERATE_TAG_FAIL                             = "失败";
-
 
     /**
      * 日志操作类型：查询
@@ -432,12 +373,7 @@ public class CueConst {
     /**
      * 日志业务类型：大额支出
      */
-    public static final String LOG_BUSINESS_TYPE_PAY                            = "大额支出信息";
-
-    /**
-     * 日志业务类型：大额支出
-     */
-    public static final String LOG_BUSINESS_TYPE_INTERFACE                      = "接口信息";
+    public static final String LOG_BUSINESS_TYPE_INTERFACE                      = "邮件信息";
 
     /**
      * 日志业务类型：字典转义
@@ -485,16 +421,6 @@ public class CueConst {
     public static final String LOG_BUSINESS_MAIL_HANDLEING                      = "邮件信息处理中...";
 
     /**
-     * 邮件超文本内容暂不读取
-     */
-    public static final String MAIL_CONTENT_HTML                                = "邮件超文本数据暂不读取";
-
-    /**
-     * 邮件超文本内容暂不读取
-     */
-    public static final String MAIL_CONTENT_MULTIPART                           = "邮件附件数据暂不处理";
-
-    /**
      * 不支持的内容格式
      */
     public static final String MAIL_CONTENT_NOT_SUPPORT                         = "不支持的内容格式";
@@ -512,12 +438,12 @@ public class CueConst {
     /**
      * Swagger描述
      */
-    public static final String SWAGGER_DESCRIPTION                              = "...";
+    public static final String SWAGGER_DESCRIPTION                              = "家庭信息平台";
 
     /**
      * Swagger版本
      */
-    public static final String SWAGGER_VERSION                                  = "3.0.00";
+    public static final String SWAGGER_VERSION                                  = "...";
 
     /**
      * 备份命令
@@ -743,5 +669,10 @@ public class CueConst {
      * 接口信息：处理成功
      */
     public static final String INTERFACE_MAIL_FAIL                              = "<b style='color:red'>处理失败</b>";
+
+    /**
+     * 暂不处理异常
+     */
+    public static final String EXCEPTION_NOT_HANDLE                             = "暂不处理异常: %s";
 
 }

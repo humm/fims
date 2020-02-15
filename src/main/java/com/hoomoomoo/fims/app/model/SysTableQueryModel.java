@@ -1,5 +1,6 @@
 package com.hoomoomoo.fims.app.model;
 
+import com.hoomoomoo.fims.app.model.common.QueryBaseModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -11,7 +12,7 @@ import lombok.Data;
  */
 
 @Data
-public class SysTableQueryModel {
+public class SysTableQueryModel extends QueryBaseModel {
 
     @ApiModelProperty(value="数据表名称", required = false)
     private String tableName;

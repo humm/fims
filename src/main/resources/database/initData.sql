@@ -413,3 +413,6 @@ values ('20190000000060', '邮件申请数据处理：支持业务类型为收�
 
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
 values ('20190000000061', '发布版本：3.1.00', to_date('10-02-2020', 'dd-mm-yyyy'), 300, '4');
+
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000062', 'sql备份时分页查询数据解决备份性能问题', to_date('15-02-2020', 'dd-mm-yyyy'), 305, '2');

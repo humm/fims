@@ -668,6 +668,8 @@ public class BusinessConst {
 
     public static final String BACKUP_COMMAND                               = "expdp %s/%s@%s directory=backup_dir dumpfile=%s";
 
+    public static final Integer BACKUP_DATA_LIMIT                           = 100;
+
     /**
      * 接口业务类型：收入
       */

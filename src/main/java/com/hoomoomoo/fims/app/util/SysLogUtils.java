@@ -142,6 +142,15 @@ public class SysLogUtils {
      * 业务异常日志
      *
      * @param logger
+     */
+    public static void exception(Logger logger, String errorInfo) {
+        logger.error(errorInfo);
+    }
+
+    /**
+     * 业务异常日志
+     *
+     * @param logger
      * @param businessType
      * @param e
      */
@@ -223,10 +232,10 @@ public class SysLogUtils {
      * info日志
      *
      * @param logger
-     * @param obj
+     * @param info
      */
-    public static void info(Logger logger, Object obj) {
-        logger.info(obj.toString());
+    public static void info(Logger logger, Object info) {
+        logger.info(info.toString());
     }
 
 

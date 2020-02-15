@@ -59,11 +59,27 @@ public interface SysSystemDao {
     List<SysTableModel> selectTableColumn(SysTableQueryModel sysTableQueryModel);
 
     /**
+     * 查询表主键信息
+     *
+     * @param sysTableQueryModel
+     * @return
+     */
+    List<SysTableModel> selectTablePrimaryKey(SysTableQueryModel sysTableQueryModel);
+
+    /**
      * 查询表数据
      *
      * @param sysTableQueryModel
      * @return
      */
     List<Map> selectTableData(SysTableQueryModel sysTableQueryModel);
+
+    /**
+     * 查询表数据总数
+     *
+     * @param sysTableQueryModel
+     * @return
+     */
+    SysTableModel selectTableCount(SysTableQueryModel sysTableQueryModel);
 
 }

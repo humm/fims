@@ -1,5 +1,6 @@
 package com.hoomoomoo.fims.app.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.hoomoomoo.fims.FimsStarter;
 import com.hoomoomoo.fims.app.config.RunDataConfig;
 import com.hoomoomoo.fims.app.config.bean.DatasourceConfigBean;
@@ -16,6 +17,7 @@ import com.hoomoomoo.fims.app.service.SysInterfaceService;
 import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.*;
+import io.swagger.models.auth.In;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -504,8 +506,8 @@ public class SysSystemServiceImpl implements SysSystemService {
             sysTableQueryModel.setTableName(tableName);
             // 查询数据表字段
             List<SysTableModel> sysTableColumns = sysSystemDao.selectTableColumn(sysTableQueryModel);
-            // 拼装查询表数据查询字段
             if (CollectionUtils.isNotEmpty(sysTableColumns)) {
+                // 拼装查询表数据查询字段
                 LinkedHashMap<String, String> columnMap = new LinkedHashMap(16);
                 StringBuffer queryColumn = new StringBuffer();
                 for (SysTableModel sysTableModel : sysTableColumns) {
@@ -515,35 +517,39 @@ public class SysSystemServiceImpl implements SysSystemService {
                 String column = queryColumn.toString();
                 sysTableQueryModel.setTableColumn(column.substring(0, column.length() - 1));
                 sysTableQueryModel.setTableOrder(sysTableColumns.get(0).getColumnCode());
-
+                // 查询表主键用于排序
+                List<SysTableModel> sysTableKey = sysSystemDao.selectTablePrimaryKey(sysTableQueryModel);
+                if (CollectionUtils.isNotEmpty(sysTableKey)) {
+                    StringBuffer tableKey = new StringBuffer();
+                    for (SysTableModel key : sysTableKey) {
+                        tableKey.append(key.getColumnCode()).append(COMMA);
+                    }
+                    if (tableKey.toString().endsWith(COMMA)) {
+                        tableKey = new StringBuffer(tableKey.toString().substring(0, tableKey.toString().lastIndexOf(COMMA)));
+                    }
+                    sysTableQueryModel.setTableOrder(tableKey.toString());
+                }
+                // 查询数据表总数据大小
+                SysTableModel sysTableModel = sysSystemDao.selectTableCount(sysTableQueryModel);
+                if (sysTableModel == null || sysTableModel.getDataCount() == 0) {
+                    // 空表直接返回
+                    databaseContent.append(tableInfo);
+                    continue;
+                }
                 // 查询数据表数据
-                List<Map> tableData = sysSystemDao.selectTableData(sysTableQueryModel);
-                if (CollectionUtils.isNotEmpty(tableData)) {
-                    // 拼装数据
-                    for (Map singleData : tableData) {
-                        StringBuffer sql = new StringBuffer();
-                        StringBuffer insert = new StringBuffer();
-                        StringBuffer values = new StringBuffer();
-                        insert.append(INSERT_LEFT).append(tableName).append(STR_SPACE).append(BRACKET_LEFT);
-                        values.append(VALUES_LEFT);
-                        Iterator<Map.Entry<String, String>> iterator = columnMap.entrySet().iterator();
-                        while (iterator.hasNext()) {
-                            Map.Entry<String, String> columnData = iterator.next();
-                            String columnCode = columnData.getKey().toLowerCase();
-                            String columnType = columnData.getValue();
-                            insert.append(columnCode).append(COMMA).append(STR_SPACE);
-                            values.append(getColumnValue(columnType, singleData.get(columnCode.toUpperCase()))).append(COMMA).append(STR_SPACE);
-                        }
-                        if(insert.toString().endsWith(new StringBuffer(COMMA).append(STR_SPACE).toString())){
-                            insert = new StringBuffer(insert.substring(0, insert.length() - 2));
-                        }
-                        if(values.toString().endsWith(new StringBuffer(COMMA).append(STR_SPACE).toString())){
-                            values = new StringBuffer(values.substring(0, values.length() - 2));
-                        }
-                        sql.append(insert).append(BRACKET_RIGHT).append(NEXT_LINE)
-                                .append(values).append(BRACKET_RIGHT).append(SEMICOLON)
-                                .append(NEXT_LINE).append(NEXT_LINE);
-                        tableInfo.append(sql);
+                if (sysTableModel.getDataCount() <= 100) {
+                    buildTableData(sysSystemDao.selectTableData(sysTableQueryModel), tableName, columnMap, tableInfo);
+                } else {
+                    // 分页数据查询
+                    Long page = sysTableModel.getDataCount() / BACKUP_DATA_LIMIT;
+                    if (sysTableModel.getDataCount() % BACKUP_DATA_LIMIT != 0) {
+                        page++;
+                    }
+                    sysTableQueryModel.setLimit(BACKUP_DATA_LIMIT);
+                    for (int i=1; i<=page; i++) {
+                        sysTableQueryModel.setPage(i);
+                        PageHelper.startPage(sysTableQueryModel.getPage(), sysTableQueryModel.getLimit());
+                        buildTableData(sysSystemDao.selectTableData(sysTableQueryModel), tableName, columnMap, tableInfo);
                     }
                 }
             }
@@ -563,6 +569,45 @@ public class SysSystemServiceImpl implements SysSystemService {
         }
         SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BACKUP_SQL);
         return new ResultData(true, BACKUP_SUCCESS, null);
+    }
+
+    /**
+     * 组装数据表数据
+     *
+     * @param tableData
+     * @param tableName
+     * @param columnMap
+     * @param tableInfo
+     */
+    private void buildTableData(List<Map> tableData, String tableName, LinkedHashMap<String, String> columnMap, StringBuffer tableInfo) {
+        if (CollectionUtils.isNotEmpty(tableData)) {
+            // 拼装数据
+            for (Map singleData : tableData) {
+                StringBuffer sql = new StringBuffer();
+                StringBuffer insert = new StringBuffer();
+                StringBuffer values = new StringBuffer();
+                insert.append(INSERT_LEFT).append(tableName).append(STR_SPACE).append(BRACKET_LEFT);
+                values.append(VALUES_LEFT);
+                Iterator<Map.Entry<String, String>> iterator = columnMap.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Map.Entry<String, String> columnData = iterator.next();
+                    String columnCode = columnData.getKey().toLowerCase();
+                    String columnType = columnData.getValue();
+                    insert.append(columnCode).append(COMMA).append(STR_SPACE);
+                    values.append(getColumnValue(columnType, singleData.get(columnCode.toUpperCase()))).append(COMMA).append(STR_SPACE);
+                }
+                if(insert.toString().endsWith(new StringBuffer(COMMA).append(STR_SPACE).toString())){
+                    insert = new StringBuffer(insert.substring(0, insert.length() - 2));
+                }
+                if(values.toString().endsWith(new StringBuffer(COMMA).append(STR_SPACE).toString())){
+                    values = new StringBuffer(values.substring(0, values.length() - 2));
+                }
+                sql.append(insert).append(BRACKET_RIGHT).append(NEXT_LINE)
+                        .append(values).append(BRACKET_RIGHT).append(SEMICOLON)
+                        .append(NEXT_LINE).append(NEXT_LINE);
+                tableInfo.append(sql);
+            }
+        }
     }
 
     /**
