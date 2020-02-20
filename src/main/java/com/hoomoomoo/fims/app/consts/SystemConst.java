@@ -56,12 +56,12 @@ public class SystemConst {
     /**
      * 系统初始化存储过程
      */
-    public static final String INIT_SYSTEM_PROCEDURE                = "classpath:database/initProcedure.sql";
+    public static final String INIT_SYSTEM_PROCEDURE                = "database/initProcedure.sql";
 
     /**
      * 系统配置sql
      */
-    public static final String SYSTEM_CONFIG_SQL                    = "classpath:mapper/sqlConfig.xml";
+    public static final String SYSTEM_CONFIG_SQL                    = "mapper/SqlConfig.xml";
 
     /**
      * 存储过程分隔符

@@ -10,6 +10,8 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.DOMReader;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.ResourceUtils;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -188,7 +190,7 @@ public class SysCommonUtils {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             documentBuilderFactory.setNamespaceAware(true);
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(filePath);
+            Document document = documentBuilder.parse(new ClassPathResource(filePath).getInputStream());
             DOMReader xmlReader = new DOMReader();
             org.dom4j.Document doc = xmlReader.read(document);
             Element root = doc.getRootElement();

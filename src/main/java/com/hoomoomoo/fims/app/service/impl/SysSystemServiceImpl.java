@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
@@ -714,7 +715,7 @@ public class SysSystemServiceImpl implements SysSystemService {
             Connection connection = getConnection();
             if (connection != null) {
                 // 初始化存储过程
-                File file = ResourceUtils.getFile(INIT_SYSTEM_PROCEDURE);
+                File file = new ClassPathResource(INIT_SYSTEM_PROCEDURE).getFile();
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
                 StringBuffer content = new StringBuffer();
                 String temp;
