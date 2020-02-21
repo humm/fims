@@ -715,8 +715,8 @@ public class SysSystemServiceImpl implements SysSystemService {
             Connection connection = getConnection();
             if (connection != null) {
                 // 初始化存储过程
-                File file = new ClassPathResource(INIT_SYSTEM_PROCEDURE).getFile();
-                BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                InputStream file = new ClassPathResource(INIT_SYSTEM_PROCEDURE).getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(file));
                 StringBuffer content = new StringBuffer();
                 String temp;
                 while ((temp = bufferedReader.readLine()) != null) {

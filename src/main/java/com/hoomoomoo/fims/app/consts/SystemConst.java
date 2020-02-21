@@ -56,7 +56,7 @@ public class SystemConst {
     /**
      * 系统初始化存储过程
      */
-    public static final String INIT_SYSTEM_PROCEDURE                = "database/initProcedure.sql";
+    public static final String INIT_SYSTEM_PROCEDURE                = "classpath:database/initProcedure.sql";
 
     /**
      * 系统配置sql
