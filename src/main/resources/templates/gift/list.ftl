@@ -21,14 +21,14 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">送礼人</label>
                     <div class="layui-input-block">
-                        <select name="giftSender"></select>
+                        <input type="text" class="layui-input" name="giftSender">
                     </div>
                 </div>
 
                 <div class="layui-inline">
                     <label class="layui-form-label">收礼人</label>
                     <div class="layui-input-block">
-                        <select name="giftReceiver"></select>
+                        <input type="text" class="layui-input" name="giftReceiver">
                     </div>
                 </div>
 
@@ -137,7 +137,8 @@
         // 年月选择器
         laydate.render({
             elem: '#giftDate',
-            type: 'month'
+            type: 'month',
+            trigger: 'click'
         });
 
         // 权限按钮设置
@@ -192,7 +193,7 @@
                 type: 2,
                 title: fims.tips.title.add,
                 content: url.add,
-                area: ["450px", "500px"],
+                area: [fims.size.one, fims.size.two],
                 btn: [fims.tips.btn.save, fims.tips.btn.cancel],
                 resize: fims.set.resize,
                 yes: function (e, t) {
@@ -211,7 +212,7 @@
                 type: 2,
                 title: fims.tips.title.update,
                 content: url.update + "?" + $.param(request),
-                area: ["450px", "500px"],
+                area: [fims.size.one, fims.size.two],
                 btn: [fims.tips.btn.save, fims.tips.btn.cancel],
                 resize: fims.set.resize,
                 yes: function (e, t) {
@@ -230,7 +231,7 @@
                 type: 2,
                 title: fims.tips.title.detail,
                 content: url.detail + "?" + $.param(request),
-                area: ["450px", "450px"],
+                area: [fims.size.one, fims.size.one],
                 resize: false
             });
         }

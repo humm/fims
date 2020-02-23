@@ -212,7 +212,7 @@
                 type: 2,
                 title: fims.tips.title.add,
                 content: url.add,
-                area: ["450px", "500px"],
+                area: [fims.size.one, fims.size.two],
                 btn: [fims.tips.btn.save, fims.tips.btn.cancel],
                 resize: fims.set.resize,
                 yes: function (e, t) {
@@ -235,7 +235,7 @@
                 type: 2,
                 title: fims.tips.title.update,
                 content: url.update + "?" + $.param(request),
-                area: ["450px", "500px"],
+                area: [fims.size.one, fims.size.two],
                 btn: [fims.tips.btn.save, fims.tips.btn.cancel],
                 resize: fims.set.resize,
                 yes: function (e, t) {
@@ -254,7 +254,7 @@
                 type: 2,
                 title: fims.tips.title.detail,
                 content: url.detail + "?" + $.param(request),
-                area: ["450px", "450px"],
+                area: [fims.size.one, fims.size.one],
                 resize: false
             });
         }

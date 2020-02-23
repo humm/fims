@@ -19,7 +19,6 @@
     <div class="layadmin-user-login-main">
         <div class="layadmin-user-login-box layadmin-user-login-header">
             <img src="${appName}/layuiadmin/style/res/login.png">
-            <p>${version}</p>
         </div>
         <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
             <div class="layui-form-item">

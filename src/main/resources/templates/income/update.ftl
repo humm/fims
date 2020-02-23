@@ -112,7 +112,8 @@
 
         //年月选择器
         laydate.render({
-            elem: '#incomeDate'
+            elem: '#incomeDate',
+            trigger: 'click'
         });
 
     })

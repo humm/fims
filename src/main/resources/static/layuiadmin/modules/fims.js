@@ -269,6 +269,12 @@
             reset: "reset",
             refresh: "refresh"
         },
+        size: {
+            one: "450px",
+            two: "500px",
+            three: "700px",
+            four: "750px"
+        },
         tips: {
             title: {
                 add: "新增",

@@ -1,6 +1,7 @@
 package com.hoomoomoo.fims.app.controller;
 
 import com.hoomoomoo.fims.app.config.bean.SystemConfigBean;
+import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.util.SysSessionUtils;
 import com.hoomoomoo.fims.app.util.SysCommonUtils;
 import io.swagger.annotations.ApiOperation;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.hoomoomoo.fims.app.consts.BusinessConst.REQUEST_URL;
-import static com.hoomoomoo.fims.app.consts.BusinessConst.USER_NAME;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
+import static com.hoomoomoo.fims.app.consts.ParameterConst.VERSION;
 
 
 /**
@@ -29,6 +30,9 @@ public class SysSystemController {
 
     @Autowired
     private SystemConfigBean systemConfigBean;
+
+    @Autowired
+    private SysParameterService sysParameterService;
 
     /**
      * 跳转首页
@@ -85,6 +89,18 @@ public class SysSystemController {
     @RequestMapping(value = "icon/view/list", method = RequestMethod.GET)
     public String icon() {
         return "icon/list";
+    }
+
+    /**
+     * 跳转升级页面
+     *
+     * @return
+     */
+    @ApiOperation("跳转升级页面")
+    @RequestMapping(value = "system/view/update", method = RequestMethod.GET)
+    public String viewList(ModelMap modelMap) {
+        modelMap.addAttribute(BUSINESS_TYPE_VERSION, sysParameterService.getParameterString(VERSION));
+        return "system/update";
     }
 
 }

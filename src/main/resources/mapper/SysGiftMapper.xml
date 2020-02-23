@@ -16,7 +16,10 @@
             resultType="com.hoomoomoo.fims.app.model.SysGiftModel">
         select
             <include refid="Base_Column_List"/>
-        from sys_gift a, sys_user b
+        from sys_gift a
+        left join sys_dictionary c on a.gift_sender = c.dictionary_code || '-' || c.dictionary_item
+        left join sys_dictionary d on a.gift_receiver = d.dictionary_code || '-' || d.dictionary_item
+         , sys_user b
         <where>
             (
                 substr(a.gift_sender, instr(a.gift_sender, '-') + 1) = b.user_id
@@ -30,10 +33,10 @@
                 and gift_type = #{giftType}
             </if>
             <if test="giftSender != null">
-                and gift_sender = #{giftSender}
+                and c.dictionary_caption like '%' || #{giftSender} || '%'
             </if>
             <if test="giftReceiver != null">
-                and gift_receiver = #{giftReceiver}
+                and d.dictionary_caption like '%' || #{giftReceiver} || '%'
             </if>
             <if test="giftDate != null">
                 and to_char(gift_date, 'yyyy-MM') = to_char(#{giftDate}, 'yyyy-MM')

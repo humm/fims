@@ -111,7 +111,8 @@
 
         //年月选择器
         laydate.render({
-            elem: '#giftDate'
+            elem: '#giftDate',
+            trigger: 'click'
         });
 
     })

@@ -30,11 +30,12 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-header">
-                    <span>当前版本：${version}</span>
-                    <span style="float: right;" id="time"></span>
+                    <span>当前版本：<b>${version}</b></span>
+                    <span style="padding-left:80px;" id="time"></span>
                 </div>
                 <div class="layui-card-body">
-                    <ul class="layui-timeline"></ul>
+                    <ul class="layui-timeline">
+                    </ul>
                 </div>
             </div>
         </div>

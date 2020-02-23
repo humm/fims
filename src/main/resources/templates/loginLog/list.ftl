@@ -117,11 +117,13 @@
 
         // 时间选择器
         laydate.render({
-            elem: '#loginDate'
+            elem: '#loginDate',
+            trigger: 'click'
         });
 
         laydate.render({
-            elem: '#logoutDate'
+            elem: '#logoutDate',
+            trigger: 'click'
         });
 
         // 初始化页面信息
@@ -150,7 +152,7 @@
                 type: 2,
                 title: fims.tips.title.detail,
                 content: url.detail + "?" + $.param(request),
-                area: ["450px", "450px"],
+                area: [fims.size.one, fims.size.one],
                 resize: false
             });
         }
