@@ -12,8 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
-import static com.hoomoomoo.fims.app.config.RunDataConfig.MAIL_HANDLE_FLAG;
-import static com.hoomoomoo.fims.app.consts.CueConst.LOG_BUSINESS_TYPE_INTERFACE;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
  * @author humm23693
@@ -42,9 +41,11 @@ public class MailSchedule implements SchedulingConfigurer {
             public void run() {
                 try {
                     // 读取邮件
+                    SysLogUtils.info(logger, String.format(BUSINESS_SCHEDULE_MAIL, LOG_OPERATE_TAG_START));
                     sysInterfaceService.handleMailRequest();
+                    SysLogUtils.info(logger, String.format(BUSINESS_SCHEDULE_MAIL, LOG_OPERATE_TAG_END));
                 } catch (Exception e) {
-                    SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_INTERFACE, e);
+                    SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL, e);
                 }
             }
         }, cron);

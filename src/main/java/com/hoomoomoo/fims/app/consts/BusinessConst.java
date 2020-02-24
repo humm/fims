@@ -525,9 +525,9 @@ public class BusinessConst {
     public static final String STATUS                                        = "status";
 
     /**
-     * 状态：timeout
+     * 提示消息：message
      * */
-    public static final String STATUS_TIMEOUT                                = "timeout";
+    public static final String MESSAGE                                       = "message";
 
     /**
      * 参数类型
@@ -679,5 +679,26 @@ public class BusinessConst {
      * 接口业务类型：随礼
       */
     public static final String INTERFACE_TYPE_GIFT                          = "随礼";
+
+    /**
+     * 系统当前状态：初始化
+      */
+    public static final String SYSTEM_STATUS_INIT                           = "init";
+
+    /**
+     * 系统当前状态：升级
+     */
+    public static final String SYSTEM_STATUS_UPDATE                         = "update";
+
+    /**
+     * 系统当前状态：备份
+     */
+    public static final String SYSTEM_STATUS_BACKUP                         = "backup";
+
+    /**
+     * 状态：timeout
+     * */
+    public static final String SYSTEM_STATUS_TIMEOUT                        = "timeout";
+
 
 }

@@ -371,11 +371,6 @@ public class CueConst {
     public static final String LOG_BUSINESS_TYPE_CONSOLE                        = "首页信息";
 
     /**
-     * 日志业务类型：大额支出
-     */
-    public static final String LOG_BUSINESS_TYPE_INTERFACE                      = "邮件信息";
-
-    /**
      * 日志业务类型：字典转义
      */
     public static final String LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER            = "字典转义";
@@ -414,6 +409,11 @@ public class CueConst {
      * 日志业务类型：系统初始化
      */
     public static final String LOG_BUSINESS_TYPE_INIT_SYSTEM                    = "系统初始化";
+
+    /**
+     * 日志业务类型：系统升级
+     */
+    public static final String LOG_BUSINESS_TYPE_UPDATE_SYSTEM                  = "系统升级";
 
     /**
      * 邮件信息处理中
@@ -674,5 +674,20 @@ public class CueConst {
      * 暂不处理异常
      */
     public static final String EXCEPTION_NOT_HANDLE                             = "暂不处理异常: %s";
+
+    /**
+     * 定时任务
+     */
+    public static final String BUSINESS_SCHEDULE_MAIL                           = "邮件信息定时任务: %s";
+
+    /**
+     * 稍后再试
+     */
+    public static final String BUSINESS_OPERATE_WAIT                            = "请稍后再试...";
+
+    /**
+     * session超时
+     */
+    public static final String BUSINESS_OPERATE_TIMEOUT                         = "由于您长时间没有操作, 请重新登录...";
 
 }

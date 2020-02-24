@@ -79,7 +79,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
         }
         MAIL_HANDLE_FLAG = true;
         try {
-            SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_INTERFACE, LOG_OPERATE_TYPE_HANDLE);
+            SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_MAIL, LOG_OPERATE_TYPE_HANDLE);
             // 获取邮件读取开始ID
             SysInterfaceQueryModel sysInterfaceQueryModel = new SysInterfaceQueryModel(ASTERISK);
             SysInterfaceModel sysInterfaceModel = sysInterfaceDao.selectOne(sysInterfaceQueryModel);
@@ -104,7 +104,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
                     try {
                         baseModelList = SysCommonUtils.getMailXmlToBean(sysMailModel.getContent());
                     } catch (DocumentException e) {
-                        SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_INTERFACE, e);
+                        SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL, e);
                     }
                     // 接口数据处理
                     if (CollectionUtils.isNotEmpty(baseModelList)) {
@@ -156,9 +156,9 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
 
                 }
             }
-            SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_INTERFACE, LOG_OPERATE_TYPE_HANDLE);
+            SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_MAIL, LOG_OPERATE_TYPE_HANDLE);
         } catch (Exception e) {
-            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_INTERFACE, e);
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL, e);
         } finally {
             MAIL_HANDLE_FLAG = false;
         }
@@ -254,7 +254,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
             try {
                 sysIncomeModel.setIncomeDate(new SimpleDateFormat(FORMAT_DATE_TEMPLATE).parse(sysInterfaceRequestModel.getDate()));
             } catch (ParseException e) {
-                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_INTERFACE, e);
+                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL, e);
             }
             sysIncomeModel.setIncomeCompany(sysInterfaceRequestModel.getTarget());
             sysIncomeModel.setIncomeAmount(sysInterfaceRequestModel.getAmount());
@@ -272,7 +272,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
             try {
                 sysGiftModel.setGiftDate(new SimpleDateFormat(FORMAT_DATE_TEMPLATE).parse(sysInterfaceRequestModel.getDate()));
             } catch (ParseException e) {
-                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_INTERFACE, e);
+                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL, e);
             }
             sysGiftModel.setGiftAmount(sysInterfaceRequestModel.getAmount());
             sysGiftModel.setGiftMemo(sysInterfaceRequestModel.getMemo());
@@ -431,7 +431,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
         } catch (ParseException e) {
             sysCheckResultModel.setResult(false);
             sysCheckResultModel.getMessage().add(INTERFACE_FORMAT_DATE);
-            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_INTERFACE, e);
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL, e);
         }
         // 校验业务金额
         try {
@@ -439,7 +439,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
         } catch (NumberFormatException e) {
             sysCheckResultModel.setResult(false);
             sysCheckResultModel.getMessage().add(INTERFACE_FORMAT_AMOUNT);
-            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_INTERFACE, e);
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL, e);
         }
         // 校验业务备注
         if (StringUtils.isNotEmpty(sysInterfaceRequestModel.getMemo()) && sysInterfaceRequestModel.getMemo().length() > 150) {

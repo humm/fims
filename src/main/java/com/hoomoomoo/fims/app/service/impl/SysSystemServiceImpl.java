@@ -139,6 +139,7 @@ public class SysSystemServiceImpl implements SysSystemService {
     @Override
     public void loadBusinessId() {
         SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BUSINESS_SERIAL_NO_LOAD);
+        BUSINESS_SERIAL_NO.clear();
         List<String> businessIdList = sysSystemDao.loadBusinessId();
         if (CollectionUtils.isNotEmpty(businessIdList)) {
             for (String businessId : businessIdList) {
@@ -426,6 +427,7 @@ public class SysSystemServiceImpl implements SysSystemService {
     @Override
     public void initSystem() {
         // 初始化模式  1:不初始化 2:强制初始化 3:弱校验初始化 4:强校验初始化
+        SYSTEM_USED_STATUS = SYSTEM_STATUS_INIT;
         String initMode = fimsConfigBean.getInitMode();
         SysTableQueryModel sysTableQueryModel = new SysTableQueryModel();
         sysTableQueryModel.setTableName(SYSTEM_TABLE.toLowerCase());
@@ -451,6 +453,41 @@ public class SysSystemServiceImpl implements SysSystemService {
             default:
                 break;
         }
+        SYSTEM_USED_STATUS = null;
+    }
+
+    /**
+     * 系统升级
+     */
+    @Override
+    public void updateSystem() {
+        SYSTEM_USED_STATUS = SYSTEM_STATUS_UPDATE;
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_UPDATE_SYSTEM);
+        String currentVersion = sysParameterService.getParameterString(VERSION);
+        if (!SYSTEM_VERSION.equals(currentVersion)) {
+            Connection connection = getConnection();
+            ScriptRunner runner = new ScriptRunner(connection);
+            Resources.setCharset(Charset.forName(UTF8));
+            runner.setLogWriter(null);
+            try {
+                Reader reader = Resources.getResourceAsReader(UPDATE_SYSTEM_DATA);
+                runner.runScript(reader);
+                // 关闭资源连接
+                reader.close();
+                runner.closeConnection();
+                connection.close();
+            } catch (IOException e) {
+                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_UPDATE_SYSTEM, e);
+            } catch (SQLException e) {
+                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_UPDATE_SYSTEM, e);
+            }
+            // 刷新字典项 加业务ID
+            loadSysDictionaryCondition();
+            loadBusinessId();
+
+        }
+        SYSTEM_USED_STATUS = null;
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_UPDATE_SYSTEM);
     }
 
     /**
@@ -657,6 +694,7 @@ public class SysSystemServiceImpl implements SysSystemService {
     public void applicationStartBackup() {
         boolean startBackup = sysParameterService.getParameterBoolean(START_BACKUP);
         if (startBackup) {
+            SYSTEM_USED_STATUS = SYSTEM_STATUS_BACKUP;
             try {
                 systemBackupFile(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_FILENAME_SUFFIX).toString());
                 // todo dmp备份 影响应用启动时间 备份耗时
@@ -666,6 +704,7 @@ public class SysSystemServiceImpl implements SysSystemService {
             } catch (Exception e) {
                 SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP, e);
             }
+            SYSTEM_USED_STATUS = null;
         }
     }
 

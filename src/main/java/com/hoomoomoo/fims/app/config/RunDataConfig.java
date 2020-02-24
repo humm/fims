@@ -49,4 +49,9 @@ public class RunDataConfig {
      * 邮件数据处理标识
      */
     public static Boolean MAIL_HANDLE_FLAG                                  = false;
+
+    /**
+     * 系统使用状态
+     */
+    public static String SYSTEM_USED_STATUS                                 = null;
 }

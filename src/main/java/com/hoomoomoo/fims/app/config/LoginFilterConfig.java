@@ -5,6 +5,7 @@ import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysMenuService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SysSessionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import static com.hoomoomoo.fims.app.config.RunDataConfig.SYSTEM_USED_STATUS;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
@@ -49,6 +51,23 @@ public class LoginFilterConfig implements Filter {
         int index = servletPath.lastIndexOf(SLASH);
         String requestSuffix = servletPath.substring(index + 1);
         SessionBean sessionBean = (SessionBean) request.getSession().getAttribute(SESSION_BEAN);
+        if (StringUtils.isNotBlank(SYSTEM_USED_STATUS)) {
+            if (isAjaxRequest(request)) {
+                response.setHeader(STATUS, SYSTEM_USED_STATUS);
+                String message = STR_EMPTY;
+                if (SYSTEM_USED_STATUS.equals(SYSTEM_STATUS_INIT)) {
+                    message = LOG_BUSINESS_TYPE_INIT_SYSTEM;
+                } else if (SYSTEM_USED_STATUS.equals(SYSTEM_STATUS_UPDATE)) {
+                    message = LOG_BUSINESS_TYPE_UPDATE_SYSTEM;
+                } else if (SYSTEM_USED_STATUS.equals(SYSTEM_STATUS_BACKUP)) {
+                    message = LOG_BUSINESS_TYPE_BACKUP;
+                }
+                response.setHeader(MESSAGE, new StringBuffer(message).append(COMMA).append(BUSINESS_OPERATE_WAIT).toString());
+            } else {
+                toLogin(request, response);
+            }
+            return;
+        }
         if (sessionBean != null) {
             // 查询用户数据权限 避免数据权限更新后session刷新不计时
             if (ADMIN_CODE.equals(sessionBean.getUserCode())) {
@@ -63,7 +82,8 @@ public class LoginFilterConfig implements Filter {
         } else {
             if (!isIgoreSuffix(requestSuffix) && IGORE_REQUEST.indexOf(servletPath) == -1) {
                 if (isAjaxRequest(request)) {
-                    response.setHeader(STATUS, STATUS_TIMEOUT);
+                    response.setHeader(STATUS, SYSTEM_STATUS_TIMEOUT);
+                    response.setHeader(MESSAGE, BUSINESS_OPERATE_TIMEOUT);
                 } else {
                     toLogin(request, response);
                 }

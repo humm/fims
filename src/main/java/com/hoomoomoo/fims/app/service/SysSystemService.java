@@ -95,6 +95,11 @@ public interface SysSystemService {
     void initSystem();
 
     /**
+     * 系统升级
+     */
+    void updateSystem();
+
+    /**
      * 参数初始化
      */
     void initParameter();

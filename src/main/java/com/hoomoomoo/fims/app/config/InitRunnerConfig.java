@@ -30,6 +30,9 @@ public class InitRunnerConfig implements CommandLineRunner {
         // 系统初始化
         sysSystemService.initSystem();
 
+        // 系统升级
+        sysSystemService.updateSystem();
+
         // 系统启动备份
         sysSystemService.applicationStartBackup();
 

@@ -48,15 +48,21 @@ public class SystemConst {
      * 系统初始化数据
      */
     public static final String INIT_SYSTEM_DATA                     = "database/initData.sql";
+
     /**
      * 系统初始化表结构
      */
     public static final String INIT_SYSTEM_TABLE                    = "database/initTable.sql";
 
     /**
+     * 系统升级数据
+     */
+    public static final String UPDATE_SYSTEM_DATA                    = "database/updateData.sql";
+
+    /**
      * 系统初始化存储过程
      */
-    public static final String INIT_SYSTEM_PROCEDURE                = "classpath:database/initProcedure.sql";
+    public static final String INIT_SYSTEM_PROCEDURE                = "database/initProcedure.sql";
 
     /**
      * 系统配置sql
@@ -69,7 +75,7 @@ public class SystemConst {
     public static final String INIT_SYSTEM_PROCEDURE_SPLIT          = "-- ====== --";
 
     /**
-     * 当前系统存在数据表 todo 新增表需在此配置  此处配置全量表结构
+     * 当前系统存在数据表
      */
     public static final String SYSTEM_TABLE                         =  new StringBuffer()
                                                                             .append("'sys_user'").append(",")
@@ -86,4 +92,10 @@ public class SystemConst {
                                                                             .append("'sys_gift'").append(",")
                                                                             .append("'sys_interface'").append(",")
                                                                             .append("'sys_config'").toString();
+
+    /**
+     * 系统版本号
+     */
+    public static final String SYSTEM_VERSION                       = "3.1.10";
+
 }

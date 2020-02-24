@@ -31,8 +31,9 @@
             error: function (xhr, t) {
                 var status = xhr.getResponseHeader("status");
                 // 跳转登录页面
-                if(status == "timeout") {
-                    layer.alert('由于您长时间没有操作, 请重新登录...', function () {
+                if(status == "timeout" || status == "init" || status == "update" || status == "backup") {
+                    var message = xhr.getResponseHeader("message");
+                    layer.alert(message, function () {
                         parent.location.href = "./login";
                     });
                     setTimeout(function () {

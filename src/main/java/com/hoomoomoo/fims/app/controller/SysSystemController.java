@@ -91,16 +91,4 @@ public class SysSystemController {
         return "icon/list";
     }
 
-    /**
-     * 跳转升级页面
-     *
-     * @return
-     */
-    @ApiOperation("跳转升级页面")
-    @RequestMapping(value = "system/view/update", method = RequestMethod.GET)
-    public String viewList(ModelMap modelMap) {
-        modelMap.addAttribute(BUSINESS_TYPE_VERSION, sysParameterService.getParameterString(VERSION));
-        return "system/update";
-    }
-
 }
