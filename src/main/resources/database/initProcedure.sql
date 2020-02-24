@@ -1,8 +1,7 @@
--- 此文件存放存储过程
+-- 初始化存储过程
+
 -- 存储过程以 ====== 六个等号分割
-
 -- ====== --
-
 create or replace procedure drop_table(tableName in varchar2)
 is
     v_count number(10);
@@ -13,5 +12,4 @@ begin
         execute immediate 'drop table ' || tableName || ' purge';
     end if;
 end drop_table;
-
 -- ====== --

@@ -1,3 +1,5 @@
+-- 初始化基础数据
+
 -- 用户信息
 truncate table sys_user;
 insert into sys_user (USER_ID, USER_CODE, USER_NAME, USER_PASSWORD, USER_STATUS, CREATE_DATE, MODIFY_DATE, CREATE_USER, MODIFY_USER, USER_MEMO)
