@@ -721,6 +721,12 @@ public class BusinessConst {
      */
     public static final String BACKUP_EXCEL_DATE_FORMAT                     = "00:00:00.0";
 
+    /**
+     * Excel 数据备份过滤字段
+     */
+    public static final String BACKUP_EXCEL_FILTER_COLUMN                   = "income_id,gift_id";
+
+
 
 
 

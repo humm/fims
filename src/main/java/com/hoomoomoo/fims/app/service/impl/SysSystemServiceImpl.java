@@ -1156,7 +1156,7 @@ public class SysSystemServiceImpl implements SysSystemService {
      * @return
      */
     private LinkedHashMap transfer(Map dictionaryCache, LinkedHashMap ele) {
-        transferElement(dictionaryCache, ele, null);
+        transferElement(dictionaryCache, ele, null, true);
         return ele;
     }
 
@@ -1167,7 +1167,7 @@ public class SysSystemServiceImpl implements SysSystemService {
      * @param ele
      * @param clazz
      */
-    private LinkedHashMap transferElement(Map dictionaryCache, LinkedHashMap ele, Class clazz) {
+    private LinkedHashMap transferElement(Map dictionaryCache, LinkedHashMap ele, Class clazz, boolean filter) {
         Iterator<String> iterator = ele.keySet().iterator();
         while (iterator.hasNext()) {
             String key = iterator.next();
@@ -1212,7 +1212,7 @@ public class SysSystemServiceImpl implements SysSystemService {
             // 日期格式化
             if (key.toLowerCase().contains(DATE)) {
                 if (value.toLowerCase().contains(BACKUP_EXCEL_DATE_FORMAT)) {
-                    String values[] = value.split(STR_SPACE);
+                    String[] values = value.split(STR_SPACE);
                     if (values.length == 2) {
                         ele.put(key, values[0]);
                     }
@@ -1221,6 +1221,9 @@ public class SysSystemServiceImpl implements SysSystemService {
                         ele.put(key, value.substring(0, 19));
                     }
                 }
+            }
+            if (filter && BACKUP_EXCEL_FILTER_COLUMN.contains(key.toLowerCase())) {
+                iterator.remove();
             }
         }
         return ele;
@@ -1233,7 +1236,8 @@ public class SysSystemServiceImpl implements SysSystemService {
      * @param ele
      */
     private BaseModel transfer(Map dictionaryCache, Map ele, Class clazz) {
-        return SysBeanUtils.mapToBean(clazz, SysBeanUtils.linkedHashMapToMap(transferElement(dictionaryCache, SysBeanUtils.mapToLinkedHashMap(ele), clazz)));
+        return SysBeanUtils.mapToBean(clazz, SysBeanUtils.linkedHashMapToMap(transferElement(dictionaryCache,
+                SysBeanUtils.mapToLinkedHashMap(ele), clazz, false)));
     }
 
     /**
