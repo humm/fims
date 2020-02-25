@@ -1209,6 +1209,19 @@ public class SysSystemServiceImpl implements SysSystemService {
             if (key.toLowerCase().contains(AMOUNT)) {
                 ele.put(key, SysCommonUtils.formatValue(value));
             }
+            // 日期格式化
+            if (key.toLowerCase().contains(DATE)) {
+                if (value.toLowerCase().contains(BACKUP_EXCEL_DATE_FORMAT)) {
+                    String values[] = value.split(STR_SPACE);
+                    if (values.length == 2) {
+                        ele.put(key, values[0]);
+                    }
+                } else {
+                    if (value.length() > 19) {
+                        ele.put(key, value.substring(0, 19));
+                    }
+                }
+            }
         }
         return ele;
     }

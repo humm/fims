@@ -217,7 +217,7 @@ public class BusinessConst {
     /**
      * 转义key
      */
-    public static final String TRANSFER_KEY                                 = "userId,user_id";
+    public static final String TRANSFER_KEY                                 = "userId,user_id,createUser,create_user,modifyUser,modify_user";
 
     /**
      * 是否有按钮权限
@@ -545,6 +545,11 @@ public class BusinessConst {
     public static final String AMOUNT                                        = "amount";
 
     /**
+     * 日期
+     */
+    public static final String DATE                                          = "date";
+
+    /**
      * 日期格式化模板
      */
     public static final String FORMAT_DATE_TEMPLATE                          = "yyyyMMdd";
@@ -710,6 +715,13 @@ public class BusinessConst {
      * Excel单元格宽度
      */
     public static final Integer BACKUP_EXCEL_CELL_WIDTH                     = 20;
+
+    /**
+     * Excel 数据备份日期格式化
+     */
+    public static final String BACKUP_EXCEL_DATE_FORMAT                     = "00:00:00.0";
+
+
 
 
 
