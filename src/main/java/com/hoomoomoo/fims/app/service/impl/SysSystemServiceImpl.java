@@ -17,12 +17,13 @@ import com.hoomoomoo.fims.app.service.SysInterfaceService;
 import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.*;
-import io.swagger.models.auth.In;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.jdbc.ScriptRunner;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -31,7 +32,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ResourceUtils;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -39,7 +39,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
@@ -228,6 +227,27 @@ public class SysSystemServiceImpl implements SysSystemService {
         }
         SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
         return baseModelList;
+    }
+
+    /**
+     * 字典转义
+     *
+     * @param list
+     * @return
+     */
+    @Override
+    public List<LinkedHashMap> transferData(List<LinkedHashMap> list) {
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
+        List<LinkedHashMap> baseModelList = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(list)) {
+            // 本次查询缓存数据
+            Map dictionaryCache = new HashMap(16);
+            for (LinkedHashMap single : list) {
+                baseModelList.add(transfer(dictionaryCache, single));
+            }
+        }
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_DICTIONARY_TRANSFER);
+        return null;
     }
 
     /**
@@ -518,11 +538,6 @@ public class SysSystemServiceImpl implements SysSystemService {
      */
     @Override
     public ResultData systemBackupFile(String fileName) {
-        String backupLocation = sysParameterService.getParameterString(BACKUP_LOCATION);
-        if (WELL.equals(backupLocation)) {
-            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP_SQL, BACKUP_LOCATION_IS_EMPTY);
-            return new ResultData(false, BACKUP_LOCATION_IS_EMPTY, null);
-        }
         SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BACKUP_SQL);
         String[] tables = SYSTEM_TABLE.split(COMMA);
         StringBuffer database = new StringBuffer(String.format(BACKUP_TIPS, LOG_BUSINESS_TYPE_BACKUP_LIST, LOG_OPERATE_TAG_START));
@@ -545,28 +560,7 @@ public class SysSystemServiceImpl implements SysSystemService {
             // 查询数据表字段
             List<SysTableModel> sysTableColumns = sysSystemDao.selectTableColumn(sysTableQueryModel);
             if (CollectionUtils.isNotEmpty(sysTableColumns)) {
-                // 拼装查询表数据查询字段
-                LinkedHashMap<String, String> columnMap = new LinkedHashMap(16);
-                StringBuffer queryColumn = new StringBuffer();
-                for (SysTableModel sysTableModel : sysTableColumns) {
-                    queryColumn.append(sysTableModel.getColumnCode()).append(COMMA);
-                    columnMap.put(sysTableModel.getColumnCode(), sysTableModel.getColumnType());
-                }
-                String column = queryColumn.toString();
-                sysTableQueryModel.setTableColumn(column.substring(0, column.length() - 1));
-                sysTableQueryModel.setTableOrder(sysTableColumns.get(0).getColumnCode());
-                // 查询表主键用于排序
-                List<SysTableModel> sysTableKey = sysSystemDao.selectTablePrimaryKey(sysTableQueryModel);
-                if (CollectionUtils.isNotEmpty(sysTableKey)) {
-                    StringBuffer tableKey = new StringBuffer();
-                    for (SysTableModel key : sysTableKey) {
-                        tableKey.append(key.getColumnCode()).append(COMMA);
-                    }
-                    if (tableKey.toString().endsWith(COMMA)) {
-                        tableKey = new StringBuffer(tableKey.toString().substring(0, tableKey.toString().lastIndexOf(COMMA)));
-                    }
-                    sysTableQueryModel.setTableOrder(tableKey.toString());
-                }
+                LinkedHashMap<String, String> columnMap = getQueryCondition(sysTableQueryModel, tableName);
                 // 查询数据表总数据大小
                 SysTableModel sysTableModel = sysSystemDao.selectTableCount(sysTableQueryModel);
                 if (sysTableModel == null || sysTableModel.getDataCount() == 0) {
@@ -598,6 +592,7 @@ public class SysSystemServiceImpl implements SysSystemService {
         database.append(NEXT_LINE).append(NEXT_LINE).append(databaseContent);
         try {
             // 写文件
+            String backupLocation = sysParameterService.getParameterString(BACKUP_LOCATION);
             File saveFile = new File(backupLocation + SLASH + fileName);
             FileUtils.writeStringToFile(saveFile, database.toString(), UTF8);
             SysLogUtils.success(logger, LOG_BUSINESS_TYPE_BACKUP_SQL);
@@ -617,7 +612,7 @@ public class SysSystemServiceImpl implements SysSystemService {
      * @param columnMap
      * @param tableInfo
      */
-    private void buildTableData(List<Map> tableData, String tableName, LinkedHashMap<String, String> columnMap, StringBuffer tableInfo) {
+    private void buildTableData(List<LinkedHashMap> tableData, String tableName, LinkedHashMap<String, String> columnMap, StringBuffer tableInfo) {
         if (CollectionUtils.isNotEmpty(tableData)) {
             // 拼装数据
             for (Map singleData : tableData) {
@@ -686,14 +681,235 @@ public class SysSystemServiceImpl implements SysSystemService {
     }
 
     /**
+     * 系统备份dmp
+     *
+     * @param fileName
+     */
+    @Override
+    public ResultData systemBackupExcel(String fileName) {
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BACKUP_EXCEL);
+        String[] tables = SYSTEM_TABLE.split(COMMA);
+        LinkedHashMap<String, List<LinkedHashMap>> backupData = new LinkedHashMap<>(16);
+        for (String tableName : tables) {
+            // 去除表名称的单引号
+            tableName = tableName.substring(1, tableName.length()- 1);
+            if (!isBackupTable(tableName)) {
+                // 不是配置表直接返回
+                continue;
+            }
+            SysTableQueryModel sysTableQueryModel = new SysTableQueryModel();
+            getQueryCondition(sysTableQueryModel, tableName);
+            // 查询数据表总数据大小
+            SysTableModel sysTableModel = sysSystemDao.selectTableCount(sysTableQueryModel);
+            if (sysTableModel == null || sysTableModel.getDataCount() == 0) {
+                // 空表直接返回
+                continue;
+            }
+            // 查询数据表数据
+            if (sysTableModel.getDataCount() <= 100) {
+                backupData.put(tableName, sysSystemDao.selectTableData(sysTableQueryModel));
+            } else {
+                // 分页数据查询
+                Long page = sysTableModel.getDataCount() / BACKUP_DATA_LIMIT;
+                if (sysTableModel.getDataCount() % BACKUP_DATA_LIMIT != 0) {
+                    page++;
+                }
+                sysTableQueryModel.setLimit(BACKUP_DATA_LIMIT);
+                for (int i=1; i<=page; i++) {
+                    sysTableQueryModel.setPage(i);
+                    PageHelper.startPage(sysTableQueryModel.getPage(), sysTableQueryModel.getLimit());
+                    List<LinkedHashMap> singleQuery = sysSystemDao.selectTableData(sysTableQueryModel);
+                    if (backupData.containsKey(tableName)) {
+                        backupData.get(tableName).addAll(singleQuery);
+                    } else {
+                        backupData.put(tableName, singleQuery);
+                    }
+                }
+            }
+            List<LinkedHashMap> tableData = backupData.get(tableName);
+            transferData(tableData);
+            // 设置Excel标题
+            if (CollectionUtils.isNotEmpty(tableData)) {
+                List<LinkedHashMap> all = new ArrayList<>();
+                LinkedHashMap title = new LinkedHashMap(16);
+                all.add(title);
+                all.addAll(tableData);
+                List<SysTableModel> titleList = sysSystemDao.selectTableColumnComments(sysTableQueryModel);
+                LinkedHashMap<String, Object> single = tableData.get(0);
+                Iterator<String> iterator  = single.keySet().iterator();
+                while (iterator.hasNext()) {
+                    String key = iterator.next();
+                    title.put(key, getColumnComments(titleList, key));
+                }
+                backupData.put(tableName, all);
+            }
+        }
+        // 数据准备完成 写Excel文件
+        buildExcel(backupData, fileName);
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BACKUP_EXCEL);
+        return null;
+    }
+
+    /**
+     * 获取Excel标题
+     *
+     * @param titleList
+     * @param columnKey
+     * @return
+     */
+    private String getColumnComments(List<SysTableModel> titleList, String columnKey) {
+        if (CollectionUtils.isNotEmpty(titleList)) {
+            for (SysTableModel sysTableModel : titleList) {
+                if (sysTableModel.getColumnCode().toLowerCase().equals(columnKey.toLowerCase())) {
+                    return sysTableModel.getColumnComments();
+                }
+            }
+        }
+        return STR_EMPTY;
+    }
+
+    /**
+     * Excel数据处理
+     *
+     * @param backupData
+     * @param fileName
+     */
+    private void buildExcel(LinkedHashMap<String, List<LinkedHashMap>> backupData, String fileName) {
+        String backupLocation = sysParameterService.getParameterString(BACKUP_LOCATION);
+        OutputStream outputStream = null;
+        try {
+            String filePath = backupLocation + SLASH + fileName;
+            // 创建Excel文件
+            createExcel(backupData, filePath);
+            File file = new File(filePath);
+            FileInputStream in = new FileInputStream(file);
+            Workbook workbook = WorkbookFactory.create(in);
+            if (backupData != null && !backupData.isEmpty()) {
+                int sheetIndex = 0;
+                Iterator sheetIterator = backupData.keySet().iterator();
+                while (sheetIterator.hasNext()) {
+                    String tableName = String.valueOf(sheetIterator.next());
+                    // 取第一个Sheet工作表
+                    Sheet sheet = workbook.getSheetAt(sheetIndex);
+                    // 设置单元格属性
+                    CellStyle cellStyle = workbook.createCellStyle();
+                    // 水平居中
+                    cellStyle.setAlignment(HorizontalAlignment.CENTER);
+                    // 垂直居中
+                    cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+                    // 文字属性
+                    CellStyle boldStyle = workbook.createCellStyle();
+                    Font font = workbook.createFont();
+                    font.setColor(IndexedColors.BLACK.getIndex());
+                    boldStyle.setFont(font);
+                    boldStyle.setAlignment(HorizontalAlignment.LEFT);
+                    boldStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+                    // 加粗样式
+                    CellStyle titleStyle = workbook.createCellStyle();
+                    font = workbook.createFont();
+                    font.setBold(true);
+                    font.setColor(IndexedColors.RED.getIndex());
+                    titleStyle.setFont(font);
+                    titleStyle.setAlignment(HorizontalAlignment.CENTER);
+                    titleStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+                    // 写入数据
+                    List<LinkedHashMap> rowList = backupData.get(tableName);
+                    if (CollectionUtils.isNotEmpty(rowList)) {
+                        for (int i = 0; i < rowList.size(); i++) {
+                            // 创建行
+                            Row row = sheet.createRow(i);
+                            // 设置列宽
+                            LinkedHashMap rowData = rowList.get(i);
+                            Iterator iterator = rowData.keySet().iterator();
+                            int index = 0;
+                            while (iterator.hasNext()) {
+                                String key = String.valueOf(iterator.next());
+                                String value = String.valueOf(rowData.get(key));
+                                Cell cell = row.createCell(index);
+                                cell.setCellValue(value);
+                                cell.setCellStyle(cellStyle);
+                                if (i == 0) {
+                                    cell.setCellStyle(titleStyle);
+                                } else {
+                                    cell.setCellStyle(boldStyle);
+                                }
+                                sheet.setColumnWidth(index, (int) ((BACKUP_EXCEL_CELL_WIDTH + 0.72) * 256));
+                                index++;
+                            }
+                        }
+                    }
+                    sheetIndex++;
+                }
+            }
+            outputStream = new FileOutputStream(filePath);
+            workbook.write(outputStream);
+         } catch (Exception e) {
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP_EXCEL, e);
+        } finally {
+            try {
+                if (outputStream != null) {
+                    outputStream.flush();
+                    outputStream.close();
+                }
+            } catch (IOException e) {
+                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP_EXCEL, e);
+            }
+        }
+    }
+
+    /**
+     * 创建excel文件
+     *
+     * @param backupData
+     * @param filePath
+     */
+    private void createExcel(LinkedHashMap<String, List<LinkedHashMap>> backupData, String filePath) {
+        FileOutputStream fileOutputStream = null;
+        try {
+            // 创建工作薄
+            Workbook workbook = new XSSFWorkbook();
+            fileOutputStream = new FileOutputStream(filePath);
+            // 设置工作表名
+            if (backupData != null && !backupData.isEmpty()) {
+                Iterator iterator = backupData.keySet().iterator();
+                int index = 0;
+                while (iterator.hasNext()) {
+                    String tableName = String.valueOf(iterator.next());
+                    workbook.createSheet();
+                    workbook.setSheetName(index, getExcelInfo(tableName));
+                    index++;
+                }
+            }
+            workbook.write(fileOutputStream);
+            fileOutputStream.close();
+        } catch (Exception e) {
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP_EXCEL, e);
+        } finally {
+            try {
+                if (fileOutputStream != null) {
+                    fileOutputStream.flush();
+                    fileOutputStream.close();
+                }
+            } catch (IOException e) {
+                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP_EXCEL, e);
+            }
+        }
+    }
+
+    /**
      * 应用启动备份
      *
      * @return
      */
     @Override
-    public void applicationStartBackup() {
+    public void startBackup() {
         boolean startBackup = sysParameterService.getParameterBoolean(START_BACKUP);
         if (startBackup) {
+            String backupLocation = sysParameterService.getParameterString(BACKUP_LOCATION);
+            if (WELL.equals(backupLocation)) {
+                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP, BACKUP_LOCATION_IS_EMPTY);
+                return;
+            }
             SYSTEM_USED_STATUS = SYSTEM_STATUS_BACKUP;
             try {
                 systemBackupFile(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_FILENAME_SUFFIX).toString());
@@ -701,7 +917,7 @@ public class SysSystemServiceImpl implements SysSystemService {
                 if (false) {
                     systemBackupDmp(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_DMP_SUFFIX).toString());
                 }
-                // todo excel备份
+                systemBackupExcel(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_EXCEL_SUFFIX).toString());
             } catch (Exception e) {
                 SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP, e);
             }
@@ -713,11 +929,46 @@ public class SysSystemServiceImpl implements SysSystemService {
      * 系统启动读取邮件
      */
     @Override
-    public void applicationStartMail() {
+    public void startMail() {
         boolean startMail = sysParameterService.getParameterBoolean(START_MAIL);
         if (startMail) {
             sysInterfaceService.handleMailRequest();
         }
+    }
+
+    /**
+     * 获取查询条件
+     *
+     * @param tableName
+     * @return
+     */
+    private LinkedHashMap<String, String> getQueryCondition(SysTableQueryModel sysTableQueryModel, String tableName) {
+        sysTableQueryModel.setTableName(tableName);
+        // 查询数据表字段
+        List<SysTableModel> sysTableColumns = sysSystemDao.selectTableColumn(sysTableQueryModel);
+        // 拼装查询表数据查询字段
+        LinkedHashMap<String, String> columnMap = new LinkedHashMap(16);
+        StringBuffer queryColumn = new StringBuffer();
+        for (SysTableModel sysTableModel : sysTableColumns) {
+            queryColumn.append(sysTableModel.getColumnCode()).append(COMMA);
+            columnMap.put(sysTableModel.getColumnCode(), sysTableModel.getColumnType());
+        }
+        String column = queryColumn.toString();
+        sysTableQueryModel.setTableColumn(column.substring(0, column.length() - 1));
+        sysTableQueryModel.setTableOrder(sysTableColumns.get(0).getColumnCode());
+        // 查询表主键用于排序
+        List<SysTableModel> sysTableKey = sysSystemDao.selectTablePrimaryKey(sysTableQueryModel);
+        if (CollectionUtils.isNotEmpty(sysTableKey)) {
+            StringBuffer tableKey = new StringBuffer();
+            for (SysTableModel key : sysTableKey) {
+                tableKey.append(key.getColumnCode()).append(COMMA);
+            }
+            if (tableKey.toString().endsWith(COMMA)) {
+                tableKey = new StringBuffer(tableKey.toString().substring(0, tableKey.toString().lastIndexOf(COMMA)));
+            }
+            sysTableQueryModel.setTableOrder(tableKey.toString());
+        }
+        return columnMap;
     }
 
     /**
@@ -873,6 +1124,13 @@ public class SysSystemServiceImpl implements SysSystemService {
         return true;
     }
 
+    /**
+     * 是否具有数据权限
+     *
+     * @param sysUserModel
+     * @param userDataAuthority
+     * @return
+     */
     private Boolean selectDataAuthority(SysUserModel sysUserModel,
                                         Map<String, Boolean> userDataAuthority) {
         if (userDataAuthority.containsKey(sysUserModel.getUserId())) {
@@ -895,8 +1153,21 @@ public class SysSystemServiceImpl implements SysSystemService {
      *
      * @param dictionaryCache
      * @param ele
+     * @return
      */
-    private BaseModel transfer(Map dictionaryCache, Map ele, Class clazz) {
+    private LinkedHashMap transfer(Map dictionaryCache, LinkedHashMap ele) {
+        transferElement(dictionaryCache, ele, null);
+        return ele;
+    }
+
+    /**
+     * 转义具体值
+     *
+     * @param dictionaryCache
+     * @param ele
+     * @param clazz
+     */
+    private LinkedHashMap transferElement(Map dictionaryCache, LinkedHashMap ele, Class clazz) {
         Iterator<String> iterator = ele.keySet().iterator();
         while (iterator.hasNext()) {
             String key = iterator.next();
@@ -929,9 +1200,7 @@ public class SysSystemServiceImpl implements SysSystemService {
                     if (dictionaryCache.get(value) != null) {
                         ele.put(key, dictionaryCache.get(value));
                     } else {
-                        if (i == 0 || i == 1 || i==2) {
-                            transfer(dictionaryCache, ele, clazz, key, value);
-                        }
+                        transfer(dictionaryCache, ele, clazz, key, value);
                     }
                     break;
                 }
@@ -941,7 +1210,17 @@ public class SysSystemServiceImpl implements SysSystemService {
                 ele.put(key, SysCommonUtils.formatValue(value));
             }
         }
-        return SysBeanUtils.mapToBean(clazz, ele);
+        return ele;
+    }
+
+    /**
+     * 转义
+     *
+     * @param dictionaryCache
+     * @param ele
+     */
+    private BaseModel transfer(Map dictionaryCache, Map ele, Class clazz) {
+        return SysBeanUtils.mapToBean(clazz, SysBeanUtils.linkedHashMapToMap(transferElement(dictionaryCache, SysBeanUtils.mapToLinkedHashMap(ele), clazz)));
     }
 
     /**
@@ -955,7 +1234,7 @@ public class SysSystemServiceImpl implements SysSystemService {
      */
     private void transfer(Map dictionaryCache, Map ele, Class clazz, String key, String value){
         // 用户信息userId不转义
-        if (!clazz.equals(SysUserModel.class)) {
+        if (!SysUserModel.class.equals(clazz)) {
             // 转义 userId
             SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
             sysUserQueryModel.setUserId(value);
@@ -1020,5 +1299,34 @@ public class SysSystemServiceImpl implements SysSystemService {
             }
         }
         return environment.getProperty(key);
+    }
+
+    /**
+     * 获取Excel配置表tab描述
+     *
+     * @param tableName 表名称
+     * @return
+     */
+    private String getExcelInfo(String tableName) {
+        String[] tables = BACKUP_EXCEL.split(SEMICOLON);
+        if (tables != null) {
+            for (String table : tables) {
+                String[] tableInfo = table.split(COMMA);
+                if (tableInfo[0].equals(tableName)) {
+                    return tableInfo[1];
+                }
+            }
+        }
+        return STR_EMPTY;
+    }
+
+    /**
+     * 是否需要备份Excel数据表
+     *
+     * @param tableName
+     * @return
+     */
+    private boolean isBackupTable(String tableName) {
+        return StringUtils.isNotBlank(getExcelInfo(tableName));
     }
 }

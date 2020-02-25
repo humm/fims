@@ -336,14 +336,19 @@ public class CueConst {
     public static final String LOG_BUSINESS_TYPE_BACKUP_LIST                    = "数据备份清单";
 
     /**
-     * 日志业务类型：数据库备份
+     * 日志业务类型：SQL数据备份
      */
     public static final String LOG_BUSINESS_TYPE_BACKUP_SQL                     = "SQL数据备份";
 
     /**
-     * 日志业务类型：数据库备份
+     * 日志业务类型：DMP数据备份
      */
     public static final String LOG_BUSINESS_TYPE_BACKUP_DMP                     = "DMP数据备份";
+
+    /**
+     * 日志业务类型：EXCEL数据备份
+     */
+    public static final String LOG_BUSINESS_TYPE_BACKUP_EXCEL                   = "EXCEL数据备份";
 
     /**
      * 日志业务类型：修订

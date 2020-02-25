@@ -6,6 +6,7 @@ import com.hoomoomoo.fims.app.model.SysTableQueryModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,7 +73,7 @@ public interface SysSystemDao {
      * @param sysTableQueryModel
      * @return
      */
-    List<Map> selectTableData(SysTableQueryModel sysTableQueryModel);
+    List<LinkedHashMap> selectTableData(SysTableQueryModel sysTableQueryModel);
 
     /**
      * 查询表数据总数
@@ -81,5 +82,13 @@ public interface SysSystemDao {
      * @return
      */
     SysTableModel selectTableCount(SysTableQueryModel sysTableQueryModel);
+
+    /**
+     * 查询表数据
+     *
+     * @param sysTableQueryModel
+     * @return
+     */
+    List<SysTableModel> selectTableColumnComments(SysTableQueryModel sysTableQueryModel);
 
 }

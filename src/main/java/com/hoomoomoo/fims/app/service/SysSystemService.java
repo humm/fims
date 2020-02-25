@@ -4,6 +4,7 @@ import com.hoomoomoo.fims.app.model.common.BaseModel;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.ViewData;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -43,6 +44,14 @@ public interface SysSystemService {
      * @return
      */
     List transferData(List list, Class clazz);
+
+    /**
+     * 字典转义
+     *
+     * @param list
+     * @return
+     */
+    List<LinkedHashMap> transferData(List<LinkedHashMap> list);
 
     /**
      * 字典转义
@@ -124,14 +133,21 @@ public interface SysSystemService {
     ResultData systemBackupDmp(String fileName);
 
     /**
+     * 系统备份dmp
+     *
+     * @param fileName
+     */
+    ResultData systemBackupExcel(String fileName);
+
+    /**
      * 应用启动备份
      * @return
      */
-    void applicationStartBackup();
+    void startBackup();
 
     /**
      * 系统启动读取邮件
      */
-    void applicationStartMail();
+    void startMail();
 
 }

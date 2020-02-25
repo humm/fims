@@ -84,4 +84,41 @@ public class SysBeanUtils {
         }
         return map;
     }
+
+    /**
+     * map转换成linkedHashMap
+     *
+     * @param map
+     * @return
+     */
+    public static LinkedHashMap<String, Object> mapToLinkedHashMap(Map map) {
+        LinkedHashMap linkedHashMap = new LinkedHashMap(16);
+        if (map != null) {
+            Iterator<String> iterator = map.keySet().iterator();
+            while (iterator.hasNext()) {
+                String key = iterator.next();
+                Object value = map.get(key);
+                linkedHashMap.put(key, value);
+            }
+        }
+        return linkedHashMap;
+    }
+
+    /**
+     * linkedHashMap转换成map
+     *
+     * @param linkedHashMap
+     * @return
+     */
+    public static Map<String, Object> linkedHashMapToMap(LinkedHashMap linkedHashMap) {
+        Map map = new LinkedHashMap(16);
+        if (linkedHashMap != null) {
+            Iterator<String> iterator = linkedHashMap.keySet().iterator();
+            while (iterator.hasNext()) {
+                String key = iterator.next();
+                map.put(key, linkedHashMap.get(key));
+            }
+        }
+        return map;
+    }
 }

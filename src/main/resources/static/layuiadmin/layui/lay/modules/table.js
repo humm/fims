@@ -198,10 +198,10 @@
                     "function" == typeof a.parseData && (t = a.parseData(t) || t), t[n.statusName] != n.statusCode ? (i.renderForm(), i.errorView(t[n.msgName] || '返回的数据不符合规范，正确的成功状态码应为："' + n.statusName + '": ' + n.statusCode)) : (i.renderData(t, e, t[n.countName]), o(), a.time = (new Date).getTime() - i.startTime + " ms"), i.setColsWidth(), "function" == typeof a.done && a.done(t, e, t[n.countName])
                 },
                 error: function (e, t) {
-                    var status = xhr.getResponseHeader("status");
+                    var status = e.getResponseHeader("status");
                     // 跳转登录页面
                     if(status == "timeout" || status == "init" || status == "update" || status == "backup") {
-                        var message = xhr.getResponseHeader("message");
+                        var message = e.getResponseHeader("message");
                         layer.alert(message, function () {
                             parent.location.href = "./login";
                         });

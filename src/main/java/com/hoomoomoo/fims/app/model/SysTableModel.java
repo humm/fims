@@ -16,6 +16,9 @@ public class SysTableModel {
     @ApiModelProperty(value="字段代码", required = false)
     private String columnCode;
 
+    @ApiModelProperty(value="字段代码", required = false)
+    private String columnComments;
+
     @ApiModelProperty(value="字段类型", required = false)
     private String columnType;
 

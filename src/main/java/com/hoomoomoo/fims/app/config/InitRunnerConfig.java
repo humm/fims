@@ -34,7 +34,7 @@ public class InitRunnerConfig implements CommandLineRunner {
         sysSystemService.updateSystem();
 
         // 系统启动备份
-        sysSystemService.applicationStartBackup();
+        sysSystemService.startBackup();
 
         // 加载配置sql
         sysSystemService.getConfigSql();
@@ -52,7 +52,7 @@ public class InitRunnerConfig implements CommandLineRunner {
         sysSystemService.loadSysDictionaryCondition();
 
         // 处理邮件申请数据
-        sysSystemService.applicationStartMail();
+        sysSystemService.startMail();
 
         SysLogUtils.load(logger, LOG_BUSINESS_TYPE_INIT);
     }

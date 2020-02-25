@@ -217,7 +217,7 @@ public class BusinessConst {
     /**
      * 转义key
      */
-    public static final String TRANSFER_KEY                                 = "userId,giftSender,giftReceiver";
+    public static final String TRANSFER_KEY                                 = "userId,user_id";
 
     /**
      * 是否有按钮权限
@@ -665,6 +665,7 @@ public class BusinessConst {
     public static final String BACKUP_MODE_MANUAL                           = "manual";
     public static final String BACKUP_FILENAME_SUFFIX                       = ".sql";
     public static final String BACKUP_DMP_SUFFIX                            = ".dmp";
+    public static final String BACKUP_EXCEL_SUFFIX                          = ".xlsx";
 
     public static final String BACKUP_COMMAND                               = "expdp %s/%s@%s directory=backup_dir dumpfile=%s";
 
@@ -699,6 +700,17 @@ public class BusinessConst {
      * 状态：timeout
      * */
     public static final String SYSTEM_STATUS_TIMEOUT                        = "timeout";
+
+    /**
+     * Excel备份清单
+     */
+    public static final String BACKUP_EXCEL                                 = "sys_income,收入信息;sys_gift,随礼信息";
+
+    /**
+     * Excel单元格宽度
+     */
+    public static final Integer BACKUP_EXCEL_CELL_WIDTH                     = 20;
+
 
 
 }
