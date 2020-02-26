@@ -593,7 +593,7 @@ public class CueConst {
     /**
      * 接口信息：当前用户不存在
      */
-    public static final String INTERFACE_NOT_EXIT_USER                          = "当前用户不存在";
+    public static final String INTERFACE_NOT_EXIT_USER                          = "当前用户[%s]不存在";
 
     /**
      * 接口信息：目标对象不能为空
@@ -603,12 +603,12 @@ public class CueConst {
     /**
      * 接口信息：目标对象不存在
      */
-    public static final String INTERFACE_NOT_EXIT_TARGET                        = "目标对象不存在";
+    public static final String INTERFACE_NOT_EXIT_TARGET                        = "目标对象[%s]不存在";
 
     /**
      * 接口信息：当前用户和目标对象必须有一个为系统用户
      */
-    public static final String INTERFACE_MUST_ONE_SYSTEM_USER                   = "当前用户和目标对象必须有一个为系统用户";
+    public static final String INTERFACE_MUST_ONE_SYSTEM_USER                   = "当前用户[%s]和目标对象[%s]必须有一个为系统用户";
 
     /**
      * 接口信息：业务日期不能为空
@@ -618,7 +618,7 @@ public class CueConst {
     /**
      * 接口信息：业务日期不能为空
      */
-    public static final String INTERFACE_FORMAT_DATE                            = "业务日期格式错误";
+    public static final String INTERFACE_FORMAT_DATE                            = "业务日期[%s]格式错误";
 
     /**
      * 接口信息：业务类型不能为空
@@ -628,7 +628,7 @@ public class CueConst {
     /**
      * 接口信息：业务类型不存在
      */
-    public static final String INTERFACE_NOT_EXIT_TYPE                          = "业务类型不存在";
+    public static final String INTERFACE_NOT_EXIT_TYPE                          = "业务类型[%s]不存在";
 
     /**
      * 接口信息：业务子类型不能为空
@@ -638,7 +638,7 @@ public class CueConst {
     /**
      * 接口信息：业务子类型不存在
      */
-    public static final String INTERFACE_NOT_EXIT_SUBTYPE                       = "业务子类型不存在";
+    public static final String INTERFACE_NOT_EXIT_SUBTYPE                       = "业务子类型[%s]不存在";
 
     /**
      * 接口信息：业务金额不能为空
@@ -648,7 +648,7 @@ public class CueConst {
     /**
      * 接口信息：业务金额格式错误
      */
-    public static final String INTERFACE_FORMAT_AMOUNT                          = "业务金额格式错误";
+    public static final String INTERFACE_FORMAT_AMOUNT                          = "业务金额[%s]格式错误";
 
     /**
      * 接口信息：业务备注不能超过150个字符

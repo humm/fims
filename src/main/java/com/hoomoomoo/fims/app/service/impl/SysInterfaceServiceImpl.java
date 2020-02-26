@@ -177,15 +177,17 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
         StringBuffer content = new StringBuffer(STR_EMPTY);
         for (int i=0; i<baseModelList.size(); i++) {
             SysInterfaceRequestModel sysInterfaceRequestModel = (SysInterfaceRequestModel)baseModelList.get(i);
-            content.append(sysInterfaceRequestModel.getDate()).append(STR_SPACE)
-                    .append(sysInterfaceRequestModel.getUser()).append(STR_SPACE)
-                    .append(sysInterfaceRequestModel.getType()).append(STR_SPACE)
+            content.append(sysInterfaceRequestModel.getUser()).append(STR_SPACE)
                     .append(sysInterfaceRequestModel.getTarget()).append(STR_SPACE)
-                    .append(sysInterfaceRequestModel.getAmount()).append(STR_SPACE);
+                    .append(sysInterfaceRequestModel.getDate()).append(STR_SPACE)
+                    .append(sysInterfaceRequestModel.getType()).append(STR_SPACE)
+                    .append(sysInterfaceRequestModel.getSubType()).append(STR_SPACE)
+                    .append(sysInterfaceRequestModel.getAmount()).append(STR_SPACE)
+                    .append(sysInterfaceRequestModel.getMemo()).append(STR_SPACE);
             if (status) {
                 content.append(INTERFACE_MAIL_SUCCESS).append(BR);
             } else {
-                content.append(INTERFACE_MAIL_FAIL).append(STR_SPACE).append(getErrorMessage(sysCheckResultModelList.get(i))).append(BR);
+                content.append(INTERFACE_MAIL_FAIL).append(BR).append(getErrorMessage(sysCheckResultModelList.get(i))).append(BR);
             }
         }
         return content.toString();
@@ -340,7 +342,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
                 SysUserModel sysUserModel = sysUserDao.selectOne(sysUserQueryModel);
                 if (sysUserModel == null) {
                     sysCheckResultModel.setResult(false);
-                    sysCheckResultModel.getMessage().add(INTERFACE_NOT_EXIT_USER);
+                    sysCheckResultModel.getMessage().add(String.format(INTERFACE_NOT_EXIT_USER, sysInterfaceRequestModel.getUser()));
                 } else {
                     sysInterfaceRequest.setUser(sysUserModel.getUserId());
                 }
@@ -351,7 +353,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
                 List<SysDictionaryModel> sysDictionaryModelList = sysDictionaryDao.selectSysDictionary(sysDictionaryQueryModel);
                 if (CollectionUtils.isEmpty(sysDictionaryModelList)) {
                     sysCheckResultModel.setResult(false);
-                    sysCheckResultModel.getMessage().add(INTERFACE_NOT_EXIT_TARGET);
+                    sysCheckResultModel.getMessage().add(String.format(INTERFACE_NOT_EXIT_TARGET, sysInterfaceRequestModel.getTarget()));
                 } else {
                     sysInterfaceRequest.setTarget(D005 + MINUS + sysDictionaryModelList.get(0).getDictionaryItem());
                 }
@@ -365,7 +367,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
                 List<SysDictionaryModel> sysDictionaryModelList = sysDictionaryDao.selectSysDictionary(sysDictionaryQueryModel);
                 if (CollectionUtils.isEmpty(sysDictionaryModelList)) {
                     sysCheckResultModel.setResult(false);
-                    sysCheckResultModel.getMessage().add(INTERFACE_NOT_EXIT_USER);
+                    sysCheckResultModel.getMessage().add(String.format(INTERFACE_NOT_EXIT_USER, sysInterfaceRequestModel.getUser()));
                 } else {
                     sysInterfaceRequest.setUser(D009 + MINUS + sysDictionaryModelList.get(0).getDictionaryItem());
                 }
@@ -374,7 +376,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
                 sysDictionaryModelList = sysDictionaryDao.selectSysDictionary(sysDictionaryQueryModel);
                 if (CollectionUtils.isEmpty(sysDictionaryModelList)) {
                     sysCheckResultModel.setResult(false);
-                    sysCheckResultModel.getMessage().add(INTERFACE_NOT_EXIT_TARGET);
+                    sysCheckResultModel.getMessage().add(String.format(INTERFACE_NOT_EXIT_TARGET, sysInterfaceRequestModel.getTarget()));
                 } else {
                     sysInterfaceRequest.setTarget(D009 + MINUS + sysDictionaryModelList.get(0).getDictionaryItem());
                 }
@@ -386,12 +388,12 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
                 SysUserModel targetUserModel = sysUserDao.selectOne(sysUserQueryModel);
                 if (sysUserModel == null && targetUserModel == null) {
                     sysCheckResultModel.setResult(false);
-                    sysCheckResultModel.getMessage().add(INTERFACE_MUST_ONE_SYSTEM_USER);
+                    sysCheckResultModel.getMessage().add(String.format(INTERFACE_MUST_ONE_SYSTEM_USER, sysInterfaceRequestModel.getUser(), sysInterfaceRequestModel.getTarget()));
                 }
                 checkCommonBusiness(sysInterfaceRequestModel, sysInterfaceRequest, sysCheckResultModel, D004);
             } else {
                 sysCheckResultModel.setResult(false);
-                sysCheckResultModel.getMessage().add(INTERFACE_NOT_EXIT_TYPE);
+                sysCheckResultModel.getMessage().add(String.format(INTERFACE_NOT_EXIT_TYPE, sysInterfaceRequestModel.getType()));
             }
         }
         return sysCheckResultModel;
@@ -408,6 +410,21 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
     private void checkCommonBusiness(SysInterfaceRequestModel sysInterfaceRequestModel,
                                      SysInterfaceRequestModel sysInterfaceRequest,
                                      SysCheckResultModel sysCheckResultModel, String subTypeCode) {
+        // 校验业务日期
+        String businessDate = sysInterfaceRequestModel.getDate();
+        if (businessDate.length() != 8) {
+            sysCheckResultModel.setResult(false);
+            sysCheckResultModel.getMessage().add(String.format(INTERFACE_FORMAT_DATE, businessDate));
+        } else {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMAT_DATE_TEMPLATE);
+            try {
+                simpleDateFormat.parse(businessDate);
+            } catch (ParseException e) {
+                sysCheckResultModel.setResult(false);
+                sysCheckResultModel.getMessage().add(String.format(INTERFACE_FORMAT_DATE, businessDate));
+                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL, e);
+            }
+        }
         // 校验业务子类型
         SysDictionaryQueryModel sysDictionaryQueryModel = new SysDictionaryQueryModel();
         sysDictionaryQueryModel.setDictionaryCode(subTypeCode);
@@ -415,30 +432,16 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
         List<SysDictionaryModel> sysDictionaryModelList = sysDictionaryDao.selectSysDictionary(sysDictionaryQueryModel);
         if (CollectionUtils.isEmpty(sysDictionaryModelList)) {
             sysCheckResultModel.setResult(false);
-            sysCheckResultModel.getMessage().add(INTERFACE_NOT_EXIT_SUBTYPE);
+            sysCheckResultModel.getMessage().add(String.format(INTERFACE_NOT_EXIT_SUBTYPE, sysInterfaceRequestModel.getSubType()));
         } else {
             sysInterfaceRequest.setSubType(subTypeCode + MINUS + sysDictionaryModelList.get(0).getDictionaryItem());
-        }
-        // 校验业务日期
-        String businessDate = sysInterfaceRequestModel.getDate();
-        if (businessDate.length() != 8) {
-            sysCheckResultModel.setResult(false);
-            sysCheckResultModel.getMessage().add(INTERFACE_FORMAT_DATE);
-        }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMAT_DATE_TEMPLATE);
-        try {
-            simpleDateFormat.parse(businessDate);
-        } catch (ParseException e) {
-            sysCheckResultModel.setResult(false);
-            sysCheckResultModel.getMessage().add(INTERFACE_FORMAT_DATE);
-            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL, e);
         }
         // 校验业务金额
         try {
             Double.valueOf(sysInterfaceRequestModel.getAmount());
         } catch (NumberFormatException e) {
             sysCheckResultModel.setResult(false);
-            sysCheckResultModel.getMessage().add(INTERFACE_FORMAT_AMOUNT);
+            sysCheckResultModel.getMessage().add(String.format(INTERFACE_FORMAT_AMOUNT, sysInterfaceRequestModel.getAmount()));
             SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL, e);
         }
         // 校验业务备注

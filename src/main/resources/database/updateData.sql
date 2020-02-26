@@ -18,3 +18,7 @@ values ('20190000000066', 'Excel备份', to_date('25-02-2020', 'dd-mm-yyyy'), 32
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
 values ('20190000000067', '发布版本：3.1.10', to_date('25-02-2020', 'dd-mm-yyyy'), 325, '4');
 update sys_parameter set parameter_value = '3.1.10' where parameter_code = 'version';
+
+delete from sys_version where version_id in ('20190000000068');
+insert into sys_version (version_id, version_content, version_date, version_order, version_type)
+values ('20190000000068', '邮件信息：业务日期格式错误重复提醒', to_date('26-02-2020', 'dd-mm-yyyy'), 330, '3');
