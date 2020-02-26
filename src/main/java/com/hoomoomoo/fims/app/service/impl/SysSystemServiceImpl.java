@@ -824,9 +824,12 @@ public class SysSystemServiceImpl implements SysSystemService {
                             int index = 0;
                             while (iterator.hasNext()) {
                                 String key = String.valueOf(iterator.next());
-                                String value = String.valueOf(rowData.get(key));
                                 Cell cell = row.createCell(index);
-                                cell.setCellValue(value);
+                                if (rowData.get(key) == null) {
+                                    cell.setCellValue(STR_EMPTY);
+                                } else {
+                                    cell.setCellValue(String.valueOf(rowData.get(key)));
+                                }
                                 cell.setCellStyle(cellStyle);
                                 if (i == 0) {
                                     cell.setCellStyle(titleStyle);
@@ -1209,21 +1212,24 @@ public class SysSystemServiceImpl implements SysSystemService {
             if (key.toLowerCase().contains(AMOUNT)) {
                 ele.put(key, SysCommonUtils.formatValue(value));
             }
-            // 日期格式化
-            if (key.toLowerCase().contains(DATE)) {
-                if (value.toLowerCase().contains(BACKUP_EXCEL_DATE_FORMAT)) {
-                    String[] values = value.split(STR_SPACE);
-                    if (values.length == 2) {
-                        ele.put(key, values[0]);
-                    }
-                } else {
-                    if (value.length() > 19) {
-                        ele.put(key, value.substring(0, 19));
+            if (filter) {
+                // 字段过滤
+                if (BACKUP_EXCEL_FILTER_COLUMN.contains(key.toLowerCase())) {
+                    iterator.remove();
+                }
+                // 日期格式化
+                if (key.toLowerCase().contains(DATE)) {
+                    if (value.toLowerCase().contains(BACKUP_EXCEL_DATE_FORMAT)) {
+                        String[] values = value.split(STR_SPACE);
+                        if (values.length == 2) {
+                            ele.put(key, values[0]);
+                        }
+                    } else {
+                        if (value.length() > 19) {
+                            ele.put(key, value.substring(0, 19));
+                        }
                     }
                 }
-            }
-            if (filter && BACKUP_EXCEL_FILTER_COLUMN.contains(key.toLowerCase())) {
-                iterator.remove();
             }
         }
         return ele;

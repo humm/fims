@@ -724,7 +724,7 @@ public class BusinessConst {
     /**
      * Excel 数据备份过滤字段
      */
-    public static final String BACKUP_EXCEL_FILTER_COLUMN                   = "income_id,gift_id";
+    public static final String BACKUP_EXCEL_FILTER_COLUMN                   = "income_id,gift_id,row_id";
 
 
 

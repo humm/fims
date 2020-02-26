@@ -111,7 +111,7 @@ public class SysBeanUtils {
      * @return
      */
     public static Map<String, Object> linkedHashMapToMap(LinkedHashMap linkedHashMap) {
-        Map map = new LinkedHashMap(16);
+        Map map = new HashMap(16);
         if (linkedHashMap != null) {
             Iterator<String> iterator = linkedHashMap.keySet().iterator();
             while (iterator.hasNext()) {
