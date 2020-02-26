@@ -66,12 +66,25 @@
             item += '        lay-verify="required|number" maxlength="' + maxlength + '" />';
             item += '   </div>';
             item += '</div>';
+        } else if (parameterType == 'checkbox') {
+            var items = parameterExt.split(",");
+            item += '<div class="layui-form-item">';
+            item += '    <div class="layui-input-inline" style="margin: 0 0 10px 30px;">';
+            for (var i=0; i<items.length; i++) {
+                if (parameterValue.indexOf(items[i]) != -1) {
+                    item += '  <input type="checkbox" name="' + parameterCode + '" title="' + items[i] + '"  value="' + items[i] + '" lay-skin="primary" checked />';
+                } else {
+                    item += '  <input type="checkbox" name="' + parameterCode + '" title="' + items[i] + '"  value="' + items[i] + '" lay-skin="primary" />';
+                }
+            }
+            item += '    </div>';
+            item += '</div>';
         }
         $(".parameter").append(item);
         // 设置value值
         if (parameterType == 'switch' && parameterOldValue == '1') {
             $("input[name='" + parameterCode + "']").attr("checked", true);
-        } else {
+        } else if (parameterType != 'checkbox'){
             $("input[name='" + parameterCode + "']").val(parameterValue);
         }
         form.render();

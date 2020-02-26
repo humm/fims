@@ -96,6 +96,6 @@ public class SystemConst {
     /**
      * 系统版本号
      */
-    public static final String SYSTEM_VERSION                       = "3.1.10";
+    public static final String SYSTEM_VERSION                       = "3.1.20";
 
 }

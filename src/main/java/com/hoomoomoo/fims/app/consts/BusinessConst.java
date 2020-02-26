@@ -668,9 +668,10 @@ public class BusinessConst {
 
     public static final String BACKUP_MODE_START                            = "start";
     public static final String BACKUP_MODE_MANUAL                           = "manual";
-    public static final String BACKUP_FILENAME_SUFFIX                       = ".sql";
+    public static final String BACKUP_SQL_SUFFIX                            = ".sql";
     public static final String BACKUP_DMP_SUFFIX                            = ".dmp";
     public static final String BACKUP_EXCEL_SUFFIX                          = ".xlsx";
+    public static final String BACKUP_LOG                                   = "export.log";
 
     public static final String BACKUP_COMMAND                               = "expdp %s/%s@%s directory=backup_dir dumpfile=%s";
 

@@ -538,7 +538,7 @@ public class CueConst {
     /**
      * 统计开始时间
      */
-    public static final String CONSOLE_YEAR_START_DATE                          = "统计开始时间";
+    public static final String CONSOLE_YEAR_START_DATE                          = "年度开始日期";
 
     /**
      * 最近一笔送礼

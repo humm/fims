@@ -671,7 +671,11 @@ public class SysSystemServiceImpl implements SysSystemService {
             return new ResultData(false, e.getMessage(), null);
         }
         if (STR_0.equals(resultData.getCode())) {
-            // 备份成功
+            // 删除备份记录文件
+            File log = new File(sysParameterService.getParameterString(BACKUP_LOCATION) + SLASH + BACKUP_LOG);
+            if (log.exists()) {
+                log.delete();
+            }
             SysLogUtils.success(logger, LOG_BUSINESS_TYPE_BACKUP_DMP);
         } else {
             SysLogUtils.fail(logger, LOG_BUSINESS_TYPE_BACKUP_DMP, resultData.getData());
@@ -915,12 +919,17 @@ public class SysSystemServiceImpl implements SysSystemService {
             }
             SYSTEM_USED_STATUS = SYSTEM_STATUS_BACKUP;
             try {
-                systemBackupFile(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_FILENAME_SUFFIX).toString());
-                // todo dmp备份 影响应用启动时间 备份耗时
-                if (false) {
-                    systemBackupDmp(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_DMP_SUFFIX).toString());
+                String backupMode = sysParameterService.getParameterString(BACKUP_MODE);
+                String fileNameSuffix = SysDateUtils.yyyyMMddHHmmss();
+                if (backupMode.contains(BACKUP_SQL_SUFFIX.substring(1))) {
+                    systemBackupFile(new StringBuffer(fileNameSuffix).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_SQL_SUFFIX).toString());
                 }
-                systemBackupExcel(new StringBuffer(SysDateUtils.yyyyMMddHHmmss()).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_EXCEL_SUFFIX).toString());
+                if (backupMode.contains(BACKUP_EXCEL_SUFFIX.substring(1))) {
+                    systemBackupExcel(new StringBuffer(fileNameSuffix).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_EXCEL_SUFFIX).toString());
+                }
+                if (backupMode.contains(BACKUP_DMP_SUFFIX.substring(1))) {
+                    systemBackupDmp(new StringBuffer(fileNameSuffix).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_DMP_SUFFIX).toString());
+                }
             } catch (Exception e) {
                 SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP, e);
             }

@@ -187,7 +187,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
             if (status) {
                 content.append(INTERFACE_MAIL_SUCCESS).append(BR);
             } else {
-                content.append(INTERFACE_MAIL_FAIL).append(BR).append(getErrorMessage(sysCheckResultModelList.get(i))).append(BR);
+                content.append(INTERFACE_MAIL_FAIL).append(STR_SPACE).append(getErrorMessage(sysCheckResultModelList.get(i))).append(BR);
             }
         }
         return content.toString();

@@ -82,4 +82,9 @@ public class ParameterConst {
      * 未读消息提醒
      */
     public static final String MESSAGE_TIP                                      = "messageTip";
+
+    /**
+     * 备份模式
+     */
+    public static final String BACKUP_MODE                                      = "backupMode";
 }

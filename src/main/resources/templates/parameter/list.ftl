@@ -127,7 +127,18 @@
                     fims.msg(fims.tips.msg.onlyLength.replace("S", request.parameterExt));
                     return;
                 }
-                request.parameterValue = data.field[request.parameterCode];
+                // 复选框取值
+                var checkValue = [];
+                if (request.parameterType == 'checkbox') {
+                    iframe.document.getElementsByName(request.parameterCode).forEach(function (item) {
+                        if (item.checked) {
+                            checkValue.push(item.value);
+                        }
+                    });
+                    request.parameterValue = checkValue.join(",");
+                } else {
+                    request.parameterValue = data.field[request.parameterCode];
+                }
                 admin.req({
                     url: url.save,
                     type: "post",

@@ -149,7 +149,7 @@ insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption
 values ('D010', '1', '开启', 1, null, 20190000000001, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D010', '0', '关闭', 0, null, 20190000000001, null, null);
+values ('D010', '2', '关闭', 2, null, 20190000000001, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D011', '#', '业务类型', null, 11, 20190000000001, '0', '1');
