@@ -1,5 +1,6 @@
 -- 升级脚本
 
+-- 发布版本修改点: sys_version新增记录  pom.xml修改版本  常量SYSTEM_VERSION修改
 delete from sys_version where version_id = '20190000000063';
 insert into sys_version (version_id, version_content, version_date, version_order, version_type)
 values ('20190000000063', '日期控件加载不出来(一闪而过)', to_date('23-02-2020', 'dd-mm-yyyy'), 310, '3');
