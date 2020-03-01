@@ -1,0 +1,29 @@
+package com.hoomoomoo.fims.app.service;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * @author humm23693
+ * @description 微信消息服务类
+ * @package com.hoomoomoo.fims.app.service
+ * @date 2020/02/27
+ */
+
+public interface SysWeChatService {
+
+    /**
+     * 微信消息处理
+     *
+     * @param request
+     * @return
+     */
+    String message(HttpServletRequest request);
+
+    /**
+     * 更新微信操作信息
+     *
+     */
+    void updateOperateFlow();
+
+}

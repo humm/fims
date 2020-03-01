@@ -73,4 +73,9 @@ public class DictionaryConst {
      */
     public static final String D012                          = "D012";
 
+    /**
+     * 是否状态
+     */
+    public static final String D013                          = "D013";
+
 }

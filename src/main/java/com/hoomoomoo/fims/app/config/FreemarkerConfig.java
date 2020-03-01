@@ -12,8 +12,8 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.hoomoomoo.fims.app.consts.SystemConst.APP_DESCRIBE;
-import static com.hoomoomoo.fims.app.consts.SystemConst.APP_NAME;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.APP_DESCRIBE;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.APP_NAME;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 /**
  * @author humm23693

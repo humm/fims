@@ -1,6 +1,7 @@
 package com.hoomoomoo.fims.app.config;
 
 import com.hoomoomoo.fims.app.service.SysSystemService;
+import com.hoomoomoo.fims.app.service.SysWeChatFlowService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,9 @@ public class InitRunnerConfig implements CommandLineRunner {
     @Autowired
     private SysSystemService sysSystemService;
 
+    @Autowired
+    private SysWeChatFlowService sysWeChatFlowService;
+
     @Override
     public void run(String... args) {
         // 系统初始化
@@ -32,9 +36,6 @@ public class InitRunnerConfig implements CommandLineRunner {
 
         // 系统升级
         sysSystemService.updateSystem();
-
-        // 系统启动备份
-        sysSystemService.startBackup();
 
         // 加载配置sql
         sysSystemService.getConfigSql();
@@ -50,6 +51,12 @@ public class InitRunnerConfig implements CommandLineRunner {
 
         // 加载查询数据字典
         sysSystemService.loadSysDictionaryCondition();
+
+        // 加载微信流程处理步骤
+        sysWeChatFlowService.getWeChatFlow();
+
+        // 系统启动备份
+        sysSystemService.startBackup();
 
         // 处理邮件申请数据
         sysSystemService.startMail();

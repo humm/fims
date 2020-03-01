@@ -1,12 +1,12 @@
 package com.hoomoomoo.fims.app.service.impl;
 
 import com.hoomoomoo.fims.app.config.bean.MailConfigBean;
+import com.hoomoomoo.fims.app.config.bean.SystemConfigBean;
 import com.hoomoomoo.fims.app.dao.*;
 import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.BaseModel;
 import com.hoomoomoo.fims.app.service.*;
 import com.hoomoomoo.fims.app.util.SysCommonUtils;
-import com.hoomoomoo.fims.app.util.SysDateUtils;
 import com.hoomoomoo.fims.app.util.SysJsonUtils;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -66,6 +66,9 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
 
     @Autowired
     private SysGiftService sysGiftService;
+
+    @Autowired
+    private SystemConfigBean systemConfigBean;
 
 
     /**
@@ -141,7 +144,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
                         // 邮件反馈处理结果
                         SysMailModel mail = new SysMailModel();
                         mail.setTo(sysMailModel.getTo());
-                        mail.setSubject(INTERFACE_FEEDBACK_MAIL);
+                        mail.setSubject(systemConfigBean.getAppDescribe() + INTERFACE_FEEDBACK_MAIL);
                         mail.setContent(getMailContent(check, baseModelList, sysCheckResultModelList));
                         boolean sendStatus = sysMailService.sendMail(mail);
                         String feedbackStatus = sendStatus ? D002 + MINUS + STR_1 : D002 + MINUS + STR_2;

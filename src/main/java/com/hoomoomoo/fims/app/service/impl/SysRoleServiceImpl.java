@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ import static com.hoomoomoo.fims.app.consts.CueConst.*;
  */
 
 @Service
+@Transactional
 public class SysRoleServiceImpl implements SysRoleService {
 
     private static final Logger logger = LoggerFactory.getLogger(SysRoleServiceImpl.class);
@@ -210,7 +212,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_CHECK);
         Boolean isExist = sysRoleDao.checkRoleCode(sysRoleQueryModel);
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, LOG_OPERATE_TYPE_CHECK);
-        return new ResultData(true, SELECT_SUCCESS, isExist);
+        return new ResultData(true, CHECK_SUCCESS, isExist);
     }
 
 }

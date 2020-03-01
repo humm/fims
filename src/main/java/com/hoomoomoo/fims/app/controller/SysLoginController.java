@@ -17,7 +17,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.hoomoomoo.fims.app.consts.ParameterConst.BANNER_HELP;
+import static com.hoomoomoo.fims.app.consts.ParameterConst.APP_HELP;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.VERSION;
 
 /**
@@ -50,7 +50,7 @@ public class SysLoginController {
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String viewLogin(ModelMap modelMap) {
         modelMap.addAttribute(VERSION, sysParameterService.getParameterString(VERSION));
-        modelMap.addAttribute(BANNER_HELP, systemConfigBean.getBannerHelp());
+        modelMap.addAttribute(APP_HELP, systemConfigBean.getAppHelp());
         return "user/login";
     }
 

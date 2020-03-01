@@ -154,7 +154,8 @@ public class SysLoginServiceImpl implements SysLoginService {
      * @param sysUserModel
      * @return
      */
-    private SessionBean setSessionBeanInfo(SysUserModel sysUserModel) {
+    @Override
+    public SessionBean setSessionBeanInfo(SysUserModel sysUserModel) {
         SessionBean sessionBean = new SessionBean();
         sessionBean.setUserId(sysUserModel.getUserId());
         sessionBean.setUserCode(sysUserModel.getUserCode());

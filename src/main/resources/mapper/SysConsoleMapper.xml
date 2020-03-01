@@ -24,7 +24,14 @@
         from sys_income a, sys_user b
         <where>
             a.user_id = b.user_id
-            and to_char(sysdate, 'yyyyMM') = to_char(income_date, 'yyyyMM')
+            <choose>
+                <when test="dateCondition != null">
+                    and #{dateCondition} = to_char(income_date, 'yyyyMM')
+                </when>
+                <otherwise>
+                    and to_char(sysdate, 'yyyyMM') = to_char(income_date, 'yyyyMM')
+                </otherwise>
+            </choose>
             <if test="userId != null">
                 and a.user_id = #{userId}
             </if>
@@ -59,7 +66,15 @@
 
     <select id="selectIncomeYear" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
             resultType="java.lang.String">
-        select sum(income_amount)/10000 consoleData
+        select
+            <choose>
+                <when test="isCalc != null">
+                    sum(income_amount) consoleData
+                </when>
+                <otherwise>
+                    sum(income_amount)/10000 consoleData
+                </otherwise>
+            </choose>
         from sys_income a, sys_user b
         <where>
             a.user_id = b.user_id
@@ -74,7 +89,15 @@
 
     <select id="selectIncomeTotal" parameterType="com.hoomoomoo.fims.app.model.SysConsoleQueryModel"
             resultType="java.lang.String">
-        select sum(income_amount)/10000 consoleData
+        select
+            <choose>
+                <when test="isCalc != null">
+                    sum(income_amount) consoleData
+                </when>
+                <otherwise>
+                    sum(income_amount)/10000 consoleData
+                </otherwise>
+            </choose>
         from sys_income a, sys_user b
         <where>
             a.user_id = b.user_id

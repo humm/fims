@@ -24,11 +24,11 @@ import static com.hoomoomoo.fims.app.consts.CueConst.*;
 @Configuration
 @EnableScheduling
 @ConditionalOnExpression("'${fims.schedule.mail:false}' == 'true'")
-public class MailSchedule implements SchedulingConfigurer {
+public class SysMailSchedule implements SchedulingConfigurer {
 
-    private static final Logger logger = LoggerFactory.getLogger(MailSchedule.class);
+    private static final Logger logger = LoggerFactory.getLogger(SysMailSchedule.class);
 
-    @Value("${fims.schedule.mailCron:0 */1 * * * ?}")
+    @Value("${fims.schedule.mailCron:0 */3 * * * ?}")
     private String cron;
 
     @Autowired

@@ -71,7 +71,7 @@ public class ParameterConst {
     /**
      * 帮助信息
      */
-    public static final String BANNER_HELP                                      = "bannerHelp";
+    public static final String APP_HELP                                         = "appHelp";
 
     /**
      * 年度开始时间
@@ -87,4 +87,24 @@ public class ParameterConst {
      * 备份模式
      */
     public static final String BACKUP_MODE                                      = "backupMode";
+
+    /**
+     * 微信公众号欢迎语
+     */
+    public static final String WECHAT_WELCOME                                   = "weChatWelcome";
+
+    /**
+     * 微信公众号密钥
+     */
+    public static final String WECHAT_KEY                                       = "weChatKey";
+
+    /**
+     * 微信公众号对外开放状态
+     */
+    public static final String WECHAT_OPEN                                      = "weChatOpen";
+
+    /**
+     * 微信用户操作时间间隔
+     */
+    public static final String WECHAT_OPERATE_TIME                              = "weChatOperateTime";
 }

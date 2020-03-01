@@ -4,6 +4,7 @@ package com.hoomoomoo.fims.app.util;
 import org.slf4j.Logger;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.hoomoomoo.fims.app.config.RunDataConfig.LOG_REQUEST_TAG;
 import static com.hoomoomoo.fims.app.config.RunDataConfig.LOG_REQUEST_PARAMETER;
@@ -222,6 +223,8 @@ public class SysLogUtils {
         if (LOG_REQUEST_PARAMETER) {
             if (obj instanceof List) {
                 logger.info(LOG_BUSINESS_PARAMETER, SysBeanUtils.beanToMap((List)obj));
+            } else if (obj instanceof Map) {
+                logger.info(LOG_BUSINESS_PARAMETER, obj);
             } else {
                 logger.info(LOG_BUSINESS_PARAMETER, SysBeanUtils.beanToMap(obj));
             }

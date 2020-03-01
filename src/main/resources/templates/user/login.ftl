@@ -43,7 +43,7 @@
     </div>
 
     <div class="layui-trans layadmin-user-login-footer">
-        <p>${bannerHelp}</p>
+        <p>${appHelp}</p>
     </div>
 </div>
 

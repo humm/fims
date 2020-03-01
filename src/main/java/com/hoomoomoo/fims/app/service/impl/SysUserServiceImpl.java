@@ -235,7 +235,7 @@ public class SysUserServiceImpl implements SysUserService {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_CHECK);
         Boolean isExist = sysUserDao.checkUserCode(sysUserQueryModel);
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_CHECK);
-        return new ResultData(true, SELECT_SUCCESS, isExist);
+        return new ResultData(true, CHECK_SUCCESS, isExist);
     }
 
     /**

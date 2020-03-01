@@ -15,11 +15,6 @@ public class CueConst {
     public static final String OPERATE_SUCCESS                                  = "操作成功";
 
     /**
-     * 提示信息：操作失败
-     */
-    public static final String OPERATE_FAIL                                     = "操作失败";
-
-    /**
      * 提示信息：查询成功
      */
     public static final String SELECT_SUCCESS                                   = "查询成功";
@@ -35,19 +30,9 @@ public class CueConst {
     public static final String UPDATE_PASSWORD_SUCCESS                          = "修改密码成功";
 
     /**
-     * 提示信息：查询失败
-     */
-    public static final String SELECT_FAIL                                      = "查询失败";
-
-    /**
      * 提示信息：新增成功
      */
     public static final String ADD_SUCCESS                                      = "新增成功";
-
-    /**
-     * 提示信息：新增失败
-     */
-    public static final String ADD_FAIL                                         = "新增失败";
 
     /**
      * 提示信息：删除成功
@@ -55,19 +40,9 @@ public class CueConst {
     public static final String DELETE_SUCCESS                                   = "删除成功";
 
     /**
-     * 提示信息：删除失败
-     */
-    public static final String DELETE_FAIL                                      = "删除失败";
-
-    /**
      * 提示信息：修改成功
      */
     public static final String UPDATE_SUCCESS                                   = "修改成功";
-
-    /**
-     * 提示信息：修改失败
-     */
-    public static final String UPDATE_FAIL                                      = "修改失败";
 
     /**
      * 提示信息：校验成功
@@ -78,11 +53,6 @@ public class CueConst {
      * 提示信息：刷新成功
      */
     public static final String REFRESH_SUCCESS                                  = "刷新成功";
-
-    /**
-     * 提示信息：校验失败
-     */
-    public static final String CHECK_FAIL                                       = "校验失败";
 
     /**
      * 提示信息：分页查询成功
@@ -296,6 +266,16 @@ public class CueConst {
     public static final String LOG_BUSINESS_TYPE_USER                           = "用户信息";
 
     /**
+     * 日志业务类型：微信用户
+     */
+    public static final String LOG_BUSINESS_TYPE_USER_WECHAT                    = "微信用户信息";
+
+    /**
+     * 日志业务类型：微信流程步骤
+     */
+    public static final String LOG_BUSINESS_TYPE_WECHAT_FLOW                    = "微信流程步骤";
+
+    /**
      * 日志业务类型：角色
      */
     public static final String LOG_BUSINESS_TYPE_ROLE                           = "角色信息";
@@ -371,9 +351,24 @@ public class CueConst {
     public static final String LOG_BUSINESS_TYPE_GIFT                           = "随礼信息";
 
     /**
+     * 日志业务类型：送礼
+     */
+    public static final String LOG_BUSINESS_TYPE_GIFT_SEND                      = "送礼";
+
+    /**
+     * 日志业务类型：收礼
+     */
+    public static final String LOG_BUSINESS_TYPE_GIFT_RECEIVE                   = "收礼";
+
+    /**
      * 日志业务类型：首页
      */
     public static final String LOG_BUSINESS_TYPE_CONSOLE                        = "首页信息";
+
+    /**
+     * 日志业务类型：微信
+     */
+    public static final String LOG_BUSINESS_TYPE_WECHAT                         = "微信信息";
 
     /**
      * 日志业务类型：字典转义
@@ -661,9 +656,9 @@ public class CueConst {
     public static final String INTERFACE_TOGETHER_ERROR                         = "申请数据中有校验失败数据";
 
     /**
-     * 接口信息：家庭信息平台邮件处理结果反馈
+     * 接口信息：邮件处理结果反馈
      */
-    public static final String INTERFACE_FEEDBACK_MAIL                          = "家庭信息平台邮件处理结果反馈";
+    public static final String INTERFACE_FEEDBACK_MAIL                          = "邮件处理结果反馈";
 
     /**
      * 接口信息：处理成功
@@ -681,9 +676,14 @@ public class CueConst {
     public static final String EXCEPTION_NOT_HANDLE                             = "暂不处理异常: %s";
 
     /**
-     * 定时任务
+     * 定时任务：邮件消息
      */
     public static final String BUSINESS_SCHEDULE_MAIL                           = "邮件信息定时任务: %s";
+
+    /**
+     * 定时任务：微信消息
+     */
+    public static final String BUSINESS_SCHEDULE_WECHAT                         = "微信流程步骤定时任务: %s";
 
     /**
      * 稍后再试
@@ -694,5 +694,80 @@ public class CueConst {
      * session超时
      */
     public static final String BUSINESS_OPERATE_TIMEOUT                         = "由于您长时间没有操作, 请重新登录...";
+
+    /**
+     * 微信：身份认证
+     */
+    public static final String WECHAT_USER_AUTH                                 = "公众号暂不对外开放,请输入密钥完成身份认证";
+
+    /**
+     * 微信：用户信息绑定
+     */
+    public static final String WECHAT_USER_BIND                                 = "恭喜你,身份认证成功,请输入系统用户代码";
+
+    /**
+     * 微信：欢迎再次关注
+     */
+    public static final String WECHAT_SUBSCRIBE_AGAIN                           = "欢迎再次关注";
+
+    /**
+     * 微信：身份认证失败
+     */
+    public static final String WECHAT_USER_AUTH_FAIL                            = "身份认证失败,请重新输入";
+
+    /**
+     * 微信：绑定用户信息失败
+     */
+    public static final String WECHAT_USER_BIND_FAIL                            = "系统用户代码不存在,请重新输入";
+
+    /**
+     * 微信：绑定用户信息成功
+     */
+    public static final String WECHAT_USER_BIND_SUCCESS                         = "恭喜你,用户[%s]绑定成功";
+
+    /**
+     * 微信：请回复对应数字选择服务
+     */
+    public static final String WECHAT_MAIN_FLOW                                 = "请回复对应序号选择服务";
+
+    /**
+     * 微信：服务不存在
+     */
+    public static final String WECHAT_SERVICE_NOT_EXIST                         = "服务不存在,请重新选择";
+
+    /**
+     * 微信：事件类型不存在
+     */
+    public static final String WECHAT_UNSUPPORT_EVENT                           = "暂不支持事件类型,请回复文本内容";
+
+    /**
+     * 微信：yyyyMM
+     */
+    public static final String WECHAT_CONDITION_YYYYMM                          = "查询条件格式为: yyyyMM";
+
+    /**
+     * 微信：yyyy
+     */
+    public static final String WECHAT_CONDITION_YYYY                            = "查询条件格式为: yyyy";
+
+    /**
+     * 微信：业务信息title
+     */
+    public static final String WECHAT_BUSINESS_TITLE                            = "%s %s";
+
+    /**
+     * 微信：总信息title
+     */
+    public static final String WECHAT_ALL_TITLE                                 = "总%s";
+
+    /**
+     * 微信：自由查询
+     */
+    public static final String WECHAT_FREE_TITLE                                 = "自由查询";
+
+    /**
+     * 微信：最近一次随礼
+     */
+    public static final String WECHAT_GIFT_LAST_TITLE                            = "最近一次随礼信息";
 
 }

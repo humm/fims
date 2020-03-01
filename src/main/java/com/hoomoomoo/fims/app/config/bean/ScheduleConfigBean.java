@@ -5,8 +5,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import static com.hoomoomoo.fims.app.consts.SystemConst.APPLICATION_PROPERTIES;
-import static com.hoomoomoo.fims.app.consts.SystemConst.FIMS_SCHEDULE;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.APPLICATION_PROPERTIES;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.FIMS_SCHEDULE;
 
 /**
  * @author humm23693

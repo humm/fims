@@ -5,7 +5,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import static com.hoomoomoo.fims.app.consts.SystemConst.*;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.APPLICATION_PROPERTIES;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.SPRING_DATASOURCE;
+
 
 /**
  * @author humm23693

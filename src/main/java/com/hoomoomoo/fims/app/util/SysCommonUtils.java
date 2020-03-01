@@ -158,27 +158,6 @@ public class SysCommonUtils {
     }
 
     /**
-     * 读取文件内容
-     *
-     * @param file
-     * @return
-     */
-    public static String getContent(File file) {
-        StringBuilder content = new StringBuilder();
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            String readContent = null;
-            while ((readContent = bufferedReader.readLine()) != null) {
-                content.append(readContent).append(NEXT_LINE);
-            }
-            bufferedReader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return content.toString();
-    }
-
-    /**
      * 获取配置sql
      *
      * @param filePath

@@ -1,0 +1,18 @@
+package com.hoomoomoo.fims.app.model;
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+/**
+ * @author humm23693
+ * @description 微信文本消息实体类
+ * @package com.hoomoomoo.fims.app.model
+ * @date 2020/02/27
+ */
+
+@Data
+public class SysWeChatTextModel extends SysWeChatBaseModel{
+
+    @ApiModelProperty(value="文本内容", required = false)
+    private String Content;
+}

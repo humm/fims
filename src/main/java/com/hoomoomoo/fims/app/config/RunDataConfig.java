@@ -2,9 +2,14 @@ package com.hoomoomoo.fims.app.config;
 
 import com.hoomoomoo.fims.app.model.SysDictionaryModel;
 import com.hoomoomoo.fims.app.model.SysSqlMode;
+import com.hoomoomoo.fims.app.model.SysWeChatFlowModel;
+import com.hoomoomoo.fims.app.model.SysWeChatOperateModel;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.hoomoomoo.fims.app.consts.BusinessConst.STR_EMPTY;
 
 /**
  * @author humm23693
@@ -18,17 +23,42 @@ public class RunDataConfig {
     /**
      * 业务序列号
      */
-    public static ConcurrentHashMap<String, String> BUSINESS_SERIAL_NO      = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, String> BUSINESS_SERIAL_NO      = new ConcurrentHashMap<>(16);
 
     /**
      * 配置sql
      */
-    public static ConcurrentHashMap<String, SysSqlMode> CONFIG_SQL          = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, SysSqlMode> CONFIG_SQL          = new ConcurrentHashMap<>(16);
 
     /**
      * 字典项查询条件
      */
-    public static ConcurrentHashMap<String, ConcurrentHashMap<String, List<SysDictionaryModel>>> DICTIONARY_CONDITION = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, ConcurrentHashMap<String, List<SysDictionaryModel>>> DICTIONARY_CONDITION = new ConcurrentHashMap<>(16);
+
+    /**
+     * 微信操作节点
+     */
+    public static ConcurrentHashMap<String, SysWeChatOperateModel> WECHAT_FLOW_OPERATE = new ConcurrentHashMap<>(16);
+
+    /**
+     * 微信流程步骤
+     */
+    public static LinkedHashMap<String, SysWeChatFlowModel> WECHAT_FLOW_LIST = new LinkedHashMap<>(16);
+
+    /**
+     * 微信流程步骤：功能序号与步骤代码对应关系
+     */
+    public static ConcurrentHashMap<String, String> WECHAT_FLOW_NUM_TO_CODE = new ConcurrentHashMap<>(16);
+
+    /**
+     * 微信操作主菜单
+     */
+    public static String WECHAT_MAIN_FLOW_LIST                              = null;
+
+    /**
+     * 微信操作更多菜单
+     */
+    public static String WECHAT_MAIN_FLOW_MORE_LIST                         = null;
 
     /**
      * 开始结束日志打印

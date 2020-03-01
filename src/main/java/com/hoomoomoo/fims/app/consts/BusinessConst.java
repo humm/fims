@@ -10,6 +10,102 @@ package com.hoomoomoo.fims.app.consts;
 public class BusinessConst {
 
     /**
+     * 应用配置文件路径
+     */
+    public static final String APPLICATION_PROPERTIES                       = "classpath:application.properties";
+
+    /**
+     * 定时任务配置读取前缀
+     */
+    public static final String FIMS_SCHEDULE                                = "fims.schedule";
+
+    /**
+     * 应用级别参数读取前缀
+     */
+    public static final String FIMS_CONFIG                                  = "fims.config";
+
+    /**
+     * 邮件配置读取前缀
+     */
+    public static final String SPRING_MAIL                                  = "spring.mail";
+
+    /**
+     * 数据库连接配置读取前缀
+     */
+    public static final String SPRING_DATASOURCE                            = "spring.datasource";
+
+    /**
+     * 应用名称
+     */
+    public static final String APP_NAME                                     = "appName";
+
+    /**
+     * 应用描述
+     */
+    public static final String APP_DESCRIBE                                 = "appDescribe";
+
+    /**
+     * 系统初始化数据
+     */
+    public static final String INIT_SYSTEM_DATA                             = "database/initData.sql";
+
+    /**
+     * 系统初始化表结构
+     */
+    public static final String INIT_SYSTEM_TABLE                            = "database/initTable.sql";
+
+    /**
+     * 系统升级数据
+     */
+    public static final String UPDATE_SYSTEM_DATA                           = "database/updateData.sql";
+
+    /**
+     * 系统升级数据
+     */
+    public static final String UPDATE_SYSTEM_PROCEDURE                      = "database/updateProcedure.sql";
+
+    /**
+     * 系统初始化存储过程
+     */
+    public static final String INIT_SYSTEM_PROCEDURE                        = "database/initProcedure.sql";
+
+    /**
+     * 系统配置sql
+     */
+    public static final String SYSTEM_CONFIG_SQL                            = "mapper/SqlConfig.xml";
+
+    /**
+     * 存储过程分隔符
+     */
+    public static final String SYSTEM_PROCEDURE_SPLIT                       = "-- ====== --";
+
+    /**
+     * 当前系统存在数据表
+     */
+    public static final String SYSTEM_TABLE                                 = new StringBuffer().append("'sys_user'").append(",")
+                                                                                                .append("'sys_role'").append(",")
+                                                                                                .append("'sys_user_role'").append(",")
+                                                                                                .append("'sys_menu'").append(",")
+                                                                                                .append("'sys_role_menu'").append(",")
+                                                                                                .append("'sys_dictionary'").append(",")
+                                                                                                .append("'sys_parameter'").append(",")
+                                                                                                .append("'sys_notice'").append(",")
+                                                                                                .append("'sys_version'").append(",")
+                                                                                                .append("'sys_login_log'").append(",")
+                                                                                                .append("'sys_income'").append(",")
+                                                                                                .append("'sys_gift'").append(",")
+                                                                                                .append("'sys_interface'").append(",")
+                                                                                                .append("'sys_wechat_user'").append(",")
+                                                                                                .append("'sys_wechat_flow'").append(",")
+                                                                                                .append("'sys_config'").toString();
+
+
+    /**
+     * 系统版本号
+     */
+    public static final String SYSTEM_VERSION                               = "3.1.21";
+
+    /**
      * 状态码：成功
      */
     public static final String STATUS_SUCCESS                               = "0";
@@ -48,6 +144,42 @@ public class BusinessConst {
      * 字符串：4
      */
     public static final String STR_4                                        = "4";
+
+    /**
+     * 字符串：94
+     */
+    public static final String STR_9                                        = "9";
+
+    /**
+     * 字符串：10
+     */
+    public static final String STR_10                                       = "10";
+
+    /**
+     * 字符串：11
+     */
+    public static final String STR_11                                       = "11";
+
+    /**
+     * 字符串：12
+     */
+    public static final String STR_12                                       = "12";
+
+    /**
+     * 字符串：13
+     */
+    public static final String STR_13                                       = "13";
+
+    /**
+     * 字符串：13
+     */
+    public static final String STR_14                                       = "14";
+
+
+    /**
+     * 字符串：数字
+     */
+    public static final String STR_NUMBER                                   = "[%s] ";
 
     /**
      * 空串
@@ -135,19 +267,9 @@ public class BusinessConst {
     public static final String AT                                           = "@";
 
     /**
-     * 小于号
+     * 反斜杠切割
      */
-    public static final String LESS_THAN_SEMICOLON                          = "&lt;";
-
-    /**
-     * 小于号
-     */
-    public static final String GREATER_THAN_SEMICOLON                       = "&gt;";
-
-    /**
-     * 空格
-     */
-    public static final String NBSP                                         = "&nbsp;";
+    public static final String BACKSLASH_S                                  = "\\s+";
 
     /**
      * 六个*
@@ -168,6 +290,11 @@ public class BusinessConst {
      * 单引号
      */
     public static final String AMPERSAND                                    = "&";
+
+    /**
+     * $
+     */
+    public static final String $                                            = "$";
 
     /**
      * 换行
@@ -193,11 +320,6 @@ public class BusinessConst {
      * UTF-8
      */
     public static final String UTF8                                         = "UTF-8";
-
-    /**
-     * GBK
-     */
-    public static final String GBK                                          = "gbk";
 
     /**
      * GBK
@@ -275,11 +397,6 @@ public class BusinessConst {
     public static final String BUSINESS_TYPE_NOTICE                         = "notice";
 
     /**
-     * 业务类型：菜单
-     */
-    public static final String BUSINESS_TYPE_MENU                           = "menu";
-
-    /**
      * 业务类型：字典
      */
     public static final String BUSINESS_TYPE_DICTIONARY                     = "dictionary";
@@ -288,16 +405,6 @@ public class BusinessConst {
      * 业务类型：登录日志
      */
     public static final String BUSINESS_TYPE_LOGIN_LOG                      = "loginLog";
-
-    /**
-     * 业务类型：系统参数
-     */
-    public static final String BUSINESS_TYPE_PARAMETER                      = "parameter";
-
-    /**
-     * 业务类型：数据库备份恢复
-     */
-    public static final String BUSINESS_TYPE_DATABASE                       = "database";
 
     /**
      * 业务类型：修订
@@ -313,11 +420,6 @@ public class BusinessConst {
      * 业务类型：随礼
      */
     public static final String BUSINESS_TYPE_GIFT                           = "gift";
-
-    /**
-     * 业务类型：大额支出
-     */
-    public static final String BUSINESS_TYPE_PAY                            = "pay";
 
     /**
      * 字典项空白
@@ -455,11 +557,6 @@ public class BusinessConst {
     public static final Integer REPORT_NUM_12                               = 12;
 
     /**
-     * 用户状态：正常
-     */
-    public static final String USER_STATUS_NORMAL                            = "1";
-
-    /**
      * 用户状态：冻结
      */
     public static final String USER_STATUS_FREEZE                            = "2";
@@ -478,11 +575,6 @@ public class BusinessConst {
      * 开关：on
      */
     public static final String SWITCH_ON                                     = "on";
-
-    /**
-     * 开关：off
-     */
-    public static final String SWITCH_OFF                                    = "off";
 
     /**
      * 管理员
@@ -555,6 +647,26 @@ public class BusinessConst {
     public static final String FORMAT_DATE_TEMPLATE                          = "yyyyMMdd";
 
     /**
+     * 日期格式化模板
+     */
+    public static final String FORMAT_DATE_YYYYMM                            = "yyyyMM";
+
+    /**
+     * 日期格式化模板
+     */
+    public static final String FORMAT_DATE_YYYYMM_CHINESE                    = "yyyy年MM月";
+
+    /**
+     * 日期格式化模板
+     */
+    public static final String FORMAT_DATE_YYYY                              = "yyyy";
+
+    /**
+     * 日期格式化模板
+     */
+    public static final String FORMAT_DATE_YYYY_CHINESE                      = "yyyy年";
+
+    /**
      * 菜单：收入信息
      */
     public static final String MENU_ID_INCOME                                = "20190000000001";
@@ -598,24 +710,6 @@ public class BusinessConst {
      * websocket主题：notice
      */
     public static final String WEBSOCKET_TOPIC_NAME_NOTICE                   = "notice";
-
-    /**
-     * 配置sql：id
-     *
-     */
-    public static final String SQL_ID                                        = "id";
-
-    /**
-     * 配置sql：model
-     *
-     */
-    public static final String SQL_MODEL                                    = "model";
-
-    /**
-     * 配置sql：value
-     *
-     */
-    public static final String SQL_VALUE                                    = "value";
 
     /**
      * sql模式：新增
@@ -667,7 +761,6 @@ public class BusinessConst {
     public static final String TRUNCATE_LEFT                                = "truncate table ";
 
     public static final String BACKUP_MODE_START                            = "start";
-    public static final String BACKUP_MODE_MANUAL                           = "manual";
     public static final String BACKUP_SQL_SUFFIX                            = ".sql";
     public static final String BACKUP_DMP_SUFFIX                            = ".dmp";
     public static final String BACKUP_EXCEL_SUFFIX                          = ".xlsx";
@@ -726,10 +819,5 @@ public class BusinessConst {
      * Excel 数据备份过滤字段
      */
     public static final String BACKUP_EXCEL_FILTER_COLUMN                   = "income_id,gift_id,row_id";
-
-
-
-
-
 
 }

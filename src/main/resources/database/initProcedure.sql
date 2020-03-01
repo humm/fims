@@ -2,6 +2,7 @@
 
 -- 存储过程以 ====== 六个等号分割
 -- ====== --
+-- 删除数据表
 create or replace procedure drop_table(tableName in varchar2)
 is
     v_count number(10);

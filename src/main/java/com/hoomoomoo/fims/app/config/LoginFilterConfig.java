@@ -21,6 +21,7 @@ import java.io.PrintWriter;
 import static com.hoomoomoo.fims.app.config.RunDataConfig.SYSTEM_USED_STATUS;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
+import static com.hoomoomoo.fims.app.consts.WeChatConst.WECHAT_REQUEST;
 
 /**
  * @author humm23693
@@ -48,6 +49,10 @@ public class LoginFilterConfig implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String servletPath = request.getServletPath();
+        if (WECHAT_REQUEST.equals(servletPath)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         int index = servletPath.lastIndexOf(SLASH);
         String requestSuffix = servletPath.substring(index + 1);
         SessionBean sessionBean = (SessionBean) request.getSession().getAttribute(SESSION_BEAN);

@@ -42,6 +42,6 @@ public class SystemConfigBean {
     /**
      * 帮助信息
      */
-    @Value("${banner.help}")
-    private String bannerHelp;
+    @Value("${app.help}")
+    private String appHelp;
 }

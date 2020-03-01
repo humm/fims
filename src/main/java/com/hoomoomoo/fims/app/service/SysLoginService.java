@@ -2,6 +2,7 @@ package com.hoomoomoo.fims.app.service;
 
 import com.hoomoomoo.fims.app.model.SysUserModel;
 import com.hoomoomoo.fims.app.model.common.ResultData;
+import com.hoomoomoo.fims.app.model.common.SessionBean;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,4 +34,12 @@ public interface SysLoginService {
      * @return
      */
     ResultData logout(HttpServletRequest request, SessionStatus sessionStatus);
+
+    /**
+     * 设置sessionBean信息
+     *
+     * @param sysUserModel
+     * @return
+     */
+    SessionBean setSessionBeanInfo(SysUserModel sysUserModel);
 }

@@ -49,7 +49,6 @@ import static com.hoomoomoo.fims.app.consts.CueConst.*;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.*;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.*;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.MIND_FILL;
-import static com.hoomoomoo.fims.app.consts.SystemConst.*;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 
 /**
@@ -453,21 +452,21 @@ public class SysSystemServiceImpl implements SysSystemService {
         sysTableQueryModel.setTableName(SYSTEM_TABLE.toLowerCase());
         switch (initMode) {
             case STR_2:
-                initData();
+                init(LOG_BUSINESS_TYPE_INIT_SYSTEM, INIT_SYSTEM_PROCEDURE, INIT_SYSTEM_TABLE, INIT_SYSTEM_DATA);
                 break;
             case STR_3:
                 // 有表不存在则初始化
                 int num = SYSTEM_TABLE.split(COMMA).length;
                 int tableNum = sysSystemDao.selectTableNum(sysTableQueryModel);
                 if (num > tableNum) {
-                    initData();
+                    init(LOG_BUSINESS_TYPE_INIT_SYSTEM, INIT_SYSTEM_PROCEDURE, INIT_SYSTEM_TABLE, INIT_SYSTEM_DATA);
                 }
                 break;
             case STR_4:
                 // 所有表不存在则初始化
                 tableNum = sysSystemDao.selectTableNum(sysTableQueryModel);
                 if (tableNum == 0) {
-                    initData();
+                    init(LOG_BUSINESS_TYPE_INIT_SYSTEM, INIT_SYSTEM_PROCEDURE, INIT_SYSTEM_TABLE, INIT_SYSTEM_DATA);
                 }
                 break;
             default:
@@ -481,33 +480,17 @@ public class SysSystemServiceImpl implements SysSystemService {
      */
     @Override
     public void updateSystem() {
-        SYSTEM_USED_STATUS = SYSTEM_STATUS_UPDATE;
-        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_UPDATE_SYSTEM);
         String currentVersion = sysParameterService.getParameterString(VERSION);
         if (!SYSTEM_VERSION.equals(currentVersion)) {
-            Connection connection = getConnection();
-            ScriptRunner runner = new ScriptRunner(connection);
-            Resources.setCharset(Charset.forName(UTF8));
-            runner.setLogWriter(null);
-            try {
-                Reader reader = Resources.getResourceAsReader(UPDATE_SYSTEM_DATA);
-                runner.runScript(reader);
-                // 关闭资源连接
-                reader.close();
-                runner.closeConnection();
-                connection.close();
-            } catch (IOException e) {
-                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_UPDATE_SYSTEM, e);
-            } catch (SQLException e) {
-                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_UPDATE_SYSTEM, e);
-            }
+            SYSTEM_USED_STATUS = SYSTEM_STATUS_UPDATE;
+            SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_UPDATE_SYSTEM);
+            init(LOG_BUSINESS_TYPE_UPDATE_SYSTEM, UPDATE_SYSTEM_PROCEDURE, null, UPDATE_SYSTEM_DATA);
             // 刷新字典项 加业务ID
             loadSysDictionaryCondition();
             loadBusinessId();
-
+            SYSTEM_USED_STATUS = null;
+            SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_UPDATE_SYSTEM);
         }
-        SYSTEM_USED_STATUS = null;
-        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_UPDATE_SYSTEM);
     }
 
     /**
@@ -1012,13 +995,13 @@ public class SysSystemServiceImpl implements SysSystemService {
     /**
      * 初始化数据
      */
-    private void initData() {
-        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_INIT_SYSTEM);
+    private void init(String logType, String procedureType, String tableType, String dataType) {
+        SysLogUtils.functionStart(logger, logType);
         try {
             Connection connection = getConnection();
             if (connection != null) {
                 // 初始化存储过程
-                InputStream file = new ClassPathResource(INIT_SYSTEM_PROCEDURE).getInputStream();
+                InputStream file = new ClassPathResource(procedureType).getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(file));
                 StringBuffer content = new StringBuffer();
                 String temp;
@@ -1027,7 +1010,7 @@ public class SysSystemServiceImpl implements SysSystemService {
                 }
                 if (StringUtils.isNotBlank(content.toString())) {
                     Statement statement = connection.createStatement();
-                    String[] procedure = content.toString().trim().split(INIT_SYSTEM_PROCEDURE_SPLIT);
+                    String[] procedure = content.toString().trim().split(SYSTEM_PROCEDURE_SPLIT);
                     for (int i = 0; i < procedure.length; i++) {
                         if (i == 0) {
                             // 文件描述内容不执行
@@ -1041,11 +1024,14 @@ public class SysSystemServiceImpl implements SysSystemService {
                 Resources.setCharset(Charset.forName(UTF8));
                 runner.setLogWriter(null);
                 // 初始化表结构
-                Reader reader = Resources.getResourceAsReader(INIT_SYSTEM_TABLE);
-                runner.runScript(reader);
+                Reader reader = null;
+                if (StringUtils.isNotBlank(tableType)) {
+                    reader = Resources.getResourceAsReader(tableType);
+                    runner.runScript(reader);
+                }
 
                 // 初始化基础数据
-                reader = Resources.getResourceAsReader(INIT_SYSTEM_DATA);
+                reader = Resources.getResourceAsReader(dataType);
                 runner.runScript(reader);
 
                 // 关闭资源连接
@@ -1055,11 +1041,11 @@ public class SysSystemServiceImpl implements SysSystemService {
                 connection.close();
             }
         } catch (IOException e) {
-            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_INIT_SYSTEM, e);
+            SysLogUtils.exception(logger, logType, e);
         } catch (SQLException e) {
-            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_INIT_SYSTEM, e);
+            SysLogUtils.exception(logger, logType, e);
         }
-        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_INIT_SYSTEM);
+        SysLogUtils.functionEnd(logger, logType);
     }
 
     /**
