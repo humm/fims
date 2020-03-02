@@ -30,6 +30,27 @@
         </where>
     </select>
 
+    <select id="selectList" parameterType="com.hoomoomoo.fims.app.model.SysWeChatUserQueryModel"
+            resultType="com.hoomoomoo.fims.app.model.SysWeChatUserModel">
+        select
+            <include refid="Base_Column_List"/>
+        from sys_wechat_user
+        <where>
+            <if test="weChatUserId != null" >
+                and wechat_user_id = #{weChatUserId}
+            </if>
+            <if test="weChatPublicId != null" >
+                and wechat_public_id = #{weChatPublicId}
+            </if>
+            <if test="userId != null" >
+                and user_id = #{userId}
+            </if>
+            <if test="isAuth != null" >
+                and is_auth = #{isAuth}
+            </if>
+        </where>
+    </select>
+
     <delete id="delete" parameterType="com.hoomoomoo.fims.app.model.SysWeChatUserModel">
         delete from sys_wechat_user
         <where>

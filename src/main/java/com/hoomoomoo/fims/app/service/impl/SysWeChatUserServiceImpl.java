@@ -95,4 +95,19 @@ public class SysWeChatUserServiceImpl implements SysWeChatUserService {
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER_WECHAT, LOG_OPERATE_TYPE_SELECT);
         return sysWeChatUserModel;
     }
+
+    /**
+     * 微信用户信息查询
+     *
+     * @param sysWeChatUserQueryModel
+     * @return
+     */
+    @Override
+    public List<SysWeChatUserModel> selectList(SysWeChatUserQueryModel sysWeChatUserQueryModel) {
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER_WECHAT, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.parameter(logger, sysWeChatUserQueryModel);
+        List<SysWeChatUserModel> sysWeChatUserModelList = sysWeChatUserDao.selectList(sysWeChatUserQueryModel);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER_WECHAT, LOG_OPERATE_TYPE_SELECT);
+        return sysWeChatUserModelList;
+    }
 }

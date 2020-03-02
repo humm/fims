@@ -2,7 +2,6 @@ package com.hoomoomoo.fims.app.dao;
 
 import com.hoomoomoo.fims.app.model.SysWeChatUserModel;
 import com.hoomoomoo.fims.app.model.SysWeChatUserQueryModel;
-import com.hoomoomoo.fims.app.model.common.ResultData;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -48,4 +47,12 @@ public interface SysWeChatUserDao {
      * @return
      */
     SysWeChatUserModel selectOne(SysWeChatUserQueryModel sysWeChatUserQueryModel);
+
+    /**
+     * 微信用户信息查询
+     *
+     * @param sysWeChatUserQueryModel
+     * @return
+     */
+    List<SysWeChatUserModel> selectList(SysWeChatUserQueryModel sysWeChatUserQueryModel);
 }

@@ -40,10 +40,19 @@ public interface SysWeChatUserService {
     void delete(SysWeChatUserModel sysWeChatUserModel);
 
     /**
-     * 微信用户信息修改
+     * 微信用户信息查询
      *
      * @param sysWeChatUserQueryModel
      * @return
      */
     SysWeChatUserModel selectOne(SysWeChatUserQueryModel sysWeChatUserQueryModel);
+
+    /**
+     * 微信用户信息查询
+     *
+     * @param sysWeChatUserQueryModel
+     * @return
+     */
+    List<SysWeChatUserModel> selectList(SysWeChatUserQueryModel sysWeChatUserQueryModel);
+
 }

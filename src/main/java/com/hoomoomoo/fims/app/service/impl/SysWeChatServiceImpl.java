@@ -68,7 +68,6 @@ public class SysWeChatServiceImpl implements SysWeChatService {
      */
     @Override
     public String message(HttpServletRequest request) {
-        sysWeChatFlowService.getWeChatFlow();
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_WECHAT, LOG_OPERATE_TYPE_HANDLE);
         String responseMessage;
         if (REQUEST_TYPE_GET.equals(request.getMethod())) {
@@ -161,7 +160,7 @@ public class SysWeChatServiceImpl implements SysWeChatService {
         Map<String, String> requestParameter = SysWeChatUtil.parseXml(request);
         SysLogUtils.parameter(logger, requestParameter);
         String msgType = requestParameter.get(PARAMETER_MSGTYPE);
-        String responseMsg = STR_EMPTY;
+        String responseMsg;
         switch (msgType) {
             case MESSAGE_TYPE_TEXT:
                 SysWeChatTextModel sysWeChatTextModel = new SysWeChatTextModel();
@@ -659,8 +658,6 @@ public class SysWeChatServiceImpl implements SysWeChatService {
         String responseMsg = STR_EMPTY;
         if (STR_4.equals(selectType) || STR_13.equals(selectType)) {
             responseMsg = String.format(WECHAT_ALL_TITLE, businessType) + NEXT_LINE + NEXT_LINE;
-        } else if (STR_9.equals(selectType)) {
-            responseMsg = WECHAT_FREE_TITLE + NEXT_LINE + NEXT_LINE;
         } else if (STR_10.equals(selectType)) {
             responseMsg = WECHAT_GIFT_LAST_TITLE + NEXT_LINE + NEXT_LINE;
         } else {
