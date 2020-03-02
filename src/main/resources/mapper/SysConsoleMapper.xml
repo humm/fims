@@ -25,8 +25,8 @@
         <where>
             a.user_id = b.user_id
             <choose>
-                <when test="dateCondition != null">
-                    and #{dateCondition} = to_char(income_date, 'yyyyMM')
+                <when test="queryCondition != null">
+                    and #{queryCondition} = to_char(income_date, 'yyyyMM')
                 </when>
                 <otherwise>
                     and to_char(sysdate, 'yyyyMM') = to_char(income_date, 'yyyyMM')

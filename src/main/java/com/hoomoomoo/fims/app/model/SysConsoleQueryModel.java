@@ -22,11 +22,11 @@ public class SysConsoleQueryModel {
     @ApiModelProperty(value="用户名称", required = false)
     private String userName;
 
-    @ApiModelProperty(value="日期查询条件", required = false)
-    private String dateCondition;
-
     @ApiModelProperty(value="是否计算", required = false)
     private String isCalc;
+
+    @ApiModelProperty(value="查询条件", required = false)
+    private String queryCondition;
 
 
 }

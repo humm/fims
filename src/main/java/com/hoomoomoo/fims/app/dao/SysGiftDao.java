@@ -55,4 +55,12 @@ public interface SysGiftDao {
      * @param sysGiftModel
      */
     void save(SysGiftModel sysGiftModel);
+
+    /**
+     * 自由查询
+     *
+     * @return
+     */
+    List<SysGiftModel> selectFreeInfo(SysGiftQueryModel sysGiftQueryModel);
+
 }

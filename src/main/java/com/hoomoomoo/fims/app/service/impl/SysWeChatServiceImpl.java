@@ -1,6 +1,7 @@
 package com.hoomoomoo.fims.app.service.impl;
 
 import com.hoomoomoo.fims.app.dao.SysConsoleDao;
+import com.hoomoomoo.fims.app.dao.SysGiftDao;
 import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.*;
@@ -59,6 +60,9 @@ public class SysWeChatServiceImpl implements SysWeChatService {
 
     @Autowired
     private SysConsoleDao sysConsoleDao;
+
+    @Autowired
+    private SysGiftDao sysGiftDao;
 
     /**
      * 微信消息处理
@@ -438,7 +442,7 @@ public class SysWeChatServiceImpl implements SysWeChatService {
      * @param response
      */
     private void insertIncomeInfo(SysWeChatTextModel request, SysWeChatTextModel response) {
-        setOperateInfo(request, FLOW_CODE_INCOME_ADD$);
+        setOperateAfterFlow(request, FLOW_CODE_INCOME_ADD$);
         response.setContent(FLOW_CODE_INCOME_ADD$);
     }
 
@@ -449,7 +453,7 @@ public class SysWeChatServiceImpl implements SysWeChatService {
      * @param response
      */
     private void updateIncomeInfo(SysWeChatTextModel request, SysWeChatTextModel response) {
-        setOperateInfo(request, FLOW_CODE_INCOME_UPDATE$);
+        setOperateAfterFlow(request, FLOW_CODE_INCOME_UPDATE$);
         response.setContent(FLOW_CODE_INCOME_UPDATE$);
     }
 
@@ -460,7 +464,7 @@ public class SysWeChatServiceImpl implements SysWeChatService {
      * @param response
      */
     private void deleteIncomeInfo(SysWeChatTextModel request, SysWeChatTextModel response) {
-        setOperateInfo(request, FLOW_CODE_INCOME_DELETE$);
+        setOperateAfterFlow(request, FLOW_CODE_INCOME_DELETE$);
         response.setContent(FLOW_CODE_INCOME_DELETE$);
     }
 
@@ -471,7 +475,7 @@ public class SysWeChatServiceImpl implements SysWeChatService {
      * @param response
      */
     private void insertGiftInfo(SysWeChatTextModel request, SysWeChatTextModel response) {
-        setOperateInfo(request, FLOW_CODE_GIFT_ADD$);
+        setOperateAfterFlow(request, FLOW_CODE_GIFT_ADD$);
         response.setContent(FLOW_CODE_GIFT_ADD$);
     }
 
@@ -482,7 +486,7 @@ public class SysWeChatServiceImpl implements SysWeChatService {
      * @param response
      */
     private void updateGiftInfo(SysWeChatTextModel request, SysWeChatTextModel response) {
-        setOperateInfo(request, FLOW_CODE_GIFT_UPDATE$);
+        setOperateAfterFlow(request, FLOW_CODE_GIFT_UPDATE$);
         response.setContent(FLOW_CODE_GIFT_UPDATE$);
     }
 
@@ -493,7 +497,7 @@ public class SysWeChatServiceImpl implements SysWeChatService {
      * @param response
      */
     private void deleteGiftInfo(SysWeChatTextModel request, SysWeChatTextModel response) {
-        setOperateInfo(request, FLOW_CODE_GIFT_DELETE$);
+        setOperateAfterFlow(request, FLOW_CODE_GIFT_DELETE$);
         response.setContent(FLOW_CODE_GIFT_DELETE$);
     }
 
@@ -504,8 +508,40 @@ public class SysWeChatServiceImpl implements SysWeChatService {
      * @param response
      */
     private void freeGiftInfo(SysWeChatTextModel request, SysWeChatTextModel response) {
-        setOperateInfo(request, FLOW_CODE_GIFT_FREE$);
-        response.setContent(FLOW_CODE_GIFT_FREE$);
+        String queryCondition = request.getContent();
+        StringBuffer responseMsg =
+                new StringBuffer(String.format(WECHAT_FREE_TITLE, queryCondition)).append(NEXT_LINE).append(NEXT_LINE);
+        SysGiftQueryModel sysGiftQueryModel = new SysGiftQueryModel();
+        SessionBean sessionBean = getUserSessionInfo(request);
+        if (!sessionBean.getIsAdminData()) {
+            sysGiftQueryModel.setGiftId(sessionBean.getUserId());
+        }
+        // 查询送礼信息
+        sysGiftQueryModel.setGiftReceiver(queryCondition);
+        List<SysGiftModel> sysGiftModelList = sysGiftDao.selectFreeInfo(sysGiftQueryModel);
+        if (CollectionUtils.isNotEmpty(sysGiftModelList)) {
+            responseMsg.append(WECHAT_GIFT_SEND_TITLE).append(NEXT_LINE);
+            for (SysGiftModel sysGiftModel : sysGiftModelList) {
+                responseMsg.append(sysGiftModel.getGiftType()).append(COLON).append(STR_SPACE)
+                           .append(sysGiftModel.getGiftReceiver()).append(STR_SPACE)
+                           .append(sysGiftModel.getGiftAmount()).append(NEXT_LINE);
+            }
+            responseMsg.append(NEXT_LINE);
+        }
+        // 查询收礼信息
+        sysGiftQueryModel.setGiftReceiver(null);
+        sysGiftQueryModel.setGiftSender(queryCondition);
+        sysGiftModelList = sysGiftDao.selectFreeInfo(sysGiftQueryModel);
+        if (CollectionUtils.isNotEmpty(sysGiftModelList)) {
+            responseMsg.append(WECHAT_GIFT_RECEIVE_TITLE).append(NEXT_LINE);
+            for (SysGiftModel sysGiftModel : sysGiftModelList) {
+                responseMsg.append(sysGiftModel.getGiftType()).append(COLON).append(STR_SPACE)
+                        .append(sysGiftModel.getGiftSender()).append(STR_SPACE)
+                        .append(sysGiftModel.getGiftAmount()).append(NEXT_LINE);
+            }
+        }
+        setOperateAfterFlow(request, FLOW_CODE_GIFT_FREE$);
+        response.setContent(responseMsg.toString());
     }
 
 
@@ -611,9 +647,9 @@ public class SysWeChatServiceImpl implements SysWeChatService {
             for (int i=1; i<=times; i++) {
                 if (times == 2) {
                     if (i == 1) {
-                        responseMsg.append(LOG_BUSINESS_TYPE_GIFT_SEND).append(NEXT_LINE);
+                        responseMsg.append(WECHAT_GIFT_SEND_TITLE).append(NEXT_LINE);
                     } else {
-                        responseMsg.append(LOG_BUSINESS_TYPE_GIFT_RECEIVE).append(NEXT_LINE);
+                        responseMsg.append(WECHAT_GIFT_RECEIVE_TITLE).append(NEXT_LINE);
                     }
                 }
                 if (sessionBean.getIsAdminData()) {
@@ -707,7 +743,7 @@ public class SysWeChatServiceImpl implements SysWeChatService {
                 }
                 return incomeInfo.toString();
             } else {
-                sysConsoleQueryModel.setDateCondition(condition);
+                sysConsoleQueryModel.setQueryCondition(condition);
                 sysConsoleQueryModel.setYearStartDate(condition);
                 amount = executeBusinessSelect(sysConsoleQueryModel, selectType, subType);
             }
@@ -959,6 +995,21 @@ public class SysWeChatServiceImpl implements SysWeChatService {
             }
         }
         return flowCode;
+    }
+
+    /**
+     * 是否
+     * @return
+     */
+    private void setOperateAfterFlow(SysWeChatBaseModel sysWeChatBaseModel, String flowCode) {
+        String userKey = sysWeChatBaseModel.getToUserName() + MINUS + sysWeChatBaseModel.getFromUserName();
+        SysWeChatOperateModel sysWeChatOperateModel = new SysWeChatOperateModel();
+        sysWeChatOperateModel.setOperateTime(System.currentTimeMillis());
+        if (sysParameterService.getParameterBoolean(WECHAT_OPERATE_BACK)) {
+            flowCode = FLOW_CODE_SELECT;
+        }
+        sysWeChatOperateModel.setOperateFlow(flowCode);
+        WECHAT_FLOW_OPERATE.put(userKey, sysWeChatOperateModel);
     }
 
     /**

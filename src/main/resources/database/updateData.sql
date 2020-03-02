@@ -120,6 +120,7 @@ comment on column sys_wechat_flow.modify_user
 call add_parameter('weChatWelcome', '微信公众号欢迎语', '智慧家庭,畅享生活', 'text', null, '1', '1', 70);
 call add_parameter('weChatKey', '微信公众号密钥', 'fims', 'text', null, '1', '1', 75);
 call add_parameter('weChatOpen', '微信公众号对外开放状态', '2', 'switch', null, '1', '1', 80);
-call add_parameter('weChatOperateTime', '微信用户操作时间间隔(秒)', '30', 'number', null, '1', '1', 85);
+call add_parameter('weChatOperateTime', '微信操作时间间隔(秒)', '30', 'number', null, '1', '1', 85);
+call add_parameter('weChatOperateBack', '微信操作后返回主菜单', '1', 'switch', null, '1', '1', 90);
 
 -- 功能脚本整理

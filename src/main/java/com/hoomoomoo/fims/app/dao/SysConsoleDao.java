@@ -1,6 +1,7 @@
 package com.hoomoomoo.fims.app.dao;
 
 import com.hoomoomoo.fims.app.model.SysConsoleQueryModel;
+import com.hoomoomoo.fims.app.model.SysGiftModel;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -140,4 +141,5 @@ public interface SysConsoleDao {
      * @return
      */
     String selectLoginTotalTime(SysConsoleQueryModel sysConsoleQueryModel);
+
 }

@@ -104,7 +104,12 @@ public class ParameterConst {
     public static final String WECHAT_OPEN                                      = "weChatOpen";
 
     /**
-     * 微信用户操作时间间隔
+     * 微信操作时间间隔
      */
     public static final String WECHAT_OPERATE_TIME                              = "weChatOperateTime";
+
+    /**
+     * 微信操作返回主菜单
+     */
+    public static final String WECHAT_OPERATE_BACK                              = "weChatOperateBack";
 }

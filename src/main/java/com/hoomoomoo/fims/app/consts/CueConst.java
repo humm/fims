@@ -763,11 +763,21 @@ public class CueConst {
     /**
      * 微信：自由查询
      */
-    public static final String WECHAT_FREE_TITLE                                 = "自由查询[%s]";
+    public static final String WECHAT_FREE_TITLE                                 = "随礼信息查询[%s]";
 
     /**
      * 微信：最近一次随礼
      */
     public static final String WECHAT_GIFT_LAST_TITLE                            = "最近一次随礼信息";
+
+    /**
+     * 微信：送礼信息
+     */
+    public static final String WECHAT_GIFT_SEND_TITLE                            = "送礼信息";
+
+    /**
+     * 微信：收礼信息
+     */
+    public static final String WECHAT_GIFT_RECEIVE_TITLE                         = "收礼信息";
 
 }
