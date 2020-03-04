@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -71,8 +72,14 @@ public class SysWeChatServiceImpl implements SysWeChatService {
      * @return
      */
     @Override
-    public String message(HttpServletRequest request) {
+    public String message(HttpServletRequest request, HttpServletResponse response) {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_WECHAT, LOG_OPERATE_TYPE_HANDLE);
+        try {
+            request.setCharacterEncoding(UTF8);
+            response.setCharacterEncoding(UTF8);
+        } catch (UnsupportedEncodingException e) {
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_WECHAT, e);
+        }
         String responseMessage;
         if (REQUEST_TYPE_GET.equals(request.getMethod())) {
             responseMessage = checkToken(request);
@@ -518,10 +525,10 @@ public class SysWeChatServiceImpl implements SysWeChatService {
         }
         // 查询送礼信息
         sysGiftQueryModel.setGiftReceiver(queryCondition);
-        List<SysGiftModel> sysGiftModelList = sysGiftDao.selectFreeInfo(sysGiftQueryModel);
-        if (CollectionUtils.isNotEmpty(sysGiftModelList)) {
+        List<SysGiftModel> sendList = sysGiftDao.selectFreeInfo(sysGiftQueryModel);
+        if (CollectionUtils.isNotEmpty(sendList)) {
             responseMsg.append(WECHAT_GIFT_SEND_TITLE).append(NEXT_LINE);
-            for (SysGiftModel sysGiftModel : sysGiftModelList) {
+            for (SysGiftModel sysGiftModel : sendList) {
                 responseMsg.append(sysGiftModel.getGiftType()).append(COLON).append(STR_SPACE)
                            .append(sysGiftModel.getGiftReceiver()).append(STR_SPACE)
                            .append(sysGiftModel.getGiftAmount()).append(NEXT_LINE);
@@ -531,14 +538,17 @@ public class SysWeChatServiceImpl implements SysWeChatService {
         // 查询收礼信息
         sysGiftQueryModel.setGiftReceiver(null);
         sysGiftQueryModel.setGiftSender(queryCondition);
-        sysGiftModelList = sysGiftDao.selectFreeInfo(sysGiftQueryModel);
-        if (CollectionUtils.isNotEmpty(sysGiftModelList)) {
+        List<SysGiftModel> receivelList = sysGiftDao.selectFreeInfo(sysGiftQueryModel);
+        if (CollectionUtils.isNotEmpty(receivelList)) {
             responseMsg.append(WECHAT_GIFT_RECEIVE_TITLE).append(NEXT_LINE);
-            for (SysGiftModel sysGiftModel : sysGiftModelList) {
+            for (SysGiftModel sysGiftModel : receivelList) {
                 responseMsg.append(sysGiftModel.getGiftType()).append(COLON).append(STR_SPACE)
                         .append(sysGiftModel.getGiftSender()).append(STR_SPACE)
                         .append(sysGiftModel.getGiftAmount()).append(NEXT_LINE);
             }
+        }
+        if (CollectionUtils.isEmpty(sendList) && CollectionUtils.isEmpty(receivelList)) {
+            responseMsg.append(WECHAT_NO_DATA_TITLE);
         }
         setOperateAfterFlow(request, FLOW_CODE_GIFT_FREE$);
         response.setContent(responseMsg.toString());

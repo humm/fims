@@ -12,7 +12,7 @@ public class WeChatConst {
     /**
      * 请求
      */
-    public static final String WECHAT_REQUEST                               = "/wechat/message";
+    public static final String WECHAT_REQUEST                               = "/wechat/message.do";
 
     /**
      * 请求类型: GET

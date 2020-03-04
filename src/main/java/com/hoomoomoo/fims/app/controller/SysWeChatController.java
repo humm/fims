@@ -39,15 +39,9 @@ public class SysWeChatController {
      */
     @RequestMapping(value="/message")
     public String message(HttpServletRequest request, HttpServletResponse response){
-        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_WECHAT, LOG_OPERATE_TYPE_HANDLE);
-        try {
-            request.setCharacterEncoding("UTF-8");
-            response.setCharacterEncoding("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_WECHAT, e);
-        }
+        String responseMsg = sysWeChatService.message(request, response);
         SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_WECHAT, LOG_OPERATE_TYPE_HANDLE);
-        return sysWeChatService.message(request);
+        return responseMsg;
     }
 
 }

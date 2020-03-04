@@ -212,6 +212,11 @@ public class BusinessConst {
     public static final String COMMA                                        = ",";
 
     /**
+     * 逗号
+     */
+    public static final String COMMA_CHINESE                                = "，";
+
+    /**
      * 冒号
      */
     public static final String COLON                                        = ":";

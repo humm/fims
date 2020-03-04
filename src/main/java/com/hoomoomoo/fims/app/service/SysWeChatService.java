@@ -18,7 +18,7 @@ public interface SysWeChatService {
      * @param request
      * @return
      */
-    String message(HttpServletRequest request);
+    String message(HttpServletRequest request, HttpServletResponse response);
 
     /**
      * 更新微信操作信息

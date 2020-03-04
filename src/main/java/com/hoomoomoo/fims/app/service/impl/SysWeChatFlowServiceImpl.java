@@ -1,7 +1,6 @@
 package com.hoomoomoo.fims.app.service.impl;
 
 import com.hoomoomoo.fims.app.dao.SysWeChatFlowDao;
-import com.hoomoomoo.fims.app.dao.SysWeChatUserDao;
 import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.service.SysWeChatFlowService;
 import com.hoomoomoo.fims.app.service.SysWeChatUserService;

@@ -32,7 +32,7 @@
                 var status = xhr.getResponseHeader("status");
                 // 跳转登录页面
                 if(status == "timeout" || status == "init" || status == "update" || status == "backup") {
-                    var message = xhr.getResponseHeader("message");
+                    var message = decodeURI(xhr.getResponseHeader("message"));
                     layer.alert(message, function () {
                         parent.location.href = "./login";
                     });

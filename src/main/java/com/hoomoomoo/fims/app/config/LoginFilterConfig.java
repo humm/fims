@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 
 import static com.hoomoomoo.fims.app.config.RunDataConfig.SYSTEM_USED_STATUS;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
@@ -48,8 +49,9 @@ public class LoginFilterConfig implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+        response.setCharacterEncoding(UTF8);
         String servletPath = request.getServletPath();
-        if (WECHAT_REQUEST.equals(servletPath)) {
+        if (WECHAT_REQUEST.contains(servletPath)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -67,7 +69,8 @@ public class LoginFilterConfig implements Filter {
                 } else if (SYSTEM_USED_STATUS.equals(SYSTEM_STATUS_BACKUP)) {
                     message = LOG_BUSINESS_TYPE_BACKUP;
                 }
-                response.setHeader(MESSAGE, new StringBuffer(message).append(COMMA).append(BUSINESS_OPERATE_WAIT).toString());
+                message = URLEncoder.encode(new StringBuffer(message).append(COMMA_CHINESE).append(BUSINESS_OPERATE_WAIT).toString(), UTF8);
+                response.setHeader(MESSAGE, message);
             } else {
                 toLogin(request, response);
             }
@@ -88,7 +91,7 @@ public class LoginFilterConfig implements Filter {
             if (!isIgoreSuffix(requestSuffix) && IGORE_REQUEST.indexOf(servletPath) == -1) {
                 if (isAjaxRequest(request)) {
                     response.setHeader(STATUS, SYSTEM_STATUS_TIMEOUT);
-                    response.setHeader(MESSAGE, BUSINESS_OPERATE_TIMEOUT);
+                    response.setHeader(MESSAGE, URLEncoder.encode(BUSINESS_OPERATE_TIMEOUT, UTF8));
                 } else {
                     toLogin(request, response);
                 }

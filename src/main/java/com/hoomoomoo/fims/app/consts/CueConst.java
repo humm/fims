@@ -351,16 +351,6 @@ public class CueConst {
     public static final String LOG_BUSINESS_TYPE_GIFT                           = "随礼信息";
 
     /**
-     * 日志业务类型：送礼
-     */
-    public static final String LOG_BUSINESS_TYPE_GIFT_SEND                      = "送礼";
-
-    /**
-     * 日志业务类型：收礼
-     */
-    public static final String LOG_BUSINESS_TYPE_GIFT_RECEIVE                   = "收礼";
-
-    /**
      * 日志业务类型：首页
      */
     public static final String LOG_BUSINESS_TYPE_CONSOLE                        = "首页信息";
@@ -693,7 +683,7 @@ public class CueConst {
     /**
      * session超时
      */
-    public static final String BUSINESS_OPERATE_TIMEOUT                         = "由于您长时间没有操作, 请重新登录...";
+    public static final String BUSINESS_OPERATE_TIMEOUT                         = "由于您长时间没有操作，请重新登录...";
 
     /**
      * 微信：身份认证
@@ -779,5 +769,10 @@ public class CueConst {
      * 微信：收礼信息
      */
     public static final String WECHAT_GIFT_RECEIVE_TITLE                         = "收礼信息";
+
+    /**
+     * 微信：未查询到相关信息
+     */
+    public static final String WECHAT_NO_DATA_TITLE                              = "未查询到相关信息";
 
 }
