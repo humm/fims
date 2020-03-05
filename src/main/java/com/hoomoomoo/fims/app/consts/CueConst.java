@@ -658,7 +658,17 @@ public class CueConst {
     /**
      * 接口信息：处理成功
      */
+    public static final String INTERFACE_WECHAT_SUCCESS                         = "处理成功";
+
+    /**
+     * 接口信息：处理失败
+     */
     public static final String INTERFACE_MAIL_FAIL                              = "<b style='color:red'>处理失败</b>";
+
+    /**
+     * 接口信息：处理失败
+     */
+    public static final String INTERFACE_WECHAT_FAIL                            = "处理失败";
 
     /**
      * 暂不处理异常
@@ -669,6 +679,11 @@ public class CueConst {
      * 定时任务：邮件消息
      */
     public static final String BUSINESS_SCHEDULE_MAIL                           = "邮件信息定时任务: %s";
+
+    /**
+     * 业务流水号：提示信息信息
+     */
+    public static final String BUSINESS_BUSINESS_NO                             = "业务流水号";
 
     /**
      * 定时任务：微信消息
@@ -774,5 +789,10 @@ public class CueConst {
      * 微信：未查询到相关信息
      */
     public static final String WECHAT_NO_DATA_TITLE                              = "未查询到相关信息";
+
+    /**
+     * 微信：参数数量不匹配,请重新输入
+     */
+    public static final String WECHAT_PARAMETER_ERROR                            = "数据不匹配,请重新输入";
 
 }

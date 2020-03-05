@@ -109,54 +109,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
                     } catch (DocumentException e) {
                         SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL, e);
                     }
-                    // 接口数据处理
-                    if (CollectionUtils.isNotEmpty(baseModelList)) {
-                        // 数据校验
-                        // 校验异常信息集合
-                        List<SysCheckResultModel> sysCheckResultModelList = new ArrayList<>();
-                        // 转义后业务数据
-                        List<SysInterfaceRequestModel> sysInterfaceRequestModelList = new ArrayList<>();
-                        // 业务数据ID集合
-                        List<String> interfaceIdList = new ArrayList<>();
-                        boolean check = checkBusinessData(baseModelList, sysInterfaceRequestModelList, sysCheckResultModelList);
-                        if (check) {
-                            for (int i=0; i<sysInterfaceRequestModelList.size(); i++) {
-                                SysInterfaceRequestModel sysInterfaceRequestModel = sysInterfaceRequestModelList.get(i);
-                                // 数据存储 存储业务数据
-                                String requestId = saveBusinessData(sysInterfaceRequestModel);
-                                // 存储接口数据
-                                String interfaceId = saveInterfaceData(requestId, (SysInterfaceRequestModel)baseModelList.get(i), null);
-                                interfaceIdList.add(interfaceId);
-                            }
-                        } else {
-                            for (int i=0; i<sysInterfaceRequestModelList.size(); i++) {
-                                String interfaceId = saveInterfaceData(STR_EMPTY, (SysInterfaceRequestModel)baseModelList.get(i),
-                                        sysCheckResultModelList.get(i));
-                                interfaceIdList.add(interfaceId);
-                            }
-                        }
-
-                        // 更新接口基础数据
-                        sysInterfaceModel.setRequestId(sysMailModel.getMailId());
-                        SysCommonUtils.setModifyUserInfo(sysInterfaceModel, sysSystemService.getUserId());
-                        sysInterfaceDao.update(sysInterfaceModel);
-
-                        // 邮件反馈处理结果
-                        SysMailModel mail = new SysMailModel();
-                        mail.setTo(sysMailModel.getTo());
-                        mail.setSubject(systemConfigBean.getAppDescribe() + INTERFACE_FEEDBACK_MAIL);
-                        mail.setContent(getMailContent(check, baseModelList, sysCheckResultModelList));
-                        boolean sendStatus = sysMailService.sendMail(mail);
-                        String feedbackStatus = sendStatus ? D002 + MINUS + STR_1 : D002 + MINUS + STR_2;
-                        // 更新接口数据邮件反馈状态
-                        for (String interfaceId : interfaceIdList) {
-                            SysInterfaceModel sysInterface = new SysInterfaceModel();
-                            sysInterface.setInterfaceId(interfaceId);
-                            sysInterface.setFeedbackStatus(feedbackStatus);
-                            sysInterfaceDao.update(sysInterface);
-                        }
-                    }
-
+                    handleRequestData(baseModelList, sysMailModel);
                 }
             }
             SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_MAIL, LOG_OPERATE_TYPE_HANDLE);
@@ -168,29 +121,122 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
     }
 
     /**
-     * 获取邮件内容
+     * 处理业务请求数据
+     *
+     * @param baseModelList
+     * @param sysMailModel
+     * @return
+     */
+    @Override
+    public SysInterfaceResponseModel handleRequestData(List<BaseModel> baseModelList, SysMailModel sysMailModel) {
+        SysInterfaceResponseModel sysInterfaceResponseModel = new SysInterfaceResponseModel();
+        if (CollectionUtils.isNotEmpty(baseModelList)) {
+            // 数据校验
+            // 校验异常信息集合
+            List<SysCheckResultModel> sysCheckResultModelList = new ArrayList<>();
+            // 转义后业务数据
+            List<SysInterfaceRequestModel> sysInterfaceRequestModelList = new ArrayList<>();
+            // 业务数据ID集合
+            List<String> interfaceIdList = new ArrayList<>();
+            boolean check = checkBusinessData(baseModelList, sysInterfaceRequestModelList, sysCheckResultModelList);
+            if (check) {
+                for (int i=0; i<sysInterfaceRequestModelList.size(); i++) {
+                    SysInterfaceRequestModel sysInterfaceRequestModel = sysInterfaceRequestModelList.get(i);
+                    if (sysMailModel != null) {
+                        sysInterfaceRequestModel.setDataType(new StringBuffer(D008).append(MINUS).append(STR_2).toString());
+                    } else {
+                        sysInterfaceRequestModel.setDataType(new StringBuffer(D008).append(MINUS).append(STR_3).toString());
+                    }
+                    // 数据存储 存储业务数据
+                    String requestId = saveBusinessData(sysInterfaceRequestModel);
+                    // 添加业务Id
+                    sysInterfaceResponseModel.getBusinessNo().add(requestId);
+                    // 存储接口数据
+                    String interfaceId = saveInterfaceData(requestId, (SysInterfaceRequestModel)baseModelList.get(i), null);
+                    interfaceIdList.add(interfaceId);
+                }
+            } else {
+                for (int i=0; i<sysInterfaceRequestModelList.size(); i++) {
+                    String interfaceId = saveInterfaceData(STR_EMPTY, (SysInterfaceRequestModel)baseModelList.get(i),
+                            sysCheckResultModelList.get(i));
+                    interfaceIdList.add(interfaceId);
+                }
+            }
+
+            if (sysMailModel != null) {
+                // 邮件反馈处理结果
+                SysMailModel mail = new SysMailModel();
+                mail.setTo(sysMailModel.getTo());
+                mail.setSubject(systemConfigBean.getAppDescribe() + INTERFACE_FEEDBACK_MAIL);
+                mail.setContent(getContent(check, baseModelList, sysCheckResultModelList,
+                        sysInterfaceResponseModel, new StringBuffer(D008).append(MINUS).append(STR_2).toString()));
+                boolean sendStatus = sysMailService.sendMail(mail);
+                String feedbackStatus = sendStatus ? D002 + MINUS + STR_1 : D002 + MINUS + STR_2;
+                // 更新接口数据邮件反馈状态
+                for (String interfaceId : interfaceIdList) {
+                    SysInterfaceModel sysInterface = new SysInterfaceModel();
+                    sysInterface.setInterfaceId(interfaceId);
+                    sysInterface.setFeedbackStatus(feedbackStatus);
+                    sysInterfaceDao.update(sysInterface);
+                }
+            } else {
+                sysInterfaceResponseModel.setMessage(getContent(check, baseModelList, sysCheckResultModelList,
+                        sysInterfaceResponseModel, new StringBuffer(D008).append(MINUS).append(STR_3).toString()));
+            }
+        }
+        return sysInterfaceResponseModel;
+    }
+
+    /**
+     * 获取返回消息内容
      *
      * @param status
      * @param baseModelList
      * @param sysCheckResultModelList
+     * @param sysInterfaceResponseModel
      * @return
      */
-    private String getMailContent(boolean status, List<BaseModel> baseModelList,
-                                  List<SysCheckResultModel> sysCheckResultModelList) {
+    private String getContent(boolean status, List<BaseModel> baseModelList,
+                                  List<SysCheckResultModel> sysCheckResultModelList,
+                                  SysInterfaceResponseModel sysInterfaceResponseModel,
+                                  String requestType) {
         StringBuffer content = new StringBuffer(STR_EMPTY);
+        String separateType = NEXT_LINE;
+        if (new StringBuffer(D008).append(MINUS).append(STR_2).toString().equals(requestType)) {
+            separateType = STR_SPACE;
+        }
         for (int i=0; i<baseModelList.size(); i++) {
             SysInterfaceRequestModel sysInterfaceRequestModel = (SysInterfaceRequestModel)baseModelList.get(i);
-            content.append(sysInterfaceRequestModel.getUser()).append(STR_SPACE)
-                    .append(sysInterfaceRequestModel.getTarget()).append(STR_SPACE)
-                    .append(sysInterfaceRequestModel.getDate()).append(STR_SPACE)
-                    .append(sysInterfaceRequestModel.getType()).append(STR_SPACE)
-                    .append(sysInterfaceRequestModel.getSubType()).append(STR_SPACE)
-                    .append(sysInterfaceRequestModel.getAmount()).append(STR_SPACE)
-                    .append(sysInterfaceRequestModel.getMemo()).append(STR_SPACE);
+            content.append(sysInterfaceRequestModel.getUser()).append(separateType)
+                    .append(sysInterfaceRequestModel.getTarget()).append(separateType)
+                    .append(sysInterfaceRequestModel.getDate()).append(separateType)
+                    .append(sysInterfaceRequestModel.getType()).append(separateType)
+                    .append(sysInterfaceRequestModel.getSubType()).append(separateType)
+                    .append(sysInterfaceRequestModel.getAmount()).append(separateType);
+            if (StringUtils.isNotBlank(sysInterfaceRequestModel.getMemo())) {
+                content.append(sysInterfaceRequestModel.getMemo()).append(separateType);
+            }
             if (status) {
-                content.append(INTERFACE_MAIL_SUCCESS).append(BR);
+                if (new StringBuffer(D008).append(MINUS).append(STR_2).toString().equals(requestType)) {
+                    content.append(INTERFACE_MAIL_SUCCESS).append(separateType);
+                } else {
+                    content.append(INTERFACE_WECHAT_SUCCESS).append(separateType).append(separateType);
+                }
+                if (CollectionUtils.isNotEmpty(sysInterfaceResponseModel.getBusinessNo())) {
+                    StringBuffer businessNo = new StringBuffer(BUSINESS_BUSINESS_NO).append(separateType);
+                    for (String businessId : sysInterfaceResponseModel.getBusinessNo()) {
+                        businessNo.append(businessId).append(separateType);
+                    }
+                    content.append(businessNo);
+                }
             } else {
-                content.append(INTERFACE_MAIL_FAIL).append(STR_SPACE).append(getErrorMessage(sysCheckResultModelList.get(i))).append(BR);
+                if (new StringBuffer(D008).append(MINUS).append(STR_2).toString().equals(requestType)) {
+                    content.append(INTERFACE_MAIL_FAIL).append(separateType).append(getErrorMessage(sysCheckResultModelList.get(i), COMMA));
+                    content.append(BR);
+                } else {
+                    content.append(INTERFACE_WECHAT_FAIL).append(separateType).append(getErrorMessage(sysCheckResultModelList.get(i), NEXT_LINE));
+                    content.append(NEXT_LINE);
+                }
             }
         }
         return content.toString();
@@ -201,18 +247,18 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
      * @param sysCheckResultModel
      * @return
      */
-    private String getErrorMessage(SysCheckResultModel sysCheckResultModel) {
+    private String getErrorMessage(SysCheckResultModel sysCheckResultModel, String separateType) {
         StringBuffer message = new StringBuffer(STR_EMPTY);
         List<String> tips = sysCheckResultModel.getMessage();
         for (String msg : tips) {
-            message.append(msg).append(COMMA);
+            message.append(msg).append(separateType);
         }
         while (message.length() >= 150) {
-            message = new StringBuffer(message.toString().substring(0, message.toString().lastIndexOf(COMMA)));
+            message = new StringBuffer(message.toString().substring(0, message.toString().lastIndexOf(separateType)));
         }
         String errorInfo = message.toString();
-        if (errorInfo.endsWith(COMMA)) {
-            errorInfo = errorInfo.substring(0, errorInfo.lastIndexOf(COMMA));
+        if (errorInfo.endsWith(separateType)) {
+            errorInfo = errorInfo.substring(0, errorInfo.lastIndexOf(separateType));
         }
         return errorInfo;
     }
@@ -234,8 +280,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
             sysInterfaceModel.setRequestMessage(OPERATE_SUCCESS);
         } else {
             sysInterfaceModel.setRequestResult(D002 + MINUS + STR_2);
-
-            sysInterfaceModel.setRequestMessage(getErrorMessage(sysCheckResultModel));
+            sysInterfaceModel.setRequestMessage(getErrorMessage(sysCheckResultModel, COMMA));
         }
         SysCommonUtils.setCreateUserInfo(sysInterfaceModel, sysSystemService.getUserId());
         sysInterfaceDao.save(sysInterfaceModel);
@@ -252,7 +297,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
         if (INTERFACE_TYPE_INCOME.equals(sysInterfaceRequestModel.getType())) {
             requestId = sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_INCOME);
             SysIncomeModel sysIncomeModel = new SysIncomeModel();
-            sysIncomeModel.setDataType(new StringBuffer(D008).append(MINUS).append(STR_2).toString());
+            sysIncomeModel.setDataType(sysInterfaceRequestModel.getDataType());
             sysIncomeModel.setIncomeId(requestId);
             sysIncomeModel.setUserId(sysInterfaceRequestModel.getUser());
             sysIncomeModel.setIncomeType(sysInterfaceRequestModel.getSubType());
@@ -269,7 +314,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
         } else if (INTERFACE_TYPE_GIFT.equals(sysInterfaceRequestModel.getType())) {
             requestId = sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_GIFT);
             SysGiftModel sysGiftModel = new SysGiftModel();
-            sysGiftModel.setDataType(new StringBuffer(D008).append(MINUS).append(STR_2).toString());
+            sysGiftModel.setDataType(sysInterfaceRequestModel.getDataType());
             sysGiftModel.setGiftId(requestId);
             sysGiftModel.setGiftType(sysInterfaceRequestModel.getSubType());
             sysGiftModel.setGiftSender(sysInterfaceRequestModel.getUser());

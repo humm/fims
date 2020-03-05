@@ -69,13 +69,13 @@ public class SysWeChatFlowServiceImpl implements SysWeChatFlowService {
         LinkedHashMap<String, SysWeChatFlowModel> mainFlow = new LinkedHashMap<>(16);
         StringBuffer mainFlowList = new StringBuffer(WECHAT_MAIN_FLOW).append(NEXT_LINE).append(NEXT_LINE);
         StringBuffer moreFlowList = new StringBuffer();
-        StringBuffer flowTip;
+        StringBuffer flowTitle;
         SysWeChatFlowQueryModel sysWeChatFlowQueryModel = new SysWeChatFlowQueryModel();
         sysWeChatFlowQueryModel.setFlowType(STR_1 + MINUS + STR_2);
         List<SysWeChatFlowModel> sysWeChatFlowModelList = selectFlowList(sysWeChatFlowQueryModel);
         if (CollectionUtils.isNotEmpty(sysWeChatFlowModelList)) {
             for (SysWeChatFlowModel sysWeChatFlowModel : sysWeChatFlowModelList) {
-                flowTip = new StringBuffer(String.format(STR_NUMBER, sysWeChatFlowModel.getFlowNum())).append(sysWeChatFlowModel.getFlowDescribe()).append(NEXT_LINE);
+                flowTitle = new StringBuffer(String.format(STR_NUMBER, sysWeChatFlowModel.getFlowNum())).append(sysWeChatFlowModel.getFlowDescribe()).append(NEXT_LINE);
                 if (StringUtils.isNotBlank(sysWeChatFlowModel.getFlowCode())) {
                     mainFlow.put(sysWeChatFlowModel.getFlowCode(), sysWeChatFlowModel);
                     flowNumToCode.put(sysWeChatFlowModel.getFlowNum(), sysWeChatFlowModel.getFlowCode());
@@ -83,9 +83,9 @@ public class SysWeChatFlowServiceImpl implements SysWeChatFlowService {
                     mainFlow.put(sysWeChatFlowModel.getFlowNum(), sysWeChatFlowModel);
                 }
                 if (STR_1.equals(sysWeChatFlowModel.getFlowType())) {
-                    mainFlowList.append(flowTip);
+                    mainFlowList.append(flowTitle);
                 } else {
-                    moreFlowList.append(flowTip);
+                    moreFlowList.append(flowTitle);
                 }
             }
         }

@@ -3,6 +3,7 @@ package com.hoomoomoo.fims.app.service.impl;
 import com.hoomoomoo.fims.app.dao.SysConsoleDao;
 import com.hoomoomoo.fims.app.dao.SysGiftDao;
 import com.hoomoomoo.fims.app.model.*;
+import com.hoomoomoo.fims.app.model.common.BaseModel;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.*;
 import com.hoomoomoo.fims.app.util.*;
@@ -54,7 +55,7 @@ public class SysWeChatServiceImpl implements SysWeChatService {
     private SysUserService sysUserService;
 
     @Autowired
-    private SysWeChatFlowService sysWeChatFlowService;
+    private SysInterfaceService sysInterfaceService;
 
     @Autowired
     private SysLoginService sysLoginService;
@@ -64,6 +65,14 @@ public class SysWeChatServiceImpl implements SysWeChatService {
 
     @Autowired
     private SysGiftDao sysGiftDao;
+
+    @Autowired
+    private SysIncomeService sysIncomeService;
+
+    @Autowired
+    private SysGiftService sysGiftService;
+
+
 
     /**
      * 微信消息处理
@@ -254,7 +263,6 @@ public class SysWeChatServiceImpl implements SysWeChatService {
      * @return
      */
     private String eventMessage(SysWeChatEventModel request) {
-        // todo 记录微信日志
         SysWeChatTextModel response = new SysWeChatTextModel();
         setResponseSysWeChatBaseModelInfo(request, response);
         response.setMsgType(MESSAGE_TYPE_TEXT);
@@ -346,7 +354,6 @@ public class SysWeChatServiceImpl implements SysWeChatService {
      * @return
      */
     private String textMessage(SysWeChatTextModel request) {
-        // todo 记录微信日志
         SysWeChatTextModel response = new SysWeChatTextModel();
         setResponseSysWeChatBaseModelInfo(request, response);
         response.setMsgType(MESSAGE_TYPE_TEXT);
@@ -419,17 +426,11 @@ public class SysWeChatServiceImpl implements SysWeChatService {
             case FLOW_CODE_INCOME_ADD$:
                 insertIncomeInfo(request, response);
                 break;
-            case FLOW_CODE_INCOME_UPDATE$:
-                updateIncomeInfo(request, response);
-                break;
             case FLOW_CODE_INCOME_DELETE$:
                 deleteIncomeInfo(request, response);
                 break;
             case FLOW_CODE_GIFT_ADD$:
                 insertGiftInfo(request, response);
-                break;
-            case FLOW_CODE_GIFT_UPDATE$:
-                updateGiftInfo(request, response);
                 break;
             case FLOW_CODE_GIFT_DELETE$:
                 deleteGiftInfo(request, response);
@@ -449,19 +450,7 @@ public class SysWeChatServiceImpl implements SysWeChatService {
      * @param response
      */
     private void insertIncomeInfo(SysWeChatTextModel request, SysWeChatTextModel response) {
-        setOperateAfterFlow(request, FLOW_CODE_INCOME_ADD$);
-        response.setContent(FLOW_CODE_INCOME_ADD$);
-    }
-
-    /**
-     * 修改收入信息
-     *
-     * @param request
-     * @param response
-     */
-    private void updateIncomeInfo(SysWeChatTextModel request, SysWeChatTextModel response) {
-        setOperateAfterFlow(request, FLOW_CODE_INCOME_UPDATE$);
-        response.setContent(FLOW_CODE_INCOME_UPDATE$);
+        saveBusinessData(request, response, INTERFACE_TYPE_INCOME, FLOW_CODE_INCOME_ADD$);
     }
 
     /**
@@ -471,8 +460,9 @@ public class SysWeChatServiceImpl implements SysWeChatService {
      * @param response
      */
     private void deleteIncomeInfo(SysWeChatTextModel request, SysWeChatTextModel response) {
+        sysIncomeService.delete(buildBusinessId(request));
         setOperateAfterFlow(request, FLOW_CODE_INCOME_DELETE$);
-        response.setContent(FLOW_CODE_INCOME_DELETE$);
+        response.setContent(LOG_BUSINESS_TYPE_INCOME + DELETE_SUCCESS);
     }
 
     /**
@@ -482,19 +472,7 @@ public class SysWeChatServiceImpl implements SysWeChatService {
      * @param response
      */
     private void insertGiftInfo(SysWeChatTextModel request, SysWeChatTextModel response) {
-        setOperateAfterFlow(request, FLOW_CODE_GIFT_ADD$);
-        response.setContent(FLOW_CODE_GIFT_ADD$);
-    }
-
-    /**
-     * 修改随礼信息
-     *
-     * @param request
-     * @param response
-     */
-    private void updateGiftInfo(SysWeChatTextModel request, SysWeChatTextModel response) {
-        setOperateAfterFlow(request, FLOW_CODE_GIFT_UPDATE$);
-        response.setContent(FLOW_CODE_GIFT_UPDATE$);
+        saveBusinessData(request, response, INTERFACE_TYPE_GIFT, FLOW_CODE_GIFT_ADD$);
     }
 
     /**
@@ -504,12 +482,13 @@ public class SysWeChatServiceImpl implements SysWeChatService {
      * @param response
      */
     private void deleteGiftInfo(SysWeChatTextModel request, SysWeChatTextModel response) {
+        sysGiftService.delete(buildBusinessId(request));
         setOperateAfterFlow(request, FLOW_CODE_GIFT_DELETE$);
-        response.setContent(FLOW_CODE_GIFT_DELETE$);
+        response.setContent(LOG_BUSINESS_TYPE_GIFT + DELETE_SUCCESS);
     }
 
     /**
-     * 删除随礼信息
+     * 自由查询随礼信息
      *
      * @param request
      * @param response
@@ -554,6 +533,57 @@ public class SysWeChatServiceImpl implements SysWeChatService {
         response.setContent(responseMsg.toString());
     }
 
+    /**
+     * 构建业务流水号
+     *
+     * @param request
+     * @return
+     */
+    private String buildBusinessId(SysWeChatTextModel request) {
+        String[] condition = getAllCondition(request);
+        StringBuffer businessNo = new StringBuffer();
+        for (String businessId : condition) {
+            businessNo.append(businessId).append(COMMA);
+        }
+        return condition.toString();
+    }
+
+    /**
+     * 保存业务数据
+     *
+     * @param request
+     * @param response
+     * @param businessType
+     * @param flowCode
+     * @return
+     */
+    private void saveBusinessData(SysWeChatTextModel request, SysWeChatTextModel response,
+                                  String businessType, String flowCode) {
+        String[] condition = getAllCondition(request);
+        if (condition.length < 5 || condition.length > 6) {
+            response.setContent(WECHAT_PARAMETER_ERROR);
+            setOperateInfo(request, flowCode);
+        } else {
+            List<BaseModel> requestModelList = new ArrayList<>();
+            SysInterfaceRequestModel sysInterfaceRequestModel = new SysInterfaceRequestModel();
+            sysInterfaceRequestModel.setUser(condition[0]);
+            sysInterfaceRequestModel.setTarget(condition[1]);
+            sysInterfaceRequestModel.setDate(condition[2]);
+            sysInterfaceRequestModel.setType(businessType);
+            sysInterfaceRequestModel.setSubType(condition[3]);
+            sysInterfaceRequestModel.setAmount(condition[4]);
+            if (condition.length == 6) {
+                sysInterfaceRequestModel.setMemo(condition[5]);
+            }
+            requestModelList.add(sysInterfaceRequestModel);
+            SysInterfaceResponseModel sysInterfaceResponseModel =
+                    sysInterfaceService.handleRequestData(requestModelList, null);
+            response.setContent(sysInterfaceResponseModel.getMessage());
+            if (sysInterfaceResponseModel.getResult()) {
+                setOperateAfterFlow(request, flowCode);
+            }
+        }
+    }
 
     /**
      * 选择服务
@@ -795,8 +825,6 @@ public class SysWeChatServiceImpl implements SysWeChatService {
             // 总收入查询
             sysConsoleQueryModel.setIsCalc(STR_0);
             amount = sysConsoleDao.selectIncomeTotal(sysConsoleQueryModel);
-        } else if (STR_9.equals(selectType)) {
-            // 自由查询 todo 暂未实现
         } else if (STR_10.equals(selectType)) {
             // 最近一次随礼查询
             if (STR_1.equals(subType)) {
@@ -1020,6 +1048,23 @@ public class SysWeChatServiceImpl implements SysWeChatService {
         }
         sysWeChatOperateModel.setOperateFlow(flowCode);
         WECHAT_FLOW_OPERATE.put(userKey, sysWeChatOperateModel);
+    }
+
+    /**
+     * 获取查询条件
+     *
+     * @param request
+     * @return
+     */
+    private String[] getAllCondition(SysWeChatTextModel request) {
+        String content = request.getContent().trim();
+        if (StringUtils.isNotBlank(content)) {
+            String[] message = content.split(BACKSLASH_S);
+            if (message.length > 1) {
+                return message;
+            }
+        }
+        return new String[] {STR_EMPTY};
     }
 
     /**

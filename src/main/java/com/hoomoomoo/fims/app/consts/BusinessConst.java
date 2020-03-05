@@ -10,6 +10,11 @@ package com.hoomoomoo.fims.app.consts;
 public class BusinessConst {
 
     /**
+     * 系统版本号
+     */
+    public static final String SYSTEM_VERSION                               = "3.2.00";
+
+    /**
      * 应用配置文件路径
      */
     public static final String APPLICATION_PROPERTIES                       = "classpath:application.properties";
@@ -98,12 +103,6 @@ public class BusinessConst {
                                                                                                 .append("'sys_wechat_user'").append(",")
                                                                                                 .append("'sys_wechat_flow'").append(",")
                                                                                                 .append("'sys_config'").toString();
-
-
-    /**
-     * 系统版本号
-     */
-    public static final String SYSTEM_VERSION                               = "3.1.21";
 
     /**
      * 状态码：成功

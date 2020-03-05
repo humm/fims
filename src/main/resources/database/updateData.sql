@@ -45,18 +45,18 @@ insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption
 values ('D013', '0', '否', 2, null, 20190000000001, null, null);
 
 -- 微信用户信息
-call drop_table('sys_wechat_user');
-create table sys_wechat_user
+call create_table('sys_wechat_user', 'create table sys_wechat_user
 (
     wechat_user_id       varchar2(100) primary key,
     wechat_public_id     varchar2(100) not null,
-    is_auth             varchar2(50) default '0',
+    is_auth             varchar2(50) default ''0'',
     user_id              number(30),
     create_date          timestamp(6) default sysdate,
     modify_date          timestamp(6) default sysdate,
     create_user          varchar2(50),
     modify_user          varchar2(50)
-);
+)');
+
 comment on column sys_wechat_user.wechat_user_id
     is '微信用户ID';
 comment on column sys_wechat_user.wechat_public_id
@@ -123,4 +123,72 @@ call add_parameter('weChatOpen', '微信公众号对外开放状态', '2', 'swit
 call add_parameter('weChatOperateTime', '微信操作时间间隔(秒)', '30', 'number', null, '1', '1', 85);
 call add_parameter('weChatOperateBack', '微信操作后返回主菜单', '1', 'switch', null, '1', '1', 90);
 
--- 功能脚本整理
+delete from sys_dictionary where dictionary_code = 'D008' and dictionary_item = '3';
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D008', '3', '微信', 3, null, 20190000000001, null, null);
+
+delete from sys_wechat_flow;
+insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
+values (20200000000001, '1', 'income-month', '收入查询 - 月度', null, '1', 1, to_timestamp('2020-02-29 16:11:46', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:11:46', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+
+insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
+values (20200000000002, '2', 'income-year', '收入查询 - 年度', null, '1', 2, to_timestamp('2020-02-29 16:13:19', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:13:19', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+
+insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
+values (20200000000003, '3', 'income-year-current', '收入查询 - 本年度', null, '1', 3, to_timestamp('2020-02-29 16:13:20', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:13:20', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+
+insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
+values (20200000000004, '4', 'income-all', '收入查询 - 总收入', null, '1', 4, to_timestamp('2020-02-29 16:13:20', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:13:20', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+
+insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
+values (20200000000005, '5', 'income-add', '收入新增', '请按如下格式输入收入信息
+
+当前用户: 中文名称
+目标对象: 中文名称
+业务日期: yyyyMMdd
+业务子类型: 中文名称
+业务金额: 支持两位小数
+业务备注: 最大150字符', '1', 5, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+
+insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
+values (20200000000006, '6', 'income-delete', '收入删除', '请输入业务流水号', '1', 6, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+
+insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
+values (20200000000008, '7', 'more', '更多服务', null, '1', 7, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+
+insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
+values (20200000000009, '8', 'gift-free', '随礼查询 - 自由查询', '请输入送礼人或收礼人名称', '2', 8, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+
+insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
+values (20200000000010, '9', 'gift-last', '随礼查询 - 最近一次', null, '2', 9, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+
+insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
+values (20200000000011, '10', 'gift-year', '随礼查询 - 年度', null, '2', 10, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+
+insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
+values (20200000000012, '11', 'gift-year-current', '随礼查询 - 本年度', null, '2', 11, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+
+insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
+values (20200000000013, '12', 'gift-all', '随礼查询 - 总随礼', null, '2', 12, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+
+insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
+values (20200000000014, '13', 'git-add', '随礼新增', '请按如下格式输入随礼信息
+
+当前用户: 中文名称
+目标对象: 中文名称
+业务日期: yyyyMMdd
+业务子类型: 中文名称
+业务金额: 支持两位小数
+业务备注: 最大150字符', '2', 13, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+
+insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
+values (20200000000016, '14', 'gift-delete', '随礼删除', '请输入业务流水号', '2', 14, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+
+insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
+values (20200000000017, '99', 'main', '返回主菜单', null, '2', 99, to_timestamp('2020-02-29 10:27:32', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 10:27:32', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+
+call add_version('20190000000071', '集成微信公众号', '2020-03-05', 345, '1');
+call add_version('20190000000072', '发布版本：3.2.00', '2020-03-05', 350, '4');
+call update_system_version('3.2.00');
+
+
