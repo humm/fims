@@ -7,9 +7,6 @@ call add_version('20190000000063', '日期控件加载不出来(一闪而过)', 
 -- 删除 系统参数文件上传路径
 delete from sys_parameter where parameter_code = 'uploadLocation';
 
--- 删除 系统升级菜单
-update sys_menu set is_enable = '0' where menu_id = '20190000000015';
-
 -- 功能 自动化升级 Excel备份 优化随礼信息查询条件 发布新版本
 call add_version('20190000000064', '随礼信息：送礼人、收礼人修改为模糊查询', '2020-02-23', 315, '2');
 call add_version('20190000000065', '自动化系统升级', '2020-02-24', 320, '1');
