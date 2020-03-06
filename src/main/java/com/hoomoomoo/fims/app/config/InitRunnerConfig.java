@@ -53,7 +53,7 @@ public class InitRunnerConfig implements CommandLineRunner {
         sysSystemService.loadSysDictionaryCondition();
 
         // 加载微信流程处理步骤
-        sysWeChatFlowService.getWeChatFlow();
+        sysWeChatFlowService.getWeChatFlow(true);
 
         // 系统启动备份
         sysSystemService.startBackup();

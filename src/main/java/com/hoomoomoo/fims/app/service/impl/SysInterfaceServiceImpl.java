@@ -220,7 +220,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
                 if (new StringBuffer(D008).append(MINUS).append(STR_2).toString().equals(requestType)) {
                     content.append(INTERFACE_MAIL_SUCCESS).append(separateType);
                 } else {
-                    content.append(INTERFACE_WECHAT_SUCCESS).append(separateType).append(separateType);
+                    content.append(separateType).append(INTERFACE_WECHAT_SUCCESS).append(separateType).append(separateType);
                 }
                 if (CollectionUtils.isNotEmpty(sysInterfaceResponseModel.getBusinessNo())) {
                     StringBuffer businessNo = new StringBuffer(BUSINESS_BUSINESS_NO).append(separateType);
@@ -234,7 +234,8 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
                     content.append(INTERFACE_MAIL_FAIL).append(separateType).append(getErrorMessage(sysCheckResultModelList.get(i), COMMA));
                     content.append(BR);
                 } else {
-                    content.append(INTERFACE_WECHAT_FAIL).append(separateType).append(getErrorMessage(sysCheckResultModelList.get(i), NEXT_LINE));
+                    content.append(separateType).append(INTERFACE_WECHAT_FAIL).append(separateType).append(separateType)
+                           .append(getErrorMessage(sysCheckResultModelList.get(i), NEXT_LINE));
                     content.append(NEXT_LINE);
                 }
             }

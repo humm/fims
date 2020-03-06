@@ -27,5 +27,5 @@ public interface SysWeChatFlowService {
      *
      * @return
      */
-    void getWeChatFlow();
+    void getWeChatFlow(boolean isLoadFlowOperate);
 }

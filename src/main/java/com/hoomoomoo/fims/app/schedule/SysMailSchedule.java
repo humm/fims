@@ -28,7 +28,7 @@ public class SysMailSchedule implements SchedulingConfigurer {
 
     private static final Logger logger = LoggerFactory.getLogger(SysMailSchedule.class);
 
-    @Value("${fims.schedule.mailCron:0 */3 * * * ?}")
+    @Value("${fims.schedule.mailCron:0 */5 * * * ?}")
     private String cron;
 
     @Autowired

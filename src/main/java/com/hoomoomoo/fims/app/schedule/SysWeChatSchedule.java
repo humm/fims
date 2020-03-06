@@ -1,8 +1,7 @@
 package com.hoomoomoo.fims.app.schedule;
 
-import com.hoomoomoo.fims.app.service.SysInterfaceService;
+import com.hoomoomoo.fims.app.service.SysWeChatFlowService;
 import com.hoomoomoo.fims.app.service.SysWeChatService;
-import com.hoomoomoo.fims.app.service.impl.SysWeChatServiceImpl;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +14,6 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
-import static com.hoomoomoo.fims.app.consts.CueConst.LOG_BUSINESS_TYPE_MAIL;
 
 /**
  * @author humm23693
@@ -31,11 +29,14 @@ public class SysWeChatSchedule implements SchedulingConfigurer {
 
     private static final Logger logger = LoggerFactory.getLogger(SysWeChatSchedule.class);
 
-    @Value("${fims.schedule.weChatCron:*/1 * * * * ?}")
+    @Value("${fims.schedule.weChatCron:*/5 * * * * ?}")
     private String cron;
 
     @Autowired
     private SysWeChatService sysWeChatService;
+
+    @Autowired
+    private SysWeChatFlowService sysWeChatFlowService;
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
@@ -46,6 +47,7 @@ public class SysWeChatSchedule implements SchedulingConfigurer {
                     // 更新微信流程操作步骤
                     SysLogUtils.info(logger, String.format(BUSINESS_SCHEDULE_WECHAT, LOG_OPERATE_TAG_START));
                     sysWeChatService.updateOperateFlow();
+                    sysWeChatFlowService.getWeChatFlow(false);
                     SysLogUtils.info(logger, String.format(BUSINESS_SCHEDULE_WECHAT, LOG_OPERATE_TAG_END));
                 } catch (Exception e) {
                     SysLogUtils.exception(logger, BUSINESS_SCHEDULE_WECHAT, e);

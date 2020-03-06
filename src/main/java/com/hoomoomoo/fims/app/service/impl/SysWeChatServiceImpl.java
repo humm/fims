@@ -592,7 +592,13 @@ public class SysWeChatServiceImpl implements SysWeChatService {
      * @param response
      */
     private void selectService(SysWeChatTextModel request, SysWeChatTextModel response) {
-        switch (getFlowCode(request)) {
+        String flowCode = getFlowCode(request);
+        if (!isOpenService(flowCode)) {
+            response.setContent(new StringBuffer(WECHAT_SERVICE_NOT_EXIST).append(NEXT_LINE).append(WECHAT_MAIN_FLOW_LIST).toString());
+            setOperateInfo(request, FLOW_CODE_SELECT);
+            return;
+        }
+        switch (flowCode) {
             case FLOW_CODE_INCOME_MONTH:
                 selectBusinessInfo(request, response, LOG_BUSINESS_TYPE_INCOME, STR_1);
                 break;
@@ -1011,6 +1017,20 @@ public class SysWeChatServiceImpl implements SysWeChatService {
         } else {
             WECHAT_FLOW_OPERATE.put(userKey, sysWeChatOperateModel);
         }
+    }
+
+    /**
+     * 服务是否开放
+     *
+     * @param flowCode
+     * @return
+     */
+    private boolean isOpenService(String flowCode) {
+        SysWeChatFlowModel sysWeChatFlowModel = WECHAT_FLOW_LIST.get(flowCode);
+        if (sysWeChatFlowModel == null) {
+            return false;
+        }
+        return true;
     }
 
     /**

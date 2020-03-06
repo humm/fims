@@ -44,6 +44,17 @@ values ('D013', '1', '是', 1, null, 20190000000001, null, null);
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D013', '0', '否', 2, null, 20190000000001, null, null);
 
+-- 功能 微信公众号集成
+call add_parameter('weChatWelcome', '微信公众号欢迎语', '智慧家庭,畅享生活', 'text', null, '1', '1', 70);
+call add_parameter('weChatKey', '微信公众号密钥', 'fims', 'text', null, '1', '1', 75);
+call add_parameter('weChatOpen', '微信公众号对外开放状态', '2', 'switch', null, '1', '1', 80);
+call add_parameter('weChatOperateTime', '微信操作时间间隔(秒)', '30', 'number', null, '1', '1', 85);
+call add_parameter('weChatOperateBack', '微信操作后返回主菜单', '1', 'switch', null, '1', '1', 90);
+
+delete from sys_dictionary where dictionary_code = 'D008' and dictionary_item = '3';
+insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
+values ('D008', '3', '微信', 3, null, 20190000000001, null, null);
+
 -- 微信用户信息
 call create_table('sys_wechat_user', 'create table sys_wechat_user
 (
@@ -76,8 +87,7 @@ comment on column sys_wechat_user.modify_user
 
 
 -- 微信操作流程步骤
-call drop_table('sys_wechat_flow');
-create table sys_wechat_flow
+call create_table('sys_wechat_flow', 'create table sys_wechat_flow
 (
     flow_id              number(30) primary key,
     flow_num             varchar2(50),
@@ -91,7 +101,7 @@ create table sys_wechat_flow
     modify_date          timestamp(6) default sysdate,
     create_user          varchar2(50),
     modify_user          varchar2(50)
-);
+)');
 comment on column sys_wechat_flow.flow_id
     is '流程步骤ID';
 comment on column sys_wechat_flow.flow_num
@@ -117,17 +127,7 @@ comment on column sys_wechat_flow.create_user
 comment on column sys_wechat_flow.modify_user
     is '修改人';
 
-call add_parameter('weChatWelcome', '微信公众号欢迎语', '智慧家庭,畅享生活', 'text', null, '1', '1', 70);
-call add_parameter('weChatKey', '微信公众号密钥', 'fims', 'text', null, '1', '1', 75);
-call add_parameter('weChatOpen', '微信公众号对外开放状态', '2', 'switch', null, '1', '1', 80);
-call add_parameter('weChatOperateTime', '微信操作时间间隔(秒)', '30', 'number', null, '1', '1', 85);
-call add_parameter('weChatOperateBack', '微信操作后返回主菜单', '1', 'switch', null, '1', '1', 90);
-
-delete from sys_dictionary where dictionary_code = 'D008' and dictionary_item = '3';
-insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D008', '3', '微信', 3, null, 20190000000001, null, null);
-
-delete from sys_wechat_flow;
+delete from sys_wechat_flow where flow_id <= 20200000000017;
 insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
 values (20200000000001, '1', 'income-month', '收入查询 - 月度', null, '1', 1, to_timestamp('2020-02-29 16:11:46', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:11:46', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
 
@@ -188,7 +188,7 @@ insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_t
 values (20200000000017, '99', 'main', '返回主菜单', null, '2', 99, to_timestamp('2020-02-29 10:27:32', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 10:27:32', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
 
 call add_version('20190000000071', '集成微信公众号', '2020-03-05', 345, '1');
-call add_version('20190000000072', '发布版本：3.2.00', '2020-03-05', 350, '4');
+call add_version('20190000000072', '发布版本：3.2.00', '2020-03-06', 350, '4');
 call update_system_version('3.2.00');
 
 

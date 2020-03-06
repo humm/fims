@@ -64,7 +64,7 @@ public class SysWeChatFlowServiceImpl implements SysWeChatFlowService {
      * @return
      */
     @Override
-    public void getWeChatFlow() {
+    public void getWeChatFlow(boolean isLoadFlowOperate) {
         ConcurrentHashMap<String, String> flowNumToCode = new ConcurrentHashMap<>(16);
         LinkedHashMap<String, SysWeChatFlowModel> mainFlow = new LinkedHashMap<>(16);
         StringBuffer mainFlowList = new StringBuffer(WECHAT_MAIN_FLOW).append(NEXT_LINE).append(NEXT_LINE);
@@ -95,23 +95,26 @@ public class SysWeChatFlowServiceImpl implements SysWeChatFlowService {
         WECHAT_FLOW_LIST = mainFlow;
         // 加载主菜单
         WECHAT_MAIN_FLOW_LIST = mainFlowList.toString();
-        // 加载更新菜单
+        // 加载更多菜单
         WECHAT_MAIN_FLOW_MORE_LIST = moreFlowList.toString();
         // 加载关注用户操作模式
-        List<SysWeChatUserModel> sysWeChatUserModelList = sysWeChatUserService.selectList(new SysWeChatUserQueryModel());
-        if (CollectionUtils.isNotEmpty(sysWeChatFlowModelList)) {
-            SysWeChatOperateModel sysWeChatOperateModel = new SysWeChatOperateModel();
-            sysWeChatOperateModel.setOperateTime(System.currentTimeMillis());
-            for (SysWeChatUserModel sysWeChatUserModel : sysWeChatUserModelList) {
-                String userKey = sysWeChatUserModel.getWeChatPublicId() + MINUS + sysWeChatUserModel.getWeChatUserId();
-                if (!(D013 + MINUS + STR_1).equals(sysWeChatUserModel.getIsAuth())) {
-                    sysWeChatOperateModel.setOperateFlow(FLOW_CODE_AUTH);
-                } else if (StringUtils.isBlank(sysWeChatUserModel.getUserId())) {
-                    sysWeChatOperateModel.setOperateFlow(FLOW_CODE_BIND);
-                } else {
-                    sysWeChatOperateModel.setOperateFlow(FLOW_CODE_SELECT);
+        if (isLoadFlowOperate) {
+            WECHAT_FLOW_OPERATE.clear();
+            List<SysWeChatUserModel> sysWeChatUserModelList = sysWeChatUserService.selectList(new SysWeChatUserQueryModel());
+            if (CollectionUtils.isNotEmpty(sysWeChatFlowModelList)) {
+                SysWeChatOperateModel sysWeChatOperateModel = new SysWeChatOperateModel();
+                sysWeChatOperateModel.setOperateTime(System.currentTimeMillis());
+                for (SysWeChatUserModel sysWeChatUserModel : sysWeChatUserModelList) {
+                    String userKey = sysWeChatUserModel.getWeChatPublicId() + MINUS + sysWeChatUserModel.getWeChatUserId();
+                    if (!(D013 + MINUS + STR_1).equals(sysWeChatUserModel.getIsAuth())) {
+                        sysWeChatOperateModel.setOperateFlow(FLOW_CODE_AUTH);
+                    } else if (StringUtils.isBlank(sysWeChatUserModel.getUserId())) {
+                        sysWeChatOperateModel.setOperateFlow(FLOW_CODE_BIND);
+                    } else {
+                        sysWeChatOperateModel.setOperateFlow(FLOW_CODE_SELECT);
+                    }
+                    WECHAT_FLOW_OPERATE.put(userKey, sysWeChatOperateModel);
                 }
-                WECHAT_FLOW_OPERATE.put(userKey, sysWeChatOperateModel);
             }
         }
     }

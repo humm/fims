@@ -19,7 +19,7 @@ public interface SysWeChatFlowDao {
     /**
      * 查询流程步骤
      *
-     * @param selectFlowList
+     * @param sysWeChatFlowQueryModel
      * @return
      */
     List<SysWeChatFlowModel> selectFlowList(SysWeChatFlowQueryModel sysWeChatFlowQueryModel);
