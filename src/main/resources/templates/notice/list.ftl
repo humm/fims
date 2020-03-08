@@ -18,11 +18,7 @@
     <div class="layui-card">
         <div class="layui-tab layui-tab-brief">
             <ul class="layui-tab-title">
-                <li style="margin: 0px 10px;" id="read">未读
-                    <span id="notReadCount" style="display: none;">
-                        <span class="layui-badge" style="top: 30%; border-radius: 50%;"></span>
-                    </span>
-                </li>
+                <li style="margin: 0px 10px;" id="read">未读</li>
                 <li style="margin: 0px 10px;" id="isRead">已读</li>
             </ul>
             <div class="layui-tab-content">
@@ -105,15 +101,7 @@
         fims.initTable({
             elem: "#LAY-app-notice_read",
             url: url.page + '?readStatus=D012-1',
-            cols: tableColumn,
-            done: function(res, curr, count){
-                if (count > 0) {
-                    $("#notReadCount").show();
-                } else {
-                    $("#notReadCount").hide();
-                }
-                $(".layui-badge").text(count);
-            }
+            cols: tableColumn
         });
 
         fims.initTable({

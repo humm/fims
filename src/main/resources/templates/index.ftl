@@ -35,7 +35,7 @@
                 <li class="layui-nav-item" lay-unselect>
                     <a lay-href="notice/view/list?menuId=20190000000017" lay-text="消息通知">
                         <i class="layui-icon layui-icon-notice"></i>
-                        <span class="" style="top: 30%; border-radius: 50%;" id="readNum">
+                        <span class="" style="top: 35%; left: 40%; border-radius: 50%;" id="readNum">
                     </a>
                 </li>
                 <li class="layui-nav-item" lay-unselect>
