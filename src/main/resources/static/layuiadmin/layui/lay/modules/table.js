@@ -201,7 +201,7 @@
                     var status = e.getResponseHeader("status");
                     // 跳转登录页面
                     if(status == "timeout" || status == "init" || status == "update" || status == "backup") {
-                        var message = e.getResponseHeader("message");
+                        var message = decodeURI(e.getResponseHeader("message"));
                         layer.alert(message, function () {
                             parent.location.href = "./login";
                         });
