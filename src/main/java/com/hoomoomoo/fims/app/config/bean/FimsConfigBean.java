@@ -46,4 +46,9 @@ public class FimsConfigBean {
      */
     private String initMode;
 
+    /**
+     * 超级模式
+     */
+    private String superMode;
+
 }

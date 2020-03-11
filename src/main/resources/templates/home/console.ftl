@@ -63,11 +63,14 @@
             if (!$.isEmptyObject(data.user) && data.sysConfig.user == '1') {
                 initUser(data.user);
             }
-
             $(".other").html('');
             // 初始化提示信息
             if (!$.isEmptyObject(data.tips) && data.sysConfig.tips == '1') {
                 $(".other").append(initInfo(data.tips));
+            }
+            // 初始化用户注册信息
+            if (!$.isEmptyObject(data.register)&& data.sysConfig.register == '1') {
+                $(".other").append(initInfo(data.register));
             }
             // 初始化登入日志信息
             if (!$.isEmptyObject(data.login) && data.sysConfig.login == '1') {
@@ -77,6 +80,7 @@
             if (!$.isEmptyObject(data.version)&& data.sysConfig.version == '1') {
                 $(".other").append(initInfo(data.version));
             }
+
         }
 
         // 初始化业务数据

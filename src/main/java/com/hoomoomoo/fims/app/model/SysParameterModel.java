@@ -40,4 +40,7 @@ public class SysParameterModel{
 
     @ApiModelProperty(value = "是否编辑", required = false)
     private String isEdit;
+
+    @ApiModelProperty(value = "参数分组", required = false)
+    private String parameterGroup;
 }

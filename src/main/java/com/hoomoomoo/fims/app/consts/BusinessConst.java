@@ -696,6 +696,16 @@ public class BusinessConst {
     public static final String MENU_ID_LOGIN                                 = "20190000000019";
 
     /**
+     * 菜单：用户信息
+     */
+    public static final String MENU_ID_USER                                  = "20190000000012";
+
+    /**
+     * 菜单：超级管理员菜单
+     */
+    public static final String MENU_ID_SUPER_MODE                            = "20190000000015,20190000000021";
+
+    /**
      * 用户名称
      */
     public static final String USER_NAME                                     = "userName";

@@ -55,11 +55,15 @@ public class InitRunnerConfig implements CommandLineRunner {
         // 加载微信流程处理步骤
         sysWeChatFlowService.getWeChatFlow(true);
 
+        // 超级模式启动
+        sysSystemService.startSuperMode();
+
         // 系统启动备份
         sysSystemService.startBackup();
 
         // 处理邮件申请数据
         sysSystemService.startMail();
+
 
         SysLogUtils.load(logger, LOG_BUSINESS_TYPE_INIT);
     }

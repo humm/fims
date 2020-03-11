@@ -148,6 +148,19 @@ public class SysMenuServiceImpl implements SysMenuService {
     }
 
     /**
+     * 更新菜单信息
+     *
+     * @param sysMenuModel
+     */
+    @Override
+    public void updateMenu(SysMenuModel sysMenuModel) {
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_MENU, LOG_OPERATE_TYPE_UPDATE);
+        SysLogUtils.parameter(logger, sysMenuModel);
+        sysMenuDao.updateMenu(sysMenuModel);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_MENU, LOG_OPERATE_TYPE_UPDATE);
+    }
+
+    /**
      * 查询子菜单信息
      *
      * @param sysMenuModel

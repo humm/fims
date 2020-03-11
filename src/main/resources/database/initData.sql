@@ -208,7 +208,7 @@ insert into sys_parameter (parameter_code, parameter_caption, parameter_value, p
 values ('cookieTimeout', 'cookie有效时间(天)', '15', 'number', '5', '1', '1', 55);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
-values ('userDefaultPassword', '用户默认密码', '123456', 'text', null, '1', '1', 60);
+values ('userDefaultPassword', '用户默认密码', 'fims', 'text', null, '1', '1', 60);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
 values ('messageTip', '未读消息提醒', '1', 'switch', null, '1', '1', 65);

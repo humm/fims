@@ -46,4 +46,11 @@ public interface SysMenuService {
      * @return
      */
     ResultData selectMenu();
+
+    /**
+     * 更新菜单信息
+     *
+     * @param sysMenuModel
+     */
+    void updateMenu(SysMenuModel sysMenuModel);
 }

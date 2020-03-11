@@ -14,6 +14,7 @@ import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.model.common.ViewData;
 import com.hoomoomoo.fims.app.service.SysInterfaceService;
+import com.hoomoomoo.fims.app.service.SysMenuService;
 import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.*;
@@ -87,6 +88,9 @@ public class SysSystemServiceImpl implements SysSystemService {
 
     @Autowired
     private SysInterfaceService sysInterfaceService;
+
+    @Autowired
+    private SysMenuService sysMenuService;
 
     /**
      * 控制台输出应用配置参数
@@ -929,6 +933,21 @@ public class SysSystemServiceImpl implements SysSystemService {
         if (startMail) {
             sysInterfaceService.handleMailRequest();
         }
+    }
+
+    /**
+     * 超级模式启动
+     */
+    @Override
+    public void startSuperMode() {
+        SysMenuModel sysMenuModel = new SysMenuModel();
+        if (STR_1.equals(fimsConfigBean.getSuperMode())) {
+            sysMenuModel.setIsEnable(STR_1);
+        } else {
+            sysMenuModel.setIsEnable(STR_0);
+        }
+        sysMenuModel.setMenuId(MENU_ID_SUPER_MODE);
+        sysMenuService.updateMenu(sysMenuModel);
     }
 
     /**

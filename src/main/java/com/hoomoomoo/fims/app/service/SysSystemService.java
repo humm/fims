@@ -150,4 +150,9 @@ public interface SysSystemService {
      */
     void startMail();
 
+    /**
+     * 超级模式启动
+     */
+    void startSuperMode();
+
 }

@@ -124,4 +124,9 @@
         order by a.menu_order
     </select>
 
+    <select id="updateMenu" resultType="com.hoomoomoo.fims.app.model.SysMenuModel">
+        update sys_menu set is_enable = #{isEnable}
+        where instr(#{menuId}, menu_id) > 0
+    </select>
+
 </mapper>

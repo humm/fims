@@ -9,6 +9,7 @@
         parameter_order parameterOrder,
         parameter_type parameterType,
         parameter_ext parameterExt,
+        parameter_group parameterGroup,
         is_show isShow,
         is_edit isEdit
     </sql>

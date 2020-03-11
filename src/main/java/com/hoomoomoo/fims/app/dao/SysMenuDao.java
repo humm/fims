@@ -61,4 +61,11 @@ public interface SysMenuDao {
      */
     List<SysMenuModel> selectUrlMenu();
 
+    /**
+     * 更新菜单信息
+     *
+     * @param sysMenuModel
+     */
+    void updateMenu(SysMenuModel sysMenuModel);
+
 }

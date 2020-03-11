@@ -1,5 +1,7 @@
 -- 升级脚本
 -- 发布版本修改点: sys_version新增记录  pom.xml修改版本  常量SYSTEM_VERSION修改
+-- 修订信息
+-- 1：功能 2：优化 3：修复 4：发版
 
 -- 修复 日期控件缺陷
 call add_version('20190000000063', '日期控件加载不出来(一闪而过)', '2020-02-23', 310, '3');
@@ -43,7 +45,7 @@ values ('D013', '0', '否', 2, null, 20190000000001, null, null);
 
 -- 功能 微信公众号集成
 call add_parameter('weChatWelcome', '微信公众号欢迎语', '智慧家庭,畅享生活', 'text', null, '1', '1', 70);
-call add_parameter('weChatKey', '微信公众号密钥', 'fims', 'text', null, '1', '1', 75);
+call add_parameter('weChatKey', '微信公众号密钥', 'fimswechat', 'text', null, '1', '1', 75);
 call add_parameter('weChatOpen', '微信公众号对外开放状态', '2', 'switch', null, '1', '1', 80);
 call add_parameter('weChatOperateTime', '微信操作时间间隔(秒)', '30', 'number', null, '1', '1', 85);
 call add_parameter('weChatOperateBack', '微信操作后返回主菜单', '1', 'switch', null, '1', '1', 90);
@@ -140,12 +142,12 @@ values (20200000000004, '4', 'income-all', '收入查询 - 总收入', null, '1'
 insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
 values (20200000000005, '5', 'income-add', '收入新增', '请按如下格式输入收入信息
 
-当前用户: 中文名称
-目标对象: 中文名称
-业务日期: yyyyMMdd
-业务子类型: 中文名称
-业务金额: 支持两位小数
-业务备注: 最大150字符', '1', 5, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+收入用户: 中文名称
+收入来源: 中文名称
+收入日期: yyyyMMdd
+收入类型: 中文名称
+收入金额: 支持两位小数
+收入备注: 最大150字符', '1', 5, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 ' || '16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
 
 insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
 values (20200000000006, '6', 'income-delete', '收入删除', '请输入业务流水号', '1', 6, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
@@ -171,12 +173,12 @@ values (20200000000013, '12', 'gift-all', '随礼查询 - 总随礼', null, '2',
 insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
 values (20200000000014, '13', 'git-add', '随礼新增', '请按如下格式输入随礼信息
 
-当前用户: 中文名称
-目标对象: 中文名称
-业务日期: yyyyMMdd
-业务子类型: 中文名称
-业务金额: 支持两位小数
-业务备注: 最大150字符', '2', 13, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+送礼用户: 中文名称
+收礼用户: 中文名称
+随礼日期: yyyyMMdd
+随礼类型: 中文名称
+随礼金额: 支持两位小数
+随礼备注: 最大150字符', '2', 13, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 ' || '16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
 
 insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
 values (20200000000016, '14', 'gift-delete', '随礼删除', '请输入业务流水号', '2', 14, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
@@ -184,8 +186,39 @@ values (20200000000016, '14', 'gift-delete', '随礼删除', '请输入业务流
 insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
 values (20200000000017, '99', 'main', '返回主菜单', null, '2', 99, to_timestamp('2020-02-29 10:27:32', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 10:27:32', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
 
-call add_version('20190000000071', '集成微信公众号', '2020-03-05', 345, '1');
+call add_version('20190000000071', '微信公众号业务查询', '2020-03-05', 345, '1');
 call add_version('20190000000072', '发布版本：3.2.00', '2020-03-06', 350, '4');
 call update_system_version('3.2.00');
 
+-- 系统参数表新增分组字段
+call add_column('sys_parameter', 'parameter_group', 'varchar2(50)', ''' ''');
+update sys_parameter set parameter_group = '微信参数', parameter_order = '80' where parameter_code = 'weChatWelcome';
+update sys_parameter set parameter_group = '微信参数', parameter_order = '85' where parameter_code = 'weChatKey';
+update sys_parameter set parameter_group = '微信参数', parameter_order = '90' where parameter_code = 'weChatOpen';
+update sys_parameter set parameter_group = '微信参数', parameter_order = '95' where parameter_code = 'weChatOperateTime';
+update sys_parameter set parameter_group = '微信参数', parameter_order = '100' where parameter_code = 'weChatOperateBack';
+
+update sys_parameter set parameter_group = '提示参数', parameter_order = '50' where parameter_code = 'startConsoleOutput';
+update sys_parameter set parameter_group = '提示参数', parameter_order = '55' where parameter_code = 'consoleOutputLogRequestTag';
+update sys_parameter set parameter_group = '提示参数', parameter_order = '60' where parameter_code = 'consoleOutputLogRequestParameter';
+update sys_parameter set parameter_group = '提示参数', parameter_order = '65' where parameter_code = 'mindFill';
+update sys_parameter set parameter_group = '提示参数', parameter_order = '70' where parameter_code = 'messageTip';
+
+update sys_parameter set parameter_group = '系统参数', parameter_order = '10' where parameter_code = 'startBackup';
+update sys_parameter set parameter_group = '系统参数', parameter_order = '15' where parameter_code = 'backupMode';
+update sys_parameter set parameter_group = '系统参数', parameter_order = '20' where parameter_code = 'backupLocation';
+update sys_parameter set parameter_group = '系统参数', parameter_order = '25' where parameter_code = 'startMail';
+update sys_parameter set parameter_group = '系统参数', parameter_order = '30' where parameter_code = 'yearStartDate';
+update sys_parameter set parameter_group = '系统参数', parameter_order = '35' where parameter_code = 'sessionTimeout';
+update sys_parameter set parameter_group = '系统参数', parameter_order = '40' where parameter_code = 'cookieTimeout';
+update sys_parameter set parameter_group = '系统参数', parameter_order = '45' where parameter_code = 'userDefaultPassword';
+update sys_parameter set parameter_group = '系统参数', parameter_order = '999' where parameter_code = 'version';
+
+call add_version('20190000000073', '系统参数分组显示', '2020-03-10', 355, '2');
+
+delete from sys_config where module_group_code = 'console' and module_code = 'register';
+insert into sys_config (MODULE_GROUP_CODE, MODULE_GROUP_NAME, MODULE_CODE, MODULE_NAME, MODULE_STATUS, MODULE_EXT)
+values ('console', '首页信息', 'register', '注册信息', '1', null);
+call add_version('20190000000074', '首页注册信息模块', '2020-03-11', 360, '1');
+call add_version('20190000000075', '微信交互提示', '2020-03-11', 365, '2');
 

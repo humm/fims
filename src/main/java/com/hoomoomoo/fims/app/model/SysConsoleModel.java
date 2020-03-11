@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 public class SysConsoleModel {
 
-    @ApiModelProperty(value="业务数据", required = false)
+    @ApiModelProperty(value="用户业务信息", required = false)
     private List<SysBusinessModel> user                  = new ArrayList<>();
 
     @ApiModelProperty(value="登入日志数据", required = false)
@@ -27,6 +27,9 @@ public class SysConsoleModel {
 
     @ApiModelProperty(value="统计开始时间", required = false)
     private List<SysItemModel> tips                      = new ArrayList<>();
+
+    @ApiModelProperty(value="用户信息", required = false)
+    private List<SysItemModel> register                  = new ArrayList<>();
 
     @ApiModelProperty(value="模块控制信息", required = false)
     private SysModuleModel sysConfig;

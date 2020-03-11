@@ -476,9 +476,24 @@ public class CueConst {
     public static final String CONSOLE_VERSION_TIPS                             = "提示信息";
 
     /**
-     * 版本信息
+     * 版本号
      */
     public static final String CONSOLE_VERSION_CODE                             = "版本号";
+
+    /**
+     * 注册信息
+     */
+    public static final String CONSOLE_REGISTER_TIPS                            = "注册信息";
+
+    /**
+     * 系统注册用户数
+     */
+    public static final String CONSOLE_REGISTER_NUM                             = "系统注册用户数";
+
+    /**
+     * 微信注册用户数
+     */
+    public static final String CONSOLE_REGISTER_WECHAT_NUM                      = "微信注册用户数";
 
     /**
      * 数据备份开始
@@ -794,5 +809,29 @@ public class CueConst {
      * 微信：参数数量不匹配,请重新输入
      */
     public static final String WECHAT_PARAMETER_ERROR                            = "数据不匹配,请重新输入";
+
+    /**
+     * 接口提示信息相关
+     */
+    public static final String INTERFACE_TIPS_USER                               = "当前用户";
+    public static final String INTERFACE_TIPS_TARGET                             = "目标对象";
+    public static final String INTERFACE_TIPS_BUSINESS_DATE                      = "业务日期";
+    public static final String INTERFACE_TIPS_BUSINESS_SUB_TYPE                  = "业务子类型";
+    public static final String INTERFACE_TIPS_BUSINESS_AMOUNT                    = "业务金额";
+    public static final String INTERFACE_TIPS_BUSINESS_MEMO                      = "业务备注";
+
+    public static final String INTERFACE_TIPS_INCOME_USER                        = "收入用户";
+    public static final String INTERFACE_TIPS_INCOME_TARGET                      = "收入来源";
+    public static final String INTERFACE_TIPS_INCOME_BUSINESS_DATE               = "收入日期";
+    public static final String INTERFACE_TIPS_INCOME_BUSINESS_SUB_TYPE           = "收入类型";
+    public static final String INTERFACE_TIPS_INCOME_BUSINESS_AMOUNT             = "收入金额";
+    public static final String INTERFACE_TIPS_INCOME_BUSINESS_MEMO               = "收入备注";
+
+    public static final String INTERFACE_TIPS_GIFT_USER                          = "送礼用户";
+    public static final String INTERFACE_TIPS_GIFT_TARGET                        = "收礼用户";
+    public static final String INTERFACE_TIPS_GIFT_BUSINESS_DATE                 = "随礼日期";
+    public static final String INTERFACE_TIPS_GIFT_BUSINESS_SUB_TYPE             = "随礼类型";
+    public static final String INTERFACE_TIPS_GIFT_BUSINESS_AMOUNT               = "随礼金额";
+    public static final String INTERFACE_TIPS_GIFT_BUSINESS_MEMO                 = "随礼备注";
 
 }

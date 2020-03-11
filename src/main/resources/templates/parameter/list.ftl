@@ -15,8 +15,7 @@
 <body>
 
 
-<div class="layui-fluid layadmin-maillist-fluid">
-    <div class="layui-row layui-col-space15 parameter"></div>
+<div class="layui-fluid layadmin-maillist-fluid parameter">
 </div>
 
 
@@ -55,8 +54,16 @@
                         $(".parameter").html("");
                         var parameterList = response.data;
                         if (!$.isEmptyObject(parameterList)) {
-                            var item = "";
                             for (var i = 0; i < parameterList.length; i++) {
+                                if ($(".parameter div." + parameterList[i].parameterGroup).length == 0) {
+                                    var group = '<div class="layadmin-maillist-img layadmin-font-blod ' + parameterList[i].parameterGroup + '"';
+                                    group += 'style="margin-bottom: 10px; margin-top: 10px;font-size: 20px;">';
+                                    group += parameterList[i].parameterGroup;
+                                    group += '</div>';
+                                    group += '<div class="layui-row layui-col-space15 item"></div>';
+                                    $(".parameter").append(group);
+                                }
+                                var item = "";
                                 item += '<div class="layui-col-md4 layui-col-sm6" parameterCode="' + parameterList[i].parameterCode + '"';
                                 item += '   parameterType="' + parameterList[i].parameterType + '" parameterExt="' + parameterList[i].parameterExt +'"';
                                 item += '   isEdit="' + parameterList[i].isEdit + '" parameterOldValue="' + fims.value(parameterList[i].parameterOldValue) + '">';
@@ -71,8 +78,8 @@
                                 item += '       </div>';
                                 item += '    </div>';
                                 item += '</div>';
+                                $("." + parameterList[i].parameterGroup).next().append(item);
                             }
-                            $(".parameter").append(item);
                         }
                         form.render();
                     } else {

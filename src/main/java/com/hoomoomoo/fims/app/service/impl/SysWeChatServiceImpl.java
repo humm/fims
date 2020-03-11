@@ -111,7 +111,7 @@ public class SysWeChatServiceImpl implements SysWeChatService {
             SysWeChatOperateModel sysWeChatOperateModel = WECHAT_FLOW_OPERATE.get(userKey);
             Long lastOperateTime = sysWeChatOperateModel.getOperateTime();
             Long currentTime = System.currentTimeMillis();
-            System.out.println(sysWeChatOperateModel.getOperateFlow());
+            SysLogUtils.info(logger, sysWeChatOperateModel.getOperateFlow());
             if (System.currentTimeMillis() > (lastOperateTime + operateTime * 1000)) {
                 if (isAuthBind(userKey)) {
                     sysWeChatOperateModel.setOperateFlow(FLOW_CODE_SELECT);
@@ -578,11 +578,37 @@ public class SysWeChatServiceImpl implements SysWeChatService {
             requestModelList.add(sysInterfaceRequestModel);
             SysInterfaceResponseModel sysInterfaceResponseModel =
                     sysInterfaceService.handleRequestData(requestModelList, null);
-            response.setContent(sysInterfaceResponseModel.getMessage());
+            response.setContent(convertMessage(businessType, sysInterfaceResponseModel.getMessage()));
             if (sysInterfaceResponseModel.getResult()) {
                 setOperateAfterFlow(request, flowCode);
             }
         }
+    }
+
+    /**
+     * 提示消息转换
+     *
+     * @param message
+     * @return
+     */
+    private String convertMessage(String businessType, String message) {
+        // 转换处理提示消息
+        if (INTERFACE_TYPE_INCOME.equals(businessType)) {
+            return message.replace(INTERFACE_TIPS_USER, INTERFACE_TIPS_INCOME_USER)
+                    .replace(INTERFACE_TIPS_TARGET, INTERFACE_TIPS_INCOME_TARGET)
+                    .replace(INTERFACE_TIPS_BUSINESS_DATE, INTERFACE_TIPS_INCOME_BUSINESS_DATE)
+                    .replace(INTERFACE_TIPS_BUSINESS_SUB_TYPE, INTERFACE_TIPS_INCOME_BUSINESS_SUB_TYPE)
+                    .replace(INTERFACE_TIPS_BUSINESS_AMOUNT, INTERFACE_TIPS_INCOME_BUSINESS_AMOUNT)
+                    .replace(INTERFACE_TIPS_BUSINESS_MEMO, INTERFACE_TIPS_INCOME_BUSINESS_MEMO);
+        } else if (INTERFACE_TYPE_GIFT.equals(businessType)) {
+            return message.replace(INTERFACE_TIPS_USER, INTERFACE_TIPS_GIFT_USER)
+                    .replace(INTERFACE_TIPS_TARGET, INTERFACE_TIPS_GIFT_TARGET)
+                    .replace(INTERFACE_TIPS_BUSINESS_DATE, INTERFACE_TIPS_GIFT_BUSINESS_DATE)
+                    .replace(INTERFACE_TIPS_BUSINESS_SUB_TYPE, INTERFACE_TIPS_GIFT_BUSINESS_SUB_TYPE)
+                    .replace(INTERFACE_TIPS_BUSINESS_AMOUNT, INTERFACE_TIPS_GIFT_BUSINESS_AMOUNT)
+                    .replace(INTERFACE_TIPS_BUSINESS_MEMO, INTERFACE_TIPS_GIFT_BUSINESS_MEMO);
+        }
+        return message;
     }
 
     /**

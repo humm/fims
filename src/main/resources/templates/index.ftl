@@ -223,7 +223,7 @@
                 type: 2,
                 title: "首页模块设置",
                 content: url.module,
-                area:  ["300px", "320px"],
+                area:  ["300px", "360px"],
                 btn: [fims.tips.btn.save, fims.tips.btn.cancel],
                 resize: fims.set.resize,
                 yes: function (e, t) {
@@ -241,7 +241,8 @@
                     user: fims.isBlank(data.field["user"]) ? 'off' : data.field["user"],
                     tips: fims.isBlank(data.field["tips"]) ? 'off' : data.field["tips"],
                     login: fims.isBlank(data.field["login"]) ? 'off' : data.field["login"],
-                    version: fims.isBlank(data.field["version"]) ? 'off' : data.field["version"]
+                    version: fims.isBlank(data.field["version"]) ? 'off' : data.field["version"],
+                    register: fims.isBlank(data.field["register"]) ? 'off' : data.field["register"]
                 };
                 admin.req({
                     url: url.save,

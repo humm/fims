@@ -16,7 +16,7 @@ public class SysModuleModel extends BaseModel {
 
     /** 首页模块 开始 */
 
-    @ApiModelProperty(value="业务数据模块", required = false)
+    @ApiModelProperty(value="用户信息模块", required = false)
     private String user;
 
     @ApiModelProperty(value="提示信息模块", required = false)
@@ -27,6 +27,9 @@ public class SysModuleModel extends BaseModel {
 
     @ApiModelProperty(value="版本信息模块", required = false)
     private String version;
+
+    @ApiModelProperty(value="注册信息模块", required = false)
+    private String register;
 
     /** 首页模块 结束 */
 }

@@ -28,6 +28,12 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">注册信息</label>
+        <div class="layui-input-inline" style="margin: 0 0 10px 30px;">
+            <input type="checkbox" name="register" <#if '${register}' =='1'> checked </#if> lay-skin="switch" lay-text="开启|关闭" />
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">登录信息</label>
         <div class="layui-input-inline" style="margin: 0 0 10px 30px;">
             <input type="checkbox" name="login" <#if '${login}' =='1'> checked </#if> lay-skin="switch" lay-text="开启|关闭" />

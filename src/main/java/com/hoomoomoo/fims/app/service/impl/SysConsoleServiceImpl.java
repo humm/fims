@@ -4,6 +4,7 @@ import com.hoomoomoo.fims.app.config.WebSocketServerConfig;
 import com.hoomoomoo.fims.app.dao.SysConfigDao;
 import com.hoomoomoo.fims.app.dao.SysConsoleDao;
 import com.hoomoomoo.fims.app.dao.SysMenuDao;
+import com.hoomoomoo.fims.app.dao.SysWeChatUserDao;
 import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
@@ -65,6 +66,9 @@ public class SysConsoleServiceImpl implements SysConsoleService {
     @Autowired
     private SysConfigDao sysConfigDao;
 
+    @Autowired
+    private SysWeChatUserDao sysWeChatUserDao;
+
     /**
      * 查询首页信息
      *
@@ -81,6 +85,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         sysConsoleQueryModel.setYearStartDate(yearStartDate);
         // 查询未读消息通知
         sysConsoleModel.setReadNum(selectReadNoticeNum());
+        // 查询模块配置信息
         sysConsoleModel.setSysConfig(selectConfigModule());
         Map<String, String> menu = getMenuInfo();
         if (sessionBean != null) {
@@ -115,6 +120,8 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         setVersionInfo(sysConsoleModel, menu);
         // 设置提示信息
         setTipsInfo(sysConsoleModel, sysConsoleQueryModel, menu);
+        // 设置注册用户信息
+        setRegisterInfo(sysConsoleModel, menu);
         // 首页用户数据处理
         if (sysConsoleModel.getUser() != null && sysConsoleModel.getUser().size() == 2) {
             // 系统当前只有一个用户
@@ -147,6 +154,32 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         setVersionValue(sysConsoleModel, CONSOLE_VERSION_TITLE, CONSOLE_VERSION_TITLE, null);
         setVersionValue(sysConsoleModel, CONSOLE_VERSION_CODE, sysParameterService.getParameterString(VERSION),
                 menu.get(MENU_ID_VERSION));
+    }
+
+    /**
+     * 设置注册信息
+     *
+     * @param sysConsoleModel
+     * @param menu
+     */
+    private void setRegisterInfo(SysConsoleModel sysConsoleModel, Map<String, String> menu) {
+        SessionBean sessionBean = SysSessionUtils.getSession();
+        if (sessionBean != null) {
+            setRegisterValue(sysConsoleModel, CONSOLE_REGISTER_TIPS, CONSOLE_REGISTER_TIPS, null);
+            // 设置注册用户数
+            setRegisterValue(sysConsoleModel, CONSOLE_REGISTER_NUM,
+                    String.valueOf(DICTIONARY_CONDITION.get(sessionBean.getUserId()).get(D000).size()),
+                    menu.get(MENU_ID_USER));
+            SysWeChatUserQueryModel sysWeChatUserQueryModel = new SysWeChatUserQueryModel();
+            if (!sessionBean.getIsAdminData()) {
+                sysWeChatUserQueryModel.setUserId(sessionBean.getUserId());
+            }
+            // 设置微信注册用户数
+            setRegisterValue(sysConsoleModel, CONSOLE_REGISTER_WECHAT_NUM,
+                    String.valueOf(sysWeChatUserDao.selectList(sysWeChatUserQueryModel).size()),
+                    null);
+
+        }
     }
 
     /**
@@ -307,6 +340,18 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      */
     private void setVersionValue(SysConsoleModel sysConsoleModel, String title, String value, String url) {
         sysConsoleModel.getVersion().add(new SysItemModel(title, formatValue(value, false, false), url));
+    }
+
+    /**
+     * 设置注册信息值
+     *
+     * @param sysConsoleModel
+     * @param title
+     * @param value
+     * @param url
+     */
+    private void setRegisterValue(SysConsoleModel sysConsoleModel, String title, String value, String url) {
+        sysConsoleModel.getRegister().add(new SysItemModel(title, formatValue(value, false, false), url));
     }
 
     /**
