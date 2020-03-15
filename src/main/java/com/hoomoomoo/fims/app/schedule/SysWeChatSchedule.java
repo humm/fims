@@ -18,6 +18,7 @@ import org.springframework.scheduling.support.CronTrigger;
 
 import java.util.Date;
 
+import static com.hoomoomoo.fims.app.consts.BusinessConst.COLON;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
@@ -53,7 +54,7 @@ public class SysWeChatSchedule implements SchedulingConfigurer {
                 sysWeChatFlowService.getWeChatFlow(false);
                 SysLogUtils.info(logger, String.format(BUSINESS_SCHEDULE_WECHAT, LOG_OPERATE_TAG_END));
             } catch (Exception e) {
-                SysLogUtils.exception(logger, BUSINESS_SCHEDULE_WECHAT, e);
+                SysLogUtils.exception(logger, BUSINESS_SCHEDULE_WECHAT.split(COLON)[0], e);
             }
         }, (triggerContext) -> {
             CronTrigger trigger = new CronTrigger(cron);
