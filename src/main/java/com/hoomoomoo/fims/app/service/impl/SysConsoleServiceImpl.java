@@ -174,11 +174,6 @@ public class SysConsoleServiceImpl implements SysConsoleService {
             if (!sessionBean.getIsAdminData()) {
                 sysWeChatUserQueryModel.setUserId(sessionBean.getUserId());
             }
-            // 设置微信注册用户数
-            setRegisterValue(sysConsoleModel, CONSOLE_REGISTER_WECHAT_NUM,
-                    String.valueOf(sysWeChatUserDao.selectList(sysWeChatUserQueryModel).size()),
-                    null);
-
         }
     }
 

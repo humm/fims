@@ -411,6 +411,11 @@ public class CueConst {
     public static final String LOG_BUSINESS_MAIL_HANDLEING                      = "邮件信息处理中...";
 
     /**
+     * 邮件参数配置
+     */
+    public static final String MAIL_NOT_CONFIG                                  = "请配置邮件相关参数...";
+
+    /**
      * 不支持的内容格式
      */
     public static final String MAIL_CONTENT_NOT_SUPPORT                         = "不支持的内容格式";
@@ -489,11 +494,6 @@ public class CueConst {
      * 系统注册用户数
      */
     public static final String CONSOLE_REGISTER_NUM                             = "系统注册用户数";
-
-    /**
-     * 微信注册用户数
-     */
-    public static final String CONSOLE_REGISTER_WECHAT_NUM                      = "微信注册用户数";
 
     /**
      * 数据备份开始

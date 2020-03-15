@@ -70,6 +70,19 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
     @Autowired
     private SystemConfigBean systemConfigBean;
 
+    /**
+     * 邮件参数配置信息校验
+     *
+     * @return
+     */
+    private boolean mialParameterConfig() {
+        return StringUtils.isBlank(mailConfigBean.getFrom()) || StringUtils.isBlank(mailConfigBean.getUsername())
+                || StringUtils.isBlank(mailConfigBean.getPassword()) || StringUtils.isBlank(mailConfigBean.getHost())
+                || StringUtils.isBlank(mailConfigBean.getProtocol()) || StringUtils.isBlank(mailConfigBean.getSubject())
+                || StringUtils.isBlank(mailConfigBean.getReceiveHost()) || StringUtils.isBlank(mailConfigBean.getReceiveUsername())
+                || StringUtils.isBlank(mailConfigBean.getReceivePassword()) || StringUtils.isBlank(mailConfigBean.getReceiveProtocol())
+                || StringUtils.isBlank(mailConfigBean.getReceiveFolder());
+    }
 
     /**
      * 处理邮件请求
@@ -78,6 +91,11 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
     public void handleMailRequest() {
         if (MAIL_HANDLE_FLAG) {
             SysLogUtils.info(logger, LOG_BUSINESS_MAIL_HANDLEING);
+            return;
+        }
+        // 邮件配置参数判断
+        if (mialParameterConfig()) {
+            SysLogUtils.info(logger, MAIL_NOT_CONFIG);
             return;
         }
         MAIL_HANDLE_FLAG = true;

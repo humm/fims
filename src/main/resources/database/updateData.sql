@@ -131,10 +131,10 @@ insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_t
 values (20200000000001, '1', 'income-month', '收入查询 - 月度', null, '1', 1, to_timestamp('2020-02-29 16:11:46', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:11:46', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
 
 insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
-values (20200000000002, '2', 'income-year', '收入查询 - 年度', null, '1', 2, to_timestamp('2020-02-29 16:13:19', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:13:19', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+values (20200000000002, '3', 'income-year', '收入查询 - 年度', null, '1', 3, to_timestamp('2020-02-29 16:13:19', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:13:19', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
 
 insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
-values (20200000000003, '3', 'income-year-current', '收入查询 - 本年度', null, '1', 3, to_timestamp('2020-02-29 16:13:20', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:13:20', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+values (20200000000003, '2', 'income-year-current', '收入查询 - 本年度', null, '1', 2, to_timestamp('2020-02-29 16:13:20', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:13:20', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
 
 insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
 values (20200000000004, '4', 'income-all', '收入查询 - 总收入', null, '1', 4, to_timestamp('2020-02-29 16:13:20', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:13:20', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
@@ -162,10 +162,10 @@ insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_t
 values (20200000000010, '9', 'gift-last', '随礼查询 - 最近一次', null, '2', 9, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
 
 insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
-values (20200000000011, '10', 'gift-year', '随礼查询 - 年度', null, '2', 10, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+values (20200000000011, '11', 'gift-year', '随礼查询 - 年度', null, '2', 11, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
 
 insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
-values (20200000000012, '11', 'gift-year-current', '随礼查询 - 本年度', null, '2', 11, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
+values (20200000000012, '10', 'gift-year-current', '随礼查询 - 本年度', null, '2', 10, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
 
 insert into sys_wechat_flow (flow_id, flow_num, flow_code, flow_describe, flow_tips, flow_type, flow_order, create_date, modify_date, create_user, modify_user, is_show)
 values (20200000000013, '12', 'gift-all', '随礼查询 - 总随礼', null, '2', 12, to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), to_timestamp('2020-02-29 16:21:18', 'yyyy-MM-dd hh24:mi:ss'), '20190000000001', '20190000000001', 'D013-1');
@@ -219,6 +219,8 @@ call add_version('20190000000073', '系统参数分组显示', '2020-03-10', 355
 delete from sys_config where module_group_code = 'console' and module_code = 'register';
 insert into sys_config (MODULE_GROUP_CODE, MODULE_GROUP_NAME, MODULE_CODE, MODULE_NAME, MODULE_STATUS, MODULE_EXT)
 values ('console', '首页信息', 'register', '注册信息', '1', null);
-call add_version('20190000000074', '首页注册信息模块', '2020-03-11', 360, '1');
+call add_version('20190000000074', '首页用户注册信息模块', '2020-03-11', 360, '1');
 call add_version('20190000000075', '微信交互提示', '2020-03-11', 365, '2');
+call add_version('20190000000076', '发布版本：3.2.10', '2020-03-15', 370, '4');
+call update_system_version('3.2.10');
 
