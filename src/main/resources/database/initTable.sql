@@ -451,3 +451,8 @@ comment on column sys_role.create_user
     is '创建人';
 comment on column sys_role.modify_user
     is '修改人';
+
+-- sys_parameter添加parameter_group字段
+call add_column('sys_parameter', 'parameter_group', 'varchar2(50)', ''' ''');
+comment on column sys_parameter.parameter_group
+    is '参数分组';

@@ -192,6 +192,7 @@ call update_system_version('3.2.00');
 
 -- 系统参数表新增分组字段
 call add_column('sys_parameter', 'parameter_group', 'varchar2(50)', ''' ''');
+comment on column sys_parameter.parameter_group is '参数分组';
 update sys_parameter set parameter_group = '微信参数', parameter_order = '80' where parameter_code = 'weChatWelcome';
 update sys_parameter set parameter_group = '微信参数', parameter_order = '85' where parameter_code = 'weChatKey';
 update sys_parameter set parameter_group = '微信参数', parameter_order = '90' where parameter_code = 'weChatOpen';

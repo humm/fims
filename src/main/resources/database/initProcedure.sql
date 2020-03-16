@@ -14,3 +14,14 @@ begin
     end if;
 end drop_table;
 -- ====== --
+-- 添加字段
+create or replace procedure add_column(tableName in varchar2, columnName in varchar2, cloumnType in varchar2, defaultValue in varchar2)
+is
+    v_count number(10);
+begin
+    select count(1) into v_count from col where tname = upper(tableName) and cname = upper(columnName);
+    if v_count = 0 then
+       execute immediate 'alter table ' || tableName || ' add ' ||  columnName || ' ' || cloumnType || ' default ' || defaultValue;
+    end if;
+end add_column;
+-- ====== --
