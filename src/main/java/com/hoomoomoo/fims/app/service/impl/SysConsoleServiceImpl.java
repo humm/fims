@@ -1,10 +1,7 @@
 package com.hoomoomoo.fims.app.service.impl;
 
 import com.hoomoomoo.fims.app.config.WebSocketServerConfig;
-import com.hoomoomoo.fims.app.dao.SysConfigDao;
-import com.hoomoomoo.fims.app.dao.SysConsoleDao;
-import com.hoomoomoo.fims.app.dao.SysMenuDao;
-import com.hoomoomoo.fims.app.dao.SysWeChatUserDao;
+import com.hoomoomoo.fims.app.dao.*;
 import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
@@ -68,6 +65,9 @@ public class SysConsoleServiceImpl implements SysConsoleService {
 
     @Autowired
     private SysWeChatUserDao sysWeChatUserDao;
+
+    @Autowired
+    private SysUserDao sysUserDao;
 
     /**
      * 查询首页信息
@@ -167,13 +167,13 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         if (sessionBean != null) {
             setRegisterValue(sysConsoleModel, CONSOLE_REGISTER_TIPS, CONSOLE_REGISTER_TIPS, null);
             // 设置注册用户数
-            setRegisterValue(sysConsoleModel, CONSOLE_REGISTER_NUM,
-                    String.valueOf(DICTIONARY_CONDITION.get(sessionBean.getUserId()).get(D000).size()),
-                    menu.get(MENU_ID_USER));
-            SysWeChatUserQueryModel sysWeChatUserQueryModel = new SysWeChatUserQueryModel();
+            SysUserQueryModel sysUserQueryModel = new SysUserQueryModel();
             if (!sessionBean.getIsAdminData()) {
-                sysWeChatUserQueryModel.setUserId(sessionBean.getUserId());
+                sysUserQueryModel.setUserId(sessionBean.getUserId());
             }
+            setRegisterValue(sysConsoleModel, CONSOLE_REGISTER_NUM,
+                    String.valueOf(sysUserDao.selectSysUser(sysUserQueryModel).size()),
+                    menu.get(MENU_ID_USER));
         }
     }
 
