@@ -225,3 +225,6 @@ call add_version('20190000000075', '微信交互提示', '2020-03-11', 365, '2')
 call add_version('20190000000076', '发布版本：3.2.10', '2020-03-15', 370, '4');
 call update_system_version('3.2.10');
 
+-- 删除 大额支付字典项
+delete from sys_dictionary where dictionary_code = 'D006';
+update sys_dictionary set dictionary_caption = '随礼用户' where dictionary_code = 'D009' and dictionary_item = '#';

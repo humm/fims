@@ -3,6 +3,7 @@ package com.hoomoomoo.fims.app.schedule;
 import com.hoomoomoo.fims.app.service.SysWeChatFlowService;
 import com.hoomoomoo.fims.app.service.SysWeChatService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,11 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.scheduling.support.CronTrigger;
 
+import java.sql.SQLSyntaxErrorException;
 import java.util.Date;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.COLON;
+import static com.hoomoomoo.fims.app.consts.BusinessConst.EXCEPTION_TYPE_TABLE_NOT_EXISTS;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**

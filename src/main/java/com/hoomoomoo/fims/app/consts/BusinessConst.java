@@ -834,4 +834,9 @@ public class BusinessConst {
      */
     public static final String BACKUP_EXCEL_FILTER_COLUMN                   = "income_id,gift_id,row_id";
 
+    /**
+     * 异常类型：表或视图不存在
+     */
+    public static final String EXCEPTION_TYPE_TABLE_NOT_EXISTS              = "ORA-00942";
+
 }

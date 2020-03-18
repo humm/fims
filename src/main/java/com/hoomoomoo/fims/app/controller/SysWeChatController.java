@@ -37,7 +37,7 @@ public class SysWeChatController {
      * @param response
      * @return
      */
-    @RequestMapping(value="/message")
+    @RequestMapping(value="/request")
     public String message(HttpServletRequest request, HttpServletResponse response){
         String responseMsg = sysWeChatService.message(request, response);
         SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_WECHAT, LOG_OPERATE_TYPE_HANDLE);
