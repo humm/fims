@@ -3,13 +3,10 @@
 -- 修订信息
 -- 1：功能 2：优化 3：修复 4：发版
 
--- 修复 日期控件缺陷
 call add_version('20190000000063', '日期控件加载不出来(一闪而过)', '2020-02-23', 310, '3');
 
--- 删除 系统参数文件上传路径
 delete from sys_parameter where parameter_code = 'uploadLocation';
 
--- 功能 自动化升级 Excel备份 优化随礼信息查询条件 发布新版本
 call add_version('20190000000064', '随礼信息：送礼人、收礼人修改为模糊查询', '2020-02-23', 315, '2');
 call add_version('20190000000065', '自动化系统升级', '2020-02-24', 320, '1');
 call add_version('20190000000066', 'Excel备份', '2020-02-25', 325, '1');
@@ -17,16 +14,12 @@ call add_version('20190000000067', '发布版本：3.1.10', '2020-02-25', 326, '
 
 call update_system_version('3.1.10');
 
--- 修复 邮件信息重复提醒
 call add_version('20190000000068', '邮件信息：业务日期格式错误重复提醒', '2020-02-26', 330, '3');
 
--- 修改 系统参数描述
 update sys_parameter set parameter_caption = '年度开始日期' where parameter_code = 'yearStartDate';
 
--- 修改 字典项D010
 update sys_dictionary set dictionary_item = '2', item_order = '2' where dictionary_code = 'D010' and dictionary_item = '0';
 
--- 优化 新增备份模式参数
 call add_parameter('backupMode', '系统备份模式', 'sql', 'checkbox', 'sql,dmp,xlsx', '1', '1', 36);
 call add_version('20190000000069', '系统备份：新增备份模式参数', '2020-02-26', 335, '2');
 call add_version('20190000000070', '发布版本：3.1.21', '2020-02-26', 340, '4');
@@ -43,7 +36,6 @@ values ('D013', '1', '是', 1, null, 20190000000001, null, null);
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D013', '0', '否', 2, null, 20190000000001, null, null);
 
--- 功能 微信公众号集成
 call add_parameter('weChatWelcome', '微信公众号欢迎语', '智慧家庭,畅享生活', 'text', null, '1', '1', 70);
 call add_parameter('weChatKey', '微信公众号密钥', 'fimswechat', 'text', null, '1', '1', 75);
 call add_parameter('weChatOpen', '微信公众号对外开放状态', '2', 'switch', null, '1', '1', 80);
@@ -54,7 +46,6 @@ delete from sys_dictionary where dictionary_code = 'D008' and dictionary_item = 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D008', '3', '微信', 3, null, 20190000000001, null, null);
 
--- 微信用户信息
 call create_table('sys_wechat_user', 'create table sys_wechat_user
 (
     wechat_user_id       varchar2(100) primary key,
@@ -84,8 +75,6 @@ comment on column sys_wechat_user.create_user
 comment on column sys_wechat_user.modify_user
     is '修改人';
 
-
--- 微信操作流程步骤
 call create_table('sys_wechat_flow', 'create table sys_wechat_flow
 (
     flow_id              number(30) primary key,
@@ -190,7 +179,6 @@ call add_version('20190000000071', '微信公众号业务查询', '2020-03-05', 
 call add_version('20190000000072', '发布版本：3.2.00', '2020-03-06', 350, '4');
 call update_system_version('3.2.00');
 
--- 系统参数表新增分组字段
 call add_column('sys_parameter', 'parameter_group', 'varchar2(50)', ''' ''');
 comment on column sys_parameter.parameter_group is '参数分组';
 update sys_parameter set parameter_group = '微信参数', parameter_order = '80' where parameter_code = 'weChatWelcome';
@@ -225,6 +213,6 @@ call add_version('20190000000075', '微信交互提示', '2020-03-11', 365, '2')
 call add_version('20190000000076', '发布版本：3.2.10', '2020-03-15', 370, '4');
 call update_system_version('3.2.10');
 
--- 删除 大额支付字典项
 delete from sys_dictionary where dictionary_code = 'D006';
 update sys_dictionary set dictionary_caption = '随礼用户' where dictionary_code = 'D009' and dictionary_item = '#';
+call add_version('20190000000077', '页面弹窗大小调整为百分比模式', '2020-03-19', 370, '2');

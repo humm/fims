@@ -270,10 +270,16 @@
             refresh: "refresh"
         },
         size: {
-            one: "450px",
-            two: "500px",
-            three: "700px",
-            four: "750px"
+            // 通用页面
+            one: "35%",
+            two: "95%",
+            // 参数信息页面
+            three: "65%",
+            four: "95%",
+            seven: '60%',
+            // 首页模块页面
+            five: '20%',
+            six: '60%'
         },
         tips: {
             title: {

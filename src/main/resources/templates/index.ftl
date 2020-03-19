@@ -223,7 +223,7 @@
                 type: 2,
                 title: "首页模块设置",
                 content: url.module,
-                area:  ["300px", "360px"],
+                area:  [fims.size.five, fims.size.six],
                 btn: [fims.tips.btn.save, fims.tips.btn.cancel],
                 resize: fims.set.resize,
                 yes: function (e, t) {

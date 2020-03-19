@@ -18,6 +18,7 @@ import org.springframework.scheduling.support.CronTrigger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.hoomoomoo.fims.app.consts.BusinessConst.COLON;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
@@ -49,7 +50,7 @@ public class SysMailSchedule implements SchedulingConfigurer {
                 sysInterfaceService.handleMailRequest();
                 SysLogUtils.info(logger, String.format(BUSINESS_SCHEDULE_MAIL, LOG_OPERATE_TAG_END));
             } catch (Exception e) {
-                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_MAIL, e);
+                SysLogUtils.exception(logger, BUSINESS_SCHEDULE_MAIL.split(COLON)[0], e);
             }
         }, (triggerContext) ->{
             CronTrigger trigger = new CronTrigger(cron);

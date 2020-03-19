@@ -53,8 +53,8 @@ public class SysWeChatSchedule implements SchedulingConfigurer {
             try {
                 // 更新微信流程操作步骤
                 SysLogUtils.info(logger, String.format(BUSINESS_SCHEDULE_WECHAT, LOG_OPERATE_TAG_START));
-                sysWeChatService.updateOperateFlow();
                 sysWeChatFlowService.getWeChatFlow(false);
+                sysWeChatService.updateOperateFlow();
                 SysLogUtils.info(logger, String.format(BUSINESS_SCHEDULE_WECHAT, LOG_OPERATE_TAG_END));
             } catch (Exception e) {
                 SysLogUtils.exception(logger, BUSINESS_SCHEDULE_WECHAT.split(COLON)[0], e);
