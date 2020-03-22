@@ -9,10 +9,10 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -31,8 +31,6 @@ import static com.hoomoomoo.fims.app.consts.WeChatConst.WECHAT_REQUEST;
  * @date 2019/08/08
  */
 
-@Order(1)
-@WebFilter(urlPatterns = "/*")
 public class LoginFilterConfig implements Filter {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginFilterConfig.class);
@@ -42,6 +40,11 @@ public class LoginFilterConfig implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
+        if (sysMenuService == null) {
+            ServletContext servletContext = filterConfig.getServletContext();
+            ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+            sysMenuService = ctx.getBean("sysMenuServiceImpl",SysMenuService.class);
+        }
         SysLogUtils.load(logger, LOG_BUSINESS_TYPE_LOGIN_FILTER);
     }
 
@@ -81,14 +84,14 @@ public class LoginFilterConfig implements Filter {
             if (ADMIN_CODE.equals(sessionBean.getUserCode())) {
                 sessionBean.setIsAdminData(true);
             } else {
-                sessionBean.setIsAdminData(sysMenuService.selectDataAuthorityByUserId(sessionBean.getUserId()));
+                 sessionBean.setIsAdminData(sysMenuService.selectDataAuthorityByUserId(sessionBean.getUserId()));
             }
             SysSessionUtils.setSession(sessionBean);
             if (PAGE_LOGIN.equals(servletPath)) {
                 response.sendRedirect(request.getContextPath() + PAGE_INDEX);
             }
         } else {
-            if (!isIgoreSuffix(requestSuffix) && IGORE_REQUEST.indexOf(servletPath) == -1) {
+            if (!isIgoreSuffix(requestSuffix) && IGNORE_REQUEST.indexOf(servletPath) == -1) {
                 if (isAjaxRequest(request)) {
                     response.setHeader(STATUS, SYSTEM_STATUS_TIMEOUT);
                     response.setHeader(MESSAGE, URLEncoder.encode(BUSINESS_OPERATE_TIMEOUT, UTF8));
@@ -132,11 +135,11 @@ public class LoginFilterConfig implements Filter {
      * @param requestSuffix
      * @return
      */
-    private boolean isIgoreSuffix(String requestSuffix) {
+    public static boolean isIgoreSuffix(String requestSuffix) {
         if (!requestSuffix.contains(POINT)) {
             return false;
         }
-        String[] suffixs = IGORE_SUFFIX.split(COMMA);
+        String[] suffixs = IGNORE_SUFFIX.split(COMMA);
         for (String suffix : suffixs) {
             if (requestSuffix.endsWith(suffix)) {
                 return true;
@@ -151,7 +154,7 @@ public class LoginFilterConfig implements Filter {
      * @param request
      * @return
      */
-    private boolean isAjaxRequest(HttpServletRequest request) {
+    public static boolean isAjaxRequest(HttpServletRequest request) {
         if (request.getHeader(X_REQUESTED_WITH) != null && request.getHeader(X_REQUESTED_WITH).equalsIgnoreCase(XML_HTTPREQUEST)) {
             return true;
         } else {

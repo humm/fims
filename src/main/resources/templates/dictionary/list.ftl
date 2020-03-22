@@ -146,7 +146,7 @@
                 isOpen: data.isOpen,
                 isTranslate: "0"
             }
-            layer.open({
+            fims.open({
                 type: 2,
                 title: fims.tips.title.update,
                 content: url.update + "?" + $.param(request),
@@ -167,12 +167,12 @@
                 isOpen: data.isOpen,
                 isTranslate: "1"
             }
-            layer.open({
+            fims.open({
                 type: 2,
                 title: fims.tips.title.detail,
                 content: url.detail + "?" + $.param(request),
                 area: [fims.size.seven, fims.size.four],
-                resize: false
+                resize: fims.set.resize
             });
         }
 

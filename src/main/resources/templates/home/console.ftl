@@ -48,6 +48,8 @@
             websocketUrl: '${requestUrl}'
         }
 
+        var globalData = {}
+
         var init = function (data) {
             // 初始化未读消息通知
             if (parseInt(data.readNum) > 0) {
@@ -59,11 +61,17 @@
             }
 
             $(".user").html('');
+            $(".other").html('');
+
+            // 权限控制是否显示模块信息
+            if (!data.sysAuthModel.income && !data.sysAuthModel.gift) {
+                // 没有收入信息 随礼信息菜单权限  模块都不显示
+                return;
+            }
             // 初始化用户数据
             if (!$.isEmptyObject(data.user) && data.sysConfig.user == '1') {
                 initUser(data.user);
             }
-            $(".other").html('');
             // 初始化提示信息
             if (!$.isEmptyObject(data.tips) && data.sysConfig.tips == '1') {
                 $(".other").append(initInfo(data.tips));
@@ -94,8 +102,12 @@
                 item += '           <div class="layui-card-body">';
                 item += '               <div class="layui-carousel layadmin-carousel layadmin-backlog">';
                 item += '                   <div carousel-item>';
-                item += initUserItem(business.income, '3');
-                item += initUserItem(business.giftSend.concat(business.giftReceive), '4');
+                if (globalData.sysAuthModel.income) {
+                    item += initUserItem(business.income, '3');
+                }
+                if (globalData.sysAuthModel.gift) {
+                    item += initUserItem(business.giftSend.concat(business.giftReceive), '4');
+                }
                 item += '                   </div>';
                 item += '               </div>';
                 item += '           </div>';
@@ -125,7 +137,11 @@
             var item = '<ul class="layui-row layui-col-space10">';
             for (var j = 0; j < data.length; j++) {
                 item += '<li class="layui-col-xs' + mode + '">';
-                item += '   <a lay-href="' + data[j].href + '" ' + 'class="layadmin-backlog-body">';
+                if (!fims.isBlank(data[j].href)) {
+                    item += '   <a lay-href="' + data[j].href + '" ' + 'class="layadmin-backlog-body">';
+                } else {
+                    item += '   <a class="layadmin-backlog-body">';
+                }
                 item += '       <h3>' + data[j].title + '</h3>';
                 item += '       <p>' + setValue(data[j].value) + '</p>';
                 item += '   </a>';
@@ -192,7 +208,8 @@
                 dataType: "json",
                 done: function (response) {
                     if (response.bizResult) {
-                        init(response.data);
+                        globalData = response.data;
+                        init(globalData);
                     } else {
                         fims.msg(response.msg);
                     }

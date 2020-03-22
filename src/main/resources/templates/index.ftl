@@ -219,9 +219,9 @@
 
         // 绑定模块编辑事件
         $(document).on('click', '#module', function () {
-            layer.open({
+            fims.open({
                 type: 2,
-                title: "首页模块设置",
+                title: "模块设置",
                 content: url.module,
                 area:  [fims.size.five, fims.size.six],
                 btn: [fims.tips.btn.save, fims.tips.btn.cancel],

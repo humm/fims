@@ -14,6 +14,23 @@
     }, i.exit = function (e) {
         layui.data(r.tableName, {key: r.request.tokenName, remove: !0}), e && e()
     }, i.req = function (e) {
+        var requestUrl = e.url;
+        if (!!requestUrl && (!!!e.data || (!!e.data && !!!e.data.menuId))) {
+            if (requestUrl.indexOf('?') != -1){
+                var requestParameters = {};
+                //获取请求参数的字符串
+                var parameters = decodeURI(requestUrl.substr(requestUrl.indexOf("?") + 1)).split('&');
+                //循环遍历，将请求的参数封装到请求参数的对象之中
+                for (var j = 0; j < parameters.length; j++) {
+                    requestParameters[parameters[j].split('=')[0]] = parameters[j].split('=')[1];
+                }
+                if (!!!requestParameters.menuId) {
+                    e.url += "&menuId=skip";
+                }
+            } else {
+                e.url += "?menuId=skip";
+            }
+        }
         var n = e.success, a = (e.error, r.request), o = r.response, s = function () {
             return r.debug ? "<br><cite>URL：</cite>" + e.url : ""
         };
@@ -40,6 +57,8 @@
                         parent.location.href = "./login";
                     }, 1500);
                     return;
+                } else if (status == "menuId") {
+                    layer.alert(decodeURI(e.getResponseHeader("message")));
                 }
                 var n = ["请求异常，请重试<br><cite>错误信息：</cite>" + t, s()].join("");
                 i.error(n), "function" == typeof n && n(res)

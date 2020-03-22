@@ -2,6 +2,7 @@ package com.hoomoomoo.fims.app.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hoomoomoo.fims.app.config.WebSocketServerConfig;
 import com.hoomoomoo.fims.app.dao.SysRoleDao;
 import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
@@ -198,6 +199,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         // 加载字典项
         sysSystemService.loadSysDictionaryCondition();
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_ROLE, operateType);
+        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_ROLE);
         return new ResultData(true, tipMsg, null);
     }
 

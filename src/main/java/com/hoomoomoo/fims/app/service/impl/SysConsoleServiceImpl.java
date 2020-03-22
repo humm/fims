@@ -1,12 +1,14 @@
 package com.hoomoomoo.fims.app.service.impl;
 
 import com.hoomoomoo.fims.app.config.WebSocketServerConfig;
+import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
 import com.hoomoomoo.fims.app.dao.*;
 import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.service.SysConsoleService;
+import com.hoomoomoo.fims.app.service.SysMenuService;
 import com.hoomoomoo.fims.app.service.SysNoticeService;
 import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.util.SysBeanUtils;
@@ -64,10 +66,10 @@ public class SysConsoleServiceImpl implements SysConsoleService {
     private SysConfigDao sysConfigDao;
 
     @Autowired
-    private SysWeChatUserDao sysWeChatUserDao;
+    private SysUserDao sysUserDao;
 
     @Autowired
-    private SysUserDao sysUserDao;
+    private SysMenuService sysMenuService;
 
     /**
      * 查询首页信息
@@ -87,6 +89,8 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         sysConsoleModel.setReadNum(selectReadNoticeNum());
         // 查询模块配置信息
         sysConsoleModel.setSysConfig(selectConfigModule());
+        // 设置权限信息
+        sysConsoleModel.setSysAuthModel(setAuthInfo());
         Map<String, String> menu = getMenuInfo();
         if (sessionBean != null) {
             String loginUserId = sessionBean.getUserId();
@@ -138,10 +142,13 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      * @param sysConsoleQueryModel
      * @param menu
      */
-    private void setTipsInfo(SysConsoleModel sysConsoleModel, SysConsoleQueryModel sysConsoleQueryModel, Map<String,
-            String> menu) {
+    private void setTipsInfo(SysConsoleModel sysConsoleModel, SysConsoleQueryModel sysConsoleQueryModel, Map<String, String> menu) {
+        String menuId = null;
+        if (hasMenuAuthority(MENU_ID_PARAMETER)) {
+            menuId = menu.get(MENU_ID_PARAMETER);
+        }
         setTipsValue(sysConsoleModel, CONSOLE_VERSION_TIPS, CONSOLE_VERSION_TIPS, null);
-        setTipsValue(sysConsoleModel, CONSOLE_YEAR_START_DATE, sysConsoleQueryModel.getYearStartDate(), menu.get(MENU_ID_PARAMETER));
+        setTipsValue(sysConsoleModel, CONSOLE_YEAR_START_DATE, sysConsoleQueryModel.getYearStartDate(), menuId);
     }
 
     /**
@@ -151,9 +158,12 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      * @param menu
      */
     private void setVersionInfo(SysConsoleModel sysConsoleModel, Map<String, String> menu) {
+        String menuId = null;
+        if (hasMenuAuthority(MENU_ID_VERSION)) {
+            menuId = menu.get(MENU_ID_VERSION);
+        }
         setVersionValue(sysConsoleModel, CONSOLE_VERSION_TITLE, CONSOLE_VERSION_TITLE, null);
-        setVersionValue(sysConsoleModel, CONSOLE_VERSION_CODE, sysParameterService.getParameterString(VERSION),
-                menu.get(MENU_ID_VERSION));
+        setVersionValue(sysConsoleModel, CONSOLE_VERSION_CODE, sysParameterService.getParameterString(VERSION), menuId);
     }
 
     /**
@@ -163,6 +173,10 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      * @param menu
      */
     private void setRegisterInfo(SysConsoleModel sysConsoleModel, Map<String, String> menu) {
+        String menuId = null;
+        if (hasMenuAuthority(MENU_ID_USER)) {
+            menuId = menu.get(MENU_ID_USER);
+        }
         SessionBean sessionBean = SysSessionUtils.getSession();
         if (sessionBean != null) {
             setRegisterValue(sysConsoleModel, CONSOLE_REGISTER_TIPS, CONSOLE_REGISTER_TIPS, null);
@@ -173,7 +187,7 @@ public class SysConsoleServiceImpl implements SysConsoleService {
             }
             setRegisterValue(sysConsoleModel, CONSOLE_REGISTER_NUM,
                     String.valueOf(sysUserDao.selectSysUser(sysUserQueryModel).size()),
-                    menu.get(MENU_ID_USER));
+                    menuId);
         }
     }
 
@@ -183,22 +197,25 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      * @param sysConsoleModel
      * @param sysConsoleQueryModel
      */
-    private void setLoginInfo(SysConsoleModel sysConsoleModel, SysConsoleQueryModel sysConsoleQueryModel, Map<String,
-            String> menu) {
+    private void setLoginInfo(SysConsoleModel sysConsoleModel, SysConsoleQueryModel sysConsoleQueryModel, Map<String,String> menu) {
+        String menuId = null;
+        if (hasMenuAuthority(MENU_ID_LOGIN)) {
+            menuId = menu.get(MENU_ID_LOGIN);
+        }
         // 设置标题
         setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_TITLE, CONSOLE_LOGIN_TITLE, null, false);
         // 查询最后一次登入时间
         String console = sysConsoleDao.selectLoginLast(sysConsoleQueryModel);
-        setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_LAST_DATE, console, menu.get(MENU_ID_LOGIN), false);
+        setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_LAST_DATE, console, menuId, false);
         // 查询本月登入次数
         console = sysConsoleDao.selectLoginMonthTime(sysConsoleQueryModel);
-        setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_MONTH_TIME, console, menu.get(MENU_ID_LOGIN), true);
+        setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_MONTH_TIME, console, menuId, true);
         // 查询本年登入次数
         console = sysConsoleDao.selectLoginYearTime(sysConsoleQueryModel);
-        setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_YEAR_TIME, console, menu.get(MENU_ID_LOGIN), true);
+        setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_YEAR_TIME, console, menuId, true);
         // 查询总登入次数
         console = sysConsoleDao.selectLoginTotalTime(sysConsoleQueryModel);
-        setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_TOTAL_TIME, console, menu.get(MENU_ID_LOGIN), true);
+        setLoginLogValue(sysConsoleModel, CONSOLE_LOGIN_TOTAL_TIME, console, menuId, true);
     }
 
     /**
@@ -210,51 +227,59 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      */
     private void setBusinessInfo(SysConsoleModel sysConsoleModel, SysConsoleQueryModel sysConsoleQueryModel,
                                  Map<String, String> menu) {
+        String incomeMenuId = null;
+        String giftMenuId = null;
+        if (hasMenuAuthority(MENU_ID_INCOME)) {
+            incomeMenuId = menu.get(MENU_ID_INCOME);
+        }
+        if (hasMenuAuthority(MENU_ID_GIFT)) {
+            giftMenuId = menu.get(MENU_ID_GIFT);
+        }
         String incomeMonth = STR_0;
         SysBusinessModel sysBusinessModel = new SysBusinessModel();
         sysConsoleModel.getUser().add(sysBusinessModel);
         sysBusinessModel.setTitle(sysConsoleQueryModel.getUserName());
         // 查询最近一笔收入
         String console = sysConsoleDao.selectIncomeLast(sysConsoleQueryModel);
-        setIncomeBusinessValue(sysBusinessModel, CONSOLE_INCOME_LAST, console, menu.get(MENU_ID_INCOME));
+        setIncomeBusinessValue(sysBusinessModel, CONSOLE_INCOME_LAST, console, incomeMenuId);
         // 查询月度收入
         console = sysConsoleDao.selectIncomeMonth(sysConsoleQueryModel);
         incomeMonth = formatValue(console, true, false);
-        setIncomeBusinessValue(sysBusinessModel, CONSOLE_INCOME_MONTH, console, menu.get(MENU_ID_INCOME));
+        setIncomeBusinessValue(sysBusinessModel, CONSOLE_INCOME_MONTH, console, incomeMenuId);
         // 设置同比收入
         console = sysConsoleDao.selectIncomePreviousYearMonth(sysConsoleQueryModel);
         double incomeRatio =
                 Double.valueOf(incomeMonth) - Double.valueOf(formatValue(console, true, false));
-        setIncomeBusinessValue(sysBusinessModel, CONSOLE_INCOME_RATIO, String.valueOf(incomeRatio), menu.get(MENU_ID_INCOME));
+        setIncomeBusinessValue(sysBusinessModel, CONSOLE_INCOME_RATIO, String.valueOf(incomeRatio), incomeMenuId);
         // 设置环比收入
         console = sysConsoleDao.selectIncomePreviousMonth(sysConsoleQueryModel);
         double incomeChainRatio =
                 Double.valueOf(incomeMonth) - Double.valueOf(formatValue(console, true, false));
-        setIncomeBusinessValue(sysBusinessModel, CONSOLE_INCOME_CHAIN_RATIO, String.valueOf(incomeChainRatio), menu.get(MENU_ID_INCOME));
+        setIncomeBusinessValue(sysBusinessModel, CONSOLE_INCOME_CHAIN_RATIO, String.valueOf(incomeChainRatio), incomeMenuId);
         // 查询年度收入
         console = sysConsoleDao.selectIncomeYear(sysConsoleQueryModel);
-        setIncomeBusinessValue(sysBusinessModel, CONSOLE_INCOME_YEAR, console, menu.get(MENU_ID_INCOME));
+        setIncomeBusinessValue(sysBusinessModel, CONSOLE_INCOME_YEAR, console, incomeMenuId);
         // 查询总收入
         console = sysConsoleDao.selectIncomeTotal(sysConsoleQueryModel);
-        setIncomeBusinessValue(sysBusinessModel, CONSOLE_INCOME_TOTAL, console, menu.get(MENU_ID_INCOME));
+        setIncomeBusinessValue(sysBusinessModel, CONSOLE_INCOME_TOTAL, console, incomeMenuId);
         // 查询最近一笔送礼
         console = sysConsoleDao.selectGiftSendLast(sysConsoleQueryModel);
-        setGiftSendBusinessValue(sysBusinessModel, CONSOLE_GIFT_SEND_LAST, console, menu.get(MENU_ID_GIFT));
+        setGiftSendBusinessValue(sysBusinessModel, CONSOLE_GIFT_SEND_LAST, console, giftMenuId);
         // 查询年度送礼
         console = sysConsoleDao.selectGiftSendYear(sysConsoleQueryModel);
-        setGiftSendBusinessValue(sysBusinessModel, CONSOLE_GIFT_SEND_YEAR, console, menu.get(MENU_ID_GIFT));
+        setGiftSendBusinessValue(sysBusinessModel, CONSOLE_GIFT_SEND_YEAR, console, giftMenuId);
         // 查询总送礼
         console = sysConsoleDao.selectGiftSendTotal(sysConsoleQueryModel);
-        setGiftSendBusinessValue(sysBusinessModel, CONSOLE_GIFT_SEND_TOTAL, console, menu.get(MENU_ID_GIFT));
+        setGiftSendBusinessValue(sysBusinessModel, CONSOLE_GIFT_SEND_TOTAL, console, giftMenuId);
         // 查询最近一笔收礼
         console = sysConsoleDao.selectGiftReceiveLast(sysConsoleQueryModel);
-        setGiftReceiveBusinessValue(sysBusinessModel, CONSOLE_GIFT_RECEIVE_LAST, console, menu.get(MENU_ID_GIFT));
+        setGiftReceiveBusinessValue(sysBusinessModel, CONSOLE_GIFT_RECEIVE_LAST, console, giftMenuId);
         // 查询年度送礼
         console = sysConsoleDao.selectGiftReceiveYear(sysConsoleQueryModel);
-        setGiftReceiveBusinessValue(sysBusinessModel, CONSOLE_GIFT_RECEIVE_YEAR, console, menu.get(MENU_ID_GIFT));
+        setGiftReceiveBusinessValue(sysBusinessModel, CONSOLE_GIFT_RECEIVE_YEAR, console, giftMenuId);
         // 查询总送礼
         console = sysConsoleDao.selectGiftReceiveTotal(sysConsoleQueryModel);
-        setGiftReceiveBusinessValue(sysBusinessModel, CONSOLE_GIFT_RECEIVE_TOTAL, console, menu.get(MENU_ID_GIFT));
+        setGiftReceiveBusinessValue(sysBusinessModel, CONSOLE_GIFT_RECEIVE_TOTAL, console, giftMenuId);
     }
 
     /**
@@ -442,5 +467,40 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_CONSOLE);
         return new ResultData(true, UPDATE_SUCCESS, null);
 
+    }
+
+    /**
+     * 是否有菜单权限
+     *
+     * @param menuId
+     * @return
+     */
+    private boolean hasMenuAuthority(String menuId) {
+        SessionBean sessionBean = SysSessionUtils.getSession();
+        if (sessionBean != null) {
+            if (ADMIN_CODE.equals(sessionBean.getUserCode())) {
+                return true;
+            }
+            SysMenuQueryModel sysMenuQueryModel = new SysMenuQueryModel();
+            sysMenuQueryModel.setUserId(sessionBean.getUserId());
+            sysMenuQueryModel.setMenuId(menuId);
+            return sysMenuService.selectMenuAuthority(sysMenuQueryModel);
+        }
+        return false;
+
+    }
+
+    /**
+     * 设置菜单权限
+     *
+     * @return
+     */
+    private SysAuthModel setAuthInfo(){
+        SysAuthModel sysAuthModel = new SysAuthModel();
+        // 查询收入信息权限
+        sysAuthModel.setIncome(hasMenuAuthority(MENU_ID_INCOME));
+        // 查询随礼信息权限
+        sysAuthModel.setGift(hasMenuAuthority(MENU_ID_GIFT));
+        return sysAuthModel;
     }
 }

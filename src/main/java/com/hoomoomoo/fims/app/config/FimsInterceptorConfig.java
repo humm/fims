@@ -1,6 +1,5 @@
 package com.hoomoomoo.fims.app.config;
 
-import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.slf4j.Logger;

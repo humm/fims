@@ -129,4 +129,13 @@
         where instr(#{menuId}, menu_id) > 0
     </select>
 
+    <select id="selectMenuAuthority" parameterType="com.hoomoomoo.fims.app.model.SysMenuQueryModel" resultType="java.lang.Boolean">
+        select case count(1) when 0 then 0 else 1 end
+        from sys_user a, sys_user_role b, sys_role_menu c
+        where a.user_id = b.user_id
+        and b.role_id = c.role_id
+        and a.user_id = #{userId}
+        and c.menu_id = #{menuId}
+    </select>
+
 </mapper>

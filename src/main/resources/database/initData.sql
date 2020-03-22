@@ -193,10 +193,10 @@ insert into sys_parameter (parameter_code, parameter_caption, parameter_value, p
 values ('consoleOutputLogRequestParameter', '控制台输出请求入参', '1', 'switch', null, '1', '1', 30);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
-values ('startBackup', '系统启动备份数据库', '0', 'switch', null, '1', '1', 35);
+values ('startBackup', '系统启动备份数据库', '2', 'switch', null, '1', '1', 35);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
-values ('startMail', '系统启动读取邮件', '0', 'switch', null, '1', '1', 40);
+values ('startMail', '系统启动读取邮件', '2', 'switch', null, '1', '1', 40);
 
 insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order)
 values ('yearStartDate', '年度开始时间(yyyymm)', '201901', 'date', '6', '1', '1', 45);

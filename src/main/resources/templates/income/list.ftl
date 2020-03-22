@@ -189,7 +189,7 @@
 
         // 数据新增
         var add = function (data) {
-            layer.open({
+            fims.open({
                 type: 2,
                 title: fims.tips.title.add,
                 content: url.add,
@@ -208,7 +208,7 @@
                 incomeId: data.incomeId,
                 isTranslate: "0"
             }
-            layer.open({
+            fims.open({
                 type: 2,
                 title: fims.tips.title.update,
                 content: url.update + "?" + $.param(request),
@@ -227,12 +227,12 @@
                 incomeId: data.incomeId,
                 isTranslate: "1"
             }
-            layer.open({
+            fims.open({
                 type: 2,
                 title: fims.tips.title.detail,
                 content: url.detail + "?" + $.param(request),
-                area: [fims.size.one, fims.size.one],
-                resize: false
+                area: [fims.size.one, fims.size.two],
+                resize: fims.set.resize
             });
         }
 

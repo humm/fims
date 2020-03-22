@@ -148,12 +148,12 @@
                 logId: data.logId,
                 isTranslate: "1"
             }
-            layer.open({
+            fims.open({
                 type: 2,
                 title: fims.tips.title.detail,
                 content: url.detail + "?" + $.param(request),
-                area: [fims.size.one, fims.size.one],
-                resize: false
+                area: [fims.size.one, fims.size.two],
+                resize: fims.set.resize
             });
         }
 

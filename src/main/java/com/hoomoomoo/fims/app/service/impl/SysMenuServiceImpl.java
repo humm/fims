@@ -160,6 +160,15 @@ public class SysMenuServiceImpl implements SysMenuService {
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_MENU, LOG_OPERATE_TYPE_UPDATE);
     }
 
+    @Override
+    public Boolean selectMenuAuthority(SysMenuQueryModel sysMenuQueryModel) {
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_MENU, LOG_OPERATE_TYPE_SELECT);
+        SysLogUtils.parameter(logger, sysMenuQueryModel);
+        boolean exist = sysMenuDao.selectMenuAuthority(sysMenuQueryModel);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_MENU, LOG_OPERATE_TYPE_SELECT);
+        return exist;
+    }
+
     /**
      * 查询子菜单信息
      *

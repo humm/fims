@@ -25,19 +25,11 @@ fims
                 收入信息 随礼信息 收入报表 送礼报表 收礼报表
         03. 没有数据权限及按钮权限控制页面
                 用户信息 角色信息 字典信息
-    03. ajax请求session失效处理 view.js 维护
-    04. set.js 修改密码按钮事件已注释(移动至password.ftl)
-    05. index.js 退出按钮事件已注释(移动至index.ftl)
-    06. table.js 解决查询自带上次查询条件问题(178行位置) t.extend(!0, {}, i.config, e) 修改为 t.extend({}, i.config, e)
-    07. admin.js 删除多余方法
-    08. user.js 删除多余方法
-    09. dmp备份时 需设置backup_dir虚拟路径
+    03. table.js view.js  admin.js 维护
+    04. dmp备份时 需设置backup_dir虚拟路径
             创建虚拟路径 create or replace directory backup_dir as 'D:/fims/backup';
             授权 grant read, write on directory backup_dir to public;
-    10. admin.js 打开tab中文处理
-    11. view.js session失效跳转登录页面(32行位置)
-    12. table.js session失效跳转登录页面(201行位置)
-    13. 邮件信息模板：支持多条数据处理 即多个request标签
+    05. 邮件信息模板：支持多条数据处理 即多个request标签
             <fims>
             	<request>
             		<user tip="当前用户: 中文名称">XXX</user>
@@ -49,6 +41,6 @@ fims
             		<memo tip="业务备注: 最大150字符">XXX</memo>
             	</request>
             </fims>
-    14. 微信公众号配置url
+    06. 微信公众号配置url
             /wechat/request.do
     

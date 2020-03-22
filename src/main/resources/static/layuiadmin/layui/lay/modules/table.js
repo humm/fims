@@ -187,6 +187,23 @@
             var r = {};
             r[l.pageName] = e, r[l.limitName] = a.limit;
             var d = t.extend(r, a.where);
+            var requestUrl = a.url;
+            if (!!requestUrl) {
+                if (requestUrl.indexOf('?') != -1){
+                    var requestParameters = {};
+                    //获取请求参数的字符串
+                    var parameters = decodeURI(requestUrl.substr(requestUrl.indexOf("?") + 1)).split('&');
+                    //循环遍历，将请求的参数封装到请求参数的对象之中
+                    for (var j = 0; j < parameters.length; j++) {
+                        requestParameters[parameters[j].split('=')[0]] = parameters[j].split('=')[1];
+                    }
+                    if (!!!requestParameters.menuId) {
+                        a.url += "&menuId=skip";
+                    }
+                } else {
+                    a.url += "?menuId=skip";
+                }
+            }
             a.contentType && 0 == a.contentType.indexOf("application/json") && (d = JSON.stringify(d)), i.loading(), t.ajax({
                 type: a.method || "get",
                 url: a.url,
@@ -209,7 +226,10 @@
                             parent.location.href = "./login";
                         }, 1500);
                         return;
+                    } else if (status == "menuId") {
+                        layer.alert(decodeURI(e.getResponseHeader("message")));
                     }
+
                     i.errorView("数据接口请求异常：" + t), i.renderForm(), i.setColsWidth()
                 }
             })

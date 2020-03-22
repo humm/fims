@@ -254,6 +254,45 @@
                 // even: true
             }, config));
         },
+        open: function (config) {
+            var requestUrl = config.content;
+            if (!!requestUrl) {
+                if (requestUrl.indexOf('?') != -1){
+                    var requestParameters = {};
+                    //获取请求参数的字符串
+                    var parameters = decodeURI(requestUrl.substr(requestUrl.indexOf("?") + 1)).split('&');
+                    //循环遍历，将请求的参数封装到请求参数的对象之中
+                    for (var i = 0; i < parameters.length; i++) {
+                        requestParameters[parameters[i].split('=')[0]] = parameters[i].split('=')[1];
+                    }
+                    if (!!!requestParameters.menuId) {
+                        config.content += "&menuId=skip";
+                    }
+                } else {
+                    config.content += "?menuId=skip";
+                }
+            }
+            if (!$.isEmptyObject(config.area)) {
+                var screenHeight = $(window).height();
+                console.log(screenHeight);
+                if (parseInt(screenHeight) < parseInt(config.area[1].replace("px", ""))) {
+                    if (this.size.two == config.area[1]) {
+                        config.area[1] = '95%';
+                    } else if (this.size.four == config.area[1]) {
+                        config.area[1] = '95%';
+                    } else if (this.size.seven == config.area[1]) {
+                        config.area[1] = '60%';
+                    } else if (this.size.six == config.area[1]) {
+                        config.area[1] = '60%';
+                    } else if (this.size.nine == config.area[1]) {
+                        config.area[1] = '95%';
+                    } else if (this.size.eleven == config.area[1]) {
+                        config.area[1] = '30%';
+                    }
+                }
+            }
+            layer.open(config);
+        },
         config: {
             index: "/index",
             adminCode: "admin"
@@ -271,15 +310,21 @@
         },
         size: {
             // 通用页面
-            one: "35%",
-            two: "95%",
+            one: "450px",
+            two: "600px",
             // 参数信息页面
-            three: "65%",
-            four: "95%",
-            seven: '60%',
+            three: "750px",
+            four: "600px",
+            seven: '700px',
             // 首页模块页面
-            five: '20%',
-            six: '60%'
+            five: '220px',
+            six: '450px',
+            // 角色页面
+            eight: "450px",
+            nine: "650px",
+            // 参数修改页面
+            ten: "300px",
+            eleven: "180px"
         },
         tips: {
             title: {

@@ -174,6 +174,11 @@ public class BusinessConst {
      */
     public static final String STR_14                                       = "14";
 
+    /**
+     * 字符串：404
+     */
+    public static final String STR_404                                      = "404";
+
 
     /**
      * 字符串：数字
@@ -594,26 +599,45 @@ public class BusinessConst {
      * 404页面
      * */
     public static final String PAGE_ERROR_404                                = "/error/404";
+    /**
+     * 错误页面
+     * */
+    public static final String PAGE_ERROR                                    = "/error/error";
 
     /**
      * 登录请求
      * */
-    public static final String PAGE_LOGIN                                   = "/login";
+    public static final String PAGE_LOGIN                                    = "/login";
 
     /**
      * 首页请求
      * */
-    public static final String PAGE_INDEX                                   = "/index";
+    public static final String PAGE_INDEX                                    = "/index";
+
+    /**
+     * 首页请求
+     * */
+    public static final String PAGE_CONSOLE                                  = "/home/console";
+
+    /**
+     * websocket请求
+     * */
+    public static final String PAGE_WEBSOCKET                                = "/websocket";
+
+    /**
+     * role页面请求
+     * */
+    public static final String PAGE_ROLE                                     = "/role";
 
     /**
      * 忽略后缀
      */
-    public static final String IGORE_SUFFIX                                  = "js,css,jpg,jpeg,png,gif,woff2,woff,ttf";
+    public static final String IGNORE_SUFFIX                                 = "js,css,jpg,jpeg,png,gif,woff2,woff,ttf";
 
     /**
      * 忽略请求
      */
-    public static final String IGORE_REQUEST                                 = "/login,/user/login";
+    public static final String IGNORE_REQUEST                                = "/login,/user/login";
 
     /**
      * 状态：status
@@ -815,6 +839,11 @@ public class BusinessConst {
     public static final String SYSTEM_STATUS_TIMEOUT                        = "timeout";
 
     /**
+     * 状态：无菜单ID
+     * */
+    public static final String SYSTEM_STATUS_MENU_ID                        = "menuId";
+
+    /**
      * Excel备份清单
      */
     public static final String BACKUP_EXCEL                                 = "sys_income,收入信息;sys_gift,随礼信息";
@@ -838,5 +867,25 @@ public class BusinessConst {
      * 异常类型：表或视图不存在
      */
     public static final String EXCEPTION_TYPE_TABLE_NOT_EXISTS              = "ORA-00942";
+
+    /**
+     * menuId
+     */
+    public static final String STR_KEY_MEND_ID                              = "menuId";
+
+    /**
+     * 过滤器配置路径
+     */
+    public static final String FILTER_URL_PATTERNS                          = "/*";
+
+    /**
+     * 菜单ID skip
+     */
+    public static final String STR_KEY_MEND_ID_SKIP                         = "skip";
+
+    /**
+     * 异常代码
+     */
+    public static final String ERROR_STATUS_CODE                            = "javax.servlet.error.status_code";
 
 }

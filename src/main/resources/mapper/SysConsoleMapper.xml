@@ -72,7 +72,7 @@
                     sum(income_amount) consoleData
                 </when>
                 <otherwise>
-                    sum(income_amount)/10000 consoleData
+                    sum(income_amount) consoleData
                 </otherwise>
             </choose>
         from sys_income a, sys_user b
@@ -95,7 +95,7 @@
                     sum(income_amount) consoleData
                 </when>
                 <otherwise>
-                    sum(income_amount)/10000 consoleData
+                    sum(income_amount) consoleData
                 </otherwise>
             </choose>
         from sys_income a, sys_user b

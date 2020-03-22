@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.context.ApplicationContext;
 
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
@@ -23,8 +24,11 @@ public class FimsStarter {
 
     private static final Logger logger = LoggerFactory.getLogger(FimsStarter.class);
 
+    private static ApplicationContext applicationContext;
+
     public static void main(String[] args){
         SpringApplication.run(FimsStarter.class, args);
+
         SysLogUtils.configSuccess(logger, LOG_BUSINESS_TYPE_APP_START);
     }
 }

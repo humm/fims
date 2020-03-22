@@ -220,6 +220,7 @@ public class SysUserServiceImpl implements SysUserService {
                 sysUserDao.saveUserRole(sysUserRoleModel);
             }
         }
+        Integer.parseInt("yy");
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, operateType);
         return new ResultData(true, tipMsg, null);
     }

@@ -196,6 +196,11 @@ public class CueConst {
     public static final String LOG_BUSINESS_TYPE_LOGIN_FILTER                   = "登录过滤器配置";
 
     /**
+     * 日志业务类型：权限过滤器
+     */
+    public static final String LOG_BUSINESS_TYPE_AUTH_FILTER                    = "权限过滤器配置";
+
+    /**
      * 日志业务类型：freemarker模板配置
      */
     public static final String LOG_BUSINESS_TYPE_FREEMARKER                     = "freemarker模板配置";
@@ -221,9 +226,14 @@ public class CueConst {
     public static final String LOG_BUSINESS_TYPE_INTERCEPTOR                    = "拦截器配置器配置";
 
     /**
-     * 日志业务类型：FimsInterceptor配置
+     * 日志业务类型：系统拦截器配置
      */
     public static final String LOG_BUSINESS_TYPE_FIMS_INTERCEPTOR               = "系统拦截器配置";
+
+    /**
+     * 日志业务类型：系统过滤器配置
+     */
+    public static final String LOG_BUSINESS_TYPE_FIMS_FILTER                    = "系统过滤器配置";
 
     /**
      * 日志业务类型：websocket配置
@@ -528,12 +538,12 @@ public class CueConst {
     /**
      * 年度收入
      */
-    public static final String CONSOLE_INCOME_YEAR                              = "年度收入(万元)";
+    public static final String CONSOLE_INCOME_YEAR                              = "年度收入";
 
     /**
      * 总收入
      */
-    public static final String CONSOLE_INCOME_TOTAL                             = "总收入(万元)";
+    public static final String CONSOLE_INCOME_TOTAL                             = "总收入";
 
     /**
      * 统计开始时间
@@ -716,6 +726,11 @@ public class CueConst {
     public static final String BUSINESS_OPERATE_TIMEOUT                         = "由于您长时间没有操作，请重新登录...";
 
     /**
+     * 没有菜单ID
+     */
+    public static final String BUSINESS_OPERATE_MENU_ID                         = "请设置菜单编号";
+
+    /**
      * 微信：身份认证
      */
     public static final String WECHAT_USER_AUTH                                 = "公众号暂不对外开放,请输入密钥完成身份认证";
@@ -833,5 +848,15 @@ public class CueConst {
     public static final String INTERFACE_TIPS_GIFT_BUSINESS_SUB_TYPE             = "随礼类型";
     public static final String INTERFACE_TIPS_GIFT_BUSINESS_AMOUNT               = "随礼金额";
     public static final String INTERFACE_TIPS_GIFT_BUSINESS_MEMO                 = "随礼备注";
+
+    /**
+     * 系统错误
+     */
+    public static final String TIPS_ERROR                                        = "系统错误";
+
+    /**
+     * 没有访问权限
+     */
+    public static final String TIPS_ERROR_AUTH                                   = "无权限";
 
 }

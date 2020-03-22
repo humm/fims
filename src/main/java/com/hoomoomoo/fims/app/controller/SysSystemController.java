@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
+import static com.hoomoomoo.fims.app.consts.CueConst.TIPS_ERROR;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.VERSION;
 
 
@@ -76,7 +78,13 @@ public class SysSystemController {
      */
     @ApiOperation("跳转error页面")
     @RequestMapping(value = "error/error", method = RequestMethod.GET)
-    public String error() {
+    public String error(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, ModelMap modelMap) {
+        Object message = httpServletRequest.getAttribute(MESSAGE);
+        if (message != null) {
+            modelMap.addAttribute(MESSAGE, message);
+        } else {
+            modelMap.addAttribute(MESSAGE, TIPS_ERROR);
+        }
         return "error/error";
     }
 

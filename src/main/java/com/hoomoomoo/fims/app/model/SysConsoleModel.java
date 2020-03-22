@@ -37,4 +37,7 @@ public class SysConsoleModel {
     @ApiModelProperty(value="未读消息通知", required = false)
     private String readNum;
 
+    @ApiModelProperty(value="权限信息", required = false)
+    private SysAuthModel sysAuthModel;
+
 }

@@ -112,11 +112,11 @@
                 parameterExt: parameterExt,
                 parameterOldValue: parameterOldValue
             }
-            layer.open({
+            fims.open({
                 type: 2,
                 title: parameterCaption,
                 content: url.update + "?" + $.param(request),
-                area:  ["300px", "180px"],
+                area:  [fims.size.ten, fims.size.eleven],
                 btn: [fims.tips.btn.save, fims.tips.btn.cancel],
                 resize: fims.set.resize,
                 yes: function (e, t) {

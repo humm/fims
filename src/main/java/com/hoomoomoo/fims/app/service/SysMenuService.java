@@ -1,6 +1,7 @@
 package com.hoomoomoo.fims.app.service;
 
 import com.hoomoomoo.fims.app.model.SysMenuModel;
+import com.hoomoomoo.fims.app.model.SysMenuQueryModel;
 import com.hoomoomoo.fims.app.model.SysMenuTreeModel;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 
@@ -53,4 +54,12 @@ public interface SysMenuService {
      * @param sysMenuModel
      */
     void updateMenu(SysMenuModel sysMenuModel);
+
+    /**
+     * 查询菜单权限
+     *
+     * @param sysMenuQueryModel
+     * @return
+     */
+    Boolean selectMenuAuthority(SysMenuQueryModel sysMenuQueryModel);
 }

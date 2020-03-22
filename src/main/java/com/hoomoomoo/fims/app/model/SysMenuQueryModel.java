@@ -16,6 +16,9 @@ public class SysMenuQueryModel {
     @ApiModelProperty(value="父级菜单ID", required = false)
     private String parentId;
 
+    @ApiModelProperty(value="菜单ID", required = false)
+    private String menuId;
+
     @ApiModelProperty(value="是否父级菜单", required = false)
     private Boolean isParentId;
 

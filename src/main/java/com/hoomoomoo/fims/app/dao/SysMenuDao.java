@@ -68,4 +68,12 @@ public interface SysMenuDao {
      */
     void updateMenu(SysMenuModel sysMenuModel);
 
+    /**
+     * 查询菜单权限
+     *
+     * @param sysMenuQueryModel
+     * @return
+     */
+    Boolean selectMenuAuthority(SysMenuQueryModel sysMenuQueryModel);
+
 }

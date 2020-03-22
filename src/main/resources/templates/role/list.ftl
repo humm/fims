@@ -149,11 +149,11 @@
 
         // 数据新增
         var add = function (data) {
-            layer.open({
+            fims.open({
                 type: 2,
                 title: fims.tips.title.add,
                 content: url.add,
-                area: [fims.size.one, fims.size.two],
+                area: [fims.size.eight, fims.size.nine],
                 btn: [fims.tips.btn.save, fims.tips.btn.cancel],
                 resize: fims.set.resize,
                 yes: function (e, t) {
@@ -168,11 +168,11 @@
                 roleId: data.roleId,
                 isTranslate: "0"
             }
-            layer.open({
+            fims.open({
                 type: 2,
                 title: fims.tips.title.update,
                 content: url.update + "?" + $.param(request),
-                area: [fims.size.one, fims.size.two],
+                area: [fims.size.eight, fims.size.nine],
                 btn: [fims.tips.btn.save, fims.tips.btn.cancel],
                 resize: fims.set.resize,
                 yes: function (e, t) {
@@ -187,12 +187,12 @@
                 roleId: data.roleId,
                 isTranslate: "1"
             }
-            layer.open({
+            fims.open({
                 type: 2,
                 title: fims.tips.title.detail,
                 content: url.detail + "?" + $.param(request),
-                area: [fims.size.one, fims.size.one],
-                resize: false
+                area: [fims.size.eight, fims.size.nine],
+                resize: fims.set.resize
             });
         }
 
