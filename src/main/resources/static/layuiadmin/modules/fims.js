@@ -277,17 +277,15 @@
                 console.log(screenHeight);
                 if (parseInt(screenHeight) < parseInt(config.area[1].replace("px", ""))) {
                     if (this.size.two == config.area[1]) {
-                        config.area[1] = '95%';
+                        config.area[1] = '96%';
                     } else if (this.size.four == config.area[1]) {
-                        config.area[1] = '95%';
+                        config.area[1] = '96%';
                     } else if (this.size.seven == config.area[1]) {
                         config.area[1] = '60%';
                     } else if (this.size.six == config.area[1]) {
                         config.area[1] = '60%';
                     } else if (this.size.nine == config.area[1]) {
-                        config.area[1] = '95%';
-                    } else if (this.size.eleven == config.area[1]) {
-                        config.area[1] = '30%';
+                        config.area[1] = '96%';
                     }
                 }
             }
