@@ -12,7 +12,7 @@ public class BusinessConst {
     /**
      * 系统版本号
      */
-    public static final String SYSTEM_VERSION                               = "3.2.10";
+    public static final String SYSTEM_VERSION                               = "3.2.20";
 
     /**
      * 应用配置文件路径

@@ -113,7 +113,7 @@ insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption
 values ('D004', '1', '结婚', 1, null, 20190000000001, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
-values ('D004', '2', '生娃', 2, null, 20190000000001, null, null);
+values ('D004', '2', '生小孩', 2, null, 20190000000001, null, null);
 
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D005', '#', '收入来源', null, 5, 20190000000001, '1', '1');
