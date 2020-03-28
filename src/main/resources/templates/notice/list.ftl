@@ -69,7 +69,7 @@
                 isRead: {text: "已读", id: "LAY-app-notice_is_read"}
             }),
             detail = function (d) {
-                var url = "<a href='detail?noticeId=" + d.noticeId + "&isTranslate=1&readStatus=" + d.readStatusCode + "'>";
+                var url = "<a href='detail?menuId=skip&noticeId=" + d.noticeId + "&isTranslate=1&readStatus=" + d.readStatusCode + "'>";
                     url += "<div>" + d.userId + '&nbsp;&nbsp;&nbsp;' + d.businessType + '&nbsp;&nbsp;&nbsp;' + d.businessAmount + "</div>";
                     url += "</a>";
                 return url;
