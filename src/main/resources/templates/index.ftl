@@ -43,7 +43,7 @@
                         <cite id="userName"></cite>
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="user/view/password">修改密码</a></dd>
+                        <dd><a lay-href="user/view/password?menuId=skip">修改密码</a></dd>
                         <hr>
                         <dd id="logout" style="text-align: center;"><a>退出</a></dd>
                     </dl>

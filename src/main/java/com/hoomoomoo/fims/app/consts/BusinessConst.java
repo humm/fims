@@ -715,6 +715,11 @@ public class BusinessConst {
     public static final String MENU_ID_PARAMETER                             = "20190000000016";
 
     /**
+     * 菜单：通知信息
+     */
+    public static final String MENU_ID_NOTICE                                = "20190000000017";
+
+    /**
      * 菜单：登录信息
      */
     public static final String MENU_ID_LOGIN                                 = "20190000000019";

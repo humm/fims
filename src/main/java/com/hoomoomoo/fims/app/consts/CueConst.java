@@ -726,11 +726,6 @@ public class CueConst {
     public static final String BUSINESS_OPERATE_TIMEOUT                         = "由于您长时间没有操作，请重新登录...";
 
     /**
-     * 没有菜单ID
-     */
-    public static final String BUSINESS_OPERATE_MENU_ID                         = "请设置菜单编号";
-
-    /**
      * 微信：身份认证
      */
     public static final String WECHAT_USER_AUTH                                 = "公众号暂不对外开放,请输入密钥完成身份认证";
@@ -857,6 +852,11 @@ public class CueConst {
     /**
      * 没有访问权限
      */
-    public static final String TIPS_ERROR_AUTH                                   = "无权限";
+    public static final String TIPS_ERROR_AUTH                                   = "无访问权限";
+
+    /**
+     * 没有菜单ID
+     */
+    public static final String TIPS_ERROR_MENU                                   = "无菜单权限";
 
 }

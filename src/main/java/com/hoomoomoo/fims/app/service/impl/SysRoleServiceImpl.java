@@ -181,7 +181,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         sysRoleMenuModel.setRoleId(sysRoleModel.getRoleId());
         sysRoleDao.deleteRoleMenu(sysRoleMenuModel);
         String menuIds = sysRoleModel.getMenuId();
-        if(StringUtils.isNotBlank(menuIds)){
+        if(StringUtils.isNotBlank(menuIds) && !STR_KEY_MEND_ID_SKIP.equals(menuIds)){
             for(String menuId : menuIds.split(COMMA)){
                 sysRoleMenuModel.setMenuId(menuId);
                 sysRoleMenuModel.setRoleMenuId(sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_ROLE_MENU));

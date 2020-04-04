@@ -501,6 +501,8 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         sysAuthModel.setIncome(hasMenuAuthority(MENU_ID_INCOME));
         // 查询随礼信息权限
         sysAuthModel.setGift(hasMenuAuthority(MENU_ID_GIFT));
+        // 查询通知信息权限
+        sysAuthModel.setNotice(hasMenuAuthority(MENU_ID_NOTICE));
         return sysAuthModel;
     }
 }

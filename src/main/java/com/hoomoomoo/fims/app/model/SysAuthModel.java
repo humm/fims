@@ -19,4 +19,7 @@ public class SysAuthModel {
     @ApiModelProperty(value="随礼信息", required = false)
     private Boolean gift;
 
+    @ApiModelProperty(value="通知信息", required = false)
+    private Boolean notice;
+
 }

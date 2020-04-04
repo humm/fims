@@ -51,13 +51,19 @@
         var globalData = {}
 
         var init = function (data) {
-            // 初始化未读消息通知
-            if (parseInt(data.readNum) > 0) {
-                $("#readNum", parent.document).show();
-                $("#readNum", parent.document).addClass("layui-badge");
-                $("#readNum", parent.document).text(data.readNum);
+            // 通知消息权限控制
+            if (data.sysAuthModel.notice) {
+                // 初始化未读消息通知
+                if (parseInt(data.readNum) > 0) {
+                    $("#readNum", parent.document).show();
+                    $("#readNum", parent.document).addClass("layui-badge");
+                    $("#readNum", parent.document).text(data.readNum);
+                } else {
+                    $("#readNum", parent.document).hide();
+                }
             } else {
-                $("#readNum", parent.document).hide();
+                // 隐藏通知消息按钮
+                $("#readNum", parent.document).parent().parent().hide();
             }
 
             $(".user").html('');

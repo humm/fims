@@ -41,7 +41,7 @@ public class AuthFilterConfig implements Filter {
         if (sysMenuService == null) {
             ServletContext servletContext = filterConfig.getServletContext();
             ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-            sysMenuService = ctx.getBean("sysMenuServiceImpl",SysMenuService.class);
+            sysMenuService = ctx.getBean("sysMenuServiceImpl", SysMenuService.class);
         }
         SysLogUtils.load(logger, LOG_BUSINESS_TYPE_AUTH_FILTER);
     }
@@ -78,9 +78,9 @@ public class AuthFilterConfig implements Filter {
             if (!LoginFilterConfig.isIgoreSuffix(requestSuffix) && ignoreRequest.indexOf(servletPath) == -1 && !servletPath.startsWith(PAGE_WEBSOCKET)) {
                 if (LoginFilterConfig.isAjaxRequest(request)) {
                     response.setHeader(STATUS, SYSTEM_STATUS_MENU_ID);
-                    response.setHeader(MESSAGE, URLEncoder.encode(BUSINESS_OPERATE_MENU_ID, UTF8));
+                    response.setHeader(MESSAGE, URLEncoder.encode(TIPS_ERROR_MENU, UTF8));
                 } else {
-                    request.setAttribute(MESSAGE, BUSINESS_OPERATE_MENU_ID);
+                    request.setAttribute(MESSAGE, TIPS_ERROR_MENU);
                     request.getRequestDispatcher(PAGE_ERROR).forward(request, response);
                 }
                 return;
