@@ -11,7 +11,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.PAGE_CODE_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 分页信息
  * @package com.hoomoomoo.fims.app.model.common
  * @date 2019/08/10

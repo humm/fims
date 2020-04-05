@@ -21,7 +21,7 @@ import static com.hoomoomoo.fims.app.consts.ParameterConst.APP_HELP;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.VERSION;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 用户登录控制类
  * @package com.hoomoomoo.fims.app.controller
  * @date 2019/10/14
@@ -48,10 +48,10 @@ public class SysLoginController {
      */
     @ApiOperation("跳转登入页面")
     @RequestMapping(value = "login", method = RequestMethod.GET)
-    public String viewLogin(ModelMap modelMap) {
+    public String login(ModelMap modelMap) {
         modelMap.addAttribute(VERSION, sysParameterService.getParameterString(VERSION));
         modelMap.addAttribute(APP_HELP, systemConfigBean.getAppHelp());
-        return "user/login";
+        return "page/home/login";
     }
 
     /**

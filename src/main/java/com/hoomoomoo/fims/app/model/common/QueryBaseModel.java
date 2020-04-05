@@ -8,7 +8,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.UNDERLINE;
 
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 查询dto
  * @package com.hoomoomoo.fims.app.model.common
  * @date 2019/08/10

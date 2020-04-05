@@ -39,7 +39,7 @@
 
         var url = {
             init: appName + "/parameter/selectList",
-            update: appName + "/parameter/view/update",
+            update: appName + "/parameter/update",
             save: appName + "/parameter/save"
         };
 

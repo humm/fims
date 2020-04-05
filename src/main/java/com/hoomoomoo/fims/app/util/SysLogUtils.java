@@ -10,7 +10,7 @@ import static com.hoomoomoo.fims.app.config.RunDataConfig.LOG_REQUEST_TAG;
 import static com.hoomoomoo.fims.app.config.RunDataConfig.LOG_REQUEST_PARAMETER;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 日志工具类
  * @package com.hoomoomoo.fims.app.util
  * @date 2019/08/12
@@ -239,6 +239,16 @@ public class SysLogUtils {
      */
     public static void info(Logger logger, Object info) {
         logger.info(info.toString());
+    }
+
+    /**
+     * info日志
+     *
+     * @param logger
+     * @param info
+     */
+    public static void error(Logger logger, Object info) {
+        logger.error(info.toString());
     }
 
 

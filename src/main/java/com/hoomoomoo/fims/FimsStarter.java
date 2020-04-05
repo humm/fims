@@ -12,7 +12,7 @@ import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 应用启动类
  * @package com.hoomoomoo.fims
  * @date 2019/08/03

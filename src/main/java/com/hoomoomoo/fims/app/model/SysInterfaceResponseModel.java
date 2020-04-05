@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 接口信息处理返回结果实体类
  * @package com.hoomoomoo.fims.app.model
  * @date 2020/03/05

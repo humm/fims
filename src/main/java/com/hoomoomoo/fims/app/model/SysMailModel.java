@@ -3,8 +3,10 @@ package com.hoomoomoo.fims.app.model;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 邮件实体类
  * @package com.hoomoomoo.fims.app.model
  * @date 2019/08/04
@@ -24,5 +26,11 @@ public class SysMailModel {
 
     @ApiModelProperty(value="收件人", required = false)
     private String to;
+
+    @ApiModelProperty(value="发件人", required = false)
+    private String from;
+
+    @ApiModelProperty(value="收件人", required = false)
+    private List<String> filePath;
 
 }

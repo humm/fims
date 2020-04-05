@@ -32,7 +32,8 @@ create or replace procedure add_parameter(
   parameter_ext in varchar2,
   is_show in varchar2,
   is_edit in varchar2,
-  parameter_order in varchar2
+  parameter_order in varchar2,
+  parameter_group in varchar2 default null
 )
 as
   flag INTEGER DEFAULT 0;
@@ -43,8 +44,8 @@ begin
       execute immediate selectSql into flag using parameter_code;
 
       if flag = 0 then
-         insertSql := 'insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order) values(:parameterCode, :parameterCaption, :parameterValue, :parameterType, :parameterExt, :isShow, :isEdit, :parameterOrder)';
-         execute immediate insertSql using parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order;
+         insertSql := 'insert into sys_parameter (parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order, parameter_group) values(:parameterCode, :parameterCaption, :parameterValue, :parameterType, :parameterExt, :isShow, :isEdit, :parameterOrder, :parameterGroup)';
+         execute immediate insertSql using parameter_code, parameter_caption, parameter_value, parameter_type, parameter_ext, is_show, is_edit, parameter_order, parameter_group;
       end if;
 
       commit;

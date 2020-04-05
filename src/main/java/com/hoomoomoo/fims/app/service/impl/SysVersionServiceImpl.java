@@ -16,7 +16,7 @@ import java.util.List;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 修订信息服务实现类
  * @package com.hoomoomoo.fims.app.service.impl
  * @date 2019/11/23

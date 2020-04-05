@@ -24,7 +24,7 @@ import static com.hoomoomoo.fims.app.consts.DictionaryConst.D013;
 import static com.hoomoomoo.fims.app.consts.WeChatConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 微信流程步骤服务体实现类
  * @package com.hoomoomoo.fims.app.service.impl
  * @date 2020/02/29

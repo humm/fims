@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.STR_EMPTY;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 运行内存数据
  * @package com.hoomoomoo.fims.app.config
  * @date 2019/08/08

@@ -23,7 +23,7 @@ import static com.hoomoomoo.fims.app.consts.CueConst.*;
 import static com.hoomoomoo.fims.app.consts.WeChatConst.WECHAT_REQUEST;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 权限过滤器
  * @package com.hoomoomoo.fims.app.config
  * @date 2020/03/21

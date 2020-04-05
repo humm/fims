@@ -14,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description WebSocket服务端
  * @package com.hoomoomoo.fims.app.config
  * @date 2019/08/09

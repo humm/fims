@@ -5,7 +5,7 @@ import com.hoomoomoo.fims.app.model.SysInterfaceQueryModel;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 接口信息Dao
  * @package com.hoomoomoo.fims.app.dao
  * @date 2020/02/09

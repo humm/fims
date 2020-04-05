@@ -14,7 +14,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 配置类测试
  * @package com.hoomoomoo.fims.test
  * @date 2019/08/03

@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 邮件测试
  * @package com.hoomoomoo.fims.test
  * @date 2019/08/03
@@ -45,6 +45,10 @@ public class MailConfigTest {
         mailModel.setTo("10806623@qq.com");
         mailModel.setSubject("测试邮件主题");
         mailModel.setContent("测试邮件内容");
+        List<String> filePath = new ArrayList<>();
+        filePath.add("D:\\fims\\backup\\20200404131453-start.xlsx");
+        filePath.add("D:\\fims\\backup\\20200404131453-start.sql");
+        mailModel.setFilePath(filePath);
         sysMailService.sendMail(mailModel);
     }
 

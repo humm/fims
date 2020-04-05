@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 修订信息dao
  * @package com.hoomoomoo.fims.app.dao
  * @date 2019/11/23

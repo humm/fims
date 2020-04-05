@@ -38,7 +38,7 @@ import static com.hoomoomoo.fims.app.consts.ParameterConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 首页信息服务实现类
  * @package com.hoomoomoo.fims.app.service.impl
  * @date 2019/10/27

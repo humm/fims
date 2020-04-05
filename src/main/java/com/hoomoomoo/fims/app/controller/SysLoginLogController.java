@@ -21,7 +21,7 @@ import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 登入日志控制类
  * @package com.hoomoomoo.fims.app.controller
  * @date 2019/10/26
@@ -42,9 +42,9 @@ public class SysLoginLogController {
      * @return
      */
     @ApiOperation("跳转列表页面")
-    @RequestMapping(value = "view/list", method = RequestMethod.GET)
-    public String viewList() {
-        return "loginLog/list";
+    @RequestMapping(value = "list", method = RequestMethod.GET)
+    public String list() {
+        return "page/loginLogList";
     }
 
     /**
@@ -53,9 +53,9 @@ public class SysLoginLogController {
      * @return
      */
     @ApiOperation("跳转详情页面")
-    @RequestMapping(value = "view/detail", method = RequestMethod.GET)
-    public String viewDetail() {
-        return "loginLog/detail";
+    @RequestMapping(value = "detail", method = RequestMethod.GET)
+    public String detail() {
+        return "page/loginLogDetail";
     }
 
 

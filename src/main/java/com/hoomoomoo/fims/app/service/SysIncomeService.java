@@ -7,7 +7,7 @@ import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 收入信息服务类
  * @package com.hoomoomoo.fims.app.service.common
  * @date 2019/08/10

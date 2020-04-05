@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 业务数据实体类
  * @package com.hoomoomoo.fims.app.model
  * @date 2019/10/27

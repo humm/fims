@@ -11,7 +11,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 初始化配置
  * @package com.hoomoomoo.fims.app.config.bean
  * @date 2019/08/04
@@ -19,9 +19,9 @@ import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 @Component
 @Order(1)
-public class InitRunnerConfig implements CommandLineRunner {
+public class InitConfig implements CommandLineRunner {
 
-    private static final Logger logger = LoggerFactory.getLogger(InitRunnerConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(InitConfig.class);
 
     @Autowired
     private SysSystemService sysSystemService;
@@ -64,6 +64,8 @@ public class InitRunnerConfig implements CommandLineRunner {
         // 处理邮件申请数据
         sysSystemService.startMail();
 
+        // 发送备份文件至邮箱
+        sysSystemService.systemBackupToMail();
 
         SysLogUtils.load(logger, LOG_BUSINESS_TYPE_INIT);
     }

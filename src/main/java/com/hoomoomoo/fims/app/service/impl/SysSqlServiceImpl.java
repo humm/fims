@@ -14,7 +14,7 @@ import java.util.List;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 配置sql服务实现类
  * @package com.hoomoomoo.fims.app.service.impl
  * @date 2019/11/23

@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.consts;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 参数信息常量类
  * @package com.hoomoomoo.fims.app.consts
  * @date 2019/10/25
@@ -12,11 +12,6 @@ public class ParameterConst {
      * 系统备份路径
      */
     public static final String BACKUP_LOCATION                                  = "backupLocation";
-
-    /**
-     * 文件上传路径
-     */
-    public static final String UPLOAD_LOCATION                                  = "uploadLocation";
 
     /**
      * 控制台输出请求入参
@@ -112,4 +107,9 @@ public class ParameterConst {
      * 微信操作返回主菜单
      */
     public static final String WECHAT_OPERATE_BACK                              = "weChatOperateBack";
+
+    /**
+     * 邮件保存应用备份文件
+     */
+    public static final String BACKUP_TO_MAIL                                   = "backupToMail";
 }

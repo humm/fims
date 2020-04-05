@@ -1,26 +1,37 @@
 package com.hoomoomoo.fims.app.controller;
 
 import com.hoomoomoo.fims.app.config.bean.SystemConfigBean;
-import com.hoomoomoo.fims.app.service.SysParameterService;
+import com.hoomoomoo.fims.app.model.SysModuleModel;
+import com.hoomoomoo.fims.app.model.common.ResultData;
+import com.hoomoomoo.fims.app.service.SysConsoleService;
+import com.hoomoomoo.fims.app.util.SysBeanUtils;
+import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.hoomoomoo.fims.app.util.SysSessionUtils;
 import com.hoomoomoo.fims.app.util.SysCommonUtils;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
+import static com.hoomoomoo.fims.app.consts.CueConst.LOG_BUSINESS_TYPE_CONSOLE;
+import static com.hoomoomoo.fims.app.consts.CueConst.LOG_OPERATE_TYPE_UPDATE;
 import static com.hoomoomoo.fims.app.consts.CueConst.TIPS_ERROR;
-import static com.hoomoomoo.fims.app.consts.ParameterConst.VERSION;
 
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 系统控制类
  * @package com.hoomoomoo.fims.app.controller
  * @date 2019/08/09
@@ -30,11 +41,13 @@ import static com.hoomoomoo.fims.app.consts.ParameterConst.VERSION;
 @RequestMapping("/")
 public class SysSystemController {
 
+    private static final Logger logger = LoggerFactory.getLogger(SysConsoleController.class);
+
     @Autowired
     private SystemConfigBean systemConfigBean;
 
     @Autowired
-    private SysParameterService sysParameterService;
+    private SysConsoleService sysConsoleService;
 
     /**
      * 跳转首页
@@ -54,10 +67,44 @@ public class SysSystemController {
      * @return
      */
     @ApiOperation("跳转首页子页面")
-    @RequestMapping(value = "home/console", method = RequestMethod.GET)
+    @RequestMapping(value = "console", method = RequestMethod.GET)
     public String console(ModelMap modelMap, HttpServletRequest httpServletRequest) {
         modelMap.addAttribute(REQUEST_URL, SysCommonUtils.getConnectUrl(httpServletRequest, systemConfigBean.getAppName()));
-        return "home/console";
+        return "page/home/console";
+    }
+
+    /**
+     * 跳转模块编辑页面
+     *
+     * @return
+     */
+    @ApiOperation("跳转模块编辑页面")
+    @RequestMapping(value = "home/module", method = RequestMethod.GET)
+    public String module(ModelMap modelMap) {
+        SysModuleModel sysModuleModel = sysConsoleService.selectConfigModule();
+        Map module = SysBeanUtils.beanToMap(sysModuleModel);
+        Iterator<String> iterator = module.keySet().iterator();
+        while(iterator.hasNext()){
+            String key = iterator.next();
+            modelMap.addAttribute(key, module.get(key));
+        }
+        return "page/home/module";
+    }
+
+    /**
+     * 保存模块信息
+     *
+     * @param sysModuleModel
+     * @return
+     */
+    @ApiOperation("保存模块信息")
+    @RequestMapping(value = "home/module/save", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultData save(SysModuleModel sysModuleModel) {
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_UPDATE);
+        ResultData resultData = sysConsoleService.save(sysModuleModel);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_UPDATE);
+        return resultData;
     }
 
     /**
@@ -68,7 +115,7 @@ public class SysSystemController {
     @ApiOperation("跳转404页面")
     @RequestMapping(value = "error/404", method = RequestMethod.GET)
     public String error404() {
-        return "error/404";
+        return "page/error/404";
     }
 
     /**
@@ -78,14 +125,14 @@ public class SysSystemController {
      */
     @ApiOperation("跳转error页面")
     @RequestMapping(value = "error/error", method = RequestMethod.GET)
-    public String error(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, ModelMap modelMap) {
+    public String error(HttpServletRequest httpServletRequest, ModelMap modelMap) {
         Object message = httpServletRequest.getAttribute(MESSAGE);
         if (message != null) {
             modelMap.addAttribute(MESSAGE, message);
         } else {
             modelMap.addAttribute(MESSAGE, TIPS_ERROR);
         }
-        return "error/error";
+        return "page/error/error";
     }
 
     /**
@@ -94,9 +141,9 @@ public class SysSystemController {
      * @return
      */
     @ApiOperation("跳转icon页面")
-    @RequestMapping(value = "icon/view/list", method = RequestMethod.GET)
+    @RequestMapping(value = "icon/list", method = RequestMethod.GET)
     public String icon() {
-        return "icon/list";
+        return "page/iconList";
     }
 
 }

@@ -16,7 +16,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.APP_DESCRIBE;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.APP_NAME;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description freeMarker配置类
  * @package com.hoomoomoo.fims.app.config
  * @date 2019/08/10

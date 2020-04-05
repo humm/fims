@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 拦截器配置
  * @package com.hoomoomoo.fims.app.config
  * @date 2019/09/01

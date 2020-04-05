@@ -3,7 +3,7 @@ package com.hoomoomoo.fims.app.service;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 报表信息服务类
  * @package com.hoomoomoo.fims.app.service
  * @date 2019/09/08

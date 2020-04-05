@@ -2,11 +2,11 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>角色信息-列表</title>
+    <title>用户信息-列表</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, role-scalable=0">
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="${appName}/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="${appName}/layuiadmin/style/admin.css" media="all">
     <link rel="stylesheet" href="${appName}/layuiadmin/style/fims.css" media="all">
@@ -19,48 +19,77 @@
             <div class="layui-form-item">
                 <!-- 查询条件 -->
                 <div class="layui-inline">
-                    <label class="layui-form-label">角色代码</label>
+                    <label class="layui-form-label">用户代码</label>
                     <div class="layui-input-block">
-                        <input type="text" class="layui-input" name="roleCode">
+                        <input type="text" class="layui-input" name="userCode">
                     </div>
                 </div>
 
                 <div class="layui-inline">
-                    <label class="layui-form-label">角色名称</label>
+                    <label class="layui-form-label">用户名称</label>
                     <div class="layui-input-block">
-                        <input type="text" class="layui-input" name="roleName">
+                        <input type="text" class="layui-input" name="userName">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">用户状态</label>
+                    <div class="layui-input-block">
+                        <select name="userStatus"></select>
                     </div>
                 </div>
 
                 <!-- 查询按钮 -->
                 <div class="layui-inline layui-inline-button">
-                    <button class="layui-btn layuiadmin-btn-role-list" lay-submit
-                            lay-filter="LAY-app-rolelist-search">
+                    <button class="layui-btn layuiadmin-btn-user-list" lay-submit
+                            lay-filter="LAY-app-userlist-search">
                         <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
                     </button>
                 </div>
 
                 <!-- 重置按钮 -->
                 <div class="layui-inline layui-inline-button">
-                    <button class="layui-btn layuiadmin-btn-role-list" lay-submit
-                            lay-filter="LAY-app-rolelist-refresh">
+                    <button class="layui-btn layuiadmin-btn-user-list" lay-submit
+                            lay-filter="LAY-app-userlist-refresh">
                         <i class="layui-icon layui-icon-refresh-1 layuiadmin-button-btn"></i>
                     </button>
                 </div>
-
             </div>
         </div>
 
         <div class="layui-card-body">
             <!-- 头部操作按钮 -->
-            <div style="padding-bottom: 10px;" id="LAY-app-role-list-button">
-                <button class="layui-btn layuiadmin-btn-role-list" data-type="add">新增</button>
-                <button class="layui-btn layuiadmin-btn-role-list" data-type="update">修改</button>
-                <button class="layui-btn layuiadmin-btn-role-list" data-type="delete">删除</button>
+            <div style="padding-bottom: 10px;" id="LAY-app-user-list-button">
+                <button class="layui-btn layuiadmin-btn-user-list" data-type="add">新增</button>
+                <button class="layui-btn layuiadmin-btn-user-list" data-type="update">修改</button>
+                <button class="layui-btn layuiadmin-btn-user-list" data-type="delete">删除</button>
+                <button class="layui-btn layuiadmin-btn-user-list" data-type="reset">重置用户密码</button>
             </div>
 
             <!-- 列表数据 -->
-            <table id="LAY-app-role-list" lay-filter="LAY-app-role-list"></table>
+            <table id="LAY-app-user-list" lay-filter="LAY-app-user-list"></table>
+
+            <!-- 用户状态 -->
+            <script type="text/html" id="userStatus">
+                <button class="layui-btn layui-btn-xs layui-bg-{{ d.userStatusCode }}">{{ d.userStatus }}</button>
+            </script>
+
+            <!-- 用户类型 -->
+            <script type="text/html" id="userType">
+                {{#  if(d.userCode == 'admin'){ }}
+                <button class="layui-btn layui-bg-1 layui-btn-xs">系统用户</button>
+                {{#  } else{ }}
+                <button class="layui-btn layui-bg-2 layui-btn-xs">普通用户</button>
+                {{#  } }}
+            </script>
+
+            <script type="text/html" id="table-user-list">
+                {{#  if(d.userCode != 'admin'){ }}
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete"><i class="layui-icon layui-icon-delete"></i>删除</a>
+                {{#  } else{ }}
+                {{#  } }}
+            </script>
 
         </div>
     </div>
@@ -72,7 +101,7 @@
         base: '${appName}/layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'table', 'laydate', 'tree', 'util', 'admin', 'fims'], function () {
+    }).use(['index', 'table', 'laydate', 'admin', 'fims'], function () {
         var $ = layui.$,
             form = layui.form,
             table = layui.table,
@@ -83,27 +112,31 @@
         var appName = '${appName}';
 
         // 业务类型
-        var businessType = "role";
+        var businessType = "user";
 
         // 请求url
         var url = {
-            init: appName + "/role/selectInitData",
-            page: appName + "/role/selectPage",
-            del: appName + "/role/delete",
-            save: appName + "/role/save",
-            add: appName + "/role/view/add",
-            update: appName + "/role/view/update",
-            detail: appName + "/role/view/detail",
-            check: appName + "/role/checkRoleCode"
+            init: appName + "/user/selectInitData",
+            page: appName + "/user/selectPage",
+            del: appName + "/user/delete",
+            reset: appName + "/user/reset",
+            save: appName + "/user/save",
+            add: appName + "/user/add",
+            update: appName + "/user/update",
+            detail: appName + "/user/detail",
+            check: appName + "/user/checkUserCode"
         }
 
         // 列表字段
         var tableColumn = [[
             {type: "checkbox", fixed: "left"},
-            {field: "roleId", title: "角色ID", sort: false, hide: true},
-            {field: "roleCode", title: "角色代码", sort: true},
-            {field: "roleName", title: "角色名称", sort: true},
-            {field: "roleMemo", title: "角色备注"}
+            {field: "userId", title: "用户ID", sort: false, hide: true},
+            {field: "userCode", title: "用户代码", sort: true},
+            {field: "userName", title: "用户名称", sort: true},
+            {field: "userStatus", title: "用户状态", align: "center", templet: "#userStatus", sort: true},
+            {field: "userCode", title: "用户类型", align: "center", templet: "#userType"},
+            {field: "userMemo", title: "用户备注"},
+            {title:"操作", width:150, align:"center", fixed:"right", toolbar:"#table-" + businessType + "-list"}
         ]];
 
         // 初始化页面信息
@@ -123,15 +156,50 @@
 
         // 数据删除
         var del = function (data) {
-            var roleIds = [];
+            var userIds = [];
+            var hasAdmin = false;
             for (var i = 0; i < data.length; i++) {
-                roleIds.push(data[i].roleId);
+                userIds.push(data[i].userId);
+                if (fims.config.adminCode == data[i].userCode) {
+                    fims.msg(fims.tips.msg.systemUserNotDelete);
+                    hasAdmin = true;
+                    return;
+                }
+            }
+            if (hasAdmin) {
+                return;
             }
             layer.confirm(fims.tips.warn.confirmDel, function (index) {
                 admin.req({
                     url: url.del,
                     type: "post",
-                    data: {roleIds: roleIds.join(",")},
+                    data: {userIds: userIds.join(",")},
+                    done: function (response) {
+                        if (response.bizResult) {
+                            setTimeout(function () {
+                                layer.close(index);
+                                reloadData(fims.getValue("layui-form-item"));
+                                fims.msg(response.msg);
+                            }, 500);
+                        } else {
+                            fims.msg(response.msg);
+                        }
+                    }
+                });
+            });
+        }
+
+        // 重置用户密码
+        var reset = function (data) {
+            var userIds = [];
+            for (var i = 0; i < data.length; i++) {
+                userIds.push(data[i].userId);
+            }
+            layer.confirm(fims.tips.warn.confirmResetPassword, function (index) {
+                admin.req({
+                    url: url.reset,
+                    type: "post",
+                    data: {userIds: userIds.join(",")},
                     done: function (response) {
                         if (response.bizResult) {
                             setTimeout(function () {
@@ -153,7 +221,7 @@
                 type: 2,
                 title: fims.tips.title.add,
                 content: url.add,
-                area: [fims.size.eight, fims.size.nine],
+                area: [fims.size.one, fims.size.two],
                 btn: [fims.tips.btn.save, fims.tips.btn.cancel],
                 resize: fims.set.resize,
                 yes: function (e, t) {
@@ -164,15 +232,19 @@
 
         // 数据修改
         var update = function (data) {
+            if (fims.config.adminCode == data.userCode) {
+                fims.msg(fims.tips.msg.systemUserNotUpdate);
+                return;
+            }
             var request = {
-                roleId: data.roleId,
+                userId: data.userId,
                 isTranslate: "0"
             }
             fims.open({
                 type: 2,
                 title: fims.tips.title.update,
                 content: url.update + "?" + $.param(request),
-                area: [fims.size.eight, fims.size.nine],
+                area: [fims.size.one, fims.size.two],
                 btn: [fims.tips.btn.save, fims.tips.btn.cancel],
                 resize: fims.set.resize,
                 yes: function (e, t) {
@@ -184,14 +256,14 @@
         // 数据详情
         var detail = function (data) {
             var request = {
-                roleId: data.roleId,
+                userId: data.userId,
                 isTranslate: "1"
             }
             fims.open({
                 type: 2,
                 title: fims.tips.title.detail,
                 content: url.detail + "?" + $.param(request),
-                area: [fims.size.eight, fims.size.nine],
+                area: [fims.size.one, fims.size.two],
                 resize: fims.set.resize
             });
         }
@@ -200,16 +272,23 @@
         var save = function (e, t, type, data) {
             var iframe = window["layui-layer-iframe" + e],
                 button = t.find("iframe").contents().find("#LAY-app-" + businessType + "-" + type);
+            // 获取角色信息
+            var roleId = [];
+            iframe.document.getElementsByName("roleId").forEach(function (item) {
+                if (item.checked) {
+                    roleId.push(item.value);
+                }
+            });
             iframe.layui.form.on("submit(LAY-app-" + businessType + "-" + type + ")", function (data) {
-                // 校验角色代码格式
+                // 校验用户代码格式
                 var param = fims.clearBlank(data.field);
                 var reg = /^[0-9a-zA-Z_]+$/;
-                if (!reg.test(param.roleCode)) {
+                if (!reg.test(param.userCode)) {
                     fims.msg(fims.tips.msg.isNumberOrLetter);
                     return;
                 }
-                var roleIsExist = false;
-                // 校验角色代码是否存在
+                var userIsExist = false;
+                // 校验用户代码是否存在
                 admin.req({
                     url: url.check,
                     type: "get",
@@ -218,17 +297,18 @@
                     done: function (response) {
                         if (response.bizResult) {
                             if (response.data) {
-                                roleIsExist = true;
+                                userIsExist = true;
                             }
                         } else {
                             fims.msg(response.msg);
                         }
                     }
                 });
-                if(!roleIsExist){
-                    fims.msg(fims.tips.msg.roleIsExist);
+                if (!userIsExist) {
+                    fims.msg(fims.tips.msg.userIsExist);
                     return;
                 }
+                data.field.roleId = roleId.join(",");
                 admin.req({
                     url: url.save,
                     type: "post",
@@ -274,6 +354,11 @@
                 case fims.operate.update:
                     update(data);
                     break;
+                case fims.operate.reset:
+                    var convertData = new Array();
+                    convertData.push(data);
+                    reset(convertData);
+                    break;
                 default:
                     fims.msg(fims.tips.msg.notSupportEvent);
                     break;
@@ -308,6 +393,12 @@
                         return fims.msg(fims.tips.warn.notSelect);
                     }
                     del(checkData);
+                    break;
+                case fims.operate.reset:
+                    if (checkData.length === 0) {
+                        return fims.msg(fims.tips.warn.notSelect);
+                    }
+                    reset(checkData);
                     break;
                 default:
                     fims.msg(fims.tips.msg.notSupportEvent);

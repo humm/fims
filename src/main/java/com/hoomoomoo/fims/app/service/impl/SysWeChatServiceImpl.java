@@ -33,7 +33,7 @@ import static com.hoomoomoo.fims.app.consts.ParameterConst.*;
 import static com.hoomoomoo.fims.app.consts.WeChatConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 微信消息服务实现类
  * @package com.hoomoomoo.fims.app.service.impl
  * @date 2020/02/27

@@ -23,7 +23,7 @@ import java.util.Map;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 首页信息控制类
  * @package com.hoomoomoo.fims.app.controller
  * @date 2019/10/27
@@ -45,34 +45,6 @@ public class SysConsoleController {
         SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
         ResultData resultData = sysConsoleService.selectConsoleData(httpServletRequest);
         SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
-        return resultData;
-    }
-
-    /**
-     * 跳转模块编辑页面
-     *
-     * @return
-     */
-    @ApiOperation("跳转模块编辑页面")
-    @RequestMapping(value = "view/module", method = RequestMethod.GET)
-    public String viewModule(ModelMap modelMap) {
-        SysModuleModel sysModuleModel = sysConsoleService.selectConfigModule();
-        Map module = SysBeanUtils.beanToMap(sysModuleModel);
-        Iterator<String> iterator = module.keySet().iterator();
-        while(iterator.hasNext()){
-            String key = iterator.next();
-            modelMap.addAttribute(key, module.get(key));
-        }
-        return "home/module";
-    }
-
-    @ApiOperation("保存模块信息")
-    @RequestMapping(value = "save", method = RequestMethod.POST)
-    @ResponseBody
-    public ResultData save(SysModuleModel sysModuleModel) {
-        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_UPDATE);
-        ResultData resultData = sysConsoleService.save(sysModuleModel);
-        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_UPDATE);
         return resultData;
     }
 }

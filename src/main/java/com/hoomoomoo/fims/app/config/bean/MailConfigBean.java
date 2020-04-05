@@ -11,7 +11,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.SPRING_MAIL;
 
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 邮件配置
  * @package com.hoomoomoo.fims.app.config.bean
  * @date 2019/08/04

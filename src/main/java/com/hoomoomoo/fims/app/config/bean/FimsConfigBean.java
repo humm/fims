@@ -9,7 +9,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.APPLICATION_PROPERTIES
 import static com.hoomoomoo.fims.app.consts.BusinessConst.FIMS_CONFIG;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 系统参数配置
  * @package com.hoomoomoo.fims.app.config.bean
  * @date 2019/08/03

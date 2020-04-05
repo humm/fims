@@ -33,7 +33,7 @@
                     </a>
                 </li>
                 <li class="layui-nav-item" lay-unselect>
-                    <a lay-href="notice/view/list?menuId=20190000000017" lay-text="消息通知">
+                    <a lay-href="notice/list?menuId=20190000000017" lay-text="消息通知">
                         <i class="layui-icon layui-icon-notice"></i>
                         <span class="" style="top: 35%; left: 40%; border-radius: 50%;" id="readNum">
                     </a>
@@ -43,7 +43,7 @@
                         <cite id="userName"></cite>
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="user/view/password?menuId=skip">修改密码</a></dd>
+                        <dd><a lay-href="user/password?menuId=skip">修改密码</a></dd>
                         <hr>
                         <dd id="logout" style="text-align: center;"><a>退出</a></dd>
                     </dl>
@@ -82,7 +82,7 @@
             </div>
             <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
                 <ul class="layui-tab-title" id="LAY_app_tabsheader">
-                    <li lay-id="home/console" lay-attr="home/console" class="layui-this"><i
+                    <li lay-id="console" lay-attr="console" class="layui-this"><i
                                 class="layui-icon layui-icon-home"></i></li>
                 </ul>
             </div>
@@ -92,7 +92,7 @@
         <!-- 主体内容 -->
         <div class="layui-body" id="LAY_app_body">
             <div class="layadmin-tabsbody-item layui-show">
-                <iframe src="home/console" frameborder="0" class="layadmin-iframe"></iframe>
+                <iframe src="console" frameborder="0" class="layadmin-iframe"></iframe>
             </div>
         </div>
 
@@ -123,8 +123,8 @@
             init: appName + "/menu/initMenu",
             logout: appName + "/user/logout",
             login: appName + "/login",
-            module: appName + "/console/view/module",
-            save: appName + "/console/save"
+            module: appName + "/home/module",
+            save: appName + "/home/module/save"
         };
 
         // 子菜单
@@ -146,7 +146,7 @@
         function initMenu(data) {
             var menu = '';
             menu += '<li data-name="console" class="layui-nav-item layui-this">';
-            menu += '    <a href="javascript:;" lay-tips="首页" lay-direction="2" lay-href="home/console">';
+            menu += '    <a href="javascript:;" lay-tips="首页" lay-direction="2" lay-href="console">';
             menu += '       <i class="layui-icon layui-icon-home"></i>';
             menu += '       <cite>首页</cite>';
             menu += '    </a>';

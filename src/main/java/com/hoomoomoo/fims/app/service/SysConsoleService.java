@@ -6,7 +6,7 @@ import com.hoomoomoo.fims.app.model.common.ResultData;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 首页信息服务类
  * @package com.hoomoomoo.fims.app.service
  * @date 2019/10/27

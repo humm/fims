@@ -5,7 +5,7 @@ import com.hoomoomoo.fims.app.model.SysParameterQueryModel;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 参数信息服务类
  * @package com.hoomoomoo.fims.app.service
  * @date 2019/10/20

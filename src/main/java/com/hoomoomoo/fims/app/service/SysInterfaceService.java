@@ -7,7 +7,7 @@ import com.hoomoomoo.fims.app.model.common.BaseModel;
 import java.util.List;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 接口信息服务类
  * @package com.hoomoomoo.fims.app.service
  * @date 2020/02/09

@@ -22,7 +22,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.COLON;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 邮件数据处理定时任务
  * @package com.hoomoomoo.fims.app.schedule
  * @date 2020/02/10
@@ -45,7 +45,6 @@ public class SysMailSchedule implements SchedulingConfigurer {
     public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
         scheduledTaskRegistrar.addTriggerTask(() ->{
             try {
-                // 读取邮件
                 SysLogUtils.info(logger, String.format(BUSINESS_SCHEDULE_MAIL, LOG_OPERATE_TAG_START));
                 sysInterfaceService.handleMailRequest();
                 SysLogUtils.info(logger, String.format(BUSINESS_SCHEDULE_MAIL, LOG_OPERATE_TAG_END));

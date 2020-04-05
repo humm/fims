@@ -102,7 +102,7 @@
         var url = {
             init: appName + "/loginLog/selectInitData",
             page: appName + "/loginLog/selectPage",
-            detail: appName + "/loginLog/view/detail"
+            detail: appName + "/loginLog/detail"
         }
 
         // 列表字段

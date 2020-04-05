@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 微信事件消息实体类
  * @package com.hoomoomoo.fims.app.model
  * @date 2020/02/28

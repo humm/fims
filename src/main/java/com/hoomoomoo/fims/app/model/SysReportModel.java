@@ -7,7 +7,7 @@ import java.util.List;
 
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 报表信息实体类
  * @package com.hoomoomoo.fims.app.model
  * @date 2019/09/08

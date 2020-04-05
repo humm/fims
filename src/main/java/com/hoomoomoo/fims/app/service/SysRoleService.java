@@ -8,7 +8,7 @@ import com.hoomoomoo.fims.app.model.common.ResultData;
 import java.util.List;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 角色信息服务类
  * @package com.hoomoomoo.fims.app.service
  * @date 2019/09/27

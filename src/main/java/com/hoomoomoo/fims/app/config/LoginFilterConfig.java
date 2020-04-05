@@ -25,7 +25,7 @@ import static com.hoomoomoo.fims.app.consts.CueConst.*;
 import static com.hoomoomoo.fims.app.consts.WeChatConst.WECHAT_REQUEST;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 登录过滤器
  * @package com.hoomoomoo.fims.app.config
  * @date 2019/08/08

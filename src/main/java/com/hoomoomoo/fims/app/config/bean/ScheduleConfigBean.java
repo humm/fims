@@ -9,7 +9,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.APPLICATION_PROPERTIES
 import static com.hoomoomoo.fims.app.consts.BusinessConst.FIMS_SCHEDULE;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 定时任务配置
  * @package com.hoomoomoo.fims.app.config.dto
  * @date 2019/08/03

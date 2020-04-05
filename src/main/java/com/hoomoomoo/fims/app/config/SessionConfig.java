@@ -22,7 +22,7 @@ import static com.hoomoomoo.fims.app.consts.ParameterConst.SESSION_TIMEOUT;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description session配置
  * @package com.hoomoomoo.fims.app.config
  * @date 2019/09/01

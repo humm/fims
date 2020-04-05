@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 系统参数控制类
  * @package com.hoomoomoo.fims.app.controller
  * @date 2019/10/20
@@ -38,9 +38,9 @@ public class SysParameterController {
      * @return
      */
     @ApiOperation("跳转列表页面")
-    @RequestMapping(value = "view/list", method = RequestMethod.GET)
-    public String viewList() {
-        return "parameter/list";
+    @RequestMapping(value = "list", method = RequestMethod.GET)
+    public String list() {
+        return "page/parameterList";
     }
 
     /**
@@ -49,9 +49,9 @@ public class SysParameterController {
      * @return
      */
     @ApiOperation("跳转列表页面")
-    @RequestMapping(value = "view/update", method = RequestMethod.GET)
-    public String viewUpdate() {
-        return "parameter/update";
+    @RequestMapping(value = "update", method = RequestMethod.GET)
+    public String update() {
+        return "page/parameterUpdate";
     }
 
     /**

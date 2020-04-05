@@ -6,7 +6,7 @@ import com.hoomoomoo.fims.app.model.SysWeChatFlowQueryModel;
 import java.util.List;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 微信流程步骤服务体类
  * @package com.hoomoomoo.fims.app.service
  * @date 2020/02/29

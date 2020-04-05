@@ -26,7 +26,7 @@ import static com.hoomoomoo.fims.app.consts.DictionaryConst.D000;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 报表信息服务实现类
  * @package com.hoomoomoo.fims.app.service.impl
  * @date 2019/09/08

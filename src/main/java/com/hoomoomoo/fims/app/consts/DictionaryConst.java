@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.consts;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 字典常量类
  * @package com.hoomoomoo.fims.app.consts
  * @date 2019/08/23

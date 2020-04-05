@@ -5,6 +5,7 @@ import com.hoomoomoo.fims.FimsStarter;
 import com.hoomoomoo.fims.app.config.RunDataConfig;
 import com.hoomoomoo.fims.app.config.bean.DatasourceConfigBean;
 import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
+import com.hoomoomoo.fims.app.config.bean.MailConfigBean;
 import com.hoomoomoo.fims.app.dao.SysDictionaryDao;
 import com.hoomoomoo.fims.app.dao.SysUserDao;
 import com.hoomoomoo.fims.app.dao.SysSystemDao;
@@ -13,10 +14,7 @@ import com.hoomoomoo.fims.app.model.common.BaseModel;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.model.common.ViewData;
-import com.hoomoomoo.fims.app.service.SysInterfaceService;
-import com.hoomoomoo.fims.app.service.SysMenuService;
-import com.hoomoomoo.fims.app.service.SysParameterService;
-import com.hoomoomoo.fims.app.service.SysSystemService;
+import com.hoomoomoo.fims.app.service.*;
 import com.hoomoomoo.fims.app.util.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
@@ -53,7 +51,7 @@ import static com.hoomoomoo.fims.app.consts.ParameterConst.MIND_FILL;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 系统级别公用服务
  * @package com.hoomoomoo.fims.app.service.common.imp
  * @date 2019/08/04
@@ -91,6 +89,12 @@ public class SysSystemServiceImpl implements SysSystemService {
 
     @Autowired
     private SysMenuService sysMenuService;
+
+    @Autowired
+    private MailConfigBean mailConfigBean;
+
+    @Autowired
+    private SysMailService sysMailService;
 
     /**
      * 控制台输出应用配置参数
@@ -663,6 +667,8 @@ public class SysSystemServiceImpl implements SysSystemService {
             if (log.exists()) {
                 log.delete();
             }
+            File backupFile = new File(sysParameterService.getParameterString(BACKUP_LOCATION) + SLASH + fileName.toUpperCase());
+            backupFile.renameTo(new File(sysParameterService.getParameterString(BACKUP_LOCATION) + SLASH + fileName));
             SysLogUtils.success(logger, LOG_BUSINESS_TYPE_BACKUP_DMP);
         } else {
             SysLogUtils.fail(logger, LOG_BUSINESS_TYPE_BACKUP_DMP, resultData.getData());
@@ -899,29 +905,54 @@ public class SysSystemServiceImpl implements SysSystemService {
     public void startBackup() {
         boolean startBackup = sysParameterService.getParameterBoolean(START_BACKUP);
         if (startBackup) {
-            String backupLocation = sysParameterService.getParameterString(BACKUP_LOCATION);
-            if (WELL.equals(backupLocation)) {
-                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP, BACKUP_LOCATION_IS_EMPTY);
-                return;
-            }
-            SYSTEM_USED_STATUS = SYSTEM_STATUS_BACKUP;
-            try {
-                String backupMode = sysParameterService.getParameterString(BACKUP_MODE);
-                String fileNameSuffix = SysDateUtils.yyyyMMddHHmmss();
-                if (backupMode.contains(BACKUP_SQL_SUFFIX.substring(1))) {
-                    systemBackupFile(new StringBuffer(fileNameSuffix).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_SQL_SUFFIX).toString());
-                }
-                if (backupMode.contains(BACKUP_EXCEL_SUFFIX.substring(1))) {
-                    systemBackupExcel(new StringBuffer(fileNameSuffix).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_EXCEL_SUFFIX).toString());
-                }
-                if (backupMode.contains(BACKUP_DMP_SUFFIX.substring(1))) {
-                    systemBackupDmp(new StringBuffer(fileNameSuffix).append(MINUS).append(BACKUP_MODE_START).append(BACKUP_DMP_SUFFIX).toString());
-                }
-            } catch (Exception e) {
-                SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP, e);
-            }
-            SYSTEM_USED_STATUS = null;
+            backup(BACKUP_MODE_START);
         }
+    }
+
+    /**
+     * 应用数据备份
+     *
+     * @return
+     */
+    @Override
+    public void systemBackup() {
+        // 备份文件
+        backup(BACKUP_MODE_SCHEDULE);
+        // 发送至邮件
+        systemBackupToMail();
+    }
+
+    /**
+     * 系统备份
+     *
+     * @param backupType
+     */
+    private void backup(String backupType){
+        String backupLocation = sysParameterService.getParameterString(BACKUP_LOCATION);
+        if (WELL.equals(backupLocation)) {
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP, BACKUP_LOCATION_IS_EMPTY);
+            return;
+        }
+        if (StringUtils.isBlank(backupType)) {
+            backupType = BACKUP_MODE_START;
+        }
+        SYSTEM_USED_STATUS = SYSTEM_STATUS_BACKUP;
+        try {
+            String backupMode = sysParameterService.getParameterString(BACKUP_MODE);
+            String fileNameSuffix = SysDateUtils.yyyyMMddHHmmss();
+            if (backupMode.contains(BACKUP_SQL_SUFFIX.substring(1))) {
+                systemBackupFile(new StringBuffer(fileNameSuffix).append(MINUS).append(backupType).append(BACKUP_SQL_SUFFIX).toString());
+            }
+            if (backupMode.contains(BACKUP_EXCEL_SUFFIX.substring(1))) {
+                systemBackupExcel(new StringBuffer(fileNameSuffix).append(MINUS).append(backupType).append(BACKUP_EXCEL_SUFFIX).toString());
+            }
+            if (backupMode.contains(BACKUP_DMP_SUFFIX.substring(1))) {
+                systemBackupDmp(new StringBuffer(fileNameSuffix).append(MINUS).append(backupType).append(BACKUP_DMP_SUFFIX).toString());
+            }
+        } catch (Exception e) {
+            SysLogUtils.exception(logger, LOG_BUSINESS_TYPE_BACKUP, e);
+        }
+        SYSTEM_USED_STATUS = null;
     }
 
     /**
@@ -948,6 +979,62 @@ public class SysSystemServiceImpl implements SysSystemService {
         }
         sysMenuModel.setMenuId(MENU_ID_SUPER_MODE);
         sysMenuService.updateMenu(sysMenuModel);
+    }
+
+    /**
+     * 邮件保存应用备份文件
+     */
+    @Override
+    public void systemBackupToMail() {
+        SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_BACKUP_TO_MAIL);
+        Boolean backupToMail = sysParameterService.getParameterBoolean(BACKUP_TO_MAIL);
+        String backupMode = sysParameterService.getParameterString(BACKUP_MODE);
+        if (backupToMail && StringUtils.isNotBlank(backupMode)) {
+            String backupLocation = sysParameterService.getParameterString(BACKUP_LOCATION);
+            if (StringUtils.isNotBlank(backupLocation)) {
+                File[] backupFile = new File(backupLocation).listFiles();
+                if (backupFile != null) {
+                    Arrays.sort(backupFile, new Comparator<File>() {
+                        @Override
+                        public int compare(File o1, File o2) {
+                            long sort = o2.lastModified() - o1.lastModified();
+                            if (sort > 0) {
+                                return 1;
+                            } else if (sort == 0) {
+                                return 0;
+                            } else {
+                                return -1;
+                            }
+                        }
+                    });
+                    List<String> filePath = new ArrayList<>();
+                    Map<String, Boolean> pathFlag = new HashMap<>(3);
+                    for (File file : backupFile) {
+                        String fileName = file.getName();
+                        String[] fileNameSub = fileName.split(MINUS);
+                        if (fileNameSub != null && fileNameSub.length == 2 && fileNameSub[0].length() > 8) {
+                            String fileNameDate = fileNameSub[0].substring(0, 8);
+                            String suffix = fileNameSub[1].split(BACKSLASH_POINT)[1].toLowerCase();
+                            if (SysDateUtils.yyyyMMdd().equals(fileNameDate)) {
+                                if (backupMode.contains(suffix) && !pathFlag.containsKey(suffix)) {
+                                    pathFlag.put(suffix, true);
+                                    filePath.add(file.getAbsolutePath());
+                                }
+                            }
+                        }
+                    }
+                    if (CollectionUtils.isNotEmpty(filePath)) {
+                        SysMailModel mailModel = new SysMailModel();
+                        mailModel.setTo(mailConfigBean.getFrom());
+                        mailModel.setSubject(MAIL_SUBJECT_BACKUP);
+                        mailModel.setContent(MAIL_BACKUP_FILE);
+                        mailModel.setFilePath(filePath);
+                        sysMailService.sendMail(mailModel);
+                    }
+                }
+            }
+        }
+        SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_BACKUP_TO_MAIL);
     }
 
     /**

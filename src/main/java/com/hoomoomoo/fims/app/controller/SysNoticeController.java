@@ -26,7 +26,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.REQUEST_URL;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 消息通知控制类
  * @package com.hoomoomoo.fims.app.controller
  * @date 2019/10/26
@@ -50,10 +50,10 @@ public class SysNoticeController {
      * @return
      */
     @ApiOperation("跳转列表页面")
-    @RequestMapping(value = "view/list", method = RequestMethod.GET)
-    public String viewList(ModelMap modelMap, HttpServletRequest httpServletRequest) {
+    @RequestMapping(value = "list", method = RequestMethod.GET)
+    public String list(ModelMap modelMap, HttpServletRequest httpServletRequest) {
         modelMap.addAttribute(REQUEST_URL, SysCommonUtils.getConnectUrl(httpServletRequest, systemConfigBean.getAppName()));
-        return "notice/list";
+        return "page/noticeList";
     }
 
     /**
@@ -62,9 +62,9 @@ public class SysNoticeController {
      * @return
      */
     @ApiOperation("跳转详情页面")
-    @RequestMapping(value = "view/detail", method = RequestMethod.GET)
-    public String viewDetail() {
-        return "notice/detail";
+    @RequestMapping(value = "detail", method = RequestMethod.GET)
+    public String detail() {
+        return "page/noticeDetail";
     }
 
 

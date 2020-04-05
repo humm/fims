@@ -7,7 +7,7 @@ import java.util.*;
 
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description bean map 转换工具类
  * @package com.hoomoomoo.fims.app.util
  * @date 2019/08/08

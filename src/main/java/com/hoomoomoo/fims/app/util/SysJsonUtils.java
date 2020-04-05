@@ -3,7 +3,7 @@ package com.hoomoomoo.fims.app.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description json工具类
  * @package com.hoomoomoo.fims.app.util
  * @date 2020/02/08

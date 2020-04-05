@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 微信消息服务类
  * @package com.hoomoomoo.fims.app.service
  * @date 2020/02/27

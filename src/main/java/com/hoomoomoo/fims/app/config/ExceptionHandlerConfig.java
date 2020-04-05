@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 全局异常处理
  * @package com.hoomoomoo.fims.app.config
  * @date 2019/10/19

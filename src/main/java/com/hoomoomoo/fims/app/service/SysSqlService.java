@@ -5,7 +5,7 @@ import com.hoomoomoo.fims.app.model.SysSqlMode;
 import java.util.List;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 配置sql服务类
  * @package com.hoomoomoo.fims.app.service
  * @date 2019/11/23

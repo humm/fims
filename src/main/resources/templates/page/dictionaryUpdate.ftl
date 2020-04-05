@@ -72,17 +72,19 @@
             type: "get",
             dataType: "json",
             done: function (response) {
+                var loading = layer.load(2, {shade: false});
                 if (response.bizResult) {
                     addDictionary(response.data);
                 } else {
                     fims.msg(response.msg);
                 }
+                layer.close(loading);
             }
         });
 
         // 绑定新增事件
         $(document).on('click', 'button.layuiadmin-btn-dictionary-add', function () {
-            $(".dictionary").append(addItem(userList, '', getItemValue(), ''));
+            $(".dictionary").prepend(addItem(userList, '', getItemValue(), ''));
             form.render();
         });
 

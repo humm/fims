@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 命令行执行工具类
  * @package com.hoomoomoo.fims.app.util
  * @date 2019/11/30

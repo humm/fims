@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.consts;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 业务级别常量
  * @package com.hoomoomoo.fims.app.consts
  * @date 2019/08/03
@@ -12,7 +12,7 @@ public class BusinessConst {
     /**
      * 系统版本号
      */
-    public static final String SYSTEM_VERSION                               = "3.2.20";
+    public static final String SYSTEM_VERSION                               = "3.2.30";
 
     /**
      * 应用配置文件路径
@@ -204,6 +204,11 @@ public class BusinessConst {
      * 点号
      */
     public static final String POINT                                        = ".";
+
+    /**
+     * 点号
+     */
+    public static final String BACKSLASH_POINT                              = "\\.";
 
     /**
      * 分号
@@ -617,7 +622,7 @@ public class BusinessConst {
     /**
      * 首页请求
      * */
-    public static final String PAGE_CONSOLE                                  = "/home/console";
+    public static final String PAGE_CONSOLE                                  = "/console";
 
     /**
      * websocket请求
@@ -804,6 +809,7 @@ public class BusinessConst {
     public static final String TRUNCATE_LEFT                                = "truncate table ";
 
     public static final String BACKUP_MODE_START                            = "start";
+    public static final String BACKUP_MODE_SCHEDULE                         = "schedule";
     public static final String BACKUP_SQL_SUFFIX                            = ".sql";
     public static final String BACKUP_DMP_SUFFIX                            = ".dmp";
     public static final String BACKUP_EXCEL_SUFFIX                          = ".xlsx";

@@ -5,6 +5,7 @@ import com.hoomoomoo.fims.app.model.SysMailModel;
 import com.hoomoomoo.fims.app.service.SysMailService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import com.sun.mail.imap.IMAPFolder;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,17 +14,20 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sun.text.CollatorUtilities;
 
 import javax.mail.*;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
+import java.io.File;
 import java.util.*;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 邮件服务实现类
  * @package com.hoomoomoo.fims.app.service.impl
  * @date 2019/09/20
@@ -49,14 +53,24 @@ public class SysMailServiceImpl implements SysMailService {
      */
     @Override
     public Boolean sendMail(SysMailModel mailModel) {
+        if (checkMialParameterConfig()) {
+            SysLogUtils.error(logger, MAIL_NOT_CONFIG);
+            return false;
+        }
         SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
         boolean isSend = true;
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
         try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+            if (CollectionUtils.isNotEmpty(mailModel.getFilePath())) {
+                mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+                for (String filePath : mailModel.getFilePath()) {
+                    mimeMessageHelper.addAttachment(new File(filePath).getName(), new File(filePath));
+                }
+            }
             mimeMessageHelper.setTo(mailModel.getTo());
-            mimeMessageHelper.setFrom(mailConfigBean.getFrom());
-            mimeMessage.setSubject(mailModel.getSubject());
+            mimeMessageHelper.setFrom(mailModel.getFrom());
+            mimeMessageHelper.setSubject(mailModel.getSubject());
             mimeMessageHelper.setText(mailModel.getContent(), true);
             javaMailSender.send(mimeMessage);
             SysLogUtils.success(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
@@ -181,6 +195,22 @@ public class SysMailServiceImpl implements SysMailService {
         }
         SysLogUtils.functionEnd(logger, LOG_BUSINESS_TYPE_MAIL_HANDLE);
         return mailModel;
+    }
+
+
+    /**
+     * 邮件参数配置信息校验
+     *
+     * @return
+     */
+    @Override
+    public Boolean checkMialParameterConfig() {
+        return StringUtils.isBlank(mailConfigBean.getFrom()) || StringUtils.isBlank(mailConfigBean.getUsername())
+                || StringUtils.isBlank(mailConfigBean.getPassword()) || StringUtils.isBlank(mailConfigBean.getHost())
+                || StringUtils.isBlank(mailConfigBean.getProtocol()) || StringUtils.isBlank(mailConfigBean.getSubject())
+                || StringUtils.isBlank(mailConfigBean.getReceiveHost()) || StringUtils.isBlank(mailConfigBean.getReceiveUsername())
+                || StringUtils.isBlank(mailConfigBean.getReceivePassword()) || StringUtils.isBlank(mailConfigBean.getReceiveProtocol())
+                || StringUtils.isBlank(mailConfigBean.getReceiveFolder());
     }
 
 }

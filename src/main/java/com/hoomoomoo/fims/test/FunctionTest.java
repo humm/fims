@@ -6,6 +6,7 @@ import com.hoomoomoo.fims.FimsStarter;
 import com.hoomoomoo.fims.app.model.SysIncomeModel;
 import com.hoomoomoo.fims.app.model.SysMailModel;
 import com.hoomoomoo.fims.app.service.SysDictionaryService;
+import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.SysDateUtils;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -27,10 +29,11 @@ import java.util.Map;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.BACKUP_DMP_SUFFIX;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.UNDERLINE;
+import static com.hoomoomoo.fims.app.consts.ParameterConst.BACKUP_LOCATION;
 
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 功能测试
  * @package com.hoomoomoo.fims.test
  * @date 2019/08/08
@@ -47,6 +50,9 @@ public class FunctionTest {
 
     @Autowired
     private SysDictionaryService sysDictionaryService;
+
+    @Autowired
+    private SysParameterService sysParameterService;
 
     @Test
     public void getBusinessSerialNo(){
@@ -153,6 +159,17 @@ public class FunctionTest {
     @Test
     public void backupDmp(){
         sysSystemService.systemBackupDmp(SysDateUtils.yyyyMMddHHmmss() + BACKUP_DMP_SUFFIX);
+    }
+
+    @Test
+    public void file(){
+        String backupLocation = sysParameterService.getParameterString(BACKUP_LOCATION);
+        File backupFile = new File(backupLocation);
+        String[] files = backupFile.list();
+        if (files != null) {
+
+        }
+
     }
 
 }

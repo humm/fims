@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 菜单信息控制类
  * @package com.hoomoomoo.fims.app.controller
  * @date 2019/10/11

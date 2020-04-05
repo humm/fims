@@ -23,7 +23,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.PASSWORD;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 用户信息控制类
  * @package com.hoomoomoo.fims.app.controller
  * @date 2019/09/21
@@ -47,9 +47,9 @@ public class SysUserController {
      * @return
      */
     @ApiOperation("跳转列表页面")
-    @RequestMapping(value = "view/list", method = RequestMethod.GET)
-    public String viewList() {
-        return "user/list";
+    @RequestMapping(value = "list", method = RequestMethod.GET)
+    public String list() {
+        return "page/userList";
     }
 
 
@@ -59,9 +59,9 @@ public class SysUserController {
      * @return
      */
     @ApiOperation("跳转详情页面")
-    @RequestMapping(value = "view/detail", method = RequestMethod.GET)
-    public String viewDetail() {
-        return "user/detail";
+    @RequestMapping(value = "detail", method = RequestMethod.GET)
+    public String detail() {
+        return "page/userDetail";
     }
 
     /**
@@ -70,9 +70,9 @@ public class SysUserController {
      * @return
      */
     @ApiOperation("跳转新增页面")
-    @RequestMapping(value = "view/add", method = RequestMethod.GET)
-    public String viewAdd() {
-        return "user/add";
+    @RequestMapping(value = "add", method = RequestMethod.GET)
+    public String add() {
+        return "page/userAdd";
     }
 
     /**
@@ -81,9 +81,9 @@ public class SysUserController {
      * @return
      */
     @ApiOperation("跳转修改页面")
-    @RequestMapping(value = "view/update", method = RequestMethod.GET)
-    public String viewUpdate() {
-        return "user/update";
+    @RequestMapping(value = "update", method = RequestMethod.GET)
+    public String update() {
+        return "page/userUpdate";
     }
 
     /**
@@ -92,10 +92,10 @@ public class SysUserController {
      * @return
      */
     @ApiOperation("跳转修改密码页面")
-    @RequestMapping(value = "view/password", method = RequestMethod.GET)
-    public String viewPassword(ModelMap modelMap) {
+    @RequestMapping(value = "password", method = RequestMethod.GET)
+    public String password(ModelMap modelMap) {
         modelMap.addAttribute(PASSWORD, sysSystemService.selectUserPassword());
-        return "user/password";
+        return "page/password";
     }
 
 

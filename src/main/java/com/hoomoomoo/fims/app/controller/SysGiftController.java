@@ -23,7 +23,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.HAS_BUTTON;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 随礼信息控制类
  * @package com.hoomoomoo.fims.app.controller
  * @date 2019/09/07
@@ -47,12 +47,12 @@ public class SysGiftController {
      * @return
      */
     @ApiOperation("跳转列表页面")
-    @RequestMapping(value = "view/list", method = RequestMethod.GET)
-    public String viewList(ModelMap modelMap,
+    @RequestMapping(value = "list", method = RequestMethod.GET)
+    public String list(ModelMap modelMap,
                            @ApiParam(value = "菜单ID", required = true)
                            @RequestParam String menuId) {
         modelMap.addAttribute(HAS_BUTTON, sysSystemService.selectButtonAuthority(menuId));
-        return "gift/list";
+        return "page/giftList";
     }
 
 
@@ -62,9 +62,9 @@ public class SysGiftController {
      * @return
      */
     @ApiOperation("跳转详情页面")
-    @RequestMapping(value = "view/detail", method = RequestMethod.GET)
-    public String viewDetail() {
-        return "gift/detail";
+    @RequestMapping(value = "detail", method = RequestMethod.GET)
+    public String detail() {
+        return "page/giftDetail";
     }
 
     /**
@@ -73,9 +73,9 @@ public class SysGiftController {
      * @return
      */
     @ApiOperation("跳转新增页面")
-    @RequestMapping(value = "view/add", method = RequestMethod.GET)
-    public String viewAdd() {
-        return "gift/add";
+    @RequestMapping(value = "add", method = RequestMethod.GET)
+    public String add() {
+        return "page/giftAdd";
     }
 
     /**
@@ -84,9 +84,9 @@ public class SysGiftController {
      * @return
      */
     @ApiOperation("跳转修改页面")
-    @RequestMapping(value = "view/update", method = RequestMethod.GET)
-    public String viewUpdate() {
-        return "gift/update";
+    @RequestMapping(value = "update", method = RequestMethod.GET)
+    public String update() {
+        return "page/giftUpdate";
     }
 
     /**

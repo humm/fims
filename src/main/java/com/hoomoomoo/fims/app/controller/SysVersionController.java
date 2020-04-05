@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.controller;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 修订信息控制类
  * @package com.hoomoomoo.fims.app.controller
  * @date 2019/11/23
@@ -43,10 +43,10 @@ public class SysVersionController {
      * @return
      */
     @ApiOperation("跳转列表页面")
-    @RequestMapping(value = "view/list", method = RequestMethod.GET)
-    public String viewList(ModelMap modelMap) {
+    @RequestMapping(value = "list", method = RequestMethod.GET)
+    public String list(ModelMap modelMap) {
         modelMap.addAttribute(BUSINESS_TYPE_VERSION, sysParameterService.getParameterString(VERSION));
-        return "version/list";
+        return "page/versionList";
     }
 
     /**

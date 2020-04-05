@@ -6,7 +6,7 @@ import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 随礼信息服务类
  * @package com.hoomoomoo.fims.app.service
  * @date 2019/09/07

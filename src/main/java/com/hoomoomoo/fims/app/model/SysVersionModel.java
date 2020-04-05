@@ -9,7 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 修订信息实体类
  * @package com.hoomoomoo.fims.app.model
  * @date 2019/11/23

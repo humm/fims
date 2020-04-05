@@ -31,7 +31,7 @@ import static com.hoomoomoo.fims.app.consts.CueConst.*;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 接口信息服务实现类
  * @package com.hoomoomoo.fims.app.service.impl
  * @date 2020/02/09
@@ -71,20 +71,6 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
     private SystemConfigBean systemConfigBean;
 
     /**
-     * 邮件参数配置信息校验
-     *
-     * @return
-     */
-    private boolean mialParameterConfig() {
-        return StringUtils.isBlank(mailConfigBean.getFrom()) || StringUtils.isBlank(mailConfigBean.getUsername())
-                || StringUtils.isBlank(mailConfigBean.getPassword()) || StringUtils.isBlank(mailConfigBean.getHost())
-                || StringUtils.isBlank(mailConfigBean.getProtocol()) || StringUtils.isBlank(mailConfigBean.getSubject())
-                || StringUtils.isBlank(mailConfigBean.getReceiveHost()) || StringUtils.isBlank(mailConfigBean.getReceiveUsername())
-                || StringUtils.isBlank(mailConfigBean.getReceivePassword()) || StringUtils.isBlank(mailConfigBean.getReceiveProtocol())
-                || StringUtils.isBlank(mailConfigBean.getReceiveFolder());
-    }
-
-    /**
      * 处理邮件请求
      */
     @Override
@@ -94,8 +80,8 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
             return;
         }
         // 邮件配置参数判断
-        if (mialParameterConfig()) {
-            SysLogUtils.info(logger, MAIL_NOT_CONFIG);
+        if (sysMailService.checkMialParameterConfig()) {
+            SysLogUtils.error(logger, MAIL_NOT_CONFIG);
             return;
         }
         MAIL_HANDLE_FLAG = true;
@@ -184,6 +170,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
             if (sysMailModel != null) {
                 // 邮件反馈处理结果
                 SysMailModel mail = new SysMailModel();
+                mail.setFrom(mailConfigBean.getFrom());
                 mail.setTo(sysMailModel.getTo());
                 mail.setSubject(systemConfigBean.getAppDescribe() + INTERFACE_FEEDBACK_MAIL);
                 mail.setContent(getContent(check, baseModelList, sysCheckResultModelList,

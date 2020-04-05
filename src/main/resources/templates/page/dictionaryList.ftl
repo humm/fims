@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>用户信息-列表</title>
+    <title>字典信息-列表</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -19,67 +19,62 @@
             <div class="layui-form-item">
                 <!-- 查询条件 -->
                 <div class="layui-inline">
-                    <label class="layui-form-label">用户代码</label>
+                    <label class="layui-form-label">字典代码</label>
                     <div class="layui-input-block">
-                        <input type="text" class="layui-input" name="userCode">
+                        <input type="text" class="layui-input" name="dictionaryCode">
                     </div>
                 </div>
 
                 <div class="layui-inline">
-                    <label class="layui-form-label">用户名称</label>
+                    <label class="layui-form-label">字典描述</label>
                     <div class="layui-input-block">
-                        <input type="text" class="layui-input" name="userName">
+                        <input type="text" class="layui-input" name="dictionaryCaption">
                     </div>
                 </div>
 
-                <div class="layui-inline">
-                    <label class="layui-form-label">用户状态</label>
-                    <div class="layui-input-block">
-                        <select name="userStatus"></select>
-                    </div>
-                </div>
 
                 <!-- 查询按钮 -->
                 <div class="layui-inline layui-inline-button">
-                    <button class="layui-btn layuiadmin-btn-user-list" lay-submit
-                            lay-filter="LAY-app-userlist-search">
+                    <button class="layui-btn layuiadmin-btn-dictionary-list" lay-submit
+                            lay-filter="LAY-app-dictionarylist-search">
                         <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
                     </button>
                 </div>
 
                 <!-- 重置按钮 -->
                 <div class="layui-inline layui-inline-button">
-                    <button class="layui-btn layuiadmin-btn-user-list" lay-submit
-                            lay-filter="LAY-app-userlist-refresh">
+                    <button class="layui-btn layuiadmin-btn-dictionary-list" lay-submit
+                            lay-filter="LAY-app-dictionarylist-refresh">
                         <i class="layui-icon layui-icon-refresh-1 layuiadmin-button-btn"></i>
                     </button>
                 </div>
+
             </div>
         </div>
 
         <div class="layui-card-body">
             <!-- 头部操作按钮 -->
-            <div style="padding-bottom: 10px;" id="LAY-app-user-list-button">
-                <button class="layui-btn layuiadmin-btn-user-list" data-type="add">新增</button>
-                <button class="layui-btn layuiadmin-btn-user-list" data-type="update">修改</button>
-                <button class="layui-btn layuiadmin-btn-user-list" data-type="delete">删除</button>
-                <button class="layui-btn layuiadmin-btn-user-list" data-type="reset">重置用户密码</button>
+            <div style="padding-bottom: 10px;" id="LAY-app-dictionary-list-button">
+                <button class="layui-btn layuiadmin-btn-dictionary-list" data-type="update">修改</button>
+                <button class="layui-btn layuiadmin-btn-dictionary-list" data-type="refresh">刷新</button>
             </div>
 
             <!-- 列表数据 -->
-            <table id="LAY-app-user-list" lay-filter="LAY-app-user-list"></table>
-
-            <!-- 用户状态 -->
-            <script type="text/html" id="userStatus">
-                <button class="layui-btn layui-btn-xs layui-bg-{{ d.userStatusCode }}">{{ d.userStatus }}</button>
-            </script>
+            <table id="LAY-app-dictionary-list" lay-filter="LAY-app-dictionary-list"></table>
 
             <!-- 用户类型 -->
-            <script type="text/html" id="userType">
-                {{#  if(d.userCode == 'admin'){ }}
-                <button class="layui-btn layui-bg-1 layui-btn-xs">系统用户</button>
+            <script type="text/html" id="isOpen">
+                {{#  if(d.isOpen == '1'){ }}
+                <button class="layui-btn layui-bg-1 layui-btn-xs">开放</button>
                 {{#  } else{ }}
-                <button class="layui-btn layui-bg-2 layui-btn-xs">普通用户</button>
+                <button class="layui-btn layui-bg-2 layui-btn-xs">封闭</button>
+                {{#  } }}
+            </script>
+
+            <script type="text/html" id="table-dictionary-list">
+                {{#  if(d.isOpen == '1'){ }}
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+                {{#  } else{ }}
                 {{#  } }}
             </script>
 
@@ -104,138 +99,66 @@
         var appName = '${appName}';
 
         // 业务类型
-        var businessType = "user";
+        var businessType = "dictionary";
 
         // 请求url
         var url = {
-            init: appName + "/user/selectInitData",
-            page: appName + "/user/selectPage",
-            del: appName + "/user/delete",
-            reset: appName + "/user/reset",
-            save: appName + "/user/save",
-            add: appName + "/user/view/add",
-            update: appName + "/user/view/update",
-            detail: appName + "/user/view/detail",
-            check: appName + "/user/checkUserCode"
+            page: appName + "/dictionary/selectPage",
+            save: appName + "/dictionary/save",
+            update: appName + "/dictionary/update",
+            detail: appName + "/dictionary/detail",
+            refresh: appName + "/dictionary/refresh"
         }
 
         // 列表字段
         var tableColumn = [[
             {type: "checkbox", fixed: "left"},
-            {field: "userId", title: "用户ID", sort: false, hide: true},
-            {field: "userCode", title: "用户代码", sort: true},
-            {field: "userName", title: "用户名称", sort: true},
-            {field: "userStatus", title: "用户状态", align: "center", templet: "#userStatus", sort: true},
-            {field: "userCode", title: "用户类型", align: "center", templet: "#userType"},
-            {field: "userMemo", title: "用户备注"}
+            {field: "dictionaryCode", title: "字典代码", sort: true,},
+            {field: "dictionaryCaption", title: "字典描述", sort: true},
+            {field: "userId", title: "字典用户", hide: true},
+            {field: "isOpen", title: "开放状态", align: "center", templet: "#isOpen", sort: true},
+            {title:"操作", width:100, align:"center", fixed:"right", toolbar:"#table-" + businessType + "-list"}
         ]];
 
-        // 初始化页面信息
-        admin.req({
-            url: url.init,
-            type: "get",
-            dataType: "json",
-            done: function (response) {
-                if (response.bizResult) {
-                    // 设置查询条件
-                    fims.setCondition("layui-form-item", response.data.condition);
-                } else {
+        // 数据刷新
+        var refresh = function (data) {
+            admin.req({
+                url: url.refresh,
+                type: "get",
+                dataType: "json",
+                done: function (response) {
                     fims.msg(response.msg);
                 }
-            }
-        });
-
-        // 数据删除
-        var del = function (data) {
-            var userIds = [];
-            var hasAdmin = false;
-            for (var i = 0; i < data.length; i++) {
-                userIds.push(data[i].userId);
-                if (fims.config.adminCode == data[i].userCode) {
-                    fims.msg(fims.tips.msg.systemUserNotDelete);
-                    hasAdmin = true;
-                    return;
-                }
-            }
-            if (hasAdmin) {
-                return;
-            }
-            layer.confirm(fims.tips.warn.confirmDel, function (index) {
-                admin.req({
-                    url: url.del,
-                    type: "post",
-                    data: {userIds: userIds.join(",")},
-                    done: function (response) {
-                        if (response.bizResult) {
-                            setTimeout(function () {
-                                layer.close(index);
-                                reloadData(fims.getValue("layui-form-item"));
-                                fims.msg(response.msg);
-                            }, 500);
-                        } else {
-                            fims.msg(response.msg);
-                        }
-                    }
-                });
             });
         }
 
-        // 重置用户密码
-        var reset = function (data) {
-            var userIds = [];
-            for (var i = 0; i < data.length; i++) {
-                userIds.push(data[i].userId);
-            }
-            layer.confirm(fims.tips.warn.confirmResetPassword, function (index) {
-                admin.req({
-                    url: url.reset,
-                    type: "post",
-                    data: {userIds: userIds.join(",")},
-                    done: function (response) {
-                        if (response.bizResult) {
-                            setTimeout(function () {
-                                layer.close(index);
-                                reloadData(fims.getValue("layui-form-item"));
-                                fims.msg(response.msg);
-                            }, 500);
-                        } else {
-                            fims.msg(response.msg);
-                        }
-                    }
-                });
-            });
+        // 数据删除
+        var del = function (data) {
+
         }
 
         // 数据新增
         var add = function (data) {
-            fims.open({
-                type: 2,
-                title: fims.tips.title.add,
-                content: url.add,
-                area: [fims.size.one, fims.size.two],
-                btn: [fims.tips.btn.save, fims.tips.btn.cancel],
-                resize: fims.set.resize,
-                yes: function (e, t) {
-                    save(e, t, fims.operate.add, data);
-                }
-            });
+
         }
 
         // 数据修改
         var update = function (data) {
-            if (fims.config.adminCode == data.userCode) {
-                fims.msg(fims.tips.msg.systemUserNotUpdate);
+            if('0' == data.isOpen ){
+                fims.msg(fims.tips.msg.closeDictionaryNotUpdate);
                 return;
             }
             var request = {
-                userId: data.userId,
+                dictionaryCode: data.dictionaryCode,
+                dictionaryCaption: encodeURI(data.dictionaryCaption),
+                isOpen: data.isOpen,
                 isTranslate: "0"
             }
             fims.open({
                 type: 2,
                 title: fims.tips.title.update,
                 content: url.update + "?" + $.param(request),
-                area: [fims.size.one, fims.size.two],
+                area: [fims.size.three, fims.size.four],
                 btn: [fims.tips.btn.save, fims.tips.btn.cancel],
                 resize: fims.set.resize,
                 yes: function (e, t) {
@@ -247,14 +170,16 @@
         // 数据详情
         var detail = function (data) {
             var request = {
-                userId: data.userId,
+                dictionaryCode: data.dictionaryCode,
+                dictionaryCaption: encodeURI(data.dictionaryCaption),
+                isOpen: data.isOpen,
                 isTranslate: "1"
             }
             fims.open({
                 type: 2,
                 title: fims.tips.title.detail,
                 content: url.detail + "?" + $.param(request),
-                area: [fims.size.one, fims.size.two],
+                area: [fims.size.seven, fims.size.four],
                 resize: fims.set.resize
             });
         }
@@ -263,47 +188,49 @@
         var save = function (e, t, type, data) {
             var iframe = window["layui-layer-iframe" + e],
                 button = t.find("iframe").contents().find("#LAY-app-" + businessType + "-" + type);
-            // 获取角色信息
-            var roleId = [];
-            iframe.document.getElementsByName("roleId").forEach(function (item) {
-                if (item.checked) {
-                    roleId.push(item.value);
-                }
-            });
-            iframe.layui.form.on("submit(LAY-app-" + businessType + "-" + type + ")", function (data) {
-                // 校验用户代码格式
-                var param = fims.clearBlank(data.field);
-                var reg = /^[0-9a-zA-Z_]+$/;
-                if (!reg.test(param.userCode)) {
-                    fims.msg(fims.tips.msg.isNumberOrLetter);
+            var elements = [];
+            var flag = false;
+            t.find("iframe").contents().find(".layui-form-item-dictionary").each(function (index) {
+                if (flag) {
                     return;
                 }
-                var userIsExist = false;
-                // 校验用户代码是否存在
-                admin.req({
-                    url: url.check,
-                    type: "get",
-                    async: false,
-                    data: fims.clearBlank(data.field),
-                    done: function (response) {
-                        if (response.bizResult) {
-                            if (response.data) {
-                                userIsExist = true;
-                            }
-                        } else {
-                            fims.msg(response.msg);
-                        }
+                var that = this;
+                var item = {};
+                $(that).find("[name]").each(function () {
+                    var name = $(this).attr("name");
+                    var value = $(this).val();
+                    item[name] = value;
+                    if ((name == "userId" && data.isOpen == '0') || fims.isBlank(name)) {
+                        // 选值用户 未开放状态 不校验
+                    } else if (fims.isBlank(value)) {
+                        var title = $(this).parent().prev().html();
+                        fims.msg(title + " " + fims.tips.msg.notEmpty);
+                        flag = true;
+                        return;
                     }
                 });
-                if (!userIsExist) {
-                    fims.msg(fims.tips.msg.userIsExist);
-                    return;
+                item["dictionaryCode"] = data.dictionaryCode;
+                item["isOpen"] = data.isOpen;
+                item["itemOrder"] = index + 1;
+                elements.push(item);
+            });
+            if (flag) {
+                return;
+            }
+            // 若为空添加默认字典代码
+            if($.isEmptyObject(elements)){
+                var item = {
+                    dictionaryCode: data.dictionaryCode,
+                    isOpen: data.isOpen
                 }
-                data.field.roleId = roleId.join(",");
+                elements.push(item);
+            }
+            iframe.layui.form.on("submit(LAY-app-" + businessType + "-" + type + ")", function (data) {
                 admin.req({
                     url: url.save,
                     type: "post",
-                    data: fims.clearBlank(data.field),
+                    contentType:"application/json",
+                    data: JSON.stringify(elements),
                     done: function (response) {
                         if (response.bizResult) {
                             setTimeout(function () {
@@ -345,11 +272,6 @@
                 case fims.operate.update:
                     update(data);
                     break;
-                case fims.operate.reset:
-                    var convertData = new Array();
-                    convertData.push(data);
-                    reset(convertData);
-                    break;
                 default:
                     fims.msg(fims.tips.msg.notSupportEvent);
                     break;
@@ -385,11 +307,8 @@
                     }
                     del(checkData);
                     break;
-                case fims.operate.reset:
-                    if (checkData.length === 0) {
-                        return fims.msg(fims.tips.warn.notSelect);
-                    }
-                    reset(checkData);
+                case fims.operate.refresh:
+                    refresh();
                     break;
                 default:
                     fims.msg(fims.tips.msg.notSupportEvent);

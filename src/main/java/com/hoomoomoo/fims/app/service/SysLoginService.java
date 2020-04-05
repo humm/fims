@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 用户登录服务类
  * @package com.hoomoomoo.fims.app.service
  * @date 2019/10/14

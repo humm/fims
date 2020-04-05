@@ -5,7 +5,7 @@ import com.hoomoomoo.fims.app.model.SysGiftModel;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 首页数据Dao
  * @package com.hoomoomoo.fims.app.dao
  * @date 2019/10/27

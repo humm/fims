@@ -5,7 +5,7 @@ import java.util.Date;
 
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 时间工具类
  * @package com.hoomoomoo.fims.app.util
  * @date 2019/08/08

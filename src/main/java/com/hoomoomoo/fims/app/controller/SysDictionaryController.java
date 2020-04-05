@@ -5,7 +5,6 @@ import com.hoomoomoo.fims.app.model.SysDictionaryQueryModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysDictionaryService;
-import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -20,7 +19,7 @@ import java.util.List;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 字典信息控制类
  * @package com.hoomoomoo.fims.app.controller
  * @date 2019/09/13
@@ -35,18 +34,15 @@ public class SysDictionaryController {
     @Autowired
     private SysDictionaryService sysDictionaryService;
 
-    @Autowired
-    private SysSystemService sysSystemService;
-
     /**
      * 跳转列表页面
      *
      * @return
      */
     @ApiOperation("跳转列表页面")
-    @RequestMapping(value = "view/list", method = RequestMethod.GET)
-    public String viewList() {
-        return "dictionary/list";
+    @RequestMapping(value = "list", method = RequestMethod.GET)
+    public String list() {
+        return "page/dictionaryList";
     }
 
     /**
@@ -55,9 +51,9 @@ public class SysDictionaryController {
      * @return
      */
     @ApiOperation("跳转详情页面")
-    @RequestMapping(value = "view/detail", method = RequestMethod.GET)
-    public String viewDetail() {
-        return "dictionary/detail";
+    @RequestMapping(value = "detail", method = RequestMethod.GET)
+    public String detail() {
+        return "page/dictionaryDetail";
     }
 
     /**
@@ -66,9 +62,9 @@ public class SysDictionaryController {
      * @return
      */
     @ApiOperation("跳转修改页面")
-    @RequestMapping(value = "view/update", method = RequestMethod.GET)
-    public String viewUpdate() {
-        return "dictionary/update";
+    @RequestMapping(value = "update", method = RequestMethod.GET)
+    public String update() {
+        return "page/dictionaryUpdate";
     }
 
     /**

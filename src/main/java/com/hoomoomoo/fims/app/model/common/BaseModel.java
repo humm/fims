@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 实体dto
  * @package com.hoomoomoo.fims.app.model.common
  * @date 2019/08/08

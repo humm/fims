@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 系统级别公用服务
  * @package com.hoomoomoo.fims.app.service.common
  * @date 2019/08/04
@@ -146,6 +146,12 @@ public interface SysSystemService {
     void startBackup();
 
     /**
+     * 应用数据备份
+     * @return
+     */
+    void systemBackup();
+
+    /**
      * 系统启动读取邮件
      */
     void startMail();
@@ -154,5 +160,10 @@ public interface SysSystemService {
      * 超级模式启动
      */
     void startSuperMode();
+
+    /**
+     * 邮件保存应用备份文件
+     */
+    void systemBackupToMail();
 
 }

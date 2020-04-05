@@ -18,7 +18,7 @@ import java.util.List;
 import static com.hoomoomoo.fims.app.config.RunDataConfig.CONFIG_SQL;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 测试控制类
  * @package com.hoomoomoo.fims.test.controller
  * @date 2019/08/08

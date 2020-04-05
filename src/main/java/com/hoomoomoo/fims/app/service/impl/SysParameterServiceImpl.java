@@ -27,7 +27,7 @@ import static com.hoomoomoo.fims.app.consts.DictionaryConst.D010;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.BACKUP_LOCATION;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 参数信息服务实现类
  * @package com.hoomoomoo.fims.app.service.impl
  * @date 2019/10/20

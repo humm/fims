@@ -9,7 +9,7 @@ import java.util.List;
 
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 收入信息dao
  * @package com.hoomoomoo.fims.app.dao
  * @date 2019/08/10

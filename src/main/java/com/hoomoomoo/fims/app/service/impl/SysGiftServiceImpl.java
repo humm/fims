@@ -28,7 +28,7 @@ import static com.hoomoomoo.fims.app.consts.CueConst.UPDATE_SUCCESS;
 import static com.hoomoomoo.fims.app.consts.DictionaryConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 随礼信息实现类
  * @package com.hoomoomoo.fims.app.service.impl
  * @date 2019/09/07

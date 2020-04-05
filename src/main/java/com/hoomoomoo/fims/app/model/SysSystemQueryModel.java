@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 系统级别公用查询实体类
  * @package com.hoomoomoo.fims.app.model
  * @date 2019/10/13

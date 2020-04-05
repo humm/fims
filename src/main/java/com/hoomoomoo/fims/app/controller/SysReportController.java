@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 报表控制类
  * @package com.hoomoomoo.fims.app.controller
  * @date 2019/09/08
@@ -38,9 +38,9 @@ public class SysReportController {
      * @return
      */
     @ApiOperation("跳转收入信息报表页面")
-    @RequestMapping(value = "view/income", method = RequestMethod.GET)
+    @RequestMapping(value = "income", method = RequestMethod.GET)
     public String incomeReport() {
-        return "report/incomeReport";
+        return "page/incomeReport";
     }
 
     /**
@@ -49,9 +49,9 @@ public class SysReportController {
      * @return
      */
     @ApiOperation("跳转送礼信息报表页面")
-    @RequestMapping(value = "view/giftSend", method = RequestMethod.GET)
+    @RequestMapping(value = "giftSend", method = RequestMethod.GET)
     public String giftSendReport() {
-        return "report/giftSendReport";
+        return "page/giftSendReport";
     }
 
     /**
@@ -60,9 +60,9 @@ public class SysReportController {
      * @return
      */
     @ApiOperation("跳转收礼信息报表页面")
-    @RequestMapping(value = "view/giftReceive", method = RequestMethod.GET)
+    @RequestMapping(value = "giftReceive", method = RequestMethod.GET)
     public String giftReceiveReport() {
-        return "report/giftReceiveReport";
+        return "page/giftReceiveReport";
     }
 
     /**

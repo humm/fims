@@ -23,7 +23,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.SHUTDOWN;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 定时任务配置
  * @package com.hoomoomoo.fims.app.config
  * @date 2019/08/29

@@ -10,7 +10,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.SPRING_DATASOURCE;
 
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 数据库连接配置类
  * @package com.hoomoomoo.fims.app.config.bean
  * @date 2019/11/23

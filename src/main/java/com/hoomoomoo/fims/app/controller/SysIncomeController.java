@@ -21,7 +21,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.HAS_BUTTON;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 收入信息控制类
  * @package com.hoomoomoo.fims.app.controller
  * @date 2019/08/10
@@ -45,12 +45,12 @@ public class SysIncomeController {
      * @return
      */
     @ApiOperation("跳转列表页面")
-    @RequestMapping(value = "view/list", method = RequestMethod.GET)
-    public String viewList(ModelMap modelMap,
+    @RequestMapping(value = "list", method = RequestMethod.GET)
+    public String list(ModelMap modelMap,
                            @ApiParam(value = "菜单ID", required = true)
                            @RequestParam String menuId) {
         modelMap.addAttribute(HAS_BUTTON, sysSystemService.selectButtonAuthority(menuId));
-        return "income/list";
+        return "page/incomeList";
     }
 
 
@@ -60,9 +60,9 @@ public class SysIncomeController {
      * @return
      */
     @ApiOperation("跳转详情页面")
-    @RequestMapping(value = "view/detail", method = RequestMethod.GET)
-    public String viewDetail() {
-        return "income/detail";
+    @RequestMapping(value = "detail", method = RequestMethod.GET)
+    public String detail() {
+        return "page/incomeDetail";
     }
 
     /**
@@ -71,9 +71,9 @@ public class SysIncomeController {
      * @return
      */
     @ApiOperation("跳转新增页面")
-    @RequestMapping(value = "view/add", method = RequestMethod.GET)
-    public String viewAdd() {
-        return "income/add";
+    @RequestMapping(value = "add", method = RequestMethod.GET)
+    public String add() {
+        return "page/incomeAdd";
     }
 
     /**
@@ -82,9 +82,9 @@ public class SysIncomeController {
      * @return
      */
     @ApiOperation("跳转修改页面")
-    @RequestMapping(value = "view/update", method = RequestMethod.GET)
-    public String viewUpdate() {
-        return "income/update";
+    @RequestMapping(value = "update", method = RequestMethod.GET)
+    public String update() {
+        return "page/incomeUpdate";
     }
 
 

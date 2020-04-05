@@ -28,7 +28,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 系统级工具类
  * @package com.hoomoomoo.fims.app.util
  * @date 2019/08/08

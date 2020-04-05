@@ -3,7 +3,7 @@ package com.hoomoomoo.fims.app.util;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description Session 工具类
  * @package com.hoomoomoo.fims.app.util
  * @date 2019/08/08

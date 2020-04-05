@@ -33,7 +33,7 @@ import static com.hoomoomoo.fims.app.consts.DictionaryConst.D009;
 import static com.hoomoomoo.fims.app.consts.ParameterConst.USER_DEFAULT_PASSWORD;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 用户信息服务实现类
  * @package com.hoomoomoo.fims.app.service.impl
  * @date 2019/08/11
@@ -220,7 +220,6 @@ public class SysUserServiceImpl implements SysUserService {
                 sysUserDao.saveUserRole(sysUserRoleModel);
             }
         }
-        Integer.parseInt("yy");
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_USER, operateType);
         return new ResultData(true, tipMsg, null);
     }

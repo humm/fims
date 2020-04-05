@@ -5,7 +5,6 @@ import com.hoomoomoo.fims.app.model.SysRoleQueryModel;
 import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysRoleService;
-import com.hoomoomoo.fims.app.service.SysSystemService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 角色信息
  * @package com.hoomoomoo.fims.app.controller
  * @date 2019/09/27
@@ -36,18 +35,15 @@ public class SysRoleController {
     @Autowired
     private SysRoleService sysRoleService;
 
-    @Autowired
-    private SysSystemService sysSystemService;
-
     /**
      * 跳转列表页面
      *
      * @return
      */
     @ApiOperation("跳转列表页面")
-    @RequestMapping(value = "view/list", method = RequestMethod.GET)
-    public String viewList() {
-        return "role/list";
+    @RequestMapping(value = "list", method = RequestMethod.GET)
+    public String list() {
+        return "page/roleList";
     }
 
 
@@ -57,9 +53,9 @@ public class SysRoleController {
      * @return
      */
     @ApiOperation("跳转详情页面")
-    @RequestMapping(value = "view/detail", method = RequestMethod.GET)
-    public String viewDetail() {
-        return "role/detail";
+    @RequestMapping(value = "detail", method = RequestMethod.GET)
+    public String detail() {
+        return "page/roleDetail";
     }
 
     /**
@@ -68,9 +64,9 @@ public class SysRoleController {
      * @return
      */
     @ApiOperation("跳转新增页面")
-    @RequestMapping(value = "view/add", method = RequestMethod.GET)
-    public String viewAdd() {
-        return "role/add";
+    @RequestMapping(value = "add", method = RequestMethod.GET)
+    public String add() {
+        return "page/roleAdd";
     }
 
     /**
@@ -79,9 +75,9 @@ public class SysRoleController {
      * @return
      */
     @ApiOperation("跳转修改页面")
-    @RequestMapping(value = "view/update", method = RequestMethod.GET)
-    public String viewUpdate() {
-        return "role/update";
+    @RequestMapping(value = "update", method = RequestMethod.GET)
+    public String update() {
+        return "page/roleUpdate";
     }
 
 

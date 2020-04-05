@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.consts;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 微信常量类
  * @package com.hoomoomoo.fims.app.consts
  * @date 2020/02/28

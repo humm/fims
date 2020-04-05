@@ -1,7 +1,7 @@
 package com.hoomoomoo.fims.app.consts;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 提示信息常量
  * @package com.hoomoomoo.fims.app.consts
  * @date 2019/08/03
@@ -339,6 +339,11 @@ public class CueConst {
      * 日志业务类型：EXCEL数据备份
      */
     public static final String LOG_BUSINESS_TYPE_BACKUP_EXCEL                   = "EXCEL数据备份";
+
+    /**
+     * 日志业务类型：应用备份文件发送至邮箱
+     */
+    public static final String LOG_BUSINESS_TYPE_BACKUP_TO_MAIL                 = "应用备份文件发送至邮箱";
 
     /**
      * 日志业务类型：修订
@@ -706,6 +711,11 @@ public class CueConst {
     public static final String BUSINESS_SCHEDULE_MAIL                           = "邮件信息定时任务: %s";
 
     /**
+     * 定时任务：系统备份定时任务
+     */
+    public static final String BUSINESS_SCHEDULE_BACKUP                         = "系统备份定时任务: %s";
+
+    /**
      * 业务流水号：提示信息信息
      */
     public static final String BUSINESS_BUSINESS_NO                             = "业务流水号";
@@ -858,5 +868,15 @@ public class CueConst {
      * 没有菜单ID
      */
     public static final String TIPS_ERROR_MENU                                   = "无菜单权限";
+
+    /**
+     * 家庭信息平台数据备份
+     */
+    public static final String MAIL_SUBJECT_BACKUP                               = "家庭信息平台数据备份";
+
+    /**
+     * 备份文件详见附件
+     */
+    public static final String MAIL_BACKUP_FILE                                  = "备份文件详见附件...";
 
 }

@@ -31,7 +31,7 @@ import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
 /**
- * @author humm23693
+ * @author hoomoomoo
  * @description 字典信息服务实现类
  * @package com.hoomoomoo.fims.app.service.impl
  * @date 2019/08/11
