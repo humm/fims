@@ -53,8 +53,12 @@ public class SysMailServiceImpl implements SysMailService {
      */
     @Override
     public Boolean sendMail(SysMailModel mailModel) {
-        if (checkMialParameterConfig()) {
+        if (checkMailParameterConfig()) {
             SysLogUtils.error(logger, MAIL_NOT_CONFIG);
+            return false;
+        }
+        if (checkMailParameterConfig(mailModel)) {
+            SysLogUtils.error(logger, MAIL_NOT_SET);
             return false;
         }
         SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
@@ -197,6 +201,15 @@ public class SysMailServiceImpl implements SysMailService {
         return mailModel;
     }
 
+    /**
+     * 校验邮件发送参数信息
+     *
+     * @return
+     */
+    private Boolean checkMailParameterConfig(SysMailModel mailModel){
+        return StringUtils.isBlank(mailModel.getFrom()) || StringUtils.isBlank(mailModel.getTo())
+                || StringUtils.isBlank(mailModel.getSubject()) || StringUtils.isBlank(mailModel.getContent());
+    }
 
     /**
      * 邮件参数配置信息校验
@@ -204,7 +217,7 @@ public class SysMailServiceImpl implements SysMailService {
      * @return
      */
     @Override
-    public Boolean checkMialParameterConfig() {
+    public Boolean checkMailParameterConfig() {
         return StringUtils.isBlank(mailConfigBean.getFrom()) || StringUtils.isBlank(mailConfigBean.getUsername())
                 || StringUtils.isBlank(mailConfigBean.getPassword()) || StringUtils.isBlank(mailConfigBean.getHost())
                 || StringUtils.isBlank(mailConfigBean.getProtocol()) || StringUtils.isBlank(mailConfigBean.getSubject())

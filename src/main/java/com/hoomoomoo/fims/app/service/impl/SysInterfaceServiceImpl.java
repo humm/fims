@@ -80,7 +80,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
             return;
         }
         // 邮件配置参数判断
-        if (sysMailService.checkMialParameterConfig()) {
+        if (sysMailService.checkMailParameterConfig()) {
             SysLogUtils.error(logger, MAIL_NOT_CONFIG);
             return;
         }

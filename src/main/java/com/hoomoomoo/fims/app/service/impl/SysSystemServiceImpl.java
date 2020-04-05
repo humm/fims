@@ -1026,6 +1026,7 @@ public class SysSystemServiceImpl implements SysSystemService {
                     if (CollectionUtils.isNotEmpty(filePath)) {
                         SysMailModel mailModel = new SysMailModel();
                         mailModel.setTo(mailConfigBean.getFrom());
+                        mailModel.setFrom(mailConfigBean.getFrom());
                         mailModel.setSubject(MAIL_SUBJECT_BACKUP);
                         mailModel.setContent(MAIL_BACKUP_FILE);
                         mailModel.setFilePath(filePath);

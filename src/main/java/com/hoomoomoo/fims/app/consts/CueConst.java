@@ -431,6 +431,11 @@ public class CueConst {
     public static final String MAIL_NOT_CONFIG                                  = "请配置邮件相关参数...";
 
     /**
+     * 邮件参数设置
+     */
+    public static final String MAIL_NOT_SET                                     = "请设置邮件相关参数...";
+
+    /**
      * 不支持的内容格式
      */
     public static final String MAIL_CONTENT_NOT_SUPPORT                         = "不支持的内容格式";
