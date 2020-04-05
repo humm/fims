@@ -274,7 +274,6 @@
             }
             if (!$.isEmptyObject(config.area)) {
                 var screenHeight = $(window).height();
-                console.log(screenHeight);
                 if (parseInt(screenHeight) < parseInt(config.area[1].replace("px", ""))) {
                     if (this.size.two == config.area[1]) {
                         config.area[1] = '96%';
