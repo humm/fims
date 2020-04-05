@@ -72,13 +72,11 @@
             type: "get",
             dataType: "json",
             done: function (response) {
-                var loading = layer.load(2, {shade: false});
                 if (response.bizResult) {
                     addDictionary(response.data);
                 } else {
                     fims.msg(response.msg);
                 }
-                layer.close(loading);
             }
         });
 
@@ -109,6 +107,7 @@
 
         // 添加字典项
         function addDictionary(data) {
+            var loading = layer.load(2, {shade: false});
             if (!$.isEmptyObject(data)) {
                 userList = data.user;
                 for (var i = 0; i < data.dictionary.length; i++) {
@@ -140,6 +139,7 @@
                 }
                 form.render();
             });
+            layer.close(loading);
         }
 
         // 添加元素
