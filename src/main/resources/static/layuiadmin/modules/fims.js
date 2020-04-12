@@ -314,8 +314,8 @@
             four: "600px",
             seven: '700px',
             // 首页模块页面
-            five: '220px',
-            six: '450px',
+            five: '480px',
+            six: '300px',
             // 角色页面
             eight: "450px",
             nine: "650px",

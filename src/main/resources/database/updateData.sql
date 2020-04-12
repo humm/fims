@@ -300,3 +300,9 @@ call add_version('20190000000085', '列表行操作事件', '2020-04-04', 405, '
 call add_version('20190000000086', '系统定时备份、邮件保存备份文件', '2020-04-05', 410, '1');
 call add_version('20190000000087', '发布版本：3.2.30', '2020-04-05', 415, '4');
 call update_system_version('3.2.30');
+
+call add_column('sys_config', 'user_id', 'number(30)', '0');
+comment on column sys_config.user_id is '用户ID';
+alter table sys_config drop primary key;
+alter table sys_config add primary key (module_group_code, module_code, user_id);
+call add_version('20190000000088', '首页模块控制绑定用户信息', '2020-04-12', 420, '2');

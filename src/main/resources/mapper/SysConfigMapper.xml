@@ -28,13 +28,46 @@
             <if test="moduleStatus != null">
                 and module_status = #{moduleStatus}
             </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
         </where>
     </select>
 
     <update id="save" parameterType="com.hoomoomoo.fims.app.model.SysConfigModel">
-        update sys_config set module_status = #{moduleStatus}
-        where module_group_code = #{moduleGroupCode}
-        and module_code = #{moduleCode}
+        merge into sys_config a
+        using (
+          select
+            #{moduleGroupCode} as module_group_code,
+            #{moduleCode} as module_code,
+            #{userId} as user_id
+          from dual
+        ) b
+        on (a.module_group_code = b.module_group_code and a.module_code = b.module_code and a.user_id = b.user_id)
+        when matched then
+        update
+        <set>
+            module_status = #{moduleStatus}
+        </set>
+        when not matched then
+        insert(
+            module_group_code,
+            module_group_name,
+            module_code,
+            module_name,
+            module_status,
+            module_ext,
+            user_id
+        )
+        values(
+            #{moduleGroupCode},
+            (select module_group_name from sys_config where module_group_code = #{moduleGroupCode} and module_code = #{moduleCode} and nvl(user_id, 0) = 0),
+            #{moduleCode},
+            (select module_name from sys_config where module_group_code = #{moduleGroupCode} and module_code = #{moduleCode} and nvl(user_id, 0) = 0),
+            #{moduleStatus},
+            (select module_ext from sys_config where module_group_code = #{moduleGroupCode} and module_code = #{moduleCode} and nvl(user_id, 0) = 0),
+            #{userId}
+        )
     </update>
 
 </mapper>

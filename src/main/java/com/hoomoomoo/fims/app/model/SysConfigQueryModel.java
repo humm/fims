@@ -30,4 +30,7 @@ public class SysConfigQueryModel {
 
     @ApiModelProperty(value="模块扩展参数", required = false)
     private String moduleExt;
+
+    @ApiModelProperty(value="用户ID", required = false)
+    private String userId;
 }

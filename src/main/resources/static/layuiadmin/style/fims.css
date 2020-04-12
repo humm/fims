@@ -146,3 +146,6 @@
 .layui-text a:not(.layui-btn):hover {
     text-decoration: none;
 }
+.layui-input-inline-module {
+    width: 100px!important;
+}

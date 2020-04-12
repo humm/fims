@@ -81,19 +81,19 @@ public class SysConsoleServiceImpl implements SysConsoleService {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
         SysConsoleModel sysConsoleModel = new SysConsoleModel();
         SessionBean sessionBean = SysSessionUtils.getSession();
-        // 设置统计开始时间
-        String yearStartDate = sysParameterService.getParameterString(YEAR_START_DATE);
-        SysConsoleQueryModel sysConsoleQueryModel = new SysConsoleQueryModel();
-        sysConsoleQueryModel.setYearStartDate(yearStartDate);
-        // 查询未读消息通知
-        sysConsoleModel.setReadNum(selectReadNoticeNum());
-        // 查询模块配置信息
-        sysConsoleModel.setSysConfig(selectConfigModule());
-        // 设置权限信息
-        sysConsoleModel.setSysAuthModel(setAuthInfo());
         Map<String, String> menu = getMenuInfo();
         if (sessionBean != null) {
             String loginUserId = sessionBean.getUserId();
+            // 设置统计开始时间
+            String yearStartDate = sysParameterService.getParameterString(YEAR_START_DATE);
+            SysConsoleQueryModel sysConsoleQueryModel = new SysConsoleQueryModel();
+            sysConsoleQueryModel.setYearStartDate(yearStartDate);
+            // 查询未读消息通知
+            sysConsoleModel.setReadNum(selectReadNoticeNum());
+            // 查询模块配置信息
+            sysConsoleModel.setSysConfig(selectConfigModule(loginUserId));
+            // 设置权限信息
+            sysConsoleModel.setSysAuthModel(setAuthInfo());
             sysConsoleQueryModel.setUserName(FAMILY_TITLE);
             if (sessionBean.getIsAdminData()) {
                 // 查询业务统计信息
@@ -119,17 +119,17 @@ public class SysConsoleServiceImpl implements SysConsoleService {
                 // 查询登入统计信息
                 setLoginInfo(sysConsoleModel, sysConsoleQueryModel, menu);
             }
-        }
-        // 设置版本信息
-        setVersionInfo(sysConsoleModel, menu);
-        // 设置提示信息
-        setTipsInfo(sysConsoleModel, sysConsoleQueryModel, menu);
-        // 设置注册用户信息
-        setRegisterInfo(sysConsoleModel, menu);
-        // 首页用户数据处理
-        if (sysConsoleModel.getUser() != null && sysConsoleModel.getUser().size() == 2) {
-            // 系统当前只有一个用户
-            sysConsoleModel.getUser().remove(0);
+            // 设置版本信息
+            setVersionInfo(sysConsoleModel, menu);
+            // 设置提示信息
+            setTipsInfo(sysConsoleModel, sysConsoleQueryModel, menu);
+            // 设置注册用户信息
+            setRegisterInfo(sysConsoleModel, menu);
+            // 首页用户数据处理
+            if (sysConsoleModel.getUser() != null && sysConsoleModel.getUser().size() == 2) {
+                // 系统当前只有一个用户
+                sysConsoleModel.getUser().remove(0);
+            }
         }
         SysLogUtils.parameter(logger, sessionBean == null ? new SessionBean() : sessionBean);
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
@@ -430,7 +430,21 @@ public class SysConsoleServiceImpl implements SysConsoleService {
      */
     @Override
     public SysModuleModel selectConfigModule(){
+        SessionBean sessionBean = SysSessionUtils.getSession();
+        if (sessionBean != null) {
+            return selectConfigModule(sessionBean.getUserId());
+        }
+        return new SysModuleModel();
+    }
+
+    /**
+     * 查询配置模块信息
+     *
+     */
+    private SysModuleModel selectConfigModule(String userId){
+        SysModuleModel sysModuleModel = new SysModuleModel();
         SysConfigQueryModel sysConfigQueryModel = new SysConfigQueryModel();
+        sysConfigQueryModel.setUserId(userId);
         sysConfigQueryModel.setModuleGroupCode(MODULE_CONSOLE);
         List<SysConfigModel> sysConfigModelList = sysConfigDao.selectModule(sysConfigQueryModel);
         if (CollectionUtils.isNotEmpty(sysConfigModelList)) {
@@ -438,9 +452,9 @@ public class SysConsoleServiceImpl implements SysConsoleService {
             for (SysConfigModel sysConfigModel : sysConfigModelList) {
                 module.put(sysConfigModel.getModuleCode(), sysConfigModel.getModuleStatus());
             }
-            return (SysModuleModel)SysBeanUtils.mapToBean(SysModuleModel.class, module);
+            sysModuleModel = (SysModuleModel)SysBeanUtils.mapToBean(SysModuleModel.class, module);
         }
-        return new SysModuleModel();
+        return sysModuleModel;
     }
 
     /**
@@ -452,19 +466,23 @@ public class SysConsoleServiceImpl implements SysConsoleService {
     @Override
     public ResultData save(SysModuleModel sysModuleModel) {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_UPDATE);
-        Map<String, Object> module = SysBeanUtils.beanToMap(sysModuleModel);
-        SysConfigModel sysConfigModel = new SysConfigModel();
-        Iterator<String> iterator = module.keySet().iterator();
-        while (iterator.hasNext()) {
-            String key = iterator.next();
-            sysConfigModel.setModuleGroupCode(MODULE_CONSOLE);
-            sysConfigModel.setModuleCode(key);
-            String status = SWITCH_ON.equals(String.valueOf(module.get(key))) ? STR_1 : STR_0;
-            sysConfigModel.setModuleStatus(status);
-            sysConfigDao.save(sysConfigModel);
+        SessionBean sessionBean = SysSessionUtils.getSession();
+        if (sessionBean != null) {
+            Map<String, Object> module = SysBeanUtils.beanToMap(sysModuleModel);
+            SysConfigModel sysConfigModel = new SysConfigModel();
+            sysConfigModel.setUserId(sessionBean.getUserId());
+            Iterator<String> iterator = module.keySet().iterator();
+            while (iterator.hasNext()) {
+                String key = iterator.next();
+                sysConfigModel.setModuleGroupCode(MODULE_CONSOLE);
+                sysConfigModel.setModuleCode(key);
+                String status = SWITCH_ON.equals(String.valueOf(module.get(key))) ? STR_1 : STR_0;
+                sysConfigModel.setModuleStatus(status);
+                sysConfigDao.save(sysConfigModel);
+            }
+            SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_UPDATE);
+            WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_CONSOLE);
         }
-        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_UPDATE);
-        WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_CONSOLE);
         return new ResultData(true, UPDATE_SUCCESS, null);
 
     }

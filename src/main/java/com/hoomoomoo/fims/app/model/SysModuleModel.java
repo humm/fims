@@ -4,6 +4,8 @@ import com.hoomoomoo.fims.app.model.common.BaseModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import static com.hoomoomoo.fims.app.consts.BusinessConst.STR_1;
+
 /**
  * @author hoomoomoo
  * @description 模块配置实体类
@@ -32,4 +34,12 @@ public class SysModuleModel extends BaseModel {
     private String register;
 
     /** 首页模块 结束 */
+
+    public SysModuleModel() {
+        this.user = STR_1;
+        this.tips = STR_1;
+        this.login = STR_1;
+        this.version = STR_1;
+        this.register = STR_1;
+    }
 }
