@@ -480,11 +480,25 @@ public class SysConsoleServiceImpl implements SysConsoleService {
                 sysConfigModel.setModuleStatus(status);
                 sysConfigDao.save(sysConfigModel);
             }
-            SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_UPDATE);
             WebSocketServerConfig.sendMessageInfo(WEBSOCKET_TOPIC_NAME_CONSOLE, LOG_BUSINESS_TYPE_CONSOLE);
         }
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_UPDATE);
         return new ResultData(true, UPDATE_SUCCESS, null);
 
+    }
+
+    /**
+     * 删除模块信息
+     *
+     * @param sysConfigModelList
+     * @return
+     */
+    @Override
+    public ResultData delete(List<SysConfigModel> sysConfigModelList) {
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_DELETE);
+        sysConfigDao.delete(sysConfigModelList);
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_DELETE);
+        return new ResultData(true, LOG_OPERATE_TYPE_DELETE, null);
     }
 
     /**

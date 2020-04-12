@@ -10,6 +10,7 @@ import com.hoomoomoo.fims.app.model.common.FimsPage;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.model.common.SessionBean;
 import com.hoomoomoo.fims.app.model.common.ViewData;
+import com.hoomoomoo.fims.app.service.SysConsoleService;
 import com.hoomoomoo.fims.app.service.SysParameterService;
 import com.hoomoomoo.fims.app.service.SysUserService;
 import com.hoomoomoo.fims.app.service.SysSystemService;
@@ -59,6 +60,9 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Autowired
     private SysParameterService sysParameterService;
+
+    @Autowired
+    private SysConsoleService sysConsoleService;
 
     /**
      * 查询用户信息
@@ -123,12 +127,16 @@ public class SysUserServiceImpl implements SysUserService {
     public ResultData delete(String userIds) {
         SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_USER, LOG_OPERATE_TYPE_DELETE);
         List<SysUserModel> list = new ArrayList<>();
+        List<SysConfigModel> configModelList = new ArrayList<>();
         if (StringUtils.isNotBlank(userIds)) {
             String[] userId = userIds.split(COMMA);
             for (String ele : userId) {
                 SysUserModel sysUserModel = new SysUserModel();
                 sysUserModel.setUserId(ele);
                 list.add(sysUserModel);
+                SysConfigModel sysConfigModel = new SysConfigModel();
+                sysConfigModel.setUserId(ele);
+                configModelList.add(sysConfigModel);
                 // 删除字典项
                 SysDictionaryModel sysDictionaryModel = new SysDictionaryModel();
                 sysDictionaryModel.setDictionaryCode(D009);
@@ -136,6 +144,7 @@ public class SysUserServiceImpl implements SysUserService {
                 sysDictionaryDao.delete(sysDictionaryModel);
             }
             sysUserDao.delete(list);
+            sysConsoleService.delete(configModelList);
         }
         // 加载字典项
         sysSystemService.loadSysDictionaryCondition();

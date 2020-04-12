@@ -1,9 +1,11 @@
 package com.hoomoomoo.fims.app.service;
 
+import com.hoomoomoo.fims.app.model.SysConfigModel;
 import com.hoomoomoo.fims.app.model.SysModuleModel;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author hoomoomoo
@@ -34,4 +36,12 @@ public interface SysConsoleService {
      * @return
      */
     ResultData save(SysModuleModel sysModuleModel);
+
+    /**
+     * 删除模块信息
+     *
+     * @param sysConfigModelList
+     * @return
+     */
+    ResultData delete(List<SysConfigModel> sysConfigModelList);
 }

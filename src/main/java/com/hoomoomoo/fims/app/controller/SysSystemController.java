@@ -25,9 +25,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
-import static com.hoomoomoo.fims.app.consts.CueConst.LOG_BUSINESS_TYPE_CONSOLE;
-import static com.hoomoomoo.fims.app.consts.CueConst.LOG_OPERATE_TYPE_UPDATE;
-import static com.hoomoomoo.fims.app.consts.CueConst.TIPS_ERROR;
+import static com.hoomoomoo.fims.app.consts.CueConst.*;
+import static com.hoomoomoo.fims.app.consts.CueConst.LOG_OPERATE_TYPE_SELECT;
 
 
 /**
@@ -41,7 +40,7 @@ import static com.hoomoomoo.fims.app.consts.CueConst.TIPS_ERROR;
 @RequestMapping("/")
 public class SysSystemController {
 
-    private static final Logger logger = LoggerFactory.getLogger(SysConsoleController.class);
+    private static final Logger logger = LoggerFactory.getLogger(SysSystemController.class);
 
     @Autowired
     private SystemConfigBean systemConfigBean;
@@ -71,6 +70,16 @@ public class SysSystemController {
     public String console(ModelMap modelMap, HttpServletRequest httpServletRequest) {
         modelMap.addAttribute(REQUEST_URL, SysCommonUtils.getConnectUrl(httpServletRequest, systemConfigBean.getAppName()));
         return "page/home/console";
+    }
+
+    @ApiOperation("查询首页信息")
+    @RequestMapping(value = "home/selectConsoleData", method = RequestMethod.GET)
+    @ResponseBody
+    public ResultData selectConsoleData(HttpServletRequest httpServletRequest) {
+        SysLogUtils.controllerStart(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
+        ResultData resultData = sysConsoleService.selectConsoleData(httpServletRequest);
+        SysLogUtils.controllerEnd(logger, LOG_BUSINESS_TYPE_CONSOLE, LOG_OPERATE_TYPE_SELECT);
+        return resultData;
     }
 
     /**

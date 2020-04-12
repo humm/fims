@@ -44,7 +44,7 @@
         var appName = '${appName}';
 
         var url = {
-            init: appName + "/console/selectConsoleData",
+            init: appName + "/home/selectConsoleData",
             websocketUrl: '${requestUrl}'
         }
 
