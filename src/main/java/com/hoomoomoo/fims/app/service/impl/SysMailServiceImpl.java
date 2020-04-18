@@ -1,6 +1,5 @@
 package com.hoomoomoo.fims.app.service.impl;
 
-import com.hoomoomoo.fims.app.config.bean.MailConfigBean;
 import com.hoomoomoo.fims.app.model.SysMailModel;
 import com.hoomoomoo.fims.app.service.SysMailService;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
@@ -9,20 +8,18 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.text.CollatorUtilities;
 
 import javax.mail.*;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeUtility;
 import java.io.File;
 import java.util.*;
 
+import static com.hoomoomoo.fims.app.config.RunDataConfig.MAIL_CONFIG;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.CueConst.*;
 
@@ -39,11 +36,7 @@ public class SysMailServiceImpl implements SysMailService {
 
     private static final Logger logger = LoggerFactory.getLogger(SysMailServiceImpl.class);
 
-    @Autowired
-    private MailConfigBean mailConfigBean;
-
-    @Autowired
-    private JavaMailSender javaMailSender;
+    private JavaMailSenderImpl javaMailSender;
 
     /**
      * 发送邮件
@@ -53,15 +46,12 @@ public class SysMailServiceImpl implements SysMailService {
      */
     @Override
     public Boolean sendMail(SysMailModel mailModel) {
-        if (checkMailParameterConfig()) {
-            SysLogUtils.error(logger, MAIL_NOT_CONFIG);
-            return false;
-        }
-        if (checkMailParameterConfig(mailModel)) {
+        if (checkSendConfig(mailModel)) {
             SysLogUtils.error(logger, MAIL_NOT_SET);
             return false;
         }
         SysLogUtils.functionStart(logger, LOG_BUSINESS_TYPE_MAIL_SEND);
+        setMailSender();
         boolean isSend = true;
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
@@ -98,11 +88,11 @@ public class SysMailServiceImpl implements SysMailService {
         List<SysMailModel> mailModelList = new ArrayList<>();
         Properties properties = new Properties();
         Session session = Session.getDefaultInstance(properties);
-        session.setDebug(mailConfigBean.getDebug());
+        session.setDebug(STR_1.equals(MAIL_CONFIG.getMailDebug()));
         try {
-            Store store = session.getStore(mailConfigBean.getReceiveProtocol());
-            store.connect(mailConfigBean.getReceiveHost(), mailConfigBean.getReceiveUsername(), mailConfigBean.getReceivePassword());
-            Folder folder = store.getFolder(mailConfigBean.getReceiveFolder());
+            Store store = session.getStore(MAIL_CONFIG.getMailReceiveProtocol());
+            store.connect(MAIL_CONFIG.getMailReceiveHost(), MAIL_CONFIG.getMailReceiveUsername(), MAIL_CONFIG.getMailReceivePassword());
+            Folder folder = store.getFolder(MAIL_CONFIG.getMailReceiveFolder());
             // 设置对邮件帐户的访问权限可以读写
             folder.open(Folder.READ_WRITE);
             Message[] messages = folder.getMessages();
@@ -123,14 +113,14 @@ public class SysMailServiceImpl implements SysMailService {
                                 Long id = Long.parseLong(mailIds[2]);
                                 String mailHost = mailIds[0];
                                 String mailUsername = mailIds[1];
-                                if (mailConfigBean.getReceiveHost().equals(mailHost) && mailConfigBean.getReceiveUsername().equals(mailUsername)) {
+                                if (MAIL_CONFIG.getMailReceiveHost().equals(mailHost) && MAIL_CONFIG.getMailReceiveUsername().equals(mailUsername)) {
                                     if (id >= uuid) {
                                         continue;
                                     }
                                 }
                                 String mailId =
-                                        new StringBuffer(mailConfigBean.getReceiveHost()).append(MINUS)
-                                                .append(mailConfigBean.getReceiveUsername()).append(MINUS).append(uuid).toString();
+                                        new StringBuffer(MAIL_CONFIG.getMailReceiveHost()).append(MINUS)
+                                                .append(MAIL_CONFIG.getMailReceiveUsername()).append(MINUS).append(uuid).toString();
                                 mailModelList.add(handleMailData(mailId, message));
                             }
                         }
@@ -202,13 +192,57 @@ public class SysMailServiceImpl implements SysMailService {
     }
 
     /**
-     * 校验邮件发送参数信息
+     * 设置邮件发送基础信息
+     */
+    private void setMailSender() {
+        if (javaMailSender == null) {
+            javaMailSender = new JavaMailSenderImpl();
+        }
+        javaMailSender.setHost(MAIL_CONFIG.getMailHost());
+        javaMailSender.setProtocol(MAIL_CONFIG.getMailProtocol());
+        javaMailSender.setDefaultEncoding(MAIL_CONFIG.getMailEncoding());
+        javaMailSender.setUsername(MAIL_CONFIG.getMailUsername());
+        javaMailSender.setPassword(MAIL_CONFIG.getMailPassword());
+    }
+
+    /**
+     * 校验邮件发送参数
      *
      * @return
      */
-    private Boolean checkMailParameterConfig(SysMailModel mailModel){
+    private Boolean checkSendConfig(SysMailModel mailModel) {
         return StringUtils.isBlank(mailModel.getFrom()) || StringUtils.isBlank(mailModel.getTo())
                 || StringUtils.isBlank(mailModel.getSubject()) || StringUtils.isBlank(mailModel.getContent());
+    }
+
+    /**
+     * 校验邮件发送参数
+     *
+     * @return
+     */
+    private Boolean checkSendConfig() {
+        if (MAIL_CONFIG == null) {
+            return true;
+        }
+        return StringUtils.isBlank(MAIL_CONFIG.getMailFrom()) || StringUtils.isBlank(MAIL_CONFIG.getMailUsername())
+                || StringUtils.isBlank(MAIL_CONFIG.getMailPassword()) || StringUtils.isBlank(MAIL_CONFIG.getMailHost())
+                || StringUtils.isBlank(MAIL_CONFIG.getMailProtocol()) || StringUtils.isBlank(MAIL_CONFIG.getMailDebug().toString())
+                || StringUtils.isBlank(MAIL_CONFIG.getMailEncoding());
+    }
+
+
+    /**
+     * 校验邮件读取参数
+     *
+     * @return
+     */
+    private Boolean checkReceiveConfig() {
+        if (MAIL_CONFIG == null) {
+            return true;
+        }
+        return StringUtils.isBlank(MAIL_CONFIG.getMailSubject()) || StringUtils.isBlank(MAIL_CONFIG.getMailReceiveFolder())
+                || StringUtils.isBlank(MAIL_CONFIG.getMailReceiveHost()) || StringUtils.isBlank(MAIL_CONFIG.getMailReceiveUsername())
+                || StringUtils.isBlank(MAIL_CONFIG.getMailReceivePassword()) || StringUtils.isBlank(MAIL_CONFIG.getMailReceiveProtocol());
     }
 
     /**
@@ -217,13 +251,8 @@ public class SysMailServiceImpl implements SysMailService {
      * @return
      */
     @Override
-    public Boolean checkMailParameterConfig() {
-        return StringUtils.isBlank(mailConfigBean.getFrom()) || StringUtils.isBlank(mailConfigBean.getUsername())
-                || StringUtils.isBlank(mailConfigBean.getPassword()) || StringUtils.isBlank(mailConfigBean.getHost())
-                || StringUtils.isBlank(mailConfigBean.getProtocol()) || StringUtils.isBlank(mailConfigBean.getSubject())
-                || StringUtils.isBlank(mailConfigBean.getReceiveHost()) || StringUtils.isBlank(mailConfigBean.getReceiveUsername())
-                || StringUtils.isBlank(mailConfigBean.getReceivePassword()) || StringUtils.isBlank(mailConfigBean.getReceiveProtocol())
-                || StringUtils.isBlank(mailConfigBean.getReceiveFolder());
+    public Boolean checkMailConfig() {
+        return checkSendConfig() || checkReceiveConfig();
     }
 
 }

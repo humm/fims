@@ -36,11 +36,11 @@ values ('D013', '1', '是', 1, null, 20190000000001, null, null);
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
 values ('D013', '0', '否', 2, null, 20190000000001, null, null);
 
-call add_parameter('weChatWelcome', '微信公众号欢迎语', '智慧家庭,畅享生活', 'text', null, '1', '1', 70);
-call add_parameter('weChatKey', '微信公众号密钥', 'fimswechat', 'text', null, '1', '1', 75);
-call add_parameter('weChatOpen', '微信公众号对外开放状态', '2', 'switch', null, '1', '1', 80);
-call add_parameter('weChatOperateTime', '微信操作时间间隔(秒)', '30', 'number', null, '1', '1', 85);
-call add_parameter('weChatOperateBack', '微信操作后返回主菜单', '1', 'switch', null, '1', '1', 90);
+call add_parameter('weChatWelcome', '欢迎语', '智慧家庭,畅享生活', 'text', null, '1', '1', 70);
+call add_parameter('weChatKey', '密钥', 'fimswechat', 'text', null, '1', '1', 75);
+call add_parameter('weChatOpen', '对外开放状态', '2', 'switch', null, '1', '1', 80);
+call add_parameter('weChatOperateTime', '操作时间间隔(秒)', '30', 'number', null, '1', '1', 85);
+call add_parameter('weChatOperateBack', '操作后返回主菜单', '1', 'switch', null, '1', '1', 90);
 
 delete from sys_dictionary where dictionary_code = 'D008' and dictionary_item = '3';
 insert into sys_dictionary (dictionary_code, dictionary_item, dictionary_caption, item_order, code_order, user_id, is_open, is_show)
@@ -306,3 +306,27 @@ comment on column sys_config.user_id is '用户ID';
 alter table sys_config drop primary key;
 alter table sys_config add primary key (module_group_code, module_code, user_id);
 call add_version('20190000000088', '首页模块控制绑定用户信息', '2020-04-12', 420, '2');
+
+update sys_parameter set parameter_group = '邮件参数', parameter_order = 100 where parameter_code = 'startMail';
+update sys_parameter set parameter_group = '邮件参数', parameter_order = 105 where parameter_code = 'backupToMail';
+
+call add_parameter('mailFrom', '发送邮箱', '', 'text', null, '1', '1', 110, '邮件参数');
+call add_parameter('mailUsername', '发送邮件用户名', '', 'text', null, '1', '1', 115, '邮件参数');
+call add_parameter('mailPassword', '发送邮件密码', '', 'text', null, '1', '1', 120, '邮件参数');
+call add_parameter('mailHost', '发送邮件服务器', 'smtp.qq.com', 'text', null, '1', '1', 125, '邮件参数');
+call add_parameter('mailProtocol', '发送邮件传输协议', 'smtp', 'text', null, '1', '1', 130, '邮件参数');
+call add_parameter('mailDebug', '邮件发送调试模式', '2', 'switch', null, '1', '1', 135, '邮件参数');
+call add_parameter('mailEncoding', '邮件发送编码格式', 'UTF-8', 'text', null, '1', '1', 140, '邮件参数');
+call add_parameter('mailReceiveUsername', '读取邮件用户名', '', 'text', null, '1', '1', 145, '邮件参数');
+call add_parameter('mailReceivePassword', '读取邮件密码', '', 'text', null, '1', '1', 150, '邮件参数');
+call add_parameter('mailSubject', '读取邮件主题', '家庭信息平台', 'text', null, '1', '1', 155, '邮件参数');
+call add_parameter('mailReceiveFolder', '读取邮件类型', 'INBOX', 'text', null, '1', '0', 160, '邮件参数');
+call add_parameter('mailReceiveHost', '读取邮件服务器', 'imap.qq.com', 'text', null, '1', '1', 165, '邮件参数');
+call add_parameter('mailReceiveProtocol', '读取邮件传输协议', 'imap', 'text', null, '1', '1', 170, '邮件参数');
+
+call add_version('20190000000089', '邮件配置信息移至数据库', '2020-04-18', 425, '2');
+call add_version('20190000000090', '发布版本：3.3.00', '2020-04-18', 430, '4');
+call update_system_version('3.3.00');
+
+
+

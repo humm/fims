@@ -41,11 +41,21 @@
     </select>
 
     <select id="save" parameterType="com.hoomoomoo.fims.app.model.SysParameterModel">
-        update sys_parameter set parameter_value = #{parameterValue} where parameter_code = #{parameterCode}
+        update sys_parameter set parameter_value = trim(#{parameterValue}) where parameter_code = #{parameterCode}
     </select>
 
     <update id="updateBackupDir" parameterType="com.hoomoomoo.fims.app.model.SysParameterModel">
         create or replace directory backup_dir as ${parameterValue}
     </update>
+
+    <select id="selectMailConfig" resultType="com.hoomoomoo.fims.app.model.SysParameterModel">
+        select
+          <include refid="Base_Column_List"/>
+        from sys_parameter
+        where parameter_code in (
+          'mailFrom', 'mailUsername', 'mailPassword', 'mailHost', 'mailProtocol', 'mailDebug', 'mailEncoding',
+          'mailSubject', 'mailReceiveFolder', 'mailReceiveHost', 'mailReceiveUsername', 'mailReceivePassword', 'mailReceiveProtocol'
+        )
+    </select>
 
 </mapper>

@@ -1,5 +1,7 @@
 package com.hoomoomoo.fims.app.service;
 
+import com.hoomoomoo.fims.app.model.MailConfigModel;
+import com.hoomoomoo.fims.app.model.SysMailModel;
 import com.hoomoomoo.fims.app.model.SysParameterModel;
 import com.hoomoomoo.fims.app.model.SysParameterQueryModel;
 import com.hoomoomoo.fims.app.model.common.ResultData;
@@ -51,4 +53,11 @@ public interface SysParameterService {
      * @return
      */
     Integer getParameterInteger(String parameterCode);
+
+    /**
+     * 获取邮件配置参数
+     *
+     * @return
+     */
+    MailConfigModel getMailConfig();
 }

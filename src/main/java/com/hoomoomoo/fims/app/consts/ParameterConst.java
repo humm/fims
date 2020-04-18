@@ -112,4 +112,59 @@ public class ParameterConst {
      * 邮件保存应用备份文件
      */
     public static final String BACKUP_TO_MAIL                                   = "backupToMail";
+
+    /**
+     * 发送邮箱
+     */
+    public static final String MAIL_FROM                                        = "mailFrom";
+    /**
+     * 发送邮件用户名
+     */
+    public static final String MAIL_USERNAME                                    = "mailUsername";
+    /**
+     * 发送邮件密码
+     */
+    public static final String MAIL_PASSWORD                                    = "mailPassword";
+    /**
+     * 发送邮件服务器
+     */
+    public static final String MAIL_HOST                                        = "mailHost";
+    /**
+     * 发送邮件传输协议
+     */
+    public static final String MAIL_PROTOCOL                                    = "mailProtocol";
+    /**
+     * 邮件发送调试模式
+     */
+    public static final String MAIL_DEBUG                                       = "mailDebug";
+    /**
+     * 邮件发送编码格式
+     */
+    public static final String MAIL_ENCODING                                    = "mailEncoding";
+    /**
+     * 邮件读取主题
+     */
+    public static final String MAIL_SUBJECT                                     = "mailSubject";
+    /**
+     * 邮件读取类型
+     */
+    public static final String MAIL_RECEIVE_FOLDER                              = "mailReceiveFolder";
+    /**
+     * 邮件读取服务器
+     */
+    public static final String MAIL_RECEIVE_HOST                                = "mailReceiveHost";
+    /**
+     * 邮件读取用户名
+     */
+    public static final String MAIL_RECEIVE_USERNAME                            = "mailReceiveUsername";
+    /**
+     * 邮件读取密码
+     */
+    public static final String MAIL_RECEIVE_PASSWORD                            = "mailReceivePassword";
+    /**
+     * 邮件读取传输协议
+     */
+    public static final String MAIL_RECEIVE_PROTOCOL                            = "mailReceiveProtocol";
+
+
 }

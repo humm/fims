@@ -1,9 +1,6 @@
 package com.hoomoomoo.fims.app.config;
 
-import com.hoomoomoo.fims.app.model.SysDictionaryModel;
-import com.hoomoomoo.fims.app.model.SysSqlMode;
-import com.hoomoomoo.fims.app.model.SysWeChatFlowModel;
-import com.hoomoomoo.fims.app.model.SysWeChatOperateModel;
+import com.hoomoomoo.fims.app.model.*;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -49,6 +46,11 @@ public class RunDataConfig {
      * 微信流程步骤：功能序号与步骤代码对应关系
      */
     public static ConcurrentHashMap<String, String> WECHAT_FLOW_NUM_TO_CODE = new ConcurrentHashMap<>(16);
+
+    /**
+     * 邮件配置信息类
+     */
+    public static MailConfigModel MAIL_CONFIG                               = null;
 
     /**
      * 微信操作主菜单

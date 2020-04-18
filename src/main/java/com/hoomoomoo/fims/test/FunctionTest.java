@@ -72,25 +72,6 @@ public class FunctionTest {
         logger.info(sysIncomeModel.toString());
     }
 
-    @Test
-    public void upperCase(){
-        String arg = "workSalaryIdDay";
-        StringBuffer convert = new StringBuffer();
-        for(int i=0; i<arg.length(); i++){
-            char single = arg.charAt(i);
-            if(i != 0 && Character.isUpperCase(single)){
-                convert.append(UNDERLINE).append(single);
-            }else{
-                convert.append(single);
-            }
-        }
-        logger.info(convert.toString().toLowerCase());
-    }
-
-    @Test
-    public void loadSysDictionaryCondition(){
-        sysSystemService.loadSysDictionaryCondition();
-    }
 
     @Test
     public void Json(){

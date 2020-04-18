@@ -1,6 +1,5 @@
 package com.hoomoomoo.fims.app.service.impl;
 
-import com.hoomoomoo.fims.app.config.bean.MailConfigBean;
 import com.hoomoomoo.fims.app.config.bean.SystemConfigBean;
 import com.hoomoomoo.fims.app.dao.*;
 import com.hoomoomoo.fims.app.model.*;
@@ -24,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.hoomoomoo.fims.app.config.RunDataConfig.MAIL_CONFIG;
 import static com.hoomoomoo.fims.app.config.RunDataConfig.MAIL_HANDLE_FLAG;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.*;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.MINUS;
@@ -45,9 +45,6 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
 
     @Autowired
     private SysMailService sysMailService;
-
-    @Autowired
-    private MailConfigBean mailConfigBean;
 
     @Autowired
     private SysSystemService sysSystemService;
@@ -80,7 +77,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
             return;
         }
         // 邮件配置参数判断
-        if (sysMailService.checkMailParameterConfig()) {
+        if (sysMailService.checkMailConfig()) {
             SysLogUtils.error(logger, MAIL_NOT_CONFIG);
             return;
         }
@@ -95,14 +92,14 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
                 sysInterfaceModel = new SysInterfaceModel();
                 BeanUtils.copyProperties(sysInterfaceQueryModel, sysInterfaceModel);
                 sysInterfaceModel.setInterfaceId(sysSystemService.getBusinessSerialNo(BUSINESS_TYPE_INTERFACE));
-                String requestId = new StringBuffer(mailConfigBean.getReceiveHost()).append(MINUS)
-                        .append(mailConfigBean.getReceiveUsername()).append(MINUS).append(0).toString();
+                String requestId = new StringBuffer(MAIL_CONFIG.getMailReceiveHost()).append(MINUS)
+                        .append(MAIL_CONFIG.getMailReceiveUsername()).append(MINUS).append(0).toString();
                 sysInterfaceModel.setRequestId(requestId);
                 SysCommonUtils.setCreateUserInfo(sysInterfaceModel, sysSystemService.getUserId());
                 sysInterfaceDao.save(sysInterfaceModel);
             }
             SysMailModel mailModel = new SysMailModel();
-            mailModel.setSubject(mailConfigBean.getSubject());
+            mailModel.setSubject(MAIL_CONFIG.getMailSubject());
             mailModel.setMailId(sysInterfaceModel.getRequestId());
             List<SysMailModel> sysMailModelList = sysMailService.receiveMail(mailModel);
             if (CollectionUtils.isNotEmpty(sysMailModelList)) {
@@ -170,7 +167,7 @@ public class SysInterfaceServiceImpl implements SysInterfaceService {
             if (sysMailModel != null) {
                 // 邮件反馈处理结果
                 SysMailModel mail = new SysMailModel();
-                mail.setFrom(mailConfigBean.getFrom());
+                mail.setFrom(MAIL_CONFIG.getMailFrom());
                 mail.setTo(sysMailModel.getTo());
                 mail.setSubject(systemConfigBean.getAppDescribe() + INTERFACE_FEEDBACK_MAIL);
                 mail.setContent(getContent(check, baseModelList, sysCheckResultModelList,

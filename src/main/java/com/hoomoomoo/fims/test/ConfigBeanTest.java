@@ -2,7 +2,6 @@ package com.hoomoomoo.fims.test;
 
 import com.hoomoomoo.fims.FimsStarter;
 import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
-import com.hoomoomoo.fims.app.config.bean.MailConfigBean;
 import com.hoomoomoo.fims.app.config.bean.ScheduleConfigBean;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,8 +35,6 @@ public class ConfigBeanTest {
     @Autowired
     private Environment environment;
 
-    @Autowired
-    private MailConfigBean mailConfigBean;
 
     @Test
     public void scheduleConfigBean(){
@@ -52,11 +49,6 @@ public class ConfigBeanTest {
     @Test
     public void applicationBean(){
         logger.info(applicationBean.toString());
-    }
-
-    @Test
-    public void mailConfigBean(){
-        logger.info(mailConfigBean.toString());
     }
 
 }

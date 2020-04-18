@@ -33,6 +33,6 @@ public interface SysMailService {
      *
      * @return
      */
-    Boolean checkMailParameterConfig();
+    Boolean checkMailConfig();
 
 }

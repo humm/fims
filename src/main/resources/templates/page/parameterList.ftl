@@ -74,7 +74,11 @@
                                 item += '           </div>';
                                 item += '       </div>';
                                 item += '       <div class="layui-col-md8 layadmin-padding-left20 layui-col-sm6">';
-                                item += '           <p class="layadmin-textimg fims-padding-parameter">' + fims.value(parameterList[i].parameterValue) + '</p>';
+                                var parameterValue = fims.value(parameterList[i].parameterValue);
+                                if ('' == parameterValue) {
+                                    parameterValue = '&nbsp;';
+                                }
+                                item += '           <p class="layadmin-textimg fims-padding-parameter">' + parameterValue + '</p>';
                                 item += '       </div>';
                                 item += '    </div>';
                                 item += '</div>';

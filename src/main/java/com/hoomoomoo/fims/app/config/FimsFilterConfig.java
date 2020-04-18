@@ -15,6 +15,13 @@ import javax.servlet.Filter;
 import static com.hoomoomoo.fims.app.consts.BusinessConst.FILTER_URL_PATTERNS;
 import static com.hoomoomoo.fims.app.consts.CueConst.LOG_BUSINESS_TYPE_FIMS_FILTER;
 
+/**
+ * @author hoomoomoo
+ * @description 系统拦截器配置
+ * @package com.hoomoomoo.fims.app.config
+ * @date 2019/09/01
+ */
+
 @Configuration
 public class FimsFilterConfig {
 

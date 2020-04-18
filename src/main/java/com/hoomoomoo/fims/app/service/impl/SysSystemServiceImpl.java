@@ -5,7 +5,6 @@ import com.hoomoomoo.fims.FimsStarter;
 import com.hoomoomoo.fims.app.config.RunDataConfig;
 import com.hoomoomoo.fims.app.config.bean.DatasourceConfigBean;
 import com.hoomoomoo.fims.app.config.bean.FimsConfigBean;
-import com.hoomoomoo.fims.app.config.bean.MailConfigBean;
 import com.hoomoomoo.fims.app.dao.SysDictionaryDao;
 import com.hoomoomoo.fims.app.dao.SysUserDao;
 import com.hoomoomoo.fims.app.dao.SysSystemDao;
@@ -89,9 +88,6 @@ public class SysSystemServiceImpl implements SysSystemService {
 
     @Autowired
     private SysMenuService sysMenuService;
-
-    @Autowired
-    private MailConfigBean mailConfigBean;
 
     @Autowired
     private SysMailService sysMailService;
@@ -512,6 +508,8 @@ public class SysSystemServiceImpl implements SysSystemService {
         RunDataConfig.LOG_REQUEST_PARAMETER = sysParameterService.getParameterBoolean(CONSOLE_OUTPUT_LOG_REQUEST_PARAMETER);
         // 智能填充
         RunDataConfig.MIND_FILL = sysParameterService.getParameterBoolean(MIND_FILL);
+        // 获取邮件配置参数
+        RunDataConfig.MAIL_CONFIG = sysParameterService.getMailConfig();
     }
 
     /**
@@ -1025,8 +1023,8 @@ public class SysSystemServiceImpl implements SysSystemService {
                     }
                     if (CollectionUtils.isNotEmpty(filePath)) {
                         SysMailModel mailModel = new SysMailModel();
-                        mailModel.setTo(mailConfigBean.getFrom());
-                        mailModel.setFrom(mailConfigBean.getFrom());
+                        mailModel.setTo(RunDataConfig.MAIL_CONFIG.getMailFrom());
+                        mailModel.setFrom(RunDataConfig.MAIL_CONFIG.getMailFrom());
                         mailModel.setSubject(MAIL_SUBJECT_BACKUP);
                         mailModel.setContent(MAIL_BACKUP_FILE);
                         mailModel.setFilePath(filePath);

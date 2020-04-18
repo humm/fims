@@ -12,7 +12,7 @@ public class BusinessConst {
     /**
      * 系统版本号
      */
-    public static final String SYSTEM_VERSION                               = "3.2.30";
+    public static final String SYSTEM_VERSION                               = "3.3.00";
 
     /**
      * 应用配置文件路径
@@ -173,6 +173,11 @@ public class BusinessConst {
      * 字符串：13
      */
     public static final String STR_14                                       = "14";
+
+    /**
+     * &nbsp转义
+     */
+    public static final String NBSP                                         = "\u00a0";
 
     /**
      * 字符串：404

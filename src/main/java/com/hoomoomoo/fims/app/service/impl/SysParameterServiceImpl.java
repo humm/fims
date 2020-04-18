@@ -3,14 +3,13 @@ package com.hoomoomoo.fims.app.service.impl;
 import com.hoomoomoo.fims.app.config.WebSocketServerConfig;
 import com.hoomoomoo.fims.app.dao.SysDictionaryDao;
 import com.hoomoomoo.fims.app.dao.SysParameterDao;
-import com.hoomoomoo.fims.app.model.SysDictionaryModel;
-import com.hoomoomoo.fims.app.model.SysDictionaryQueryModel;
-import com.hoomoomoo.fims.app.model.SysParameterModel;
-import com.hoomoomoo.fims.app.model.SysParameterQueryModel;
+import com.hoomoomoo.fims.app.model.*;
 import com.hoomoomoo.fims.app.model.common.ResultData;
 import com.hoomoomoo.fims.app.service.SysParameterService;
+import com.hoomoomoo.fims.app.util.SysBeanUtils;
 import com.hoomoomoo.fims.app.util.SysLogUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +77,9 @@ public class SysParameterServiceImpl implements SysParameterService {
             } else {
                 sysParameterModel.setParameterValue(STR_2);
             }
+        }
+        if (StringUtils.isNotBlank(sysParameterModel.getParameterValue())) {
+            sysParameterModel.setParameterValue(sysParameterModel.getParameterValue().replaceAll(NBSP, STR_EMPTY));
         }
         sysParameterDao.save(sysParameterModel);
 
@@ -158,6 +160,27 @@ public class SysParameterServiceImpl implements SysParameterService {
         }
         SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_SELECT);
         return parameterValue;
+    }
+
+    /**
+     * 获取邮件配置参数
+     *
+     * @return
+     */
+    @Override
+    public MailConfigModel getMailConfig() {
+        SysLogUtils.serviceStart(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_SELECT);
+        MailConfigModel mailConfigModel = new MailConfigModel();
+        List<SysParameterModel> sysParameterModelList = sysParameterDao.selectMailConfig();
+        if (CollectionUtils.isNotEmpty(sysParameterModelList)) {
+            Map mailMap = new HashMap(16);
+            for (SysParameterModel sysParameterModel : sysParameterModelList) {
+                mailMap.put(sysParameterModel.getParameterCode(), sysParameterModel.getParameterValue());
+            }
+            mailConfigModel = (MailConfigModel) SysBeanUtils.mapToBean(MailConfigModel.class, mailMap);
+        }
+        SysLogUtils.serviceEnd(logger, LOG_BUSINESS_TYPE_PARAMETER, LOG_OPERATE_TYPE_SELECT);
+        return mailConfigModel;
     }
 
     /**
