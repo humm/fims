@@ -178,31 +178,37 @@
     <select id="selectFreeInfo" parameterType="com.hoomoomoo.fims.app.model.SysGiftQueryModel"
             resultType="com.hoomoomoo.fims.app.model.SysGiftModel">
         select
-            c.dictionary_caption as giftSender,
-            d.dictionary_caption as giftReceiver,
+            <if test="giftSender != null">
+                c.dictionary_caption as giftReceiver,
+            </if>
+            <if test="giftReceiver != null">
+                d.dictionary_caption as giftSender,
+            </if>
             e.dictionary_caption as giftType,
             gift_amount as giftAmount
         from
             sys_gift a
-            left join sys_dictionary c on a.gift_sender = c.dictionary_code || '-' || c.dictionary_item
-            left join sys_dictionary d on a.gift_receiver = d.dictionary_code || '-' || d.dictionary_item
+            <if test="giftSender != null">
+                left join sys_dictionary c on a.gift_receiver = c.dictionary_code || '-' || c.dictionary_item
+            </if>
+            <if test="giftReceiver != null">
+                left join sys_dictionary d on a.gift_sender = d.dictionary_code || '-' || d.dictionary_item
+            </if>
             left join sys_dictionary e on a.gift_type = e.dictionary_code || '-' || e.dictionary_item
             , sys_user b
-        where
-        (
-            substr(a.gift_sender, instr(a.gift_sender, '-') + 1) = b.user_id
-            or
-            substr(a.gift_receiver, instr(a.gift_receiver, '-') + 1) = b.user_id
-        )
-        <if test="giftId != null">
-            and b.user_id = #{giftId}
-        </if>
-        <if test="giftSender != null">
-            and c.dictionary_caption like '%' || #{giftSender} || '%'
-        </if>
-        <if test="giftReceiver != null">
-            and d.dictionary_caption like '%' || #{giftReceiver} || '%'
-        </if>
+        <where>
+            <if test="giftId != null">
+                and b.user_id = #{giftId}
+            </if>
+            <if test="giftSender != null">
+                and substr(a.gift_sender, instr(a.gift_sender, '-') + 1) = b.user_id
+                and c.dictionary_caption like '%' || #{giftSender} || '%'
+            </if>
+            <if test="giftReceiver != null">
+                and substr(a.gift_receiver, instr(a.gift_receiver, '-') + 1) = b.user_id
+                and d.dictionary_caption like '%' || #{giftReceiver} || '%'
+            </if>
+        </where>
     </select>
 
 

@@ -503,7 +503,7 @@ public class SysWeChatServiceImpl implements SysWeChatService {
             sysGiftQueryModel.setGiftId(sessionBean.getUserId());
         }
         // 查询送礼信息
-        sysGiftQueryModel.setGiftReceiver(queryCondition);
+        sysGiftQueryModel.setGiftSender(queryCondition);
         List<SysGiftModel> sendList = sysGiftDao.selectFreeInfo(sysGiftQueryModel);
         if (CollectionUtils.isNotEmpty(sendList)) {
             responseMsg.append(WECHAT_GIFT_SEND_TITLE).append(NEXT_LINE);
@@ -515,8 +515,8 @@ public class SysWeChatServiceImpl implements SysWeChatService {
             responseMsg.append(NEXT_LINE);
         }
         // 查询收礼信息
-        sysGiftQueryModel.setGiftReceiver(null);
-        sysGiftQueryModel.setGiftSender(queryCondition);
+        sysGiftQueryModel.setGiftSender(null);
+        sysGiftQueryModel.setGiftReceiver(queryCondition);
         List<SysGiftModel> receivelList = sysGiftDao.selectFreeInfo(sysGiftQueryModel);
         if (CollectionUtils.isNotEmpty(receivelList)) {
             responseMsg.append(WECHAT_GIFT_RECEIVE_TITLE).append(NEXT_LINE);
