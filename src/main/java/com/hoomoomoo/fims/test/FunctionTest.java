@@ -55,25 +55,6 @@ public class FunctionTest {
     private SysParameterService sysParameterService;
 
     @Test
-    public void getBusinessSerialNo(){
-        sysSystemService.getBusinessSerialNo("user");
-    }
-
-    @Test
-    public void log(){
-        SysLogUtils.controllerStart(logger, null, null);
-    }
-
-    @Test
-    public void transferData(){
-        SysIncomeModel sysIncomeModel = new SysIncomeModel();
-        sysIncomeModel.setIncomeAmount("12345");
-        sysSystemService.transferData(sysIncomeModel, SysIncomeModel.class);
-        logger.info(sysIncomeModel.toString());
-    }
-
-
-    @Test
     public void Json(){
         List<Map> list = new ArrayList<>();
         Map ele = new HashMap();
@@ -114,43 +95,6 @@ public class FunctionTest {
                 logger.info( "" + item.get(item.size()-1));
             }
         }
-    }
-
-    @Test
-    public void bean(){
-        Map map = new HashMap();
-        map.put("subject", "1234");
-        map.put("content", "7890");
-        SysMailModel sysMailModel = new SysMailModel();
-        try {
-            BeanUtils.populate(sysMailModel, map);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        logger.info(sysMailModel.toString());
-    }
-
-    @Test
-    public void backupFile(){
-        sysSystemService.systemBackupFile("backup.sql");
-    }
-
-    @Test
-    public void backupDmp(){
-        sysSystemService.systemBackupDmp(SysDateUtils.yyyyMMddHHmmss() + BACKUP_DMP_SUFFIX);
-    }
-
-    @Test
-    public void file(){
-        String backupLocation = sysParameterService.getParameterString(BACKUP_LOCATION);
-        File backupFile = new File(backupLocation);
-        String[] files = backupFile.list();
-        if (files != null) {
-
-        }
-
     }
 
 }

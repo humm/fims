@@ -41,27 +41,13 @@ public class MailConfigTest {
 
     @Test
     public void send() {
-        SysMailModel mailModel = new SysMailModel();
-        // 设置发送参数
-        sysMailService.sendMail(mailModel);
     }
 
     @Test
     public void receive() {
-        SysMailModel mailModel = new SysMailModel();
-        mailModel.setSubject("邮件主题");
-        List<SysMailModel> mailTDtos = sysMailService.receiveMail(mailModel);
-        for(SysMailModel dto : mailTDtos){
-            try {
-                List<BaseModel> list = SysCommonUtils.getMailXmlToBean(dto.getContent());
-            } catch (DocumentException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     @Test
     public void handleMailRequest() {
-        sysInterfaceService.handleMailRequest();
     }
 }
