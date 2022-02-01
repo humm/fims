@@ -188,7 +188,7 @@
         <spring-session.version>2.1.2.RELEASE</spring-session.version>
         <lombok.version>1.16.4</lombok.version>
         <spring-test.version>5.0.7.RELEASE</spring-test.version>
-        <xstream.version>1.4.11.1</xstream.version>
+        <xstream.version>1.4.19</xstream.version>
         <commons-io.version>2.6</commons-io.version>
         <poi.version>3.17</poi.version>
     </properties>
